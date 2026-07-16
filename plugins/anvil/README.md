@@ -9,7 +9,7 @@ plugins and installable as `anvil@forge` (or loaded straight from its subdir dur
 `codify` — depends on no other plugin) and **config-less** (operates on the repo via primitives,
 with git ambient). It is **self-hosting** — anvil's skills build, audit, and release anvil itself.
 
-## Skills (9)
+## Skills (10)
 
 | skill | level | what it does |
 |---|---|---|
@@ -22,11 +22,12 @@ with git ambient). It is **self-hosting** — anvil's skills build, audit, and r
 | `audit-packaging` | marketplace | ships-vs-authoring boundary across the marketplace |
 | `release` | marketplace | publish a plugin to the catalog (gated by the three audits) |
 | `dogfood` | reflexive | run a plugin's own skills on itself (`--self` = self-hosting proof) |
+| `revise` | plugin | apply a batch of findings/feedback as the smallest sized change set — dispatch to `codify`/`add-component` or wire directly (the repair counterpart to `dogfood`) |
 
 ## Agents
 
 - **explorers** (gather, read-only): `plugin`, `authoritative-sources`, `community-practices`
-- **critics** (challenge): `leak-hunter`, `contract-skeptic`, `cold-executor`, `scaffolding-skeptic`, `boundary-keeper`
+- **critics** (challenge): `leak-hunter`, `contract-skeptic`, `cold-executor`, `scaffolding-skeptic`, `boundary-keeper`, `standards-skeptic`
 
 ## Conventions
 
