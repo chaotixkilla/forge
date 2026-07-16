@@ -1,0 +1,61 @@
+{
+  "name": "praxis",
+  "description": "Codifies engineering/SDLC processes — spec, plan, and more — as skills and subagents.",
+  "version": "0.1.1",
+  "author": {
+    "name": "Sergio Salgado",
+    "email": "sergiodiassalgado@gmail.com"
+  },
+  "keywords": ["sdlc", "engineering", "skills", "workflow"],
+  "userConfig": {
+    "vcs_token": {
+      "type": "string",
+      "title": "Version-control token (fallback only)",
+      "description": "Leave empty unless a capability's transport is set to `api`. Preferred: an already-connected version-control MCP server, or an authenticated CLI — both need NO token here. Only set this if you configured the `api` transport for your version-control host.",
+      "sensitive": true,
+      "required": false
+    },
+    "ci_token": {
+      "type": "string",
+      "title": "CI/CD token (fallback only)",
+      "description": "Leave empty unless the CI capability's transport is `api`. Prefer a connected CI MCP server or an authenticated CLI, which need no token here.",
+      "sensitive": true,
+      "required": false
+    },
+    "knowledge_token": {
+      "type": "string",
+      "title": "Knowledge-base token (fallback only)",
+      "description": "Leave empty unless the knowledge capability's transport is `api`. Prefer a connected knowledge MCP server (or a local filesystem root), which need no token here.",
+      "sensitive": true,
+      "required": false
+    },
+    "artifacts_token": {
+      "type": "string",
+      "title": "Artifacts token (fallback only)",
+      "description": "Leave empty unless the artifacts capability's transport is `api`. Prefer a connected artifacts MCP server (or a local filesystem root), which need no token here.",
+      "sensitive": true,
+      "required": false
+    },
+    "project_mgmt_token": {
+      "type": "string",
+      "title": "Project-management token (fallback only)",
+      "description": "Leave empty unless the project-management capability's transport is `api`. Prefer a connected tracker MCP server, which needs no token here.",
+      "sensitive": true,
+      "required": false
+    },
+    "communication_token": {
+      "type": "string",
+      "title": "Communication token (fallback only)",
+      "description": "Leave empty unless the communication capability's transport is `api`. Prefer a connected communication MCP server, which needs no token here.",
+      "sensitive": true,
+      "required": false
+    },
+    "telemetry_token": {
+      "type": "string",
+      "title": "Telemetry token (fallback only)",
+      "description": "Leave empty unless the telemetry capability's transport is `api`. Prefer a connected telemetry MCP server, which needs no token here.",
+      "sensitive": true,
+      "required": false
+    }
+  }
+}

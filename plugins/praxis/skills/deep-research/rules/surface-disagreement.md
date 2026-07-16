@@ -1,0 +1,7 @@
+# Surface disagreement
+
+When sources genuinely conflict, the honest answer represents the conflict — it does not pick the more fluent side, nor average two positions into a compromise neither source holds. Collapsing a live disagreement into a single confident answer is a fabrication: it asserts a consensus that does not exist. Cited from [synthesize](../phases/05-synthesize.md) and [compose-output](../phases/06-compose-output.md).
+
+1. **Locate where the dispute actually lives.** Sources rarely disagree about everything; find the specific point of divergence — a definition, a boundary condition, a dataset, a version — and state it. "A and B disagree on whether this holds above 10k rows," not "sources are mixed."
+2. **Resolve only what the evidence resolves.** A conflict resolves when one side is clearly stronger ([weight-by-source-strength](weight-by-source-strength.md)) or newer where the field has moved ([watch-recency-and-drift](watch-recency-and-drift.md)) — then say so and why. When neither dominates, both positions stand, each with its backing, and the claim's confidence reflects the dispute ([claim-confidence-scale](claim-confidence-scale.md): a contested claim is not an established one).
+3. **Never manufacture the middle.** Two incompatible claims do not average into a true one; if A says "always" and B says "never," the answer is "contested — A holds …, B holds …," not "sometimes." (basis: gather's [surface-conflicts-not-consensus](../../gather/rules/surface-conflicts-not-consensus.md) — represent disagreement, never collapse or average it.)

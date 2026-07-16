@@ -1,0 +1,26 @@
+A release that bumps a version and edits the catalog but leaves no trace is half a release. Two things make it durable: the **notes** that tell a human what changed and why, and the **commit + tag** that pin this exact version to an immutable point in the workshop's history. Without notes, the version number is a fact with no story; without a tag, "version 1.4.0" names no specific tree and the next release can't compute its change set. This phase produces both, and it's also the phase that must degrade gracefully when the workshop has no version control at all.
+
+## Produce the release notes
+
+Write notes from the same change set the bump was reasoned about — what moved under `plugins/<name>/` since the prior release. Notes are adequate when they clear one test: **a consumer on the previous version can decide upgrade-or-skip, and perform any migration, from the notes alone — without reading the diff.** Everything below serves that bar:
+
+- **Headline** — plugin, old → new version, and the bump level, in one line. The reader knows the stakes before the first section.
+- **Sections in impact order** — *Breaking* first (each item: what breaks **and** the migration — the exact change the consumer must make, not just what changed), then *New* (each addition in one line of what the consumer can now do), then *Fixed/Internal* (one line each; collapse to a single line when trivial). Group by impact, not by commit; a flat replay of every commit message is a log, not release notes.
+- **Consumer terms throughout** — every entry names a skill, flag, capability, or behavior; an entry that names a file path or an internal component is workshop noise the consumer can't act on. Rewrite it as what the change *does*.
+- **Consistency with the bump** — at `1.0.0` and above: major ⇒ Breaking non-empty; minor ⇒ New non-empty and Breaking empty; patch ⇒ both empty. **Below `1.0.0` the levels shift down a notch** (the pre-1.0 convention in [versioning-and-catalog](../rules/versioning-and-catalog.md)): breaking rides *minor*, so a pre-1.0 minor may carry a Breaking section; additive/fix rides *patch*, so a pre-1.0 patch may carry a New section. Check the notes against whichever regime the version is in, not always the ≥1.0 one. Run the check explicitly: a bump whose top non-empty section outranks what its level can carry — a `≥1.0` minor with Breaking, or a bump that describes nothing at the level it claims — is a contradiction worth catching here, before the tag makes it permanent.
+
+Return the notes per the configured report mode — inline prose by default, or rendered as a structured page / local file when the maintainer asked for that. (The `--report` style is the kit's standard reporting convention; honor whatever the invocation set.)
+
+## Commit and tag
+
+In the workshop, version control is ambient — the kit runs in the repo with history available — so the default path is to record the release in it: commit the two changes this release made (the `plugin.json` version bump and the `marketplace.json` entry) together as one release commit, then tag that commit with the new version. The commit message must name the plugin and the new version — that content is what makes the release findable in history; its exact format is deliberately open, because the surrounding repo's commit style governs and pinning one here would fight any house convention. One commit, one tag, scoped to the release: don't fold in unrelated working-tree changes, because the tag must name *exactly* the tree that was released so a future bump's change-set derivation is trustworthy. The tag is what makes "since the last release" a precise, machine-answerable question rather than a guess.
+
+Keep this at capability altitude in the skill: the *act* is "record the release in version control and mark this version." The concrete commands belong to the version-control adapter, never inlined here — naming a specific tool in a phase is the exact tool-leak the kit's own audits would flag.
+
+## When there's no version control
+
+The workshop normally has history, but don't assume it. If no version control is available, do not silently skip the record — that would leave a bumped, catalogued plugin with no durable marker of what was released. Instead degrade to a **manual release checklist**: print the steps the maintainer must take by hand — which files changed (the version bump and the catalog entry), the new version to record, and the marker/tag to create once they're in a versioned context. The release still happened (the files are written); the checklist makes the missing history step explicit and actionable rather than lost.
+
+## Under --dry-run
+
+Produce everything this phase would do, and write nothing — and crucially, **create no tag and no commit**. Show the rendered release notes, the commit that would be made (which files, what message), and the tag that would be created. A dry run is a faithful preview of the whole release, so it must surface the notes and the tag plan; but it is also a promise to leave the tree and the history untouched, so it stops short of every mutation. Tagging under a dry run would be the worst possible bug in this skill — a "preview" that permanently marks history.

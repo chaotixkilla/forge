@@ -1,0 +1,33 @@
+The capability-not-tool rule isn't an aesthetic preference — it's a seam, in the load-bearing sense, and a seam only earns its keep if it's drawn in exactly the right place. Draw it well and a new transport drops in as one more adapter with the skill layer untouched; draw it badly and either the abstraction leaks (tool details bleed into the skill) or it over-abstracts (the skill describes things so vaguely the adapter has to guess intent). This rule is about *where* the line goes: what the interface above it is responsible for, what the adapter below it is responsible for, and how to test that you've put the line in the right spot.
+
+## The seam is where "what" meets "how"
+
+Above the seam, the skill names *what it needs* in the world's terms: open a change request, publish an artifact, post a notification. Below the seam, the adapter does it *with a specific tool*: this provider's actual call, with this provider's parameters. The interface is the vocabulary of intent; the adapter is the vocabulary of mechanism. The seam is the exact line where intent stops and mechanism starts — and everything tool-shaped lives strictly below it.
+
+The phrasing that sits *on* the seam is a capability with a configured-backend reference: *"publish the report to the configured artifacts backend."* That line names what's wanted and that a backend resolves it, without naming which — it's the most concrete the skill layer is allowed to get. One notch more concrete (a backend name) and you've leaked below the seam into the skill; one notch more vague (drop "artifacts backend" entirely) and the adapter can't tell which capability it's being asked to serve.
+
+## Test the seam from both sides
+
+A well-placed seam passes two tests, one from each direction:
+
+- **Swap test (from below):** swap the configured provider for a different one. If only the adapter changes and no skill-layer text has to, the seam holds — the skill genuinely depended on the capability, not the tool. If a phase, rule, or module has to be edited to swap providers, the seam was drawn too low; a tool detail had escaped upward.
+- **Intent test (from above):** read the capability line cold and ask whether an adapter author knows *what* to implement. If "publish to the configured artifacts backend" tells the adapter exactly which capability to serve, the seam holds. If the line is so abstract ("do the output thing") that the adapter has to infer intent, the seam was drawn too high — pull the capability name back into the skill.
+
+## Drawn right, transports are additive
+
+The payoff: when the seam is in the right place, adding support for a new tool×transport is purely additive. You write one new adapter below the seam and register it under the capability's dispatch; you touch *nothing* in the skill layer, because the skill never knew which transport it was using. That additivity is the whole reason the seam exists — it's how the kit lets one capability span many providers without the skill layer ever fragmenting per-tool. If adding a transport forces edits above the seam, the seam is misplaced, and the fix is to relocate whatever you had to edit back down into adapter territory.
+
+## Before adding a local adapter: is the capability already a port?
+
+A skill-local adapter is the right first home for a capability only when *no shared port already owns it*. Before you build one — or accept a seed or handoff that says "first consumer, no port yet, add a local adapter and declare `config_requires`" — **check the plugin for an existing port for that capability**: send the plugin explorer across `skills/` for a thin port skill that owns it, and across the config template for the capability key. A seed's "first consumer / no port yet" claim is a *candidate to verify against the tree*, not ground truth — the plugin grows between builds, and a port some earlier build extracted (or stood up directly) won't appear in an older seed or a stale status doc. If a port already owns the capability, **do not build a duplicate local adapter**: delegate to the port and shed the consumer's `config_requires` for it — the same wholesale delegation the extraction below produces, minus the extraction, because the port already exists. Building the local adapter anyway forks one capability into two homes, breaks the single-owner seam, and over-declares a prerequisite the port already carries — the precise damage the extraction step exists to undo. Only when the check comes back empty is a skill-local adapter correct, and the extraction below is how it graduates to a port when a second consumer appears.
+
+## Extracting a skill-local adapter into a shared port skill
+
+A capability often starts life inside the first skill that needs it — one adapter under one skill — and later a second consumer wants it. That's the signal to extract it into a shared **port skill**: a thin skill that owns the capability and its adapters, called by every consumer. The extraction composes pieces the kit already has, and it has one load-bearing step nothing else forces you to take:
+
+- **Stand up the port skill** — a thin, phase-less skill whose body names the capability's operations and dispatches to `adapters/<provider>`; the procedure is short enough to live inline in `SKILL.md`, so it earns no phases.
+- **Relocate the adapter** under the port skill's `adapters/`, unchanged — it was already tool-intrinsic, so only its home moves, not its content.
+- **Rewire each consumer to delegate** — the consumer stops reaching an adapter of its own and instead calls the port skill by capability ("fetch the change via the configured version-control capability"). Its phases still name intent and hand it off, exactly as they named the capability before.
+- **Shed the consumer's `config_requires` for that capability** — the step the precedent teaches and nothing reminds you of. Once a consumer delegates *all* use of a capability to the port skill, it no longer directly depends on that backend; the port skill does. So the consumer **drops `config_requires: tools.<cap>`** and the port skill carries it — doer-owns-prerequisites, the same reason a skill that hands its publish step to a shared artifact skill declares no artifacts dependency of its own. Leave the stale key behind and the consumer over-declares a prerequisite it never touches, gating its run on a backend only the port skill uses. (`audit-contract` checks for exactly this over-declaration.)
+
+The seam itself doesn't move in an extraction — it was already between the consumer's intent and the adapter's mechanism. What moves is the adapter's *ownership*, from one skill to a shared one, and the config dependency moves with it.

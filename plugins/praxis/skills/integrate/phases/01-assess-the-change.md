@@ -1,0 +1,41 @@
+A landing that starts before it knows *what* it is landing merges blind — it gates the wrong base, ships a risky change all-at-once, and reports to nobody in particular. This phase establishes the facts every later phase assumes: what the change actually is (diff scope), the **integration target** it lands into, where it sits relative to that target (branch state, divergence), what **kind** of landing this is (which forks the procedure), and how **risky** it is to reverse (which sets the rollout strategy). Get this wrong and every downstream phase is scoped wrong.
+
+## Survey the change against the integration target
+
+Establish the ground facts before judging anything:
+
+- **Diff scope** — what files, components, and surfaces the change touches. Recruit the **code explorer** to locate the touched symbols and their callers/callees (the blast radius), and the **repository explorer** for recent history near the changed lines (a prior attempt, a revert, a linked discussion). Without fan-out, do these reads inline. This is the raw material for both the risk tier and the landing type.
+- **The integration target** — the branch this work lands *into*, resolved from **durable records only**, never an ancestry guess. Precedence, first match wins — and the same first-match order governs the sub-sources within a tier when both exist and disagree: (1) an explicit `--into=<branch>`; (2) else the target **recorded** for this branch, taking the stronger merge-intent signal first — an open review request's base branch (read via the vcs capability), which is the *explicit* statement of where this change is headed, else a configured parent/integration ref the tooling keeps; (3) else the repository's default branch (the trunk) — the remote's default head, or the local default branch when there's no remote, never assumed to be `main`. Do **not** infer the fork parent from commit ancestry, or from a bare upstream that resolves to the branch's own remote counterpart (`origin/<self>`) — nothing durably records "the branch I forked from," so guessing it diverges run to run. A target that is neither given nor recorded falls back to the default branch; the caller names `--into` to override. `(basis: resolve-from-durable-records closes the divergence a fork-parent guess would open — the target must be explicit, recorded (a PR base / configured parent), or the default; corroborated by a re-verify cold walk that split main-vs-develop on an unrecorded base.)`
+  - **Shipping to an environment is not a global property of this branch.** Whether a given `--target=<env>` applies to this land is decided in [ship-to-target](05-ship-to-target.md) by whether that environment **deploys from** the resolved target — an env→source-branch lookup, per (target, env), not a "release line vs intermediate" label on the branch. A Git Flow `develop` that staging deploys from is a ship source *for staging* yet not *for production* (which deploys from `main`); an epic branch no environment deploys from is land-only. Phase 01 resolves the *target*; phase 05 resolves *which env, if any, ships from it*.
+
+  This resolved target is what every later phase reconciles against, gates the merge into, and lands into.
+- **Branch state and divergence** — which branch the work is on, and how far it has diverged from the **resolved target's** live head. Divergence sizes the reconcile work in [prepare-the-increment](02-prepare-the-increment.md) and flags semantic-conflict risk ([integrate-against-current-target](../rules/integrate-against-current-target.md)).
+- **The team's flow** — detect the repo's merge strategy, branch model, and message convention here ([match-the-team-flow](../rules/match-the-team-flow.md)), so every later phase follows the team's ritual rather than a generic one.
+
+## Classify the landing type — it forks the procedure
+
+The landing type is a selection that changes what the rest of the run does, so it is pinned, not left to feel. Assign exactly one by walking the tests **in order** (the order is what makes them mutually exclusive):
+
+1. **hotfix** — *is production currently broken or degraded, and does this change restore it?* Yes → hotfix. An active-incident fix, where the cost of the bug is being paid right now.
+2. **feature** — else, *does the change add or alter behavior a user can observe?* Yes → feature. New or changed user-facing behavior, not driven by an active incident.
+3. **chore** — else → chore. No user-observable behavior change and no active incident: a refactor, a dependency bump, tooling, docs, tests.
+
+**Partition proof.** The ordered test is exhaustive and mutually exclusive: every change either restores an active breakage (hotfix), or — failing that — changes observable behavior (feature), or — failing that — does neither (chore); the ordering resolves the overlaps (a fix that also changes behavior but has no active incident is a *feature*, because hotfix requires live breakage; a refactor bundled with a behavior change is a *feature* by test 2, and the bundling is flagged as a coherence problem per [one-coherent-change-per-unit](../rules/one-coherent-change-per-unit.md)). There is no fourth kind and no change that satisfies two tests once ordered.
+
+**What each type changes downstream:**
+
+| Type | Gate ([run-the-gate](03-run-the-gate.md)) | Landing ([land-it](04-land-it.md)) | Rollout floor ([make-rollout-reversible](../rules/make-rollout-reversible.md)) | Report urgency ([confirm-and-report](06-confirm-and-report.md)) |
+|---|---|---|---|---|
+| **hotfix** | still green-before-land — the stop is never skipped — but the gate may be scoped to the affected checks for speed | fast-tracked per the routed policy below | **raised to staged-exposure minimum** ([make-rollout-reversible](../rules/make-rollout-reversible.md)) — never all-at-once or unwatched; behind a switch if also irreversible-if-wrong | elevated |
+| **feature** | full gate | normal team flow | by assessed risk tier | standard |
+| **chore** | full gate | normal team flow | usually trivial/bounded (all-at-once / small increment) | low |
+
+`(basis: the three types are derived from two orthogonal axes an executor can read off the change — active-incident urgency (is the cost being paid now?) and user-observability (can a user see the difference?). The discriminators are pinned; the ordering makes them a partition.)` `(routed to maintainer: the downstream *policy* each type unlocks — specifically whether a hotfix may fast-track review, and how far the gate may be scoped for a hotfix — is a house call. Proposed: a hotfix may bypass the full-review path but never the green-before-land stop; a chore/feature takes the full flow. Confirm the fast-track policy.)`
+
+## Assign the change-risk tier
+
+Read the change's risk of being wrong-and-hard-to-take-back off the diff, and assign the tier that [make-rollout-reversible](../rules/make-rollout-reversible.md) maps to a rollout strategy — keyed on: does a plain revert fully undo it? does it touch data-at-rest, an external contract, or a one-way side effect? how broad is the reachable blast radius? The tier is assigned here and consumed in [ship-to-target](05-ship-to-target.md); the hotfix type raises its floor but never lowers it. The full tier scale, its assignment test, and its anchors live in the rule — this phase produces the input, the rule defines the ladder.
+
+## Close the phase — state the assessment
+
+Emit the four facts as the assessment the rest of the run consumes: the diff scope and blast radius, the branch/divergence state, the landing type (with the test that placed it), and the risk tier (with the reversibility fact that set it). Under `--dry-run`, this assessment is part of the previewed plan. A later phase that finds the assessment missing a fact routes back here rather than guessing it.

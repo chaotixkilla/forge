@@ -1,0 +1,32 @@
+A contract audit is only as good as the map it checks against. Every later phase — frontmatter shape, flags↔modules, config keys, adapter coverage, slot placement — is a cross-reference between two lists, and if either list is incomplete the audit lies: a flag you missed reads as a clean bill of health, a module you missed reads as orphaned. So this phase does one thing and does it exhaustively: build the complete component inventory of the target plugin before judging anything. Inventory first, judge later — never interleave, or you'll start forming verdicts on a half-read plugin.
+
+## Require the target
+
+The audit operates on one plugin, named by `--plugin`. Without it there is nothing to inventory. If the flag is missing, stop and ask — do not guess from the working directory or audit "the obvious one." A contract audit silently pointed at the wrong plugin is worse than no audit: it certifies the wrong thing. Once you have the name, confirm the plugin directory exists; a typo'd `--plugin` should fail loud here, not surface as a wall of phantom findings three phases later.
+
+**`--skill=<name>` scopes which skill is *judged*, not which files are *read*.** When given, the audited set is that one skill — every finding the later phases raise is about it, and a sibling's own contract (its orphaned rule, its unpinned bar) is out of scope, exactly as an un-run `--checks` dimension is. But the *read* set stays the whole plugin, because the cross-references leave the skill: a phase citing a sibling skill's `SKILL.md`, a delegated operation that must sit in a port's declared set, a `config_requires` key that must resolve against the plugin-wide config template. Read those join targets as context so a real link resolves and a scoped run doesn't manufacture a phantom "dangling delegation" or "missing config slot" finding — just don't build a judgeable sub-map for them. Confirm the named skill exists under the plugin, and fail loud on a typo the same way `--plugin` does. Absent `--skill`, inventory every skill.
+
+## Build the component map
+
+Read the plugin breadth-first and record what it actually contains, not what you'd expect it to contain. Recruit the plugin explorer to gather the structure — it knows where each component kind lives and reads frontmatter without you hand-parsing it. For each skill in the plugin, capture:
+
+- **The skill itself** — its `name` and `description`, and the fact that a `SKILL.md` exists at all.
+- **Slots** — which of `phases/`, `rules/`, `modules/` exist and what files sit in each. Record the slot a file lives in, not just the filename; phase 03 judges placement and needs the slot, and an empty slot is itself a fact worth recording. A slot may contain **subdirectories** — a large `rules/` library often groups its files into family folders (`rules/<family>/name.md`) — so walk *into* them and record every file beneath the slot, attributed to that slot; a nested file left out of the map reads downstream as absent, and its citations then look dangling when they aren't.
+- **Declared flags** — every entry under `metadata.flags`, with its one-line meaning. These are the left-hand side of the flags↔modules check.
+- **Agents** — every explorer and critic the plugin defines, and (where visible) which skill recruits each. An agent no one recruits is a phase-03 finding; you can't make it without the full agent list.
+- **Adapters** — every provider that has a backing implementation under `adapters/`. This is the supply side of the adapter-coverage check.
+- **References** — every citation each `SKILL.md` body and phase file carries: the link (or bare path) exactly as written, plus the directory of the file carrying it. This is the raw material of phase 03's load-wiring join, which resolves each citation and walks each slot file back to a citer. Record what's on the page verbatim — including citations that aren't links; whether they resolve is phase 03's judgment, not inventory's.
+
+Record the map as a flat, inspectable list — one you can diff against the checks in later phases. Resist the urge to annotate it with verdicts now ("this flag looks orphaned"); a hunch formed mid-inventory biases the read of the next file. The map is data; judgment comes later.
+
+## Note the config posture
+
+Plugins come in two shapes, and the audit's later phases branch on which one you're holding. A **config-bearing** plugin declares external dependencies — it carries a config schema or template and routes capabilities to configured providers. A **config-less** plugin has neither: no config template, no `config_requires`, no provider enums, no adapters to cover. Establish which you have before phase 02, because applying config-bearing checks to a config-less plugin manufactures false findings (every "missing config key" is missing because the plugin correctly has no config), and skipping them on a config-bearing plugin misses real ones.
+
+For a config-bearing plugin, locate the config schema or template now and add it to the map — it is the single source the config-keys check (`config_requires` keys must resolve to real template keys) and the adapter-coverage check (each enumerated provider must have a backing adapter) both read from. Locate it once, here; don't re-discover it per check. For a config-less plugin, record "config-less" explicitly as a posture, so a later phase reads it as a deliberate finding-of-fact rather than an inventory gap.
+
+## Edge cases
+
+- **Multi-skill plugins.** The contract is per-skill: each `SKILL.md` carries its own frontmatter, flags, and slots. Inventory every skill; a plugin with five skills needs five sub-maps, not one merged blob, because phase 03's flags↔modules check is scoped to the skill that declares the flag. (Under `--skill`, still read every skill, but build a judgeable sub-map only for the scoped one — the read-vs-judge split above.)
+- **Missing slots are data, not errors.** A skill with no `modules/` is normal — most skills gate no behavior. Record the absence; don't treat it as a defect. The defect is a flag with no module, which phase 03 derives from the map, not the bare absence of a slot.
+- **Shared inventory.** If a tool-leak audit runs in the same pass, this inventory is the same read it needs (minus the deliberate `adapters/` exclusion that audit makes). Build the map once and let both audits consume it rather than double-reading the plugin — the read is the expensive part, and a single shared pass keeps the two audits' views of the plugin identical.

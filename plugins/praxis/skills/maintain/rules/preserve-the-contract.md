@@ -1,0 +1,23 @@
+# Preserve the contract
+
+Some of what a change touches is private and some is a promise. A promise — a public/exported interface, a serialized or persisted format, an observable behavior a consumer relies on — is a contract: something outside your reach depends on it staying the way it is. Break one incidentally and the damage lands somewhere you can't see, on a schedule you don't control (a client pinned to the old shape, data already written in the old format). This rule keeps contract changes *deliberate*: identify what's a contract before editing, and change it only with a path that gets consumers from the old promise to the new one.
+
+## Identify the contract surface first
+
+In [understand-blast-radius](../phases/02-understand-blast-radius.md), separate the surfaces the change touches into private (nothing outside the edited unit observes it) and contract (something you can't move under your control does). A contract is a promise to a consumer you **cannot move under your control** — external code, a non-enumerable/unknown set, or anything across a deploy or version boundary: an exported symbol other repos import, a wire/serialization/on-disk format, a database schema, an HTTP endpoint's request/response shape, a config key, observable timing or ordering something depends on. A change to a contract is an `exposed`-tier change by [change-risk-scale](change-risk-scale.md) — that's the same judgment from the other side. A consumer you *can* move under your control — even a large in-repo set migrated over several diffs — is `bounded`, not a contract; the tell is movability, not diff count.
+
+## The fork: how much migration or notice a contract change owes
+
+Authorities and house policies genuinely differ on what a contract change owes its consumers; encode the fork rather than pick one, and route it.
+
+- **Break with a major version + migration guide.** Bump the major version (semver's signal that consumers must act), document the change, and let the version boundary carry the break. *Strength:* honest and simple when consumers can choose when to adopt. *Cost:* consumers on the old version get no runtime transition — they break at upgrade time if they miss the guide.
+- **Expand–contract (parallel change) with a deprecation window.** Add the new form alongside the old, migrate consumers, then remove the old after a notice period. *Strength:* no flag-day break; consumers move incrementally. *Cost:* a period of carrying both, and the discipline to actually complete the contract step.
+- **Same-diff (or staged) update — the boundary case.** When the full consumer set turns out enumerable and movable under your control, the surface is not an exposed contract after all — it's a `bounded` change: update every consumer in one diff, or migrate them over a staged in-repo rollout you own. *Strength:* no migration machinery for a set you fully control. *Cost:* valid only when *none* of the set crosses a deploy or version boundary — if any consumer ships independently or lives outside your reach, it's `exposed` and owes a real migration path.
+
+**Routing (non-gating):** the *surrounding convention* wins first — a project's declared deprecation/versioning policy or its semver commitment; absent that, the *house rule* below; absent that, the *maintainer*.
+
+`(basis: the migration-scaling structure is ratified by the maintainer, 2026-07-11 — a same-diff or staged update when the consumer set is movable under your control (enumerable, no deploy/version boundary); expand–contract with a deprecation window for a contract with external, non-enumerable, or independently-deploying consumers; a clean major-version break only when a deprecation window is infeasible. This ties the owed migration to whether the consumer set is movable — the same axis change-risk-scale grades reach on — so the two stay consistent. The deprecation-window LENGTH is deliberately left open: it is a per-project number (routed to the surrounding project's deprecation/versioning policy, else the maintainer for that repo), non-blocking, because no single length is right across projects.)`
+
+## Never change a contract incidentally
+
+The defect this rule exists to stop is the *silent* contract change — a refactor that renames an exported symbol, a "cleanup" that tightens a tolerated input, a serialization tweak that old data can't read. If the blast-radius map says a surface is a contract, changing it is a decision made on purpose with one of the paths above, recorded in [review-and-record](../phases/05-review-and-record.md) — never a side effect of an edit aimed at something else.

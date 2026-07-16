@@ -1,0 +1,5 @@
+Fan-out can always do one more query; the discipline is stopping when the *answer* stops changing, not when the queries run out. Over-gathering burns budget and buries the signal; under-gathering ships a thin picture as if it were complete. (basis: deep-research's know-when-to-stop craft + anvil's plugin-explorer stop signal, "stop when another fetch only repeats shapes you've already reported.")
+
+1. Stop a lane when another round only repeats sources and findings you've already captured — saturation, measured against the *picture*, not a query count.
+2. Distinguish saturation from a thin-evidence dead end and name which: `saturated — N independent origins converge` is a strong stop; `thin — one origin found, searched <where>` is a weak stop the caller must see, not a silent equivalence.
+3. A `--budget` or `--rounds` cap can force a stop before saturation; when it does, say so — `stopped at budget, not saturation; lane X still open` — so the caller knows the picture is bounded, not complete.

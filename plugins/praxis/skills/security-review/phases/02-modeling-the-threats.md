@@ -1,0 +1,28 @@
+A hunt with no threat model is a keyword sweep: it greps for dangerous patterns and misses the attack the architecture actually invites. This phase turns the surface map into a *deliberate* target list — who would attack this, what they want, and which classes of attack the trust boundaries genuinely expose — so the hunt in [hunting-vulnerabilities](03-hunting-vulnerabilities.md) knows where to spend its attention. Skip it and the hunt is undirected; do it and every later trace is aimed at a threat someone would actually attempt.
+
+## Scope the adversary
+
+A threat is defined against an attacker, so name the attacker before the threat. From the surface's entry points and boundaries ([scoping-the-surface](01-scoping-the-surface.md)), identify who can reach each boundary and what they control — reasoning from the abuse, per [assume-the-input-is-hostile](../rules/assume-the-input-is-hostile.md). The adversary classes to consider, from the outside in:
+
+- **The external unauthenticated attacker** — anyone who can reach a network entry point without credentials. The default adversary for any externally-reachable surface, and the one whose reachable abuse is most severe.
+- **The authenticated but unauthorized attacker** — a legitimate user (or tenant) acting outside their entitlement: reaching another tenant's data, escalating privilege, acting on a resource they don't own.
+- **The insider or supply-chain attacker** — someone who influences a dependency, a build input, or trusted internal state.
+
+**Default adversary scoping:** when `--threat-model` names no specific adversary, scope to *every adversary class a boundary on the surface actually exposes* — do not narrow to the external attacker and skip the tenant-isolation boundary. `--threat-model=<adversary>` narrows and weights: it biases the hunt toward the named adversary (and the attack classes they favor) and deprioritizes the rest, for a targeted audit. The discriminator for "in scope": **can this adversary class reach a boundary on the surface?** If yes, model their threats; if no reachable boundary admits them, note them as out of scope and why.
+
+## Choose the threat-modeling framework — a sourced default, a routed fork
+
+A threat-modeling framework is the lens that turns "what could go wrong" from improvisation into systematic enumeration. Several exist, and — importantly — the authorities frame them as **complementary tools of different scope, not rival answers to one question** ("enumerate with STRIDE, explore with attack trees"). So this is not a pick-a-winner fork; it is a default plus a reach-for-X-when, routed by **the project's surrounding convention (a threat-model the repo already uses) → the house default → the maintainer**, non-gating:
+
+- **STRIDE** *(the default)* — categorize threats per surface element as Spoofing, Tampering, Repudiation, Information disclosure, Denial of service, Elevation of privilege. *Strength:* broad, low-barrier, design-level coverage — one threat class per element, systematically. *Cost:* breadth not depth; it enumerates, it does not prioritize by business risk or decompose a single goal.
+- **Attack trees** — root an attacker goal and refine it downward (AND/OR) into concrete paths. *Strength:* depth on one high-value objective and the feasibility of each path. *Cost:* one goal at a time; not a full-surface enumeration. Reach for it to drill into a specific goal after STRIDE finds it.
+- **PASTA** — a seven-stage, risk-centric method tying threats to business impact via attacker simulation. *Strength:* business-prioritized, evidence-based risk output. *Cost:* heavyweight; disproportionate for a per-change review. Reach for it when the output must be business-risk-ranked.
+- **LINDDUN** — the privacy analogue of STRIDE (linkability, identifiability, non-repudiation, detectability, disclosure, unawareness, non-compliance). *Strength:* systematic privacy-threat elicitation. *Cost:* privacy-scoped; not a general security method. Reach for it when personal-data/privacy risk is in scope.
+
+`(basis: default threat-modeling framework = STRIDE when --threat-model is unset and the project shows no established convention — ratified by the maintainer, 2026-07-10. Sourced from: Microsoft's SDL Threat Modeling Tool ships STRIDE as its default template, and OWASP presents STRIDE as the primary threat-categorization method — the broadest, lowest-barrier design-level enumeration. The others are reached for by scope, per the routing rule above.)`
+
+## Derive the threat list
+
+Walk the chosen framework against the surface: for each element or boundary, enumerate the threat classes the framework flags and the adversary who would attempt them. At `--exhaustive`, carry *every* class against *every* element (recruit the **completeness-auditor** to name the class or boundary that went unmodeled); otherwise concentrate on the high-likelihood classes the surface's boundaries most expose. Recruit the **security-auditor** critic to reason backward from each abuse to the sink that would grant it — without fan-out, apply that lens yourself: pick what an attacker wants and trace back to the boundary that would let them have it. Where a threat's presence turns on established practice for this architecture, recruit the **authoritative-literature** / **community-practices** explorers for the attack classes a framework of this kind flags here; without fan-out, reason from the framework's own class list.
+
+The output is a directed threat list — adversary, threat class, and the boundary or element it targets — handed to [hunting-vulnerabilities](03-hunting-vulnerabilities.md) as the hunt's target set, not a generic checklist.

@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "tools": {
+    "vcs":           { "provider": "github | gitlab | bitbucket", "transport": "cli | mcp | api", "secret_ref": "" },
+    "ci":            { "provider": "github-actions | gitlab-ci | …", "transport": "cli | mcp | api", "secret_ref": "" },
+    "knowledge":     { "provider": "notion | confluence | local", "transport": "mcp | api | fs", "secret_ref": "", "root": "" },
+    "artifacts":     { "provider": "notion | confluence | local", "transport": "mcp | api | fs", "secret_ref": "", "destinations": { "plans": "", "specs": "", "reviews": "", "postmortems": "", "research": "", "decisions": "", "default": "" } },
+    "project_mgmt":  { "provider": "jira | linear | notion | …", "transport": "mcp | api", "secret_ref": "", "project_key": "" },
+    "communication": { "provider": "slack | teams", "transport": "mcp | api", "secret_ref": "" },
+    "telemetry":     { "provider": "datadog | sentry | grafana | …", "transport": "mcp | api", "secret_ref": "" }
+  },
+  "me": "",
+  "teams": {},
+  "team": [
+    { "id": "", "name": "", "role": "", "owns": [], "reviewer": false, "timezone": "", "handles": { "vcs": "", "communication": "", "project_mgmt": "" } }
+  ]
+}

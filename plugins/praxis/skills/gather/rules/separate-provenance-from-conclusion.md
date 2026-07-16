@@ -1,0 +1,5 @@
+A synthesis is trustworthy only if a reader can tell what a source *said* from what you *concluded*. Blur them and the conclusion silently inherits the authority of its input — the most common way a weighted picture overstates what it actually knows. (basis: deep-research's separate-claim-from-inference craft + anvil's authoritative-sources anchoring bar.)
+
+1. For every finding, keep two things distinct: the source's own claim (verbatim where load-bearing, with its anchor) and any inference you drew from it (yours, carrying only the confidence your reasoning earns — never the source's tier).
+2. A conclusion built from a lower-tier finding stays at that tier. Combining two anecdotal findings does not manufacture an authoritative one; tier travels with the source, not with your confidence in the conclusion.
+3. Label an inference as an inference in the return. "The spec says X" and "so this code is probably wrong" are different statements at different confidence — never merge them into "the code is wrong per the spec."

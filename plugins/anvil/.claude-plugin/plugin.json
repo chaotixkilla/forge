@@ -1,0 +1,10 @@
+{
+  "name": "anvil",
+  "description": "Authoring kit for building Claude Code plugins: scaffold, codify, audit, and release skills and whole plugins. Self-contained, config-less, parameterized by --plugin.",
+  "version": "0.1.1",
+  "author": {
+    "name": "Sergio Salgado",
+    "email": "sergiodiassalgado@gmail.com"
+  },
+  "keywords": ["authoring", "meta", "plugin-development"]
+}

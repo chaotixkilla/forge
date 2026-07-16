@@ -1,0 +1,25 @@
+Phases 1 and 2 produced the inputs; this phase renders the verdict. The boundary is a single line — the edge of each published source path — and a clean repo keeps two invariants across it: nothing authoring-only sits on the ships side, and no plugin marked unpublished has crept into the catalog. This phase tests both, then hands the failures to a critic before they become findings, because a false "leak" erodes trust in the audit as fast as a missed one erodes the boundary.
+
+## Check 1 — authoring-only inside a shipping tree (the leak that ships)
+
+Cross the verdict map from phase 2 against the published frontier from phase 1. For every file verdict'd authoring-only, ask: does its path fall *under* a published source path? If it does, that is a packaging leak — on the next install it copies straight to a consumer, because the install mechanic has no per-file exclude. This is the failure mode the skill is named for, and it is the highest-severity class: maintainer tooling, design notes, or a populated secret-bearing config reaching consumers.
+
+Be concrete about *where it belongs*, not just that it is misplaced. A design note belongs in the authoring/notes plane outside any source path; a maintainer script belongs in the repo's tooling area; a populated config belongs nowhere shippable at all and should be replaced inside the tree by its template. The fix is always **relocate across the boundary**, never "add an exclude" — there is no exclude to add, and pretending otherwise teaches the maintainer a mechanism the packaging model does not have.
+
+## Check 2 — the authoring plane stays outside every source path
+
+The mirror of check 1: confirm the design/notes plane — design write-ups, maintainer docs, the reasoning behind the build — lives *outside* all published source paths. A clean repo keeps that plane as a sibling of the shipping plugins, never nested inside one. If the design plane has drifted under a published plugin's directory — or a published plugin's source path was widened to swallow a parent that contains it — that authoring material is now in shipping scope. Flag the containment, and point at the narrower source-path root that restores the separation.
+
+## Check 3 — the unpublished plugins are absent from the catalog (the catalog half)
+
+The boundary has a catalog side as well as a filesystem side, governed by [catalog-boundary](../rules/catalog-boundary.md). Take the unpublished set from phase 1 — every plugin marked `--unpublished` / in-development, which may be empty — and **affirmatively confirm each is absent from the manifest**. This is a positive check, not a default: the audit must look and assert "not listed," because an in-development plugin silently sliding into the catalog is precisely the regression this check guards against. An `--unpublished` plugin opted out of the catalog by contract until it is released. A name in the manifest that resolves to a built-but-deliberately-unlisted plugin is a catalog leak — the inverse of check 1, and just as severe.
+
+While here, sanity-check the catalog's own integrity: every manifest entry should resolve to a real plugin tree, and no two entries should claim overlapping source paths. A dangling entry or an overlap is a packaging defect even when no individual file is misclassified.
+
+## Challenge before you conclude
+
+Recruit the boundary-keeper critic — the lens that treats every file as a shipping risk and every catalog entry as a potential leak. Recruitment is targeted, not universal; the critic must see exactly three sets: every *uncertain* from phase 2 (promote it to a finding or clear it — nothing ambiguous reaches the report unjudged), every verdict about to become a finding (a false leak erodes trust in the audit as fast as a missed one erodes the boundary), and the catalog's affirmative absence assertions (is each unpublished plugin *really* absent, or present under an alias?). It does not re-adjudicate the concordant bulk — a file whose defensible verdict and location agree carries no finding, and challenging every clean call spends the critic where it cannot change the outcome. Put each routed call to it: is this "authoring-only" file truly something no consumer needs, or did the classification misjudge it? Is this "ships" file actually disguised maintainer tooling? The critic exists to catch both errors: a misjudged ships verdict that leaks tooling, and a misjudged authoring-only verdict that would strip something a consumer needs. If recruiting isn't available in the current context, apply the same lens inline to those three sets.
+
+## What you hand to the next phase
+
+The confirmed finding set: each leak (authoring-only inside a source path, the authoring plane nested in one, or an unpublished plugin present in the catalog) with its location and the specific destination it belongs at. The report phase assigns severity against its ladder and orders the set; hand it the confirmed findings raw. If both invariants hold and the catalog is integral, that is the real and reportable result — a clean boundary — and phase 4 says so plainly rather than padding it.

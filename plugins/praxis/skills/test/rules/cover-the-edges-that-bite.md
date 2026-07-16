@@ -1,0 +1,6 @@
+# Cover the edges that bite
+
+Spend the case budget on the inputs that actually break code — the boundaries and failure paths — not on more variations of the happy path. The happy path is where the author's attention already was; bugs live at the edges the author skipped: empty and single-element collections, zero, one, the maximum and just past it, null and absent, the off-by-one at a range's end, the error and cleanup branches, and the counter-examples a correct implementation must *reject*. A tenth happy-path variation catches nothing the first caught; the first boundary case catches a whole class of real defects.
+
+The discipline is to find *this change's* real edges, not to recite a generic checklist: read what the change actually does and ask where its behavior changes discontinuously — those discontinuities are the boundaries worth a case. This is the raw material [design-the-cases](../phases/03-design-the-cases.md) ranks by [risk-priority](risk-priority.md) and judges for adequacy; an edge that bites hard (high blast radius) outranks a low-risk boundary for the budget. `(basis: boundary-value analysis and equivalence partitioning — Glenford Myers, "The Art of Software Testing"; ISTQB — the highest-payoff cases sit on and just across partition edges.)`
+</content>

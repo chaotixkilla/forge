@@ -1,0 +1,18 @@
+{
+  "name": "forge",
+  "owner": {
+    "name": "Sergio Salgado"
+  },
+  "plugins": [
+    {
+      "name": "praxis",
+      "source": "./plugins/praxis",
+      "description": "Codifies engineering/SDLC processes — spec, plan, and more — as skills and subagents."
+    },
+    {
+      "name": "anvil",
+      "source": "./plugins/anvil",
+      "description": "Authoring kit for building Claude Code plugins: scaffold, codify, audit, and release skills and whole plugins. Self-contained, config-less, parameterized by --plugin."
+    }
+  ]
+}

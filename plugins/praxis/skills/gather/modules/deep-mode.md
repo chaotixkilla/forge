@@ -1,0 +1,7 @@
+`--deep` escalates the gather from a single efficient pass to an exhaustive one. It widens three dials at once:
+
+1. **Lane set** — consult every lane the question could *plausibly* touch, not only the strictly-mapped ones (the default mapping is the floor, not the ceiling); and add the `authoritative-literature` lane whenever the question turns on a domain result, spec, or standard — as opposed to only a vendor contract (`official-documentation`) or lived practice (`community-practices`). Which *other* generic lanes to add beyond the mapping is left to the executor by design: `--deep`'s contract is inclusive over-coverage, so adding a low-cost lane that turns up nothing is the sanctioned cost of exhaustiveness — the only inclusion that carries a real authority/tier cost, `authoritative-literature`, is the one pinned here.
+2. **Fan-out and rounds** — more parallel explorers and more rounds of lead-chasing; chase secondary leads a single pass would drop, and push each lane to saturation (see [know-when-to-stop](../rules/know-when-to-stop.md)) rather than first-answer.
+3. **Corroboration** — hold findings to a higher bar before treating them as settled; actively seek a second independent origin for load-bearing claims rather than accepting the first (see [corroborate-across-independent-origins](../rules/corroborate-across-independent-origins.md)).
+
+`--deep` trades latency and cost for completeness; it does not change the sourcing model or the return shape — only how hard gather works to fill them.

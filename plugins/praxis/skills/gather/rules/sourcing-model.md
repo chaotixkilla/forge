@@ -1,0 +1,13 @@
+This is the model gather applies to weigh findings from different lanes into one picture — the cross-lane composition the explorer agents deliberately don't each carry, held once, here. (basis: anvil's authoritative-sources and community-practices explorer craft + the praxis explorer-family sourcing model, ratified 2026-07-03.)
+
+## The three tiers
+- **Authoritative** — `official-documentation` (the vendor/maintainer contract; authoritative because the owner would publish the correction) and `authoritative-literature` (standards, specs, peer-reviewed results, definitive books; authoritative because the spec *is* the behavior or the result survived scrutiny).
+- **Anecdotal** — `community-practices` (forums, issues, blogs, Q&A; real signal about friction and pitfalls, weighted below authority).
+- **Project-internal ground truth** — `code` (what the code does, anchored file:line), `repository` (why it is that way — history, reverts, intent, anchored to commits/PRs), and `knowledge-base` (human-authored org docs from a caller-passed backend).
+
+## How the tiers compose
+1. **Authority over anecdote.** On conflict the more-authoritative source wins; corroboration across INDEPENDENT origins raises confidence but never promotes anecdote into authority — count origins not posts (the discipline is [corroborate-across-independent-origins](corroborate-across-independent-origins.md)).
+2. **Within the authoritative tier, tier is per-claim by accountability.** Whoever OWNS the claim holds top tier for it: the vendor for its own product's behavior, the standard or paper for a domain result. The same vendor explaining someone else's standard is a secondary reading.
+3. **Within project-internal ground truth,** `code` and `repository` outrank `knowledge-base` on WHAT IS TRUE NOW — docs rot silently; code executes and history is recorded — while `knowledge-base` leads on RECORDED INTENT/DECISIONS the code can't show, always carrying a staleness flag.
+4. **Project reality vs domain norm is not tier-resolved.** When code or repository diverges from what a spec or the docs say, that divergence is itself a finding for the caller — never silently averaged or reconciled (the discipline is [surface-conflicts-not-consensus](surface-conflicts-not-consensus.md)).
+5. **One call is open by design:** whether an authoritative source TRANSFERS to this project. gather reports how far the source reaches and flags the gap; the calling skill — which sees the project context gather does not — makes the transfer call. (Open by design: the transfer judgment needs project context the synthesizer lacks, so pinning it here would be false precision.)

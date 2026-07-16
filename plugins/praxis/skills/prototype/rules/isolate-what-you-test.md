@@ -1,0 +1,7 @@
+# Isolate what you test
+
+Vary one unknown at a time; stub, mock, or hardcode everything that isn't the question so the signal isn't muddied. A spike that touches several unknowns at once produces a signal you can't attribute: if it fails, you don't know which part failed; if it passes, you don't know it wasn't luck somewhere else masking a problem in the part you cared about. The whole value of a spike is a *clean* signal on the *one* thing in doubt, and that requires holding everything else fixed.
+
+The move is the mirror image of the cheapest-probe gate ([pick-the-cheapest-probe](../phases/03-pick-the-cheapest-probe.md)): stub **everything except the framed unknown**, and never stub the framed unknown itself. Faking the database when the question is about API throughput is isolation done right; faking the API layer when the question is about API throughput is the disqualifying move — you've stubbed the thing under test and can only produce *still-open* ([verdict-scale](verdict-scale.md)). If the question genuinely spans two entangled unknowns, that's a sign to reframe into two spikes, not to test both at once.
+
+Cited from [frame-the-question](../phases/01-frame-the-question.md) (reframe a braided ask into separate spikes), [pick-the-cheapest-probe](../phases/03-pick-the-cheapest-probe.md) (the probe isolates the unknown), and [build-the-spike](../phases/04-build-the-spike.md) (hardcode and stub the rest as you build).

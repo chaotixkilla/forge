@@ -1,0 +1,24 @@
+# Justify every moving part
+
+Every component, service, layer, and abstraction a design introduces is a cost the maintainer pays for as long as it lives — one more thing to understand, test, deploy, and keep coherent. The trap is that each addition feels locally justified in the moment it is drawn, so complexity accretes one reasonable-looking box at a time until the design is heavier than the problem. This rule forces each moving part to earn its place against a real constraint, and governs the hardest version of that question — when a design should introduce an abstraction at all.
+
+## The bar: earns its place
+
+A new moving part earns its place only if it traces to a **MUST-level constraint** (from the driver split in [choosing-approach](../phases/02-choosing-approach.md)) that **no already-present part covers**. State the constraint next to the part. A part justified only by a *presumptive future* need — "we might want to swap this later", "this makes it extensible" — has not earned its place; cut it, and design so it can be added when a real need arrives.
+
+`(basis: ratified by the maintainer, 2026-07-05. Derived from Fowler's YAGNI — "You Aren't Gonna Need It": a capability presumed for a future feature should not be built now, because it carries the costs of build, delay, carry, and repair (martinfowler.com/bliki/Yagni.html). No external authority pins a numeric "earns its place" threshold, so the trace-to-a-live-constraint test is the maintainer's ratified house standard. Scope, per Fowler: YAGNI restrains presumptive *features/structure*, not effort that keeps the design easy to change — a well-placed seam is not a YAGNI violation.)`
+
+## When to introduce an abstraction
+
+The most common unjustified moving part is a premature abstraction. There is a **shared floor** every authority agrees on and a genuine **fork** above it.
+
+- **The floor (never abstract for one caller).** An abstraction needs **≥2 real, present callers** before extraction is even on the table. An interface, base class, or generic serving a single caller — or a hypothetical future one — is speculative generality; leave the code concrete.
+- **The change-together discriminator (pinned).** Given two real callers, ask the one testable question that makes two designers converge: *would a change to one copy necessarily require the identical change to the other, because they encode the same piece of knowledge / will change for the same reason?* **Yes** → real duplication; this is a genuine seam, hand *where it goes* to [seam-along-change-boundaries](seam-along-change-boundaries.md). **No / uncertain** → the similarity is coincidental; keep the copies separate. `(basis: Hunt & Thomas, The Pragmatic Programmer — DRY is "one authoritative representation" of a piece of *knowledge*, not of duplicated lines; two look-alike fragments encoding different knowledge are not a DRY violation.)`
+- **The count fork (authorities conflict — do not pick a winner).** When the change-together test is genuinely uncertain, the trigger threshold splits: **extract at the second real caller** (early — pays the cost of a possibly-wrong abstraction; `basis: DRY read as knowledge-single-sourcing`) vs **wait for the third occurrence** (late — pays the cost of tolerated duplication until the shape is clear; `basis: Fowler & Roberts "Rule of Three", Refactoring 2nd ed.; Metz, "The Wrong Abstraction", 2016`). Routing: surrounding convention → house rule → maintainer. `(routed to maintainer: the exact integer trigger when the change-together test is inconclusive — no authority sets the number.)`
+- **The reversibility guard (mandatory).** Whichever arm you take, keep the abstraction inlinable. The reliable signal that an abstraction is already *wrong*: satisfying a new requirement means threading a parameter and a conditional through shared code. When that happens, the fastest way forward is back — inline it into every caller and re-extract, don't extend it. `(basis: Metz, "The Wrong Abstraction" — "duplication is far cheaper than the wrong abstraction".)`
+
+## What this rule is not
+
+It is not a mandate to minimize part *count* at the cost of the problem's essential complexity — a hard problem that genuinely needs the machinery keeps it; cutting essential complexity breaks the design. The test is always "what constraint is lost if this goes?", not "is this the fewest boxes?". This is the design-time twin of the simplicity-hawk's deletion test.
+
+Cited by [choosing-approach](../phases/02-choosing-approach.md), [specify-interfaces](../phases/03-specify-interfaces.md), and [slice-and-validate](../phases/06-slice-and-validate.md). Related: [seam-along-change-boundaries](seam-along-change-boundaries.md) (where a justified boundary goes), [design-for-reversibility](design-for-reversibility.md) (a cheap-to-undo part is a cheaper bet).

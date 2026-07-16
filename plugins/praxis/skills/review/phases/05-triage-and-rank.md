@@ -1,0 +1,24 @@
+The hunt and craft passes produce *candidates* — some real, some false positives, some too uncertain or too trivial to be worth the author's attention. This phase turns that raw pile into the trustworthy, ordered list the author acts on. It is what separates a review from a brainstorm: every candidate is validated, graded on both axes, dropped if it is below the bar, and ranked so the most important reads first. A review that skips triage is a list of guesses; a review that does it is a diagnosis.
+
+## Validate each candidate — try to refute it
+
+Take each candidate and attempt to *break the finding*, not just re-read it. Re-confirm the correctness candidates against [confirm-before-claiming](../rules/confirm-before-claiming.md): does the failing input really exist, is the path really reached, is there really no guard upstream? A candidate that cannot survive its own re-confirmation is dropped — a withdrawn false positive is worth more than a reported one.
+
+At `--effort=high` or `max`, recruit the **adversary critic** with the inverted lens — "assume this finding is a false positive; argue why the code is actually correct" — and keep only the candidates that survive the refutation. Without fan-out, argue the opposing case for each finding yourself before letting it stand: state the strongest reason the code might be right, and drop the finding if that reason holds. This adversarial validation is where over-eager findings die.
+
+## Grade both axes, then apply the floors
+
+For each survivor, assign the two independent grades:
+
+- **Severity** — how bad the consequence, per the scale in [severity-scale](../rules/severity-scale.md) (critical / high / medium / low / info), assigned from the consequence in the finding's scenario.
+- **Confidence** — how sure it is real, per [calibrate-confidence-to-effort](../rules/calibrate-confidence-to-effort.md) (confirmed / probable / speculative): for a correctness finding, from how much of the cause→effect chain you actually traced; for a craft finding, from how sure you are its premise holds (the cited helper exists and applies, the blocks truly duplicate) — the craft-confidence ladder in the same rule.
+
+Then drop what is below the bar: anything under the **confidence floor** the effort level sets (low reports confirmed only; max admits speculative, flagged), and anything under **`--severity-min`** when the caller set one. The floors are reporting filters applied after grading, not hunting limits — you graded everything, you deliver only what clears both.
+
+## Separate scope findings, then rank
+
+Pull out the scope-creep observations noted back in [scope-the-review](01-scope-the-review.md) and hold them as their own findings, not folded into the correctness or craft verdict ([respect-author-intent](../rules/respect-author-intent.md)). Scope findings are **not graded** on either axis — no severity, no confidence, no floor applies ([severity-scale](../rules/severity-scale.md)); they are ungraded boundary notes delivered in their own section, so the grading and floors above are for the correctness and craft candidates only. (If a bundled change is itself wrong, its wrongness is a correctness candidate graded like any other — distinct from the scope note.) Then order the survivors so the author reads them in the order they should act ([weight-by-impact-not-count](../rules/weight-by-impact-not-count.md)): **severity descending, confidence as the tie-break, blast radius as the final tie-break.** Merge duplicates — three symptoms of one root cause are one finding with three locations, never three findings; and if you partitioned a large change ([cover-a-large-change](../rules/cover-a-large-change.md)), pool the units' candidates here and dedupe across their seams, since one seam defect surfaces from both units. Resist inflating a finding's severity to justify keeping it. If nothing survives, that is the result: a clean change returns no findings, and saying so is a valid and valuable review.
+
+**Coverage checkpoint — before declaring the verdict.** Confirm every in-scope file was actually reviewed: walk the in-scope set from [scope-the-review](01-scope-the-review.md) against what the passes (or the parallel units) covered, and account for each file — *reviewed*, or *set aside with its stated reason*. A file that is neither is a coverage hole; review it before delivering, and never let a report be silent about a file no pass opened ([cover-a-large-change](../rules/cover-a-large-change.md)). Silence about a file reviewed-and-clean is a verdict; silence about an unread file is a gap. Carry the coverage into the scope line so the author sees the whole set was covered.
+
+The output is a validated, graded, floored, ranked list — the correctness and craft findings kept distinct — ready for [deliver-findings](06-deliver-findings.md) to render.

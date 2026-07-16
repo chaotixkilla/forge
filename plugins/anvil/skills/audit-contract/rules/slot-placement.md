@@ -1,0 +1,23 @@
+A skill's body files are split across slots, and the slot a file lives in is a claim about *what kind of content it is* — which means a misfiled file is a content-kind mismatch, not a filing error. This rule is how the cross-reference phase judges placement: not by gut feel about where a file "belongs," but by reading the content and matching its kind to the slot's altitude. The point of the split is that each slot is consumed differently — phases run in order, rules are cited on demand, modules fire behind a flag — so a file in the wrong slot gets consumed the wrong way: a procedure scattered into `rules/` loses its order, a reusable craft note buried in `phases/` runs once when it should be citable everywhere.
+
+## The three slots and their altitudes
+
+- **`phases/` — ordered procedure.** Numbered, must-run-in-sequence steps that carry the skill from start to finish. The defining property is *order*: phase 02 assumes phase 01 ran. If the steps only make sense in sequence, it's a phase.
+- **`rules/` — reusable a-la-carte craft.** Standalone judgment or technique that several phases (or several skills) cite when they need it. The defining property is *reuse without order*: a rule is pulled in on demand, not run at a fixed point. This file is a rule.
+- **`modules/` — flag-activated behavior.** A self-contained lens or capability that runs only when its flag turns it on. The defining property is *gated activation*: a module is dormant until a declared flag fires it.
+
+## How to judge a file's true kind
+
+Read the file and ask what it *is*, then check the slot matches. The tells are concrete:
+
+- **A `rules/` file written as numbered, must-run-in-this-order steps** is a phase in hiding. Reusable craft doesn't carry a fixed sequence; if removing the numbers would break it, it's a procedure misfiled as craft.
+- **A `phases/` file that's actually standalone craft cited from several points** is a rule in hiding. If nothing about it depends on the steps before or after it, and other phases reach for it independently, its order is incidental and it belongs in `rules/`.
+- **A `rules/` (or `phases/`) file that needs a flag to activate** is a module in hiding. The moment a body file's content only runs under a flag, it's gated behavior — reclassify it to `modules/` and confirm the activating flag is declared, rather than leaving gated behavior in an a-la-carte slot where nothing gates it.
+
+The general tell: **a body file in the wrong slot reads at the wrong altitude.** Numbered sequence in a slot that's supposed to be order-free, order-free craft in a slot that's supposed to be sequential, gated behavior in a slot that has no gate. When the content's altitude and the slot's altitude disagree, the slot is wrong.
+
+## Edge cases and the close call
+
+- **A genuinely sequential one-off rule.** Not every numbered list in `rules/` is misfiled — a rule can describe an ordered technique without being a skill-level phase (e.g. "first establish X, then judge Y"). The discriminator is scope: a *phase* advances the whole skill's run; an ordered *rule* is a self-contained technique a phase invokes. A portable test for the same line: could a second skill cite this file unchanged? Craft travels — a rule reads whole outside its skill; a phase is meaningless outside its own run's sequence. When the file still won't land on either side, that's exactly the close call to hand to the contract-skeptic critic before filing a "move this file" finding — a wrong placement verdict tells a maintainer to break up a file that was fine. This margin is deliberately not pinned to a lexical test: any word-level rule ("numbered list ⇒ phase") would misfile the ordered-technique case, so the closure mechanism here is adversarial review by the critic, not a tighter sentence.
+- **Subdivision within a slot is organization, not a kind.** A large `rules/` slot may group its files into family subdirectories (`rules/<family>/name.md`) so the categorization is visible. That is organizational grouping, not a slot change: a nested rule is still a `rules/` file, judged by content-kind exactly as a top-level one. Don't file a placement finding merely because a rule sits in a subdirectory — the slot is what the path's *first* segment names (`rules/`), and the family folder beneath it carries no altitude claim of its own. (The same would hold for any slot that grew large enough to warrant grouping; `rules/` is where it actually happens.)
+- **Don't reslot on a hunch.** The finding is "this file's content kind doesn't match its slot," and it must name the kind the content actually is. "Feels misplaced" is not a finding; "this is numbered must-run procedure sitting in `rules/`, so it's a phase" is.

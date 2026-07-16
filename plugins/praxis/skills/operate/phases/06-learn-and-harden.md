@@ -1,0 +1,19 @@
+An incident that is resolved and then forgotten is an incident you will have again. This phase turns the response into prevention: a blameless account of what happened, the timeline and contributing factors, and concrete follow-ups — including the durable fix that [remediate-and-verify](04-remediate-and-verify.md) handed off and any prevention the retrospective surfaces. It runs for any incident that was real (a *stood-down* run produces at most a note that the alert needs tuning); its depth scales with severity — the *effort and detail* are proportional to severity, but the deliverables below (a reconstructed timeline, plural contributing factors, and concrete owned trackable follow-ups) are owed at every severity: depth modulates thoroughness, not which deliverables are produced.
+
+## Reconstruct the timeline and the contributing factors
+
+Assemble what happened from the evidence, not memory: the onset, the detection, the mitigation, the diagnosis, and the resolution, with timestamps — the volatile state captured in [stabilize-first](02-stabilize-first.md) and the mechanism confirmed in [diagnose-root-cause](03-diagnose-root-cause.md) are the spine of this record. Capture the *contributing factors*, plural — incidents rarely have a single cause; the trigger, the gaps that let it reach production, and the reasons detection or recovery was slow are all factors worth a follow-up.
+
+## Frame it blamelessly
+
+Write the analysis per [blameless-framing](../rules/blameless-framing.md): describe what the *system* allowed to happen, not who erred. Every "X did Y" becomes "the system let Y happen with no guard," and each missing guard becomes a candidate follow-up. This is not cosmetic — a blame-oriented retro suppresses the honest reporting the next incident's prevention depends on. Keep the human actions in the timeline as fact; target the fix at the system that permitted them.
+
+## File concrete follow-ups
+
+Turn the analysis into tracked, owned work — not aspirations. A follow-up earns its place only if it is **concrete** (a specific change, not "improve monitoring"), **owned** (a person/team accountable), and **trackable** (filed where the team tracks work). The follow-up set typically includes: the **owed durable fix** (routed to develop / debug --fix if not already carried) — or, when the incident was resolved by a rollback that removed the offending change, the **forward re-fix** (re-landing the feature correctly) and any **dead-code cleanup** as their own tracked follow-ups; new or tuned **alerts/guardrails** (the guards blameless framing surfaced); and **runbook updates**. Distinguish gating follow-ups (a guardrail whose absence would let this exact incident recur — should block "done") from advisory ones (improvements worth doing). Route tracked items through the project-management capability and the durable code fix through develop/debug; follow the team's existing template and severity vocabulary per [match-the-runbook-conventions](../rules/match-the-runbook-conventions.md) rather than inventing a house format.
+
+## Publish the record — and done-state
+
+Under `--publish`, [publish-incident-record](../modules/publish-incident-record.md) hands the retrospective to the artifacts capability as a durable, team-facing document under the clean-export bar: the timeline, impact, contributing factors, and follow-ups — and **none** of operate's internal machinery (phase/critic/loop mechanics, port calls). Without `--publish`, the record is returned for the team to file.
+
+Done-state: a blameless retrospective with a reconstructed timeline and contributing factors, a set of concrete owned trackable follow-ups (the durable fix among them if still owed), and — under `--publish` — the record published as a clean team-facing document. The incident is now not just resolved but *harder to repeat*.

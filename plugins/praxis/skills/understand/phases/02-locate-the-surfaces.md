@@ -1,0 +1,14 @@
+You cannot trace a path you cannot find, and reading whole files to find it is how an investigation drowns before it starts. This phase locates the surfaces the question touches — where the relevant code, data, and config live — by delegating the cross-lane search to gather, so the trace phase starts from the right files instead of hunting for them.
+
+## Delegate the locate to gather
+This is a cross-lane search (where things live, plus the first "why"), so delegate it to the gather skill rather than searching in one dimension: invoke [gather](../../gather/SKILL.md) with the framed sub-question and, **as its explicit explorer set**, the lanes this step touches — `code` (where the relevant surfaces are, anchored file:line) and `repository` (the history that says why they exist). Pass those lanes as gather's set rather than leaving gather to widen its own mapping: understand framed the question and knows which lanes it turns on. Take back gather's weighted, anchored picture; understand owns what to do with it, gather owns the fan-out and the `tools.knowledge` prerequisite (which is why understand declares none). **When fan-out is unavailable** — the context cannot spawn a gather subagent — do the locate reads inline yourself (find the touched symbols and their homes) before proceeding; the reads are not optional, only the delegation is.
+
+## Anchor, don't read everything
+From gather's picture, anchor on each symbol's definition and its real call sites, not whole files ([read-at-definition-and-call-sites](../rules/read-at-definition-and-call-sites.md)). The locate produces a *map of where to look*, not the understanding itself — resist reading a file end to end here; the targeted read is [trace-the-behavior](03-trace-the-behavior.md)'s job.
+
+With `--symbol`, resolving an ambiguous or overloaded name (several symbols share it) is this phase's job: gather returns the candidates, and understand narrows to the one the surrounding context points at, or asks when the name is genuinely ambiguous.
+
+## Hold the locate/trace seam
+Keep the boundary between this phase and the next crisp: **gather LOCATES — where the surfaces live and why they exist (its code and repository lanes) — and [trace-the-behavior](03-trace-the-behavior.md) FOLLOWS the execution through them.** gather returns anchored findings ("the retry logic is at http.py:42, added in PR #88"); understand's trace turns those anchors into a behavior map by reading the path. Keep locate at "where, and why it exists," not "what it does step by step" — duplicating the trace inside the locate wastes the fan-out and blurs which phase owns the behavior claim. `(basis: gather's usage names understand's locate step as its consumer; the seam keeps the delegated fan-out and understand's own deep read from overlapping.)`
+
+The output of this phase: the anchored surfaces — definitions, call sites, and the history around them — that the trace phase reads.
