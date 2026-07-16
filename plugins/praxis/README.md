@@ -1,34 +1,33 @@
-# praxis — the SDLC plugin
+# praxis
 
-`praxis` codifies engineering / software-delivery processes — understanding a system, speccing and
-planning a change, building and reviewing it, shipping and operating it — as skills and subagents.
-Each skill runs a real, sourced procedure (not a prompt), and reaches external systems
-(version control, CI, trackers, telemetry, chat, knowledge/artifact stores) through a **tool-layer of
-ports** so the process stays the same whichever backend you use.
+> Engineering processes as skills — understand, spec, plan, build, review, ship, operate.
 
-It is a **published plugin** — catalogued in `../../.claude-plugin/marketplace.json` and installable as
-`praxis@forge` (or loaded from its subdir during development via `claude --plugin-dir ./plugins/praxis`).
-It is **config-bearing**: its skills use external backends a project chooses, wired once via `init`.
+[![version](https://img.shields.io/github/v/tag/chaotixkilla/forge?filter=praxis-v*&sort=semver&label=version&color=1f6feb)](https://github.com/chaotixkilla/forge/releases?q=praxis)
+[![license: MIT](https://img.shields.io/badge/license-MIT-3fb950)](https://github.com/chaotixkilla/forge/blob/main/LICENSE)
+[![Claude Code](https://img.shields.io/badge/Claude%20Code-plugin-6E56CF)](https://docs.claude.com/en/docs/claude-code)
 
-## Configuring backends — MCP-first, no secrets if you can help it
+**praxis codifies the software-delivery lifecycle as skills.** Each skill runs a real, sourced
+procedure — not a prompt — for understanding a system, speccing and planning a change, building and
+reviewing it, and shipping and operating it. Skills reach your external systems (version control, CI,
+trackers, telemetry, chat, knowledge and artifact stores) through a layer of **ports**, so the process
+stays identical whichever backend you use.
 
-praxis reaches each external capability over a transport you pick per project, and it **prefers the
-paths that store no credential**:
+## Install
 
-- **Already-connected MCP server** (e.g. a GitHub or Slack MCP) → praxis rides your harness
-  authorization and stores **nothing**. This is the encouraged path.
-- **Authenticated CLI** on your machine → reuses the ambient session; no stored token.
-- **Local filesystem** (for knowledge/artifacts) → no auth.
-- **`api` (last resort)** → the only transport that needs a token. praxis flags it as the fallback;
-  the value goes into the harness's secure per-user `userConfig` (OS keychain), referenced by a
-  `<cap>_token` key — **never** written into the committed project config.
+```
+/plugin marketplace add chaotixkilla/forge
+/plugin install praxis@forge
+```
 
-Run **`/praxis:init`** after install: it detects your remotes and connected backends, proposes a
-per-capability config (steering you toward MCP/CLI), and writes a per-project `.claude/praxis.json`
-(providers, transports, team roster) — secrets stay in `userConfig`, not this file. Re-run
-`init:<capability>` to (re)configure one slot. Any skill also guides you to `init` the moment it first
-needs a backend that isn't set up yet (lazy gating) — so you can install and start without configuring
-everything up front.
+Then configure your project once:
+
+```
+/praxis:init
+```
+
+`init` detects your remotes and connected backends, proposes a per-capability setup, and writes a
+per-project `.claude/praxis.json`. Any skill also offers to configure a backend the first time it
+needs one — so you can start immediately and set things up as you go.
 
 ## Skills
 
@@ -36,10 +35,10 @@ everything up front.
 
 | skill | what it does |
 |---|---|
-| `understand` | map an unfamiliar system / area before changing it |
+| `understand` | map an unfamiliar system or area before changing it |
 | `spec` | pin the *what* — requirements and acceptance, before design |
 | `plan` | turn a spec into a buildable design (interfaces, hard flows, rollout) |
-| `decompose` | split a settled design into ordered, independently-shippable work units |
+| `decompose` | split a settled design into ordered, independently-shippable units |
 | `prototype` | validate feasibility with a throwaway spike |
 
 **Build & verify**
@@ -66,24 +65,31 @@ everything up front.
 |---|---|
 | `communicate` | shape session substance into a human-facing artifact for an audience |
 | `deep-research` | multi-source, adversarially-verified research to a cited report |
-| `init` | detect and configure per-project backends + team roster |
+| `init` | detect and configure per-project backends and team roster |
 
-**Tool layer** (interface skills other skills delegate to — you rarely invoke these directly):
-`vcs`, `ci`, `telemetry`, `communication`, `project-mgmt`, `publish-artifact` (each a thin port over its
-capability's configured provider), and `gather` (the shared cross-lane investigation engine, which owns
-the knowledge capability).
+The **tool layer** — `vcs`, `ci`, `telemetry`, `communication`, `project-mgmt`, `publish-artifact`, and
+the shared investigation engine `gather` — sits underneath and is delegated to by the skills above; you
+rarely invoke it directly.
 
-## Agents
+## Quick start
 
-- **explorers** (gather facts, read-only): `code`, `repository`, `community-practices`,
-  `official-documentation`, `authoritative-literature`, `knowledge-base`
-- **critics** (challenge work): `adversary`, `assumption-hunter`, `completeness-auditor`,
-  `security-auditor`, `simplicity-hawk`, `trade-off-analyst`, `user-advocate`, `future-self`
+```
+/praxis:init      # configure your project's backends (once)
+/praxis:spec      # pin down what to build
+/praxis:plan      # turn the spec into a buildable design
+/praxis:review    # review a change — ranked and routed
+```
 
-## Conventions
+## Configuration
 
-Skill bodies use slot structure — `phases/NN-name.md` (ordered procedure), `rules/name.md` (a-la-carte
-craft), `modules/name.md` (flag-activated). The skill layer names only **capabilities**; concrete
-providers live in each port's `adapters/`. A skill that delegates a capability wholesale declares no
-`config_requires` for it — the owning port does (doer-owns-prerequisites). Reference bundled files with
-`${CLAUDE_PLUGIN_ROOT}` and project files with `${CLAUDE_PROJECT_DIR}`.
+praxis prefers backends that store **no credential**:
+
+- **A connected MCP server** (e.g. GitHub or Slack) — rides your existing authorization, stores nothing.
+- **An authenticated CLI** on your machine — reuses the ambient session, no stored token.
+- **A local filesystem root** — for knowledge and artifacts, no auth.
+- **`api` (last resort)** — the only transport needing a token; it goes into Claude Code's secure
+  per-user store, never into the committed project config.
+
+## License
+
+[MIT](https://github.com/chaotixkilla/forge/blob/main/LICENSE) © Sérgio Salgado
