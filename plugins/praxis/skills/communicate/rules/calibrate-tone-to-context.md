@@ -14,7 +14,7 @@ Resolve the register by walking this order and stopping at the first that answer
 
 ## The house register default
 
-When no local convention exists to match, the house register is: **terse, precise, and high-density; method over fact; imperative and active; no throat-clearing, no hedging, no hype.** Concretely — lead with the point, state it plainly, cut the qualifier that adds no information, prefer the concrete verb to the abstract noun, and never inflate ("leverage a robust solution" → "use X"). This is the register of this repo's own documents (USING-ANVIL, the skill files, the READMEs), adopted as the default so a house-authored artifact reads as one of them.
+When no local convention exists to match, the house register is: **terse, precise, and high-density; method over fact; imperative and active; no throat-clearing, no hedging, no hype.** Concretely — lead with the point, state it plainly, cut the qualifier that adds no information, prefer the concrete verb to the abstract noun, and never inflate ("leverage a robust solution" → "use X"). This is the register of this repo's own documents (the skill files, the READMEs), adopted as the default so a house-authored artifact reads as one of them.
 
 `(basis: ratified by the maintainer, 2026-07-13. The house default register is the voice derivable from this repo's existing docs; because "the register when no local convention exists" is a house standard no external authority can set, it is the maintainer's ratified call, not a model default. It applies only at step 2 of the fork — a destination with its own voice still wins.)`
 

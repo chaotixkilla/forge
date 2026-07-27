@@ -1,6 +1,6 @@
 # Choose an error strategy
 
-The moment this rule governs is the first time a function in a layer needs to signal that it couldn't do its job — throw, return a failure value, or hand back a code. Whatever you reach for becomes, by gravity, what the next function in that layer reaches for too, so the choice is really a choice for the whole layer. Left to reflex it goes wrong two ways: a layer that mixes mechanisms — some paths throw, some return `null`, some return an error tuple — forces every caller to defend against all three; and a mechanism picked for its convenience at the throw site lets a failure be silently dropped at the catch site. Two builders left to taste pick different mechanisms in the same layer. This rule pins the discriminator so two builders converge on one strategy per layer.
+The moment this rule governs is the first time a function in a layer needs to signal that it couldn't do its job — throw, return a failure value, or hand back a code. Whatever you reach for becomes, by gravity, what the next function in that layer reaches for too, so the choice is really a choice for the whole layer. Left to reflex it goes wrong two ways: a layer that mixes mechanisms — some paths throw, some return `null`, some return an error tuple — forces every caller to defend against all three; and a mechanism picked for its convenience at the throw site lets a failure be silently dropped at the catch site. Two builders left to taste pick different mechanisms in the same layer.
 
 ## The discriminator
 

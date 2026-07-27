@@ -1,6 +1,6 @@
 # Parse, don't validate
 
-When untrusted or unstructured input enters — a request body, a config file, a string from an external system — the moment this rule governs is how you establish that it's well-formed. The reflex is to *validate*: run a check that returns true/false, then carry the same raw shape onward. The failure is that the raw shape still looks unchecked to everything downstream, so every site either re-validates (duplicated, drift-prone) or trusts blindly (a crash waiting for the one input that skipped the check). Two builders put their checks in different places and the interior can't tell validated data from raw. This rule pins the discriminator so two builders converge on parsing the input into a type that carries its own proof.
+When untrusted or unstructured input enters — a request body, a config file, a string from an external system — the moment this rule governs is how you establish that it's well-formed. The reflex is to *validate*: run a check that returns true/false, then carry the same raw shape onward. The failure is that the raw shape still looks unchecked to everything downstream, so every site either re-validates (duplicated, drift-prone) or trusts blindly (a crash waiting for the one input that skipped the check). Two builders put their checks in different places and the interior can't tell validated data from raw.
 
 ## The discriminator
 

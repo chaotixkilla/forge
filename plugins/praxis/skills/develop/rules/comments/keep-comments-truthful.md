@@ -1,6 +1,6 @@
 # Keep comments truthful
 
-When you change a line of code, the judgment this rule governs is what to do about the comment sitting next to it. The reflex is to touch only the code and leave the prose alone — and that reflex is how comments go stale. The failure when it's left to taste: one builder edits the logic and moves on, leaving a comment that now describes the *old* behavior; the next reader trusts the comment over the code (that's what comments are *for*), and reasons from a false premise. A comment that lies is worse than no comment, because no comment forces the reader to actually read the code. Two builders diverge on whether the neighboring comment is their responsibility. This rule pins the discriminator so they converge on keep-it-true-or-kill-it.
+When you change a line of code, the judgment this rule governs is what to do about the comment sitting next to it. The reflex is to touch only the code and leave the prose alone — and that reflex is how comments go stale. The failure when it's left to taste: one builder edits the logic and moves on, leaving a comment that now describes the *old* behavior; the next reader trusts the comment over the code (that's what comments are *for*), and reasons from a false premise. A comment that lies is worse than no comment, because no comment forces the reader to actually read the code. Two builders diverge on whether the neighboring comment is their responsibility. This rule pins the discriminator.
 
 ## The discriminator
 

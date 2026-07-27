@@ -8,9 +8,9 @@ metadata:
     --timebox=<duration>: work to a wall-clock limit, degrading to a best-effort answer when it expires (activates timeboxing)
     --cited: raise rendered attribution to a formal citation for every non-obvious claim — a compose-output rigor input; provenance is tracked regardless
     --verify=<off|light|strict>: how hard the load-bearing claims are tested before they're trusted — the rigor dial (see the verification-level rule)
-    --artifact: render the finished report as a publishable, team-facing document through the artifacts capability (activates artifact-output)
+    --publish: render the finished report as a publishable, team-facing document through the artifacts capability (activates publish-output)
     --background: run the research detached so a long fan-out doesn't block the session (activates background-run)
-    --notify: on completion of a detached run, signal the invoker (activates notify-on-completion)
+    --notify: on completion of a detached run, signal the invoker — valueless by design, since the signal goes to whoever launched the run and there is no target to name (activates notify-on-completion)
 ---
 Usage & examples — when to reach for this skill, and concrete flag invocations: see [usage.md](usage.md).
 

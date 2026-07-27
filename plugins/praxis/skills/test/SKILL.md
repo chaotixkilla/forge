@@ -22,5 +22,3 @@ Each numbered step's full procedure lives in the linked phase file — read it, 
 4. Set up the harness: establish fixtures, doubles, and the execution environment so cases run deterministically and in isolation; decide what is real vs. stubbed at each boundary  — see [phases/04-set-up-the-harness.md](phases/04-set-up-the-harness.md)
 5. Run and observe: execute the suite, watch real behavior, and separate genuine failures from flakes and environment noise before drawing conclusions  — see [phases/05-run-and-observe.md](phases/05-run-and-observe.md)
 6. Report the verdict: state pass/fail against the framed claim, attach reproductions for failures, and surface coverage gaps and residual risk left unverified  — see [phases/06-report-the-verdict.md](phases/06-report-the-verdict.md)
-</content>
-</invoke>

@@ -12,7 +12,7 @@ Existing docs, a sample input paired with its ideal output, a runbook, a half-wr
 
 When in-context knowledge and supplied artifacts leave the shape underspecified, recruit explorers — read-only gatherers that return findings anchored to a source:
 
-- The **authoritative-sources** and **community-practices** explorers source a process's canonical form — what the standard, the reference, or the established practice says good looks like.
+- The **authoritative-sources** and **plugin-community-practices** explorers source a process's canonical form — what the standard, the reference, or the established practice says good looks like.
 - The **plugin explorer** sources the *de-facto* shape: how the target plugin's own existing skills already do analogous things (so the new procedure reads like its siblings, not a transplant), plus prior art from external plugins solving the same problem.
 
 Explorers gather; they do not decide. Treat their findings as input to weighting, not as settled answers.

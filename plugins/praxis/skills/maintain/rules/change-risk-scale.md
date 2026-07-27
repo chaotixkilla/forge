@@ -1,6 +1,6 @@
 # The change-risk scale
 
-Every maintenance change carries a risk — how far its effects reach, and how hard it is to undo — and that risk decides *how* the change is allowed to land: changed directly, staged behind a guard, or given a migration path. Leave the risk a prose "use judgment" and the same change gets made three different ways: one maintainer edits a shared format in place, another stages it, a third breaks a downstream consumer who was never asked. This rule pins the scale so two cold executors grade a borderline change onto the same tier and take the same action. It is maintain's severity-scale analog: the one graded judgment the whole procedure turns on.
+Every maintenance change carries a risk — how far its effects reach, and how hard it is to undo — and that risk decides *how* the change is allowed to land: changed directly, staged behind a guard, or given a migration path. Leave the risk a prose "use judgment" and the same change gets made three different ways: one maintainer edits a shared format in place, another stages it, a third breaks a downstream consumer who was never asked. This rule pins the scale that grades a borderline change onto a tier, and the action that tier forces. It is maintain's severity-scale analog: the one graded judgment the whole procedure turns on.
 
 Assigned in [understand-blast-radius](../phases/02-understand-blast-radius.md), and consumed in [make-the-change](../phases/03-make-the-change.md) as the mandatory action each tier forces.
 

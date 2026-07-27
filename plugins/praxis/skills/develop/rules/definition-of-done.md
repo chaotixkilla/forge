@@ -1,6 +1,6 @@
 # The definition of done
 
-develop's whole promise is in one word — *finished* — and a promise that word can't cash is worthless. "Done" left to feel is develop's central failure mode: one builder calls a change done when it compiles, another when the tests pass, another when it's wired and reviewed, and the same work ships at three different standards. This rule pins what *done* means so two cold builders land the same change at the same bar, and so [land-the-change](../phases/06-land-the-change.md) has a checkable gate rather than a vibe. It is develop's marquee standard — the analogue of what the severity scale is to review.
+develop's whole promise is in one word — *finished* — and a promise that word can't cash is worthless. "Done" left to feel is develop's central failure mode: one builder calls a change done when it compiles, another when the tests pass, another when it's wired and reviewed, and the same work ships at three different standards. This rule pins what *done* means so [land-the-change](../phases/06-land-the-change.md) has a checkable gate rather than a vibe. It is develop's marquee standard — the analogue of what the severity scale is to review.
 
 A change is **done** only when **all five** criteria hold. They are conjunctive — the change is exactly as done as its weakest criterion — and each carries its own pass test so the judgment isn't re-invented per run.
 

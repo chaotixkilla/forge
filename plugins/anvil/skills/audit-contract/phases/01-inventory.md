@@ -19,6 +19,18 @@ Read the plugin breadth-first and record what it actually contains, not what you
 
 Record the map as a flat, inspectable list — one you can diff against the checks in later phases. Resist the urge to annotate it with verdicts now ("this flag looks orphaned"); a hunch formed mid-inventory biases the read of the next file. The map is data; judgment comes later.
 
+## Resolve the mechanical joins with the checker, not by hand
+
+Three of the cross-references phase 03 makes are not judgments at all — they are facts about the files with one right answer: does every relative citation resolve, is every phase reachable from its spine and every rule and module reachable from some body file, and does every frontmatter `name` obey the charset and match its own directory or filename. Run them here, as part of building the map:
+
+```
+python3 <anvil>/scripts/check_contract.py <plugin-dir> --json
+```
+
+Carry its findings into the map as established facts, and let phase 03 spend its attention on the joins that genuinely need reading. Hand-executing a link-resolution sweep over a few hundred files is slower, consumes the context the audit needs for judgment, and — on this kit's own dogfood record — gets the subdirectory-relative cases wrong in exactly the way a resolver does not.
+
+Two things to hold while reading its output. It deliberately ignores link targets that are **placeholders** (`<kind>`, `name.md`) or that sit **inside backticks**, because this kit's files document the citation form by writing example links, and a checker that flags its own documentation is one the audit learns to ignore — so a genuinely dangling citation written in backticks will not be caught here and stays phase 03's to spot. And it is not a substitute for phase 03: it says nothing about whether a flag's module is owed, whether a body file sits in the right slot, or whether a bar is closed. If the script cannot run at all, do the three checks by hand and say in the report that they were hand-executed, rather than reporting them as clean.
+
 ## Note the config posture
 
 Plugins come in two shapes, and the audit's later phases branch on which one you're holding. A **config-bearing** plugin declares external dependencies — it carries a config schema or template and routes capabilities to configured providers. A **config-less** plugin has neither: no config template, no `config_requires`, no provider enums, no adapters to cover. Establish which you have before phase 02, because applying config-bearing checks to a config-less plugin manufactures false findings (every "missing config key" is missing because the plugin correctly has no config), and skipping them on a config-bearing plugin misses real ones.

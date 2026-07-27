@@ -1,6 +1,6 @@
 # When to extract a function
 
-Mid-way through writing a block, the question arises: should this stretch of code become its own function, or stay inline? Pull too eagerly and the logic shatters into a dozen one-line functions you must reassemble in your head to read; pull too rarely and a single function grows into a slab that does five things. Left to taste, one builder extracts by a line-count rule of thumb and another by feel, and the same block lands inline in one codebase and as a named helper in the next. This rule pins the discriminator so two builders converge on the call.
+Mid-way through writing a block, the question arises: should this stretch of code become its own function, or stay inline? Pull too eagerly and the logic shatters into a dozen one-line functions you must reassemble in your head to read; pull too rarely and a single function grows into a slab that does five things. Left to taste, one builder extracts by a line-count rule of thumb and another by feel, and the same block lands inline in one codebase and as a named helper in the next.
 
 ## The discriminator
 

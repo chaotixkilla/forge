@@ -1,6 +1,6 @@
 # Leave no debris
 
-Writing a change leaves a trail: a print you added to watch a value, a commented-out old version you kept while trying the new one, an import orphaned when you deleted the line that used it, a TODO you actually closed. The judgment this rule governs is what of that trail comes out before the change is done. Left to taste it goes wrong by omission — the scaffolding felt useful *while building*, so it stays, and the diff ships with debug noise and dead code that the next reader must now decode as if it were meaningful. Two builders left to instinct clean up to different lines. This rule pins the discriminator so two builders converge on what counts as debris.
+Writing a change leaves a trail: a print you added to watch a value, a commented-out old version you kept while trying the new one, an import orphaned when you deleted the line that used it, a TODO you actually closed. The judgment this rule governs is what of that trail comes out before the change is done. Left to taste it goes wrong by omission — the scaffolding felt useful *while building*, so it stays, and the diff ships with debug noise and dead code that the next reader must now decode as if it were meaningful. Two builders left to instinct clean up to different lines.
 
 ## The discriminator
 

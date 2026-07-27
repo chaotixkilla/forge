@@ -1,6 +1,6 @@
 # Keep functions cohesive
 
-Every function should do one job. The judgment this rule governs is what counts as "one job" — the line you draw when a function starts feeling too big and you decide whether to split it. The trap is treating *length* as the criterion: a builder who splits at a line count will carve a cohesive routine in half at an arbitrary seam, while another who never splits lets three concerns pile into one body. Both are judging the wrong property. This rule pins the discriminator so two builders converge on the call.
+Every function should do one job. The judgment this rule governs is what counts as "one job" — the line you draw when a function starts feeling too big and you decide whether to split it. The trap is treating *length* as the criterion: a builder who splits at a line count will carve a cohesive routine in half at an arbitrary seam, while another who never splits lets three concerns pile into one body. Both are judging the wrong property.
 
 ## The discriminator
 

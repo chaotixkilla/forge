@@ -6,7 +6,7 @@ With no delivery flag, produce the finished artifact and **return it** — to th
 
 ## `--notify` — announce it through the communication port
 
-Under `--notify=<target>`, post the artifact (or a fit-for-channel summary of it, with a link back to the full content) to the communication target — see [notify-targets](../modules/notify-targets.md). The post goes through the [communication](../../communication/SKILL.md) port: communicate decides *what* to say, *to whom*, and *whether* to send; the port carries out the post and returns the delivered message's reference. The target is always supplied by the flag — there is no default channel — so a `--notify` with no resolvable target is reported as that, not sent somewhere arbitrary.
+Under `--notify[=<target>]`, post the artifact (or a fit-for-channel summary of it, with a link back to the full content) to the communication target — see [notify-targets](../modules/notify-targets.md). The post goes through the [communication](../../communication/SKILL.md) port: communicate decides *what* to say, *to whom*, and *whether* to send; the port carries out the post and returns the delivered message's reference. The target is always supplied by the flag — there is no default channel — so a `--notify` with no resolvable target is reported as that, not sent somewhere arbitrary.
 
 ## `--publish` — publish it durably through the publish-artifact port
 

@@ -19,4 +19,3 @@ Provision a disposable, network/filesystem-isolated **local** environment with s
 ## Output
 
 A harness in which every designed case runs deterministically and in isolation, with the real/stubbed boundary decided per seam — handed to [run-and-observe](05-run-and-observe.md).
-</content>

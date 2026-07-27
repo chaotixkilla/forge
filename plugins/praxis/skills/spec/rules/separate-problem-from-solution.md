@@ -1,6 +1,6 @@
 # Separate problem from solution
 
-spec's job stops at *what must be true*; choosing *how to make it true* is the next skill's (plan's). The failure this rule prevents is the spec that quietly decides the design: it says "add a Redis cache" when the requirement was "product pages load in under 300 ms," or "use a state machine" when the requirement was "an order can't ship before it's paid." A solution smuggled in as a requirement does two kinds of damage — it pre-empts the design phase's freedom to find a better mechanism, and it hides the *actual* requirement behind a chosen one, so no one can tell whether a different design would also satisfy the need. This rule pins the seam between spec and plan so two specifiers keep the same statements on the spec side of it.
+spec's job stops at *what must be true*; choosing *how to make it true* is the next skill's (plan's). The failure this rule prevents is the spec that quietly decides the design: it says "add a Redis cache" when the requirement was "product pages load in under 300 ms," or "use a state machine" when the requirement was "an order can't ship before it's paid." A solution smuggled in as a requirement does two kinds of damage — it pre-empts the design phase's freedom to find a better mechanism, and it hides the *actual* requirement behind a chosen one, so no one can tell whether a different design would also satisfy the need. This rule pins the seam between spec and plan.
 
 ## The discriminator: outcome, or mechanism?
 

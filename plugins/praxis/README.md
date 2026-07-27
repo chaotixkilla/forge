@@ -47,6 +47,7 @@ needs one — so you can start immediately and set things up as you go.
 |---|---|
 | `develop` | implement to a finished, integrated, self-reviewed local state |
 | `test` | author and run tests to a coverage/adequacy verdict |
+| `verify` | drive the running app end-to-end and report what it actually did |
 | `review` | review a change for correctness and craft, ranked and routed |
 | `security-review` | audit a change for reachable vulnerabilities (severity from CVSS) |
 | `debug` | find a known failure's root cause and localize the fix |

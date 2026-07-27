@@ -41,5 +41,4 @@ Two cold runs must produce a report of the same character. The verdict carries: 
 
 ## Output
 
-The verdict — test's whole deliverable. test **does not fix** (a genuine failure hands off to develop or debug) and **does not drive the live app** (that is verify); it returns the verdict to its caller.
-</content>
+The verdict — test's whole deliverable. test **does not fix** (a genuine failure hands off to develop or debug) and **does not drive the live app** (that is [verify](../../verify/SKILL.md)); it returns the verdict to its caller.

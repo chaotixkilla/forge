@@ -1,6 +1,6 @@
 # Boy-scout rule, bounded
 
-While making a change you pass through code that could be a little better — a vague name on a line you're editing anyway, dead code your change just orphaned, a comment that no longer matches. The judgment this rule governs is how much of that to fix: leaving touched code cleaner than you found it is good citizenship, but the same impulse, unbounded, is how a focused change metastasizes into a sprawling one. Left to taste it goes wrong at both ends — one builder cleans nothing and lets rot accumulate, another "improves" halfway across the module and buries the task. Two builders draw the cleanup line in very different spots. This rule pins the discriminator so two builders converge on how far the cleanup goes.
+While making a change you pass through code that could be a little better — a vague name on a line you're editing anyway, dead code your change just orphaned, a comment that no longer matches. The judgment this rule governs is how much of that to fix: leaving touched code cleaner than you found it is good citizenship, but the same impulse, unbounded, is how a focused change metastasizes into a sprawling one. Left to taste it goes wrong at both ends — one builder cleans nothing and lets rot accumulate, another "improves" halfway across the module and buries the task. Two builders draw the cleanup line in very different spots.
 
 ## The discriminator
 

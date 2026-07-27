@@ -1,6 +1,6 @@
 # Reduce branching complexity
 
-A conditional grows one case at a time: a new `else if` here, a nested flag there, and eventually a function is mostly branching. The judgment this rule governs is whether that branching is *earning* its complexity or is accidental structure that a different shape would erase. Left to taste, one builder keeps extending the `switch` because it "works" and another rewrites it into a lookup, and the same logic ends up either an ever-growing ladder or a table — with no shared reason for which. This rule pins the discriminator so two builders converge on the call.
+A conditional grows one case at a time: a new `else if` here, a nested flag there, and eventually a function is mostly branching. The judgment this rule governs is whether that branching is *earning* its complexity or is accidental structure that a different shape would erase. Left to taste, one builder keeps extending the `switch` because it "works" and another rewrites it into a lookup, and the same logic ends up either an ever-growing ladder or a table — with no shared reason for which.
 
 ## The discriminator
 

@@ -1,6 +1,6 @@
 # Name for the reader
 
-A name is read far more often than it is written, and almost always somewhere other than where it was defined. The judgment this rule governs is which name to pick in the moment of writing — and it goes wrong quietly: a name that made sense to the author at the definition reads as a riddle at the call site, and the next person pays with a jump-to-definition on every encounter. Two builders naming the same thing from private taste produce a codebase that reads in two dialects. This rule pins the test so they converge.
+A name is read far more often than it is written, and almost always somewhere other than where it was defined. The judgment this rule governs is which name to pick in the moment of writing — and it goes wrong quietly: a name that made sense to the author at the definition reads as a riddle at the call site, and the next person pays with a jump-to-definition on every encounter. Two builders naming the same thing from private taste produce a codebase that reads in two dialects.
 
 ## The discriminator
 

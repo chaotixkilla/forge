@@ -15,7 +15,7 @@ Has this been changed before, and what bit last time? Recruit the cross-lane evi
 
 ## Stress the map with future-self
 
-Recruit the [future-self](../../../agents/critics/future-self.md) critic to ask the questions the author skips: *when this change goes wrong six months from now, what breaks, and can it be backed out?* Fold its findings into the reach map and the reversibility read. **Without fan-out**, apply the lens yourself — walk the change forward: if it fails in production, what's the blast radius, and is the rollback a clean revert or a data-stranding mess?
+Recruit the [future-self](../../../agents/critics/future-self.md) critic to ask the questions the author skips: *when this change goes wrong six months from now, what breaks, and can it be backed out?* Hand it [change-risk-scale](../rules/change-risk-scale.md) with the recruit, so its answer comes back on the tiers' own reach-and-reversibility axes and anchors rather than in loose prose. Fold its findings into the reach map and the reversibility read. **Without fan-out**, apply the lens yourself — walk the change forward: if it fails in production, what's the blast radius, and is the rollback a clean revert or a data-stranding mess?
 
 ## Grade the change
 

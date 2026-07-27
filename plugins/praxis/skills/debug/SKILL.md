@@ -1,6 +1,6 @@
 ---
 name: debug
-description: Find and fix the true root cause of a defect that has already bitten — reproduce it, localize the fault, form and test falsifiable hypotheses, confirm the mechanism rather than a coincidental trigger or downstream symptom, and (with --fix) resolve it at the cause with a guarding regression test. Reach for it when a specific failure needs root-causing; distinct from review (hunts latent defects in a change) and test/verify (confirm intended behavior).
+description: Find and fix the true root cause of a defect that has already bitten — reproduce it, localize the fault, form and test falsifiable hypotheses, confirm the mechanism rather than a coincidental trigger or downstream symptom, and (with --fix) resolve it at the cause with a guarding regression test. Reach for it when a specific failure needs root-causing; distinct from review (hunts latent defects in a change), test (confirms intended behavior), and verify (drives the running app to observe it).
 metadata:
   flags:
     --from-incident=<ref>: seed the investigation from an incident/postmortem record — its symptoms, timeline, affected scope, and responder notes — read via the project-management or communication capability

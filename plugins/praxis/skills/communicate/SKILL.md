@@ -6,7 +6,7 @@ metadata:
     --audience=<tier>: name the target reader tier (peer|newcomer|exec|external), overriding the tier model-the-audience would infer — a phase input, not a module
     --as=<form>: force the artifact's form (doc|message|walkthrough), overriding the form choose-form-and-channel would pick — a phase input, not a module
     --lang=<code>: produce the artifact in the target language, preserving intent and tone (activates localize-and-translate)
-    --notify=<target>: after producing the artifact, announce it to a communication target through the communication capability (activates notify-targets)
+    --notify[=<target>]: after producing the artifact, announce it to a communication target through the communication capability; <target> names it, and absent one there is no default to fall back on, so the announcement is held and reported unresolved rather than sent somewhere arbitrary (activates notify-targets)
     --draft: stop after tighten-and-verify and return the content unsent — no delivery, publish, or notify (activates draft-only)
     --publish: publish the artifact as a durable team-facing document through the artifacts capability and return its canonical location (activates publish-output)
   config_requires:

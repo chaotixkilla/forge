@@ -1,6 +1,6 @@
 # Validate at the trust boundary
 
-Untrusted data — a request body, a form field, a file's contents, a response from another service — arrives somewhere and then flows inward through many functions. The judgment this rule governs is *where* to check it: at the one edge where it enters, or wherever a downstream function happens to depend on it being well-formed. Left to reflex it scatters — each interior function re-checks the parts it uses, defensively and partially, so the same field is validated five times in five ways and still no layer is sure it's clean. Two builders put the checks in two different sets of places, and the codebase can't say where its data became trustworthy. This rule pins the discriminator so two builders converge on the barricade.
+Untrusted data — a request body, a form field, a file's contents, a response from another service — arrives somewhere and then flows inward through many functions. The judgment this rule governs is *where* to check it: at the one edge where it enters, or wherever a downstream function happens to depend on it being well-formed. Left to reflex it scatters — each interior function re-checks the parts it uses, defensively and partially, so the same field is validated five times in five ways and still no layer is sure it's clean. Two builders put the checks in two different sets of places, and the codebase can't say where its data became trustworthy.
 
 ## The discriminator
 

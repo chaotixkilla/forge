@@ -19,4 +19,3 @@ Assess the designed set against [coverage-adequacy](../rules/coverage-adequacy.m
 ## Output
 
 The designed, risk-ordered, adequacy-judged case set — with any residual-risk gaps named — handed to [set-up-the-harness](04-set-up-the-harness.md).
-</content>

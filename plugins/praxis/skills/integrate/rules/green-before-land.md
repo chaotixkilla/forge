@@ -1,6 +1,6 @@
 # Green before land
 
-A gate is only worth running if a failure *stops* the change. Treat a failing, skipped, or soft-passed required check as a hard stop, not a warning to note and land past — and never silence a check to get a change through. The failure this prevents is the confident bad merge: a change lands, the mainline goes red for everyone, and the next developer builds on top of the breakage. This rule pins what "green" means so two cold runs treat the same gate state identically, and it is the one gate concern that does **not** defer to team convention.
+A gate is only worth running if a failure *stops* the change. Treat a failing, skipped, or soft-passed required check as a hard stop, not a warning to note and land past — and never silence a check to get a change through. The failure this prevents is the confident bad merge: a change lands, the mainline goes red for everyone, and the next developer builds on top of the breakage. This rule pins what "green" means, and it is the one gate concern that does **not** defer to team convention.
 
 ## The acceptance test — what counts as green
 

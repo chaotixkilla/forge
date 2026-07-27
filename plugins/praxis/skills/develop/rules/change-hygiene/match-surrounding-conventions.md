@@ -1,6 +1,6 @@
 # Match surrounding conventions
 
-Every file already has a dialect — how it names things, how it structures a module, how it handles errors, how it lays out whitespace. The judgment this rule governs is whose style wins when you add code: yours, or the file's. Left to taste it goes wrong quietly — a builder writes in their personal idiom, technically fine in isolation, and the module now reads in two voices, so the next maintainer can't tell house style from local exception and burns attention reconciling them on every read. Two builders with different personal styles produce a file that fights itself. This rule pins the discriminator so two builders converge on which idiom to follow.
+Every file already has a dialect — how it names things, how it structures a module, how it handles errors, how it lays out whitespace. The judgment this rule governs is whose style wins when you add code: yours, or the file's. Left to taste it goes wrong quietly — a builder writes in their personal idiom, technically fine in isolation, and the module now reads in two voices, so the next maintainer can't tell house style from local exception and burns attention reconciling them on every read. Two builders with different personal styles produce a file that fights itself.
 
 ## The discriminator
 

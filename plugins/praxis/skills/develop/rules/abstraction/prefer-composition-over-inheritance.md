@@ -1,6 +1,6 @@
 # Prefer composition over inheritance
 
-The moment this rule governs is the one where you want to reuse or extend existing behavior and reach for a base class — subclassing to inherit the methods you need. Inheritance couples the subtype to the base's internals for the life of the hierarchy: a change to the base ripples into every descendant, and a subclass that overrides selectively can leave the object in a state the base never anticipated. Left to taste, one builder subclasses to grab three handy methods while another holds an instance as a field, and the codebase grows two different reuse idioms — one of them a hierarchy that models nothing real. This rule pins the discriminator so two builders converge on when inheritance is warranted.
+The moment this rule governs is the one where you want to reuse or extend existing behavior and reach for a base class — subclassing to inherit the methods you need. Inheritance couples the subtype to the base's internals for the life of the hierarchy: a change to the base ripples into every descendant, and a subclass that overrides selectively can leave the object in a state the base never anticipated. Left to taste, one builder subclasses to grab three handy methods while another holds an instance as a field, and the codebase grows two different reuse idioms — one of them a hierarchy that models nothing real.
 
 ## The discriminator
 

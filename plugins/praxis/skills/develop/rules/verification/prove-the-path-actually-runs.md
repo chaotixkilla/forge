@@ -1,6 +1,6 @@
 # Prove the path actually runs
 
-The judgment this rule governs is what counts as evidence that a change works. In the moment, the cheap signals are seductive — it compiled, the type-checker is happy, the suite is green — and the reflex is to trust them and move on. Left to taste, they diverge: one builder calls a slice proven because the suite passed; another notices the suite never entered the new branch and the "pass" is about code that didn't change. The same slice is *verified* to one and *false-green* to the other. This rule pins the discriminator so two builders converge on trusting only observed execution.
+The judgment this rule governs is what counts as evidence that a change works. In the moment, the cheap signals are seductive — it compiled, the type-checker is happy, the suite is green — and the reflex is to trust them and move on. Left to taste, they diverge: one builder calls a slice proven because the suite passed; another notices the suite never entered the new branch and the "pass" is about code that didn't change. The same slice is *verified* to one and *false-green* to the other.
 
 ## The discriminator
 

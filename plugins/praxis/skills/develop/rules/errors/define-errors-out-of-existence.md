@@ -1,6 +1,6 @@
 # Define errors out of existence
 
-When a case can go wrong, the reflex is to reach for handling — a check, a thrown error, a branch every caller must then remember. The judgment this rule governs comes one step earlier: before adding that handling, whether the *API itself* can be shaped so the error case simply isn't one. Left unasked, an error the design could have absorbed instead propagates as an obligation onto every caller — each must check for null, catch the exception, handle the out-of-range case — and the handling code outweighs the working code. Two builders split: one adds the guard everywhere, one redefines the operation so no guard is needed, and the second codebase has a fraction of the error paths. This rule pins the discriminator so two builders converge on designing the error away where they can.
+When a case can go wrong, the reflex is to reach for handling — a check, a thrown error, a branch every caller must then remember. The judgment this rule governs comes one step earlier: before adding that handling, whether the *API itself* can be shaped so the error case simply isn't one. Left unasked, an error the design could have absorbed instead propagates as an obligation onto every caller — each must check for null, catch the exception, handle the out-of-range case — and the handling code outweighs the working code. Two builders split: one adds the guard everywhere, one redefines the operation so no guard is needed, and the second codebase has a fraction of the error paths.
 
 ## The discriminator
 

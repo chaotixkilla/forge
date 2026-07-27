@@ -1,6 +1,6 @@
 # Document the public contract
 
-When you add a function, type, or module that others will call, the judgment this rule governs is what to write above it — and how much. The signature carries the names and types; it does not carry the units, the invariants, the failure modes, or the side effects a caller needs to use it *correctly*. Left to taste, one builder documents nothing public and lets callers reverse-engineer the contract by reading the body; another ceremonially docstrings every private helper with `// returns the result`, drowning the surface that matters in boilerplate. This rule pins the discriminator so two builders converge on what to document and how deep.
+When you add a function, type, or module that others will call, the judgment this rule governs is what to write above it — and how much. The signature carries the names and types; it does not carry the units, the invariants, the failure modes, or the side effects a caller needs to use it *correctly*. Left to taste, one builder documents nothing public and lets callers reverse-engineer the contract by reading the body; another ceremonially docstrings every private helper with `// returns the result`, drowning the surface that matters in boilerplate.
 
 ## The discriminator
 

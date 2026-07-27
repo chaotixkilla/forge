@@ -1,6 +1,6 @@
 # Comment the why, not the what
 
-The moment this rule governs is the one where you've just written a line and feel the pull to explain it. Some of those comments earn their place; most are noise. The failure when it's left to taste: one builder narrates every line (`// increment the counter` above `count++`), producing comments that add nothing and rot the instant the code shifts under them; another writes nothing, leaving the one genuinely non-obvious decision — the workaround, the constraint, the road not taken — unexplained, so the next reader "cleans it up" and reintroduces the bug it dodged. Two builders diverge on which lines deserve a comment. This rule pins the discriminator so two builders converge on which comment earns its place.
+The moment this rule governs is the one where you've just written a line and feel the pull to explain it. Some of those comments earn their place; most are noise. The failure when it's left to taste: one builder narrates every line (`// increment the counter` above `count++`), producing comments that add nothing and rot the instant the code shifts under them; another writes nothing, leaving the one genuinely non-obvious decision — the workaround, the constraint, the road not taken — unexplained, so the next reader "cleans it up" and reintroduces the bug it dodged. Two builders diverge on which lines deserve a comment.
 
 ## The discriminator
 

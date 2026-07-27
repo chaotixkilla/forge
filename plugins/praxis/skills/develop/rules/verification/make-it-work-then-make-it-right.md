@@ -1,6 +1,6 @@
 # Make it work, then make it right
 
-Mid-slice, the pull is to write the code *well the first time* — the clean abstraction, the tuned data structure, the general shape — before you have ever seen it run. The judgment this rule governs is the *order* you spend effort in: working first, then structure, then speed. Left to taste it goes wrong in a specific way — one builder polishes the shape and tunes the performance of code that later turns out wrong or gets deleted, and that work is pure waste; another ships a rough slice that ran and then refactors it green. Same slice, two very different amounts of thrown-away effort. This rule pins the discriminator so two builders converge on when to polish.
+Mid-slice, the pull is to write the code *well the first time* — the clean abstraction, the tuned data structure, the general shape — before you have ever seen it run. The judgment this rule governs is the *order* you spend effort in: working first, then structure, then speed. Left to taste it goes wrong in a specific way — one builder polishes the shape and tunes the performance of code that later turns out wrong or gets deleted, and that work is pure waste; another ships a rough slice that ran and then refactors it green. Same slice, two very different amounts of thrown-away effort.
 
 ## The discriminator
 

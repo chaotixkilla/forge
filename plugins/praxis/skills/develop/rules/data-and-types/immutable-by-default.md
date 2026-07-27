@@ -1,6 +1,6 @@
 # Immutable by default
 
-When you declare a value or a field, the moment this rule governs is whether it should be allowed to change after construction. The reflex is to make everything mutable because the language defaults that way and it's one keyword shorter. The cost is deferred and diffuse: a value handed to two holders becomes a channel between them, and a write by one silently changes what the other reads — the aliasing bug, and its concurrent cousin, the race. Two builders default in opposite directions, so the same data is a frozen fact in one module and a shared mutable cell in another. This rule pins the discriminator so two builders converge on when mutation is actually earned.
+When you declare a value or a field, the moment this rule governs is whether it should be allowed to change after construction. The reflex is to make everything mutable because the language defaults that way and it's one keyword shorter. The cost is deferred and diffuse: a value handed to two holders becomes a channel between them, and a write by one silently changes what the other reads — the aliasing bug, and its concurrent cousin, the race. Two builders default in opposite directions, so the same data is a frozen fact in one module and a shared mutable cell in another.
 
 ## The discriminator
 

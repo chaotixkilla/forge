@@ -4,7 +4,7 @@ A tool-layer interface skill: the single place the observability backend is reac
 
 ## When to use
 - A skill needs to read live observability evidence and should stay provider-agnostic: an error-aggregate's frequency and sample traces, a distributed trace, a metric's regression onset, a dashboard, or a hosted log stream by reference. Call `telemetry` with the read instead of talking to a provider directly.
-- You are adding a skill that reasons from production signals (debug, operate, and the `--from-telemetry` seed on plan/verify/review): route its telemetry reads through here rather than giving it its own adapter, so a provider swap changes one file.
+- You are adding a skill that reasons from production signals (debug and operate declare the `--from-telemetry` seed today): route its telemetry reads through here rather than giving it its own adapter, so a provider swap changes one file.
 
 ## Not for / use instead
 - Reading a *local* log file for analysis → that is ambient (any skill reads it directly, e.g. debug's `--from-logs=PATH`); this skill is for a *hosted* log stream or store reached by reference.

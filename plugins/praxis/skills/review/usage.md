@@ -20,7 +20,7 @@ Critically read a finished change — a working-tree diff or a pull request — 
 `--effort=high` — broaden coverage and admit lower-confidence findings worth a look; for a risky or large change.
 `--changed` — review the working-tree diff against the base (this is the default window when no source flag is given).
 `--pr=142` — review pull request #142: its diff plus the description and context, fetched via the vcs capability.
-`--lenses=security,concurrency` — restrict the defect and craft passes to just these lenses.
+`--lenses=security,concurrency` — comma-separate any subset of the declared lens domain; both the defect pass and the craft pass narrow to just the named lenses.
 `--comment` — publish the findings back onto the change through the vcs capability instead of returning them locally.
 `--comment --inline` — anchor each finding to its exact line as an inline annotation rather than one summary comment.
 `--fix` — after triage, apply the accepted findings to the working tree as edits.
@@ -32,7 +32,7 @@ Critically read a finished change — a working-tree diff or a pull request — 
 - **Correctness and craft stay separate.** Must-fix defects (a wrong result for some input) are reported apart from optional cleanups (same behavior, better form), so the author can tell a bug from a preference.
 - **review needs no configuration of its own.** Reading the local diff and returning a report is ambient. The vcs capability — reached only by `--pr` (fetch a remote PR), `--comment`/`--inline` (post back), and `--gate` (post a status) — is delegated to the `vcs` skill, which owns the `tools.vcs` prerequisite. If vcs isn't configured, the `vcs` skill guides you through `init:vcs` (or blocks), and review degrades: `--pr` can't fetch, and `--comment` falls back to returning findings locally.
 - **`--inline` needs `--comment`.** It modifies how comments attach; on its own it does nothing.
-- **`--fix` edits, it does not build or run.** It applies the accepted findings to the tree and re-checks each fix at its site; end-to-end confirmation that the app still works is **verify**'s job, not review's.
+- **`--fix` edits, it does not build or run.** It applies the accepted findings to the tree and re-checks each fix at its site; end-to-end confirmation that the app still works is verify's job, not review's.
 - **Effort is the primary dial.** It sets how broadly the passes hunt and how high the confidence bar sits — not merely how long the review takes. Reach for it before reaching for `--lenses`.
 - **Review reads what the change set out to do.** Scope creep is flagged separately, not folded into the verdict; review judges the change against the surrounding code's conventions, not an external ideal.
 - **Generated files and pure reformatting are set aside, not reviewed — unless they change a contract.** review excludes generator output (lockfiles, emitted schemas, bundles) and whitespace/EOL churn from the passes, reviewing the semantic diff; a generated file re-enters scope when its diff *drops or changes a contract* (a removed schema field), surfaced as a scope or correctness finding.

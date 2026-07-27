@@ -20,6 +20,12 @@ A plugin only earns the catalog by passing the kit's own quality gate — the th
 
 Delegate to each audit skill rather than re-implementing its checks — the audits own those checks, and this gate is just their conjunction. Any failure in any audit fails the gate: report the findings (anchored to file:line, as the audits return them) and stop. Do not proceed to bump or catalog on a partial pass. A plugin that can't pass its own gate isn't ready to ship — that's the whole principle, and the release skill is where it's enforced for real rather than on demand.
 
+## Run the context audit alongside, advisory only
+
+Also run the **context audit** — what the plugin's skills cost to load, and whether the load-bearing citations will actually be opened — and report its findings with the gate result. It does **not** block. The three gating audits check properties with one right answer: a citation either resolves or it does not, a file either ships or it does not. The context audit's file-level checks compare measurements against budgets that are explicitly *proposed and unratified*, and blocking a release on a threshold nobody has ratified would let a calibration guess veto a ready plugin.
+
+So the split is by the nature of the check, not by importance: report its findings so a maintainer sees a roster or an unopened standard before shipping, and let them decide. If a maintainer later ratifies the budgets, moving the relevant checks into the blocking set is the right follow-up — until then, advisory is the honest posture, and saying so in the report is part of it.
+
 Edge case: if the maintainer narrowed the audits earlier in their session (e.g. ran a subset of contract checks), don't trust that as the release gate — the release gate runs the audits in full. The point of the gate is to be the one place that can't be partially satisfied.
 
 ## Under --dry-run

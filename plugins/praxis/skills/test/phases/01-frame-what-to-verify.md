@@ -22,4 +22,3 @@ The concrete pass condition is per-change and cannot be pinned in advance: for o
 ## Output
 
 The framed claim: the behaviors under test, their level(s) (fork routed), the explicit pass condition, and — under `--from-spec` — the criterion → check map. This is what [map-the-surface](02-map-the-surface.md) and [design-the-cases](03-design-the-cases.md) build on.
-</content>

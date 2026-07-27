@@ -1,6 +1,6 @@
 # Clean up on the failing path
 
-Code that acquires something — a file handle, a connection, a lock, a transaction, an allocated buffer — has to release it, and the happy path always does. The judgment this rule governs is the branches nobody looks at: what happens to that resource when a step *after* the acquire throws or returns early. Left to reflex, cleanup is written once, at the end of the success path, and every early exit leaks past it — the handle stays open, the lock stays held, the transaction stays half-applied. The bug hides on the error path, which is exactly the path least likely to be exercised, so it ships. Two builders diverge: one hangs cleanup off scope, one hand-writes it per branch and misses one. This rule pins the discriminator so two builders converge on releasing on every path.
+Code that acquires something — a file handle, a connection, a lock, a transaction, an allocated buffer — has to release it, and the happy path always does. The judgment this rule governs is the branches nobody looks at: what happens to that resource when a step *after* the acquire throws or returns early. Left to reflex, cleanup is written once, at the end of the success path, and every early exit leaks past it — the handle stays open, the lock stays held, the transaction stays half-applied. The bug hides on the error path, which is exactly the path least likely to be exercised, so it ships. Two builders diverge: one hangs cleanup off scope, one hand-writes it per branch and misses one.
 
 ## The discriminator
 

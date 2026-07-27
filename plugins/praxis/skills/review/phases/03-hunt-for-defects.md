@@ -8,13 +8,13 @@ If the change is broad — many files across distinct subsystems, not a focused 
 
 For each behavior the change introduces or alters, ask "how does this break?" across the correctness lenses. Which lenses, and how deep, is set by `--effort` (the breadth and depth rows in [calibrate-confidence-to-effort](../rules/calibrate-confidence-to-effort.md)) and narrowed by `--lenses` when given:
 
-- **Logic** — the algorithm computes the wrong thing; an inverted condition, a wrong operator, a mishandled case.
-- **Edge and boundary** — empty, null, zero, one, the maximum, the off-by-one; the inputs at the extremes the happy path skips.
-- **Error and failure paths** — a swallowed exception, an error returned but not handled, cleanup skipped on the failing branch, a partial write left behind.
-- **Concurrency** — a race on shared state, a lost update, a lock taken in the wrong order, an await point that invalidates an assumption.
-- **Security** (code-review depth) — unsanitized input reaching a sink, a missing authorization check, a leaked secret, an unsafe deserialization. This is the code-review lens, not a full threat model; a change that warrants adversary-scoped analysis is a hand-off to `security-review`, noted as such.
-- **Resource safety** — a leaked handle, connection, or lock; an unbounded cache or queue.
-- **Data integrity** — a non-atomic multi-step write, a broken invariant across records, a migration that can half-apply.
+- **Logic** (`logic`) — the algorithm computes the wrong thing; an inverted condition, a wrong operator, a mishandled case.
+- **Edge and boundary** (`boundary`) — empty, null, zero, one, the maximum, the off-by-one; the inputs at the extremes the happy path skips.
+- **Error and failure paths** (`error-paths`) — a swallowed exception, an error returned but not handled, cleanup skipped on the failing branch, a partial write left behind.
+- **Concurrency** (`concurrency`) — a race on shared state, a lost update, a lock taken in the wrong order, an await point that invalidates an assumption.
+- **Security** (`security`, code-review depth) — unsanitized input reaching a sink, a missing authorization check, a leaked secret, an unsafe deserialization. This is the code-review lens, not a full threat model; a change that warrants adversary-scoped analysis is a hand-off to `security-review`, noted as such.
+- **Resource safety** (`resource-safety`) — a leaked handle, connection, or lock; an unbounded cache or queue.
+- **Data integrity** (`data-integrity`) — a non-atomic multi-step write, a broken invariant across records, a migration that can half-apply.
 
 ## Judge across the blast radius, and label confidence honestly
 
@@ -22,6 +22,6 @@ A changed function being locally correct is useless if the change broke a caller
 
 ## Recruit an adversary at high effort
 
-At `--effort=high` or `max`, recruit the **adversary critic** to attack the change independently — its lens is "assume this is wrong; construct the input that breaks it" — and fold its surviving findings into the candidate set. Without fan-out, apply the adversary lens yourself: for each behavior, actively try to construct a failing input before you accept it as correct, rather than reading for confirmation that it works. The pass is not done when you have read every changed line; it is done when the correctness lenses in scope have each been turned on the change.
+At `--effort=high` or `max`, recruit the **adversary critic** to attack the change independently — its lens is "assume this is wrong; construct the input that breaks it" — handing it [calibrate-confidence-to-effort](../rules/calibrate-confidence-to-effort.md) so it grades confidence on that rule's own rungs and anchors rather than a ladder of its own, and [severity-scale](../rules/severity-scale.md) for a *provisional* consequence read that [triage-and-rank](05-triage-and-rank.md) re-grades as the owner of the final severity, and fold its surviving findings into the candidate set. Without fan-out, apply the adversary lens yourself: for each behavior, actively try to construct a failing input before you accept it as correct, rather than reading for confirmation that it works. The pass is not done when you have read every changed line; it is done when the correctness lenses in scope have each been turned on the change.
 
 The output of this phase is a set of *candidate* correctness findings, each anchored and confidence-tagged — not yet severity-ranked and not yet validated against their own refutation. That is [triage-and-rank](05-triage-and-rank.md)'s work.

@@ -1,6 +1,6 @@
 # One unit, one outcome
 
-The most common way a decomposition goes soft is a unit that quietly does two things — "add logout and refresh the session token," "build the importer and the export report." It reads as one line on a board, but it is two results that ship, verify, and can fail independently, and bundling them means neither can be reviewed, tracked, or reverted on its own. This rule pins the test that separates one unit from two, so two people decomposing the same work draw the boundary in the same place. It is cited by [ingest-the-source](../phases/01-ingest-the-source.md), [carve-into-units](../phases/02-carve-into-units.md), and [make-units-actionable](../phases/04-make-units-actionable.md).
+The most common way a decomposition goes soft is a unit that quietly does two things — "add logout and refresh the session token," "build the importer and the export report." It reads as one line on a board, but it is two results that ship, verify, and can fail independently, and bundling them means neither can be reviewed, tracked, or reverted on its own. This rule pins the test that separates one unit from two. It is cited by [ingest-the-source](../phases/01-ingest-the-source.md), [carve-into-units](../phases/02-carve-into-units.md), and [make-units-actionable](../phases/04-make-units-actionable.md).
 
 ## The discriminator: the single-sentence done-condition
 

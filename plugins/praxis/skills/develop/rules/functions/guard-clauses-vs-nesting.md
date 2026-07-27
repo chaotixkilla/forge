@@ -1,6 +1,6 @@
 # Guard clauses vs. nesting
 
-Writing a conditional, the reflex is to nest: the happy path goes inside the `if`, the rest cascades in, and three preconditions deep the real work sits under an arrow of indentation. The judgment this rule governs is *when* to invert a condition and return early instead — pull the special case to the top, handle it, and leave the body flat. Left to taste, one builder flattens everything into a wall of early returns and another nests everything into a pyramid, and the same logic reads two opposite ways. This rule pins the discriminator so two builders converge on the call.
+Writing a conditional, the reflex is to nest: the happy path goes inside the `if`, the rest cascades in, and three preconditions deep the real work sits under an arrow of indentation. The judgment this rule governs is *when* to invert a condition and return early instead — pull the special case to the top, handle it, and leave the body flat. Left to taste, one builder flattens everything into a wall of early returns and another nests everything into a pyramid, and the same logic reads two opposite ways.
 
 ## The discriminator
 

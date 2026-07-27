@@ -1,6 +1,6 @@
 # Naming functions
 
-The moment this rule governs is naming a routine you're about to define. A function *does* something, and its name is the promise the caller reads instead of the body. The failure when it's left to taste: one builder names a mutating routine `getConfig`, another names a pure lookup `updateCache`, and callers act on the promise the name made — refetch when nothing changed, or skip a save because the name hid the write. The reader trusts the name and is betrayed by the body. This rule pins the discriminator so two builders converge on a name a caller can act on.
+The moment this rule governs is naming a routine you're about to define. A function *does* something, and its name is the promise the caller reads instead of the body. The failure when it's left to taste: one builder names a mutating routine `getConfig`, another names a pure lookup `updateCache`, and callers act on the promise the name made — refetch when nothing changed, or skip a save because the name hid the write. The reader trusts the name and is betrayed by the body.
 
 ## The discriminator
 

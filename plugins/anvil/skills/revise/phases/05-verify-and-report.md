@@ -16,6 +16,10 @@ Verify **the diff**, not the whole layer — recruit the reviewers the touched *
 
 A fix can open a new finding, so re-run the selected checks after each round of edits and **loop until a pass raises nothing** — a fix that leaves the next scan dirty is not a fix. The loop is **bounded**: after **two** attempts on the same unconverging span, stop editing it and **route it to the maintainer** with what the two attempts tried and why they didn't converge. (Two is pinned, not a flag: a span that resists two honest attempts is a design question, not an edit to keep retrying — and if real batches routinely need more, that is a finding revise sizes on itself, not a speculative rounds flag added now.)
 
+## Optional: prove a large batch with a benchmark
+
+The checks above verify the diff is *sound* — it converges, closes its bars, leaks nothing, earns its structure. They do not prove it is *better* than the version before it, and on a batch large enough to trade one behavior for another they can't: a change that repairs one scenario while quietly breaking another passes every static check and still ships a regression. When the batch is that large, escalate past the checkpoint to [benchmark](../../benchmark/SKILL.md) — the heavyweight A/B-with-repeats tier — to prove the change is a net improvement, not a silent trade. This is an **opt-in escalation, not part of the checkpoint**: the run still completes on a clean static pass, and benchmark is the maintainer's call when regression risk earns its cost. A `net-regression` verdict comes back as a fresh findings batch this same skill can take in turn — the diagnose-fix-prove loop closing on itself. When a batch meets this bar and benchmark is *not* run, surface that in the report — flag the large-batch, regression-risk condition under *routed to the maintainer* and recommend the benchmark — so the maintainer's call is put in front of them rather than left to notice.
+
 ## Report the change set
 
 Report the whole run as one auditable handoff, so the maintainer sees exactly what moved and what didn't:

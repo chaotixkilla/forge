@@ -1,6 +1,6 @@
 # Null and empty handling
 
-Every value that can be absent forces a decision the moment you return or accept it: how is "nothing here" represented, and who checks for it. Left to reflex, absence is handled ad hoc — one function returns null, another an empty collection, another throws, another a sentinel like `-1` — and each caller guesses which. The failure is a null that leaks across a boundary and lands as a crash three layers away from the code that produced it, or an "empty" quietly conflated with an "error." Two builders pick two representations for the same absence, and the callers can't tell them apart. This rule pins the discriminator so two builders converge on one explicit absence strategy per boundary.
+Every value that can be absent forces a decision the moment you return or accept it: how is "nothing here" represented, and who checks for it. Left to reflex, absence is handled ad hoc — one function returns null, another an empty collection, another throws, another a sentinel like `-1` — and each caller guesses which. The failure is a null that leaks across a boundary and lands as a crash three layers away from the code that produced it, or an "empty" quietly conflated with an "error." Two builders pick two representations for the same absence, and the callers can't tell them apart.
 
 ## The discriminator
 

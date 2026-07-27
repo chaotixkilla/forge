@@ -1,6 +1,6 @@
 # Separate fact from inference — the certainty scale
 
-The whole product of understand is a map, and a map that states an inference as a fact is worse than no map: it sends the reader forward confident about something you never verified. The load-bearing grade every claim carries is its **certainty** — how you came to believe it: did you watch it, trace it, reason it, or read it somewhere. Undefined, each investigator invents their own ladder — one calls a reasoned guess "confirmed," another "unsure," and the same claim gets two incompatible weights. This rule pins the scale so two cold investigators grade the same claim on the same rung.
+The whole product of understand is a map, and a map that states an inference as a fact is worse than no map: it sends the reader forward confident about something you never verified. The load-bearing grade every claim carries is its **certainty** — how you came to believe it: did you watch it, trace it, reason it, or read it somewhere. Undefined, each investigator invents their own ladder — one calls a reasoned guess "confirmed," another "unsure," and the same claim gets two incompatible weights.
 
 Certainty answers one question: **how did you come to believe this — did you witness it, trace it end to end, reason it from partial evidence, or take a description on faith?** It is orthogonal to the source-of-truth ordering ([find-the-source-of-truth](find-the-source-of-truth.md)): that rule says *which source to believe when they disagree*; this scale says *how well-established your belief is* once you've chosen.
 

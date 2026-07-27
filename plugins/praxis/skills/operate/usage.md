@@ -19,7 +19,7 @@ Run and respond to a production incident end-to-end: confirm and triage a live s
 `operate --from-telemetry=<signal-ref>` — start from a firing signal: triage confirms it is a real incident (not a flapping alert), scopes it, and sets severity, then drives the response.
 `operate --from-incident=<incident-ref>` — start from a declared incident record: triage seeds from its reported symptom, severity, and prior actions rather than cold.
 `--watch` — after remediation, hold the run open and re-read the signal until it stays at baseline for the signal's stability window before declaring resolved (a timeout with the signal unsettled reports *indeterminate*, never resolved).
-`--notify` — push status transitions (acknowledged, mitigated, resolved) over the communication capability at phase boundaries; pair with `--channel=<ref>` to override the target.
+`--notify` — push status transitions (acknowledged, mitigated, resolved) over the communication capability at phase boundaries; `--notify=<target>` names where they go instead of the configured incident channel.
 `--background` — detach the loop so watching/diagnosis continues across turns, re-engaging only on a state change or threshold breach.
 `--publish` — publish the incident record / postmortem as a durable team-facing document via the artifacts capability.
 
@@ -28,5 +28,5 @@ Run and respond to a production incident end-to-end: confirm and triage a live s
 - **operate needs no configuration of its own.** It delegates every backend to a port. If telemetry isn't configured and no signal was seeded, triage cannot run blind — it halts and guides you to `init:telemetry`. If communication isn't configured, status updates degrade to being returned for you to send by hand; the response still runs.
 - **operate does not carry the durable code fix.** The lasting correction is usually a code change — operate hands it to **develop** / **debug --fix** and tracks it as a follow-up, carrying the change itself only for a genuine hotfix under high severity. A resolved incident may still owe a *forward* code fix: when the durable fix was a rollback that removed the offending change, re-landing the feature correctly is a tracked follow-up, not an open incident.
 - **"Resolved" is a real threshold, not the moment the alert clears.** operate declares resolved only when impact has ended, a durable fix (not a transient mitigation) is in place, and the signal has held at baseline through the watch window; short of that the state is *mitigated-but-watching*.
-- **`--channel` needs a messaging path.** It only sets the target for `--notify`/status posts; on its own, with no notification being sent, it does nothing.
+- **The status target rides on `--notify`.** `--notify=<target>` names where the posts go; bare `--notify` uses the configured incident channel. There is no separate target flag to pair with it, and without `--notify` the updates are composed and returned rather than posted at all.
 - **A flapping alert is not an incident.** Triage will stand the run down if the signal is transient/self-clearing and maps to no user-facing symptom — a valid, valuable outcome, not a failure to respond.

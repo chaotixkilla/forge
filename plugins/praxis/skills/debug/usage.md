@@ -10,7 +10,7 @@ Root-cause a specific failure that has already bitten — reproduce it, prove th
 
 ## Not for / use instead
 - Hunting *latent* defects in a finished change → **review** (debug chases a failure that already bit; review reads a change for what might bite).
-- Authoring or running tests to confirm *intended* behavior → **test**; driving the running app to observe a change works end-to-end → **verify** (debug root-causes a known failure; test/verify confirm behavior).
+- Authoring or running tests to confirm *intended* behavior → **test**; driving the running app to observe a change works end-to-end → **verify** (debug root-causes a known failure; test and verify confirm behavior).
 - Building a feature or implementing to a finished standard → **develop**.
 - Operating the system in production or running on-call incident response → **operate** (debug is the diagnosis engine incident response reaches for; operate owns the production surface).
 - A scoped refactor, dependency upgrade, or tech-debt paydown → **maintain**.
@@ -29,6 +29,6 @@ Root-cause a specific failure that has already bitten — reproduce it, prove th
 - **No reproduction, no fix.** debug never acts on a fix it cannot first make fail on demand; if the bug cannot be reproduced, *reproduction is the job*, not the fix.
 - **Cause, not symptom.** The default is to resolve only at a confirmed mechanism — a patch at the symptom layer leaves the cause live. The one exception is incident / production-pressure routing (e.g. `--from-incident`), where a provisional mitigation to stop the bleeding first is legitimate — and is recorded as provisional, with the root-cause fix still owed.
 - **`--fix` is bounded.** It applies the smallest correct change at the fault site plus a guarding test; a fix that needs real design work (a new abstraction, an interface change, a cross-cutting refactor) is handed off to **plan** / **develop**, not absorbed here.
-- **debug diagnoses; it does not confirm broad health.** The guarding test proves *this* bug is gone; end-to-end confirmation that the whole app still works is **verify** / **test**'s job.
+- **debug diagnoses; it does not confirm broad health.** The guarding test proves *this* bug is gone; end-to-end confirmation that the whole app still works is verify / **test**'s job.
 - **debug needs no configuration of its own.** It delegates telemetry reads to the `telemetry` port, incident reads to `project-mgmt` / `communication`, and recruits explorers directly. If telemetry isn't configured, `--from-telemetry` degrades — the port guides via `init:telemetry` (or blocks) and debug falls back to other evidence lanes.
 - **`--from-logs` is dual.** A local path is a plain file read (no backend); a store reference is a hosted log stream read through the telemetry capability.

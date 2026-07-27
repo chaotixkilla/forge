@@ -1,6 +1,6 @@
 # One name per concept
 
-The moment this rule governs is reaching for a word for something the codebase has already named — or reusing a word you've already spent on something else. The failure when it's left to taste: one builder calls it `fetchUser`, another `getUser`, a third `loadUser`, a fourth `retrieveUser`, all for the identical operation; or one word, `handler`, comes to mean three unrelated things. A reader can no longer tell whether two names mean one thing or one name means two, and has to carry a running translation table. This rule pins the discriminator so two builders converge on one word per meaning.
+The moment this rule governs is reaching for a word for something the codebase has already named — or reusing a word you've already spent on something else. The failure when it's left to taste: one builder calls it `fetchUser`, another `getUser`, a third `loadUser`, a fourth `retrieveUser`, all for the identical operation; or one word, `handler`, comes to mean three unrelated things. A reader can no longer tell whether two names mean one thing or one name means two, and has to carry a running translation table.
 
 ## The discriminator
 

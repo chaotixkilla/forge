@@ -1,6 +1,6 @@
 # Choosing the right data structure
 
-The moment this rule governs is the one where you declare the thing that will hold the change's data — a collection, a map, a record. The default failure is reaching for the *familiar* structure (the one already in scope, the one the language makes easiest to type) rather than the one the data's usage demands. The cost surfaces later and quietly: a list scanned for membership on a hot path, a nested map that lets two fields drift out of sync, an index rebuilt on every read. Two builders picking by habit land on two shapes with two different performance and correctness profiles. This rule pins the discriminator so two builders converge on the structure the data actually wants.
+The moment this rule governs is the one where you declare the thing that will hold the change's data — a collection, a map, a record. The default failure is reaching for the *familiar* structure (the one already in scope, the one the language makes easiest to type) rather than the one the data's usage demands. The cost surfaces later and quietly: a list scanned for membership on a hot path, a nested map that lets two fields drift out of sync, an index rebuilt on every read. Two builders picking by habit land on two shapes with two different performance and correctness profiles.
 
 ## The discriminator
 

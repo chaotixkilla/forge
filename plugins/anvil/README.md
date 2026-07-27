@@ -37,6 +37,7 @@ Plugin-level skills take `--plugin=<name>`; the rest act on the marketplace as a
 |---|---|
 | `audit-tool-leaks` | scan the skill layer for concrete-tool leaks (the HARD RULE) |
 | `audit-contract` | check frontmatter, slot, flag, and config conformance |
+| `audit-context` | measure what skills cost to load, and whether the loads that matter happen |
 | `audit-packaging` | enforce the ships-vs-authoring boundary across the marketplace |
 
 **Ship & iterate**
@@ -65,8 +66,9 @@ Plugin-level skills take `--plugin=<name>`; the rest act on the marketplace as a
 ## Under the hood
 
 Skills recruit read-only **explorers** to gather facts (`plugin`, `authoritative-sources`,
-`community-practices`) and **critics** to challenge the work before it lands (`leak-hunter`,
-`contract-skeptic`, `cold-executor`, `scaffolding-skeptic`, `boundary-keeper`, `standards-skeptic`).
+`plugin-community-practices`) and **critics** to challenge the work before it lands (`leak-hunter`,
+`contract-skeptic`, `cold-executor`, `scaffolding-skeptic`, `economy-skeptic`, `boundary-keeper`,
+`standards-skeptic`).
 The skill layer names only capabilities — concrete tools live in adapters — so a skill reads the same
 whatever backend it runs against.
 

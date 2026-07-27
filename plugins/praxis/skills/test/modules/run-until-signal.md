@@ -18,4 +18,3 @@ What `<condition>` means is the caller's per-run choice, and **deliberately open
 - **change-triggered** — re-run on each change to the watched surface; the loop is bounded by the caller ending the watch, not by an outcome.
 
 Every condition carries a bound: an explicit count, an outcome that must eventually occur, or a caller-ended watch. A loop with no terminating bound is a defect — never re-run "until green" without a maximum attempt count, or an always-failing change hangs the run instead of reporting FAIL.
-</content>

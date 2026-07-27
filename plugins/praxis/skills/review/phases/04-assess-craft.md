@@ -4,10 +4,10 @@ With correctness swept, switch modes. This pass asks a different question — no
 
 If you partitioned a large change for the correctness hunt ([cover-a-large-change](../rules/cover-a-large-change.md)), assess craft over the *same* units — the craft pass covers the same surface the hunt did, so no subsystem's form goes unjudged. For the change's form, at the breadth `--effort` sets and `--lenses` narrows:
 
-- **Reuse** — the change reimplements something the codebase already provides: an existing helper, a pattern, an abstraction in the same module. The cost is the future edit that now has to happen in two places.
-- **Simplification** — accidental complexity that isn't pulling its weight: dead code, a premature abstraction with one caller, speculative generality, nesting that a guard clause would flatten, a layer that only forwards.
-- **Efficiency** — needless work: a redundant pass, an allocation in a loop, an N+1 access pattern, repeated computation of an invariant. Weight it by where it sits — a quadratic loop on a hot path is a real finding; the same off a cold path is often `info`.
-- **Altitude and consistency** — naming that misleads about role or intent, an abstraction pitched too high or too low for its one job, and divergence from the conventions the surrounding code establishes.
+- **Reuse** (`reuse`) — the change reimplements something the codebase already provides: an existing helper, a pattern, an abstraction in the same module. The cost is the future edit that now has to happen in two places.
+- **Simplification** (`simplification`) — accidental complexity that isn't pulling its weight: dead code, a premature abstraction with one caller, speculative generality, nesting that a guard clause would flatten, a layer that only forwards.
+- **Efficiency** (`efficiency`) — needless work: a redundant pass, an allocation in a loop, an N+1 access pattern, repeated computation of an invariant. Weight it by where it sits — a quadratic loop on a hot path is a real finding; the same off a cold path is often `info`.
+- **Altitude and consistency** (`altitude`) — naming that misleads about role or intent, an abstraction pitched too high or too low for its one job, and divergence from the conventions the surrounding code establishes.
 
 ## Judge against the neighborhood, and suggest the smallest fix
 
@@ -15,6 +15,6 @@ Every craft finding is measured against *this* codebase, not an external ideal (
 
 ## Recruit a simplicity-hawk at high effort
 
-At `--effort=high` or `max`, recruit the **simplicity-hawk critic** — its lens is "what here is not pulling its weight?" — and fold its surviving findings in. Without fan-out, apply that lens yourself: for each new abstraction, indirection, or duplicated block, ask what would be lost by deleting or inlining it, and record the ones that answer "nothing." Watch the boundary case: a craft problem one plausible refactor away from becoming a wrong result is a medium-severity *correctness* footgun, moved back to the correctness pile with the evolution named — not left here as mere style ([separate-correctness-from-taste](../rules/separate-correctness-from-taste.md)).
+At `--effort=high` or `max`, recruit the **simplicity-hawk critic** — its lens is "what here is not pulling its weight?" — handing it [calibrate-confidence-to-effort](../rules/calibrate-confidence-to-effort.md), and [severity-scale](../rules/severity-scale.md) for a *provisional* craft-cost read that [triage-and-rank](05-triage-and-rank.md) re-grades so it grades on those rules' own rungs and anchors rather than a ladder of its own, and fold its surviving findings in. Without fan-out, apply that lens yourself: for each new abstraction, indirection, or duplicated block, ask what would be lost by deleting or inlining it, and record the ones that answer "nothing." Watch the boundary case: a craft problem one plausible refactor away from becoming a wrong result is a medium-severity *correctness* footgun, moved back to the correctness pile with the evolution named — not left here as mere style ([separate-correctness-from-taste](../rules/separate-correctness-from-taste.md)).
 
 The output is a set of *candidate* craft findings, each anchored and carrying its cost and confidence — unranked, unvalidated, awaiting [triage-and-rank](05-triage-and-rank.md) alongside the correctness candidates.

@@ -1,6 +1,6 @@
 # One level of abstraction per function
 
-Inside a function, the temptation is to reach down for a detail right where you need it — inline a bit-twiddle, a string-format fiddle, a manual index loop — in the middle of a run of high-level calls. The judgment this rule governs is whether a statement belongs *in* this function or behind a call from it. Left to taste, one builder writes a function that reads as clean orchestration and another writes the same function with a low-level detail wedged between two domain steps, and the second reader has to context-switch mid-line. This rule pins the discriminator so two builders converge on the call.
+Inside a function, the temptation is to reach down for a detail right where you need it — inline a bit-twiddle, a string-format fiddle, a manual index loop — in the middle of a run of high-level calls. The judgment this rule governs is whether a statement belongs *in* this function or behind a call from it. Left to taste, one builder writes a function that reads as clean orchestration and another writes the same function with a low-level detail wedged between two domain steps, and the second reader has to context-switch mid-line.
 
 ## The discriminator
 

@@ -1,6 +1,6 @@
 # DRY vs. incidental duplication
 
-You are looking at two blocks of code that look alike, and the pull is to collapse them into one — a shared function, a common base, a single config. But some sameness is real and some is a coincidence: two blocks can be byte-identical today yet answer to entirely different reasons-to-change tomorrow, so merging them couples things that were never meant to move together. The judgment this rule governs is *whether this repetition is one truth showing up twice, or two truths that momentarily rhyme* — and left to taste one builder dedupes on sight while another leaves it, so the codebase collects both a wrong abstraction and a missed one. This rule pins the discriminator so two builders converge on the same call.
+You are looking at two blocks of code that look alike, and the pull is to collapse them into one — a shared function, a common base, a single config. But some sameness is real and some is a coincidence: two blocks can be byte-identical today yet answer to entirely different reasons-to-change tomorrow, so merging them couples things that were never meant to move together. The judgment this rule governs is *whether this repetition is one truth showing up twice, or two truths that momentarily rhyme* — and left to taste one builder dedupes on sight while another leaves it, so the codebase collects both a wrong abstraction and a missed one.
 
 ## The discriminator
 

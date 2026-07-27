@@ -1,6 +1,6 @@
 # Minimize state scope
 
-Declaring a variable, the reflex is to hoist it — put it at the top of the function, or out at the module level, "so it's available." The judgment this rule governs is *how wide* a variable's scope should be and *how early* it should be declared. Left to taste, one builder declares everything up front and mutates it as the function runs, while another declares each value at its first use in the narrowest block that needs it — and the first version breeds the bug where one branch forgets to set the variable and a stale value leaks downstream. This rule pins the discriminator so two builders converge on the call.
+Declaring a variable, the reflex is to hoist it — put it at the top of the function, or out at the module level, "so it's available." The judgment this rule governs is *how wide* a variable's scope should be and *how early* it should be declared. Left to taste, one builder declares everything up front and mutates it as the function runs, while another declares each value at its first use in the narrowest block that needs it — and the first version breeds the bug where one branch forgets to set the variable and a stale value leaks downstream.
 
 ## The discriminator
 

@@ -19,4 +19,3 @@ Loop the verification rather than running a single pass — until the caller's s
 ## Output
 
 The classified run — per-case result, each red classified, each new test proven able to fail — handed to [report-the-verdict](06-report-the-verdict.md).
-</content>

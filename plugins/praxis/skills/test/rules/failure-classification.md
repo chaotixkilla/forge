@@ -1,6 +1,6 @@
 # The failure-classification taxonomy
 
-[run-and-observe](../phases/05-run-and-observe.md) produces red results, and a red is not a verdict until it is classified — because a flake reported as a genuine failure sends someone chasing a bug that isn't there, and a genuine failure dismissed as a flake ships the bug. Naming the three classes is not the closure; the discriminators that sort them are. This rule pins those discriminators and the order to apply them, cheapest and most-mechanical first, so two cold runs classify the same red the same way.
+[run-and-observe](../phases/05-run-and-observe.md) produces red results, and a red is not a verdict until it is classified — because a flake reported as a genuine failure sends someone chasing a bug that isn't there, and a genuine failure dismissed as a flake ships the bug. Naming the three classes is not the closure; the discriminators that sort them are. This rule pins those discriminators and the order to apply them, cheapest and most-mechanical first.
 
 **One term, pinned once, because it is load-bearing for two of the three classes:** *the unchanged revision* means **the current revision under test, held unmodified across reruns** — you re-run the very code you are verifying, changing nothing, to see whether the result is stable. It does **not** mean the pre-change baseline; whether a red reproduces on the *pre-change* code is a different question (it separates a change-caused break from a pre-existing one, used below and in [prove-the-test-can-fail](prove-the-test-can-fail.md)), not the determinism test.
 
@@ -39,4 +39,3 @@ Reproduces *deterministically* on the unchanged revision: fails every run, same 
 The rerun count used to expose nondeterminism is **open-by-design**: the right number varies with the test's flake-proneness and the run's budget (a low-frequency flake needs many reruns; CI budget bounds them), so pinning a fixed N would be false precision. What *is* pinned is the invariant — never let one green rerun auto-resolve a red to "flake."
 
 `(basis: the three-class split is the skill's role ("separate genuine failures from flakes and environment noise") — note the authorities (Luo/Micco/Fowler) treat environment as a *cause* of flakiness rather than a separate verdict, so the environment class rests on corroborated community practice (the phase/scope discriminators — the runner's own error-vs-failure reporting, CI infra signatures), while genuine-vs-flake rests on the authoritative determinism discriminator above.)`
-</content>

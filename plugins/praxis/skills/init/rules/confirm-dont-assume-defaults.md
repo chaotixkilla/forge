@@ -1,6 +1,6 @@
 # Confirm, don't assume defaults
 
-A wrong value written silently is worse than a question asked: the question costs a moment, the wrong value costs a debugging session downstream when a skill talks to the wrong backend and no one remembers init chose it. Inference is a *proposal*, not a commitment — the environment suggests, the user disposes. This rule pins how a graded signal becomes an actual interaction, so two cold runs on the same project prompt the same way and write the same file.
+A wrong value written silently is worse than a question asked: the question costs a moment, the wrong value costs a debugging session downstream when a skill talks to the wrong backend and no one remembers init chose it. Inference is a *proposal*, not a commitment — the environment suggests, the user disposes. This rule pins how a graded signal becomes an actual interaction.
 
 ## The default posture: propose every inference, ask every gap
 

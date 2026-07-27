@@ -46,4 +46,4 @@ When the trigger is present, mitigate-then-diagnose is legitimate: apply the mit
 
 ## Boundary
 
-debug diagnoses, and under `--fix` makes the smallest correct change plus its guarding test — it does not confirm broad end-to-end health (that is verify / test's job) and does not absorb feature-sized work (that hands off to plan/develop). A fix that needs the app exercised across flows to be trusted, or a change large enough to need its own plan, is a hand-off, not a step this phase completes.
+debug diagnoses, and under `--fix` makes the smallest correct change plus its guarding test — it does not confirm broad end-to-end health (that is test's job, and [verify](../../verify/SKILL.md)'s) and does not absorb feature-sized work (that hands off to plan/develop). A fix that needs the app exercised across flows to be trusted, or a change large enough to need its own plan, is a hand-off, not a step this phase completes.

@@ -10,7 +10,7 @@ Establish the ground facts before judging anything:
 
   This resolved target is what every later phase reconciles against, gates the merge into, and lands into.
 - **Branch state and divergence** — which branch the work is on, and how far it has diverged from the **resolved target's** live head. Divergence sizes the reconcile work in [prepare-the-increment](02-prepare-the-increment.md) and flags semantic-conflict risk ([integrate-against-current-target](../rules/integrate-against-current-target.md)).
-- **The team's flow** — detect the repo's merge strategy, branch model, and message convention here ([match-the-team-flow](../rules/match-the-team-flow.md)), so every later phase follows the team's ritual rather than a generic one.
+- **The team's flow** — detect the repo's merge strategy and branch model here ([match-the-team-flow](../rules/match-the-team-flow.md)), so every later phase follows the team's ritual rather than a generic one. Also read the recent commit-message convention — but as a **conflict check against the house baseline**, not a ritual to adopt: whether recent commits *consistently* fail to parse as Conventional Commits (a template, a tag scheme, or a plain free-form style). That read only matters when no format preference is already set; when one is, the baseline-or-preference resolves without a question. A detected conflict is resolved in [prepare-the-increment](02-prepare-the-increment.md) by surfacing it and asking the user (then persisting the answer), never by following it silently ([commits-tell-the-why](../rules/commits-tell-the-why.md)).
 
 ## Classify the landing type — it forks the procedure
 

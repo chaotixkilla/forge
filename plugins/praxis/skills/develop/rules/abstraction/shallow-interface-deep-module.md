@@ -1,6 +1,6 @@
 # Shallow interface, deep module
 
-The moment this rule governs is the one where you decide how much a module exposes versus how much it hides — the size and shape of its public face relative to the work behind it. A module pays its way by *hiding* complexity: callers learn a small interface and are spared everything behind it. A module that exposes nearly as much as it does earns nothing — the caller carries the same cognitive load they would without it, plus one more hop and one more name to know. Left to taste, one builder writes a thin pass-through "for layering" while another folds the same logic into a module with a small face, and the codebase accretes hollow layers that add indirection without subtracting understanding. This rule pins the discriminator so two builders converge on which layers are worth keeping.
+The moment this rule governs is the one where you decide how much a module exposes versus how much it hides — the size and shape of its public face relative to the work behind it. A module pays its way by *hiding* complexity: callers learn a small interface and are spared everything behind it. A module that exposes nearly as much as it does earns nothing — the caller carries the same cognitive load they would without it, plus one more hop and one more name to know. Left to taste, one builder writes a thin pass-through "for layering" while another folds the same logic into a module with a small face, and the codebase accretes hollow layers that add indirection without subtracting understanding.
 
 ## The discriminator
 

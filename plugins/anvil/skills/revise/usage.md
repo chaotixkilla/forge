@@ -16,7 +16,7 @@ Turn a batch of findings or maintainer feedback into the smallest, verified set 
 
 ## Examples
 `--plugin=praxis` — apply the pending batch of findings/feedback to praxis; interrogate for the batch if no source is given.
-`--plugin=praxis --from=design/anvil/REVIEW-DOGFOOD-FINDINGS.md` — seed the batch from a findings report, then triage/size/dispatch it.
+`--plugin=praxis --from=path/to/findings.md` — seed the batch from a findings report, then triage/size/dispatch it.
 `--plugin=praxis --dry-run` — triage and size the whole batch and show the change set (each item's disposition, tier, and target engine) **without** writing anything or invoking any engine; the preview is explicitly unverified.
 
 ## Gotchas

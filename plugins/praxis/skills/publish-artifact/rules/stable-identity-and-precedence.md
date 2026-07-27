@@ -1,6 +1,6 @@
 # Stable identity and override precedence
 
-Two of this skill's decisions are silently open unless pinned, and both change *where content lands*. First: when config, `--to`, and `--dest-dir` all speak to the destination, which wins — and what does `--to` even name? Second: under `--idempotent` (and `--version`), how is "the same artifact" recognized across runs, so a republish updates in place instead of minting a parallel copy? Left to taste, one run updates and the next duplicates, or two runs resolve different destinations from the same inputs. This rule pins both so two cold executors resolve the same target and the same identity.
+Two of this skill's decisions are silently open unless pinned, and both change *where content lands*. First: when config, `--to`, and `--dest-dir` all speak to the destination, which wins — and what does `--to` even name? Second: under `--idempotent` (and `--version`), how is "the same artifact" recognized across runs, so a republish updates in place instead of minting a parallel copy? Left to taste, one run updates and the next duplicates, or two runs resolve different destinations from the same inputs. This rule pins both.
 
 ## Classifying `--to`
 

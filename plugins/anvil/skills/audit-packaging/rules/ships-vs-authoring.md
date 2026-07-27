@@ -19,13 +19,14 @@ A consumer needs these to invoke and run the plugin, so they belong inside the p
 - The plugin manifest.
 - The config *template/schema* the consumer fills in to wire the plugin to their own environment.
 - Any data a component reads *at runtime* — an adapter's lookup table, a hook's payload. The plugin loads it while running, so the consumer needs it.
+- An **executable a skill invokes during a run** — a checker or measurement script a phase shells out to. It is not maintainer tooling merely for being code: the consumer's own session executes it, so by the one test above it ships, exactly like the data an adapter reads. It must be reachable from the skill that invokes it and assume no install step of its own.
 
 ## Authoring-only — the apparatus that makes the plugin
 
 None of these is needed to *use* the plugin; all exist to *make* it, so each lives in an authoring plane outside every source path:
 
 - Design and decision notes, architecture write-ups, the reasoning behind the build.
-- Maintainer scripts and generators, the tooling that authors content.
+- Maintainer scripts and generators — the tooling that *authors* content, renders a design record, or drives a release. This is the make side of the split, and it is distinct from an executable a skill invokes while running, which ships: both are code, and code is not the discriminator. Ask who runs it and when.
 - Contributor docs aimed at the people building the plugin, not the people running it.
 - Test suites and their fixtures — a consumer does not run the plugin's authoring tests.
 - Scratch material, populated configs holding real backend choices or secrets, anything that captures *this maintainer's* state rather than *a consumer's* runtime.
@@ -37,6 +38,7 @@ This split is per-file and applies inside *every* plugin, including anvil itself
 - **Documentation splits by audience, not by being documentation.** A usage README that shows a consumer how to invoke the plugin ships. A "how this is built / how to contribute" doc is authoring-only. Ask who needs to read it to use the thing.
 - **Config splits by template-vs-populated.** The empty template/schema a consumer fills in ships; a config already populated with a maintainer's backends or secrets is authoring-only and a hard flag if it sits inside a source path.
 - **Data splits by runtime-vs-fixture.** Data a component reads while the plugin runs ships; data that exists only to test the plugin authoring does not.
+- **Executables split by who invokes them.** A script a *skill* shells out to mid-run ships — the consumer's session runs it, and the skill would be broken without it, so the nameable moment is a runtime one. A script a *maintainer* runs by hand to generate content or cut a release is authoring-only, however similar it looks. The give-away is the caller: if a phase names the script, it ships; if only a human or a repo workflow does, it does not. A shipped executable inherits a further obligation — it must depend on nothing that is not already present, because there is no install step between the copy and the run.
 - **A plugin's authoring apparatus is authoring-only even when the plugin itself ships.** anvil is published, so its skills and adapters ship — but its design notes, generators, and tests are still authoring-only. The same design/notes and tooling planes that stay out of any plugin's source path stay out of anvil's too. Judge the material by the *use-vs-make* test, not by which plugin it belongs to.
 
 ## Anti-patterns

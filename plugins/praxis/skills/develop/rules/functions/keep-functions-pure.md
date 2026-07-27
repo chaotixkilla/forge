@@ -1,6 +1,6 @@
 # Keep functions pure
 
-As you write a function, computation and effect tend to fuse: the routine that calculates a result also reads the clock, writes a row, logs, or mutates a shared structure along the way. The judgment this rule governs is whether to keep the two tangled or split them — pure computation that returns a value from its inputs, separated from the effects (I/O, mutation, time, randomness) that touch the world. Left to taste, one builder writes a function that computes-and-writes in one breath and another separates them, and the first version is the one nobody can test without standing up the world. This rule pins the discriminator so two builders converge on the call.
+As you write a function, computation and effect tend to fuse: the routine that calculates a result also reads the clock, writes a row, logs, or mutates a shared structure along the way. The judgment this rule governs is whether to keep the two tangled or split them — pure computation that returns a value from its inputs, separated from the effects (I/O, mutation, time, randomness) that touch the world. Left to taste, one builder writes a function that computes-and-writes in one breath and another separates them, and the first version is the one nobody can test without standing up the world.
 
 ## The discriminator
 

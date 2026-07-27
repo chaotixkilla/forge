@@ -15,5 +15,5 @@ Each numbered step's full procedure lives in the linked phase file — read it, 
 
 1. Pick scenarios: require --plugin or --self; choose representative invocations that exercise the plugin's real paths, not happy-path smoke tests  — see [phases/01-pick-scenarios.md](phases/01-pick-scenarios.md)
 2. Run and observe: invoke each skill on the subject as a fresh executor; record what it did, where it stalled, what it assumed  — see [phases/02-run-and-observe.md](phases/02-run-and-observe.md)
-3. Challenge: send the run logs to the cold-executor and standards-skeptic critics — surface the guesses and the open bars a single run concealed  — see [phases/03-challenge.md](phases/03-challenge.md)
+3. Challenge: send the run logs to the cold-executor, standards-skeptic and economy-skeptic critics — surface the guesses, the open bars, and the prose no run ever needed that a single pass concealed  — see [phases/03-challenge.md](phases/03-challenge.md)
 4. Report friction: convert friction, gaps, and contract drift into graded, ranked findings with pointers back to the responsible files  — see [phases/04-report-friction.md](phases/04-report-friction.md)

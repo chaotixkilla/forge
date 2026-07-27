@@ -29,4 +29,3 @@ Establish whether a change does what it should: design meaningful test coverage 
 - **A test never seen red proves nothing.** A new or changed test is confirmed to *fail against the broken behavior* before it is trusted green — a test that has only ever passed may be asserting nothing.
 - **test discovers the project's own runner; it names no tool.** It reads how this codebase already runs and structures tests and uses that, rather than assuming a framework. If there is no runnable suite and no way to author one (no language runtime, no test surface), that is a stated stop, not a silent pass.
 - **`--changed` assumes a version-controlled working tree.** With no diff to derive (not a repo, or nothing changed), it falls back to the framed surface and says so.
-</content>

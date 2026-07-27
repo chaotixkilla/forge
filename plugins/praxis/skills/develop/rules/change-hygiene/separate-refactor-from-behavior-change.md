@@ -1,6 +1,6 @@
 # Separate refactor from behavior change
 
-Most real changes tempt you to do two things at once: reshape the code *and* change what it does — rename and extract while also fixing the bug, restructure the module while adding the feature it needed. The judgment this rule governs is whether those two go in one step or two. Left to taste they get braided together, and the cost lands later on someone else: a reviewer staring at a diff where a moved function and a changed behavior are indistinguishable can't tell which lines are supposed to alter output, and a `bisect` chasing a regression lands on a commit that both restructured and re-behaved, isolating nothing. Two builders left to instinct braid or split at different points. This rule pins the discriminator so two builders converge on when to split.
+Most real changes tempt you to do two things at once: reshape the code *and* change what it does — rename and extract while also fixing the bug, restructure the module while adding the feature it needed. The judgment this rule governs is whether those two go in one step or two. Left to taste they get braided together, and the cost lands later on someone else: a reviewer staring at a diff where a moved function and a changed behavior are indistinguishable can't tell which lines are supposed to alter output, and a `bisect` chasing a regression lands on a commit that both restructured and re-behaved, isolating nothing. Two builders left to instinct braid or split at different points.
 
 ## The discriminator
 

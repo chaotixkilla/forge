@@ -6,8 +6,7 @@ metadata:
     --from-incident=<ref>: seed triage from an existing incident record — its reported symptom, severity, timeline, and prior actions — read via the project-management or communication capability (activates from-incident)
     --from-telemetry=<ref>: seed from a telemetry signal (an alert, dashboard, metric, or trace) as the entry point — anchor triage on the firing signal and its surrounding context (activates from-telemetry)
     --watch: after remediation, hold the run open and re-read the signal until it stays at baseline for the signal's stability window before declaring resolved (activates watch-until-stable)
-    --notify: push status transitions (acknowledged, mitigated, resolved) out over the communication capability at phase boundaries instead of only returning them (activates notify-stakeholders)
-    --channel=<ref>: the communication target for status posts and notifications; absent, the configured incident channel is used (a phase input, not a module)
+    --notify[=<target>]: push status transitions (acknowledged, mitigated, resolved) out over the communication capability at phase boundaries instead of only returning them; <target> is where they go, absent it the configured incident channel (activates notify-stakeholders)
     --background: detach the operate loop so watching and diagnosis continue across turns, re-engaging only on a state change or threshold breach (activates run-in-background)
     --publish: publish the incident record / postmortem as a durable team-facing document via the artifacts capability (activates publish-incident-record)
 ---

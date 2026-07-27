@@ -1,6 +1,6 @@
 # Keep the diff focused
 
-While making a change, your cursor passes over code that isn't the task: a variable you'd have named differently, a block whose formatting bugs you, a small bug you notice in passing. The judgment this rule governs is which of those edits belong in *this* diff. Left to taste it goes wrong in a predictable direction — the "while I'm here" edit sneaks in, and a three-line feature arrives as a forty-line diff where the real change is buried among reformats and drive-by fixes, so the reviewer can't see the change for the noise and the blast radius quietly widened past what the task justified. Two builders left to instinct draw the line in very different places. This rule pins the discriminator so two builders converge on what ships in the diff.
+While making a change, your cursor passes over code that isn't the task: a variable you'd have named differently, a block whose formatting bugs you, a small bug you notice in passing. The judgment this rule governs is which of those edits belong in *this* diff. Left to taste it goes wrong in a predictable direction — the "while I'm here" edit sneaks in, and a three-line feature arrives as a forty-line diff where the real change is buried among reformats and drive-by fixes, so the reviewer can't see the change for the noise and the blast radius quietly widened past what the task justified. Two builders left to instinct draw the line in very different places.
 
 ## The discriminator
 

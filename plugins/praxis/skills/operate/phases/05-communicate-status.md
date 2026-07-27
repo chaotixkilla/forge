@@ -8,7 +8,7 @@ Pitch the *content* to the audience: customer/public messages are jargon-free an
 
 ## Deliver through the communication capability — and degrade
 
-Posts go out through the [communication](../../communication/SKILL.md) port to the target `--channel` (absent, the configured incident channel). operate decides *what* to say, *to whom*, and *whether* to send; the port carries out the post. Under `--notify` ([notify-stakeholders](../modules/notify-stakeholders.md)), status transitions (acknowledged, mitigated, resolved) are pushed at phase boundaries; without it, this phase still composes each update and returns it.
+Posts go out through the [communication](../../communication/SKILL.md) port to the target named by `--notify=<target>` (absent, the configured incident channel). operate decides *what* to say, *to whom*, and *whether* to send; the port carries out the post. Under `--notify` ([notify-stakeholders](../modules/notify-stakeholders.md)), status transitions (acknowledged, mitigated, resolved) are pushed at phase boundaries; without it, this phase still composes each update and returns it.
 
 **Degrade — communication unavailable.** If the communication backend is unconfigured, do not stall the response: compose the update and **return it for the user to send by hand**, noting that automated posting was unavailable. The incident response runs regardless of whether the status channel is wired — communication is degrade, not block.
 

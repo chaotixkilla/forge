@@ -1,6 +1,6 @@
 # Avoid misleading names
 
-The moment this rule governs is catching a name that's not merely unclear but actively *wrong* about what it labels. The failure when it's left to taste: a name that lies passes review because it reads fluently — `userList` that's actually a set, `getPrice` that hits the database, `simpleLookup` that fans out three calls — and the next builder acts on the promise, indexing the "list," calling the "getter" in a tight loop, trusting the "simple" one on a hot path. A vague name costs a lookup; a lying name costs a wrong assumption acted on, and the bug lands far from the name. This rule pins the discriminator so two builders reject the same lies.
+The moment this rule governs is catching a name that's not merely unclear but actively *wrong* about what it labels. The failure when it's left to taste: a name that lies passes review because it reads fluently — `userList` that's actually a set, `getPrice` that hits the database, `simpleLookup` that fans out three calls — and the next builder acts on the promise, indexing the "list," calling the "getter" in a tight loop, trusting the "simple" one on a hot path. A vague name costs a lookup; a lying name costs a wrong assumption acted on, and the bug lands far from the name.
 
 ## The discriminator
 

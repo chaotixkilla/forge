@@ -26,6 +26,6 @@ Every non-obvious claim carries its source regardless of flags; provenance is tr
 
 ## Publishing hands off a clean export
 
-`--artifact` publishes the report as a team-facing document through the artifacts capability ([artifact-output](../modules/artifact-output.md)). Before handing it to the port, strip every internal-process reference — tool calls, agent/phase/skill mechanics, praxis process — so the deliverable carries the findings, sources, and confidence for a human reader and none of the machinery ([artifact-output](../modules/artifact-output.md) owns the clean-export bar). `--notify` signals the invoker when a detached run completes ([notify-on-completion](../modules/notify-on-completion.md)).
+`--publish` publishes the report as a team-facing document through the artifacts capability ([publish-output](../modules/publish-output.md)). Before handing it to the port, strip every internal-process reference — tool calls, agent/phase/skill mechanics, praxis process — so the deliverable carries the findings, sources, and confidence for a human reader and none of the machinery ([publish-output](../modules/publish-output.md) owns the clean-export bar). `--notify` signals the invoker when a detached run completes ([notify-on-completion](../modules/notify-on-completion.md)).
 
-The output is the rendered report — answer, attribution, confidence, and gaps — inline by default, or published as a clean team-facing document under `--artifact`.
+The output is the rendered report — answer, attribution, confidence, and gaps — inline by default, or published as a clean team-facing document under `--publish`.

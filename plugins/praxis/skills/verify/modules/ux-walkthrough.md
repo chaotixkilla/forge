@@ -1,0 +1,50 @@
+# ux-walkthrough (`--ux`)
+
+Activated by `--ux`, referenced from [exercise-the-flows](../phases/03-exercise-the-flows.md).
+
+The base run asks one question of each flow — *did it function*. This module adds a second pass over the same flows asking *what is it like to use*: you walk each one as someone encountering it for the first time and record every point of friction, so a flow that completes and is unpleasant or bewildering to complete stops being invisible behind a green result. The pass adds findings; it never changes what counts as functioning.
+
+## The delta
+
+Re-walk each flow the run already framed — the set is fixed upstream and this pass adds none of its own — from a first-encounter stance, and the stance *is* the mechanism: at each step, before you act, name what the surface leads a newcomer to expect next; then act, and record what happened against that expectation. Walking with the operator's knowledge of where things are and what the next move is answers nothing, because that knowledge is precisely what the first-time user does not have.
+
+What to hunt, step by step: nothing indicating what to do next; a dead end, meaning a state with no way forward and no way back; an action whose effect is neither visible nor acknowledged; an error naming neither its cause nor a remedy; state that changed with nothing saying so; information the user has to carry themselves because an earlier step did not carry it for them; an irreversible action reachable with no confirmation and no undo; a wait with no sign that anything is happening. Record each one as five things: the flow, the step, the expectation, the observation, and the concrete consequence to the user.
+
+Two boundaries stay hard. **This pass proposes nothing** — it records what the user hit; the change that would relieve it is another skill's work on the finding, and a friction finding that arrives carrying a redesign has stopped being an observation. And **a malfunction found while walking is not a friction finding**: if the walk turns up a step that does not work rather than one that confuses, it re-enters the base path as an observation of the flow and is classified there like any other, because the pass that found it does not change what it is.
+
+Friction findings are not graded or ranked. verify grades flows, and a severity ladder minted here would sit beside the verdict scale with nothing calibrating it; a finding either clears the reportability bar below and is reported as it stands, or it does not clear it and is dropped. `(basis: the skill contract — the run's one graded output is the per-flow verdict, and friction is carried as findings attached to it, so this pass has no scale of its own to define and mints none.)`
+
+**Deletion test:** without the flag, [exercise-the-flows](../phases/03-exercise-the-flows.md) drives each flow once and records whether it functioned; the first-encounter stance, the second walk, and the friction record are the added behavior, and removing the module changes no verdict the run produces.
+
+## The reportability bar
+
+This is the bar that makes a friction observation a finding rather than a preference, and it governs every friction finding the run reports — including one noticed incidentally during the base functional pass, not only the ones this pass hunts. An observation is reportable when all four hold, each checkable off the walk record by a second reader who was not there:
+
+1. **It is anchored.** A named step of a named flow that was actually driven — not a general impression of the product, and not a step you reasoned about without walking it.
+2. **It states the expectation, and what grounds it.** What the user would reasonably try or expect at that step, plus why that expectation is reasonable *from something outside the walker's preference*: what the surface itself indicated, what an earlier step of this same flow established, a convention this application applies elsewhere, or what the change's own framing claimed. The grounding clause is the load-bearing one, and judging whether a given grounding holds is the executor's call — but a finding whose only support is that the walker would have done it differently has no grounding.
+3. **It names an observed consequence.** The wrong action taken, the retry, the abandoned path, the state the user could not interpret, the effect they could not confirm — something that happened during the walk, not that the step felt awkward.
+4. **It is not a proposal.** *"The label is ambiguous — I read it as the other branch and took the wrong one"* is reportable; *"this should be laid out differently"* is a redesign.
+
+The drop test, applied in both directions. An observation that cannot say what the user expected, or whose expectation rests on nothing but the walker's own preference, is **dropped** — nothing is written down, because a preference recorded as a finding costs a reader the same attention as a real one and pays back none. And a finding that meets all four is **reported even if the flow worked perfectly and even if the walker personally found it fine**: the bar tests the grounding of the observation, not how bothered the walker was, so a shrug is not a reason to withhold one.
+
+`(routed to maintainer: no accountable source in this build sets praxis's reportability bar for usability friction — the natural authority would be a house design system or a written interaction convention, and the absence of one is exactly why this call is routed rather than pinned. Proposed as the four conditions above: anchored step, grounded expectation, observed consequence, no proposal. Derived from the skill's standing evidence discipline — a report states what was observed rather than what it implies — and chosen because all four are checkable off the walk record by a cold second reader, which is what keeps the pass from becoming a channel for whatever the walker would have built instead. Confirm the four, or replace the grounding clause in #2 with a house source once one exists.)`
+
+## Where the findings go
+
+The findings return into the observation record [exercise-the-flows](../phases/03-exercise-the-flows.md) hands onward, alongside the functional observation for the same flow rather than merged into it. A flow that functioned end-to-end and collected friction findings is a working flow with findings attached — the friction never, on its own, makes it defective, since the functional verdict tracks whether the flow did what was claimed and this pass does not touch that question. Collapsing the two in either direction loses something real: fold friction into the verdict and a working flow reads as broken; fold the verdict into friction and a genuine usability problem is buried inside a pass. `(basis: the skill contract, which fixes a confusing-but-functioning flow as a pass plus a usability finding and reserves the verdict for whether the flow did what was claimed.)`
+
+Under `--from-spec` the run is keyed per requirement, so a friction finding attaches to the requirement whose flow raised it — which is what surfaces the requirement that is fully met and painful to satisfy. Combined with `--as-user`, the two passes are two different vantages over the same flows: this one is the first-time newcomer, that one is a named user under a named constraint. Keep their findings labelled by vantage and never merge them, because *"a newcomer could not tell what to do next"* and *"this user could not operate the control at all"* are claims about different people, and neither one carries over to the other's path.
+
+## Open axis question, recorded rather than decided
+
+This pass is wired as its own flag rather than as a value on the shared analytical-lens axis that `develop`'s `--lens` consumes. The distinction keeping them apart: a lens *biases every phase toward a concern*, attaching a concrete obligation to each phase of the run, whereas this adds *one dormant extra pass* at a single phase and changes nothing else — not the framing, not the environment, not the classification, not the verdict. Folding it onto the lens axis would either overstate it (implying it reshapes the whole run) or dilute that axis into "any extra pass".
+
+`(routed to maintainer: the flag-axis placement — a verify-local --ux versus --lens=ux on the shared cross-skill lens vocabulary — is a naming call no authority in this build owns. Proposed: keep it verify-local for the reason above, and re-open the question when a second experiential concern arrives that genuinely reshapes more than one phase, since that is the point at which the sharing becomes concrete rather than speculative.)`
+
+## Degraded case
+
+The pass depends on being able to walk a flow step by step and perceive each intermediate state. Where that is unavailable — the only access path the run has is non-interactive, or the drive can submit and read a result but cannot observe what a user would see between steps — the experiential pass is **reported as not performed for that flow, with the reason**, and that flow's functional verdict stands exactly as the base pass left it.
+
+Do not manufacture friction findings from a reading of the surface definition, the markup, or the code. A friction finding is an observation of a walk; one derived from reading is an inference about a hypothetical user and is the precise thing the reportability bar exists to exclude — labelling it an inference does not rescue it, because the pass has no unwalked findings to report.
+
+Partial and empty cases follow from that. Where some framed flows are walkable and others are not, run the pass on the walkable ones and name the rest as **not covered by the experiential pass** — narrowed scope, never quietly clean, since an unwalked flow has no friction findings for the same reason it has no friction evidence. Where no framed flow can be walked interactively at all, the module produces no findings and reports `--ux` as **requested and not performed**, with what blocked it: a stated outcome rather than an empty section, and one that leaves every functional verdict untouched.

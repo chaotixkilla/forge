@@ -7,7 +7,7 @@ Every maintain run applies the always-on security baseline ([distrust-untyped-in
 ## The delta
 
 - **Delegate the audit to [security-review](../../security-review/SKILL.md)**, scoped to the change (its diff and blast radius) — the dedicated threat audit that covers authn/authz, injection, secret handling, data exposure, and supply-chain/dependency-advisory checks. maintain does not re-implement the threat model; it recruits the skill that owns it and consumes its severity-ranked findings. The signals that audit reads are in turn delegated to the [telemetry](../../telemetry/SKILL.md) and [ci](../../ci/SKILL.md) skills.
-- **Without fan-out, or where security-review isn't reachable,** apply the security-auditor lens inline: recruit the [security-auditor](../../../agents/critics/security-auditor.md) critic to hunt injection, broken authz, secret exposure, and tainted-data paths across the change; without that agent either, apply its lens yourself — follow tainted input from each entry point to its sinks and confirm every secret is referenced, not embedded — and grade what you find on the scale below.
+- **Without fan-out, or where security-review isn't reachable,** apply the security-auditor lens inline: recruit the [security-auditor](../../../agents/critics/security-auditor.md) critic to hunt injection, broken authz, secret exposure, and tainted-data paths across the change, handing it [security-review's severity scale](../../security-review/rules/severity-scale.md) to grade on; without that agent either, apply its lens yourself — follow tainted input from each entry point to its sinks and confirm every secret is referenced, not embedded — and grade what you find on that same scale.
 
 ## The blocking bar — reuse, don't mint
 

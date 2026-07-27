@@ -1,6 +1,6 @@
 # Model with the type system
 
-When you shape a record or the fields of an object, the moment this rule governs is whether to let a combination of fields be *representable-but-invalid* and guard it at runtime, or to shape the type so the invalid combination cannot be constructed at all. The default failure is the first: three loose fields — a `loading` flag, a `data` that may be null, an `error` that may be set — where the valid states are a fraction of the combinations the type permits, and every reader must remember which combinations are real. Two builders diverge on where the guard lives — one asserts at construction, another checks at each use, a third trusts and crashes. This rule pins the discriminator so two builders converge on making the illegal state unrepresentable.
+When you shape a record or the fields of an object, the moment this rule governs is whether to let a combination of fields be *representable-but-invalid* and guard it at runtime, or to shape the type so the invalid combination cannot be constructed at all. The default failure is the first: three loose fields — a `loading` flag, a `data` that may be null, an `error` that may be set — where the valid states are a fraction of the combinations the type permits, and every reader must remember which combinations are real. Two builders diverge on where the guard lives — one asserts at construction, another checks at each use, a third trusts and crashes.
 
 ## The discriminator
 

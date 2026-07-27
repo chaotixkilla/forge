@@ -1,6 +1,6 @@
 # Put shared code at the right home
 
-You've decided two callers genuinely share knowledge and the helper should be extracted ([dry-vs-incidental-duplication](dry-vs-incidental-duplication.md)). The next judgment is *where it lives* — and the reflex is to drop it wherever is convenient: next to the caller you happened to be editing, or in whatever grab-bag "utils" module is already imported. That reflex quietly wires the dependency graph the wrong way, and two builders left to taste put the same helper in two incompatible homes — one creates an upward dependency, the other a cycle. This rule pins the discriminator so two builders converge on the same home.
+You've decided two callers genuinely share knowledge and the helper should be extracted ([dry-vs-incidental-duplication](dry-vs-incidental-duplication.md)). The next judgment is *where it lives* — and the reflex is to drop it wherever is convenient: next to the caller you happened to be editing, or in whatever grab-bag "utils" module is already imported. That reflex quietly wires the dependency graph the wrong way, and two builders left to taste put the same helper in two incompatible homes — one creates an upward dependency, the other a cycle.
 
 ## The discriminator
 

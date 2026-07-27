@@ -1,6 +1,6 @@
 # Preserve the evidence
 
-The counterpoint to [mitigate-before-diagnose](mitigate-before-diagnose.md): the fastest mitigation is often the one that destroys the evidence root-cause will need. A rollback, restart, failover, or re-image wipes the heap, the in-flight requests, the process state, and the in-memory data that would have explained the failure — and once it's gone, the postmortem is reconstructed from memory instead of fact. So mitigate-first is the default, but it is not unconditional: when the mitigating action would erase volatile, non-reproducible state, you capture that state *before* you stabilize. This rule pins the routing rule that decides which pole wins for a given incident, so two responders don't split on it.
+The counterpoint to [mitigate-before-diagnose](mitigate-before-diagnose.md): the fastest mitigation is often the one that destroys the evidence root-cause will need. A rollback, restart, failover, or re-image wipes the heap, the in-flight requests, the process state, and the in-memory data that would have explained the failure — and once it's gone, the postmortem is reconstructed from memory instead of fact. So mitigate-first is the default, but it is not unconditional: when the mitigating action would erase volatile, non-reproducible state, you capture that state *before* you stabilize. This rule pins the routing rule that decides which pole wins for a given incident.
 
 ## The routing rule — when to snapshot before stabilizing
 

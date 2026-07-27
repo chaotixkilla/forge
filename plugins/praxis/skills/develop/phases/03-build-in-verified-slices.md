@@ -8,17 +8,52 @@ Build in the order phase 1 carried forward. When you set the order yourself (a s
 
 ## Write each slice applying the craft-library
 
-The rules under `rules/` are the in-the-moment judgments woven into writing — an open, seeded library of 43 across 10 families, applied a-la-carte as each slice calls for them. As you write a slice, the ones that bear on it:
+The rules under `rules/` are the in-the-moment judgments woven into writing — an open, seeded library of 43 across 10 families. What follows is a **routing table, not a checklist**: each entry leads with the situation that puts it in play, so you can decide from this page alone which two or three a slice needs, and open only those. Most slices trigger a handful. A slice that triggers none needs none — that is a valid outcome, not a skipped step.
 
-- **Shape & control flow** — [guard-clauses-vs-nesting](../rules/functions/guard-clauses-vs-nesting.md), [when-to-extract-a-function](../rules/functions/when-to-extract-a-function.md), [keep-functions-cohesive](../rules/functions/keep-functions-cohesive.md), [one-level-of-abstraction-per-function](../rules/functions/one-level-of-abstraction-per-function.md), [reduce-branching-complexity](../rules/functions/reduce-branching-complexity.md), [keep-functions-pure](../rules/functions/keep-functions-pure.md), [minimize-state-scope](../rules/functions/minimize-state-scope.md).
-- **Naming & intent** — [name-for-the-reader](../rules/naming/name-for-the-reader.md), [naming-variables](../rules/naming/naming-variables.md), [naming-functions](../rules/naming/naming-functions.md), [one-name-per-concept](../rules/naming/one-name-per-concept.md), [avoid-misleading-names](../rules/naming/avoid-misleading-names.md).
-- **Abstraction** — [right-altitude-abstraction](../rules/abstraction/right-altitude-abstraction.md), [avoid-premature-abstraction](../rules/abstraction/avoid-premature-abstraction.md), [prefer-composition-over-inheritance](../rules/abstraction/prefer-composition-over-inheritance.md), [shallow-interface-deep-module](../rules/abstraction/shallow-interface-deep-module.md).
-- **Data & types** — [choosing-the-right-data-structure](../rules/data-and-types/choosing-the-right-data-structure.md), [model-with-the-type-system](../rules/data-and-types/model-with-the-type-system.md), [null-and-empty-handling](../rules/data-and-types/null-and-empty-handling.md), [immutable-by-default](../rules/data-and-types/immutable-by-default.md), [parse-dont-validate](../rules/data-and-types/parse-dont-validate.md).
-- **Errors & robustness** — [handle-errors-at-the-boundary](../rules/errors/handle-errors-at-the-boundary.md), [choose-an-error-strategy](../rules/errors/choose-an-error-strategy.md), [fail-loud-in-dev](../rules/errors/fail-loud-in-dev.md), [define-errors-out-of-existence](../rules/errors/define-errors-out-of-existence.md).
-- **Reuse & duplication** — [dry-vs-incidental-duplication](../rules/reuse/dry-vs-incidental-duplication.md), [put-shared-code-at-the-right-home](../rules/reuse/put-shared-code-at-the-right-home.md) (the first search happened in orient — [reuse-before-writing](../rules/reuse/reuse-before-writing.md)).
-- **As-you-go hygiene & comms** — [keep-the-diff-focused](../rules/change-hygiene/keep-the-diff-focused.md), [separate-refactor-from-behavior-change](../rules/change-hygiene/separate-refactor-from-behavior-change.md), [boy-scout-rule-bounded](../rules/change-hygiene/boy-scout-rule-bounded.md), [comment-the-why-not-the-what](../rules/comments/comment-the-why-not-the-what.md), [document-the-public-contract](../rules/comments/document-the-public-contract.md), [keep-comments-truthful](../rules/comments/keep-comments-truthful.md), [logging-what-matters](../rules/verification/logging-what-matters.md), [feature-flagging-risky-changes](../rules/risk/feature-flagging-risky-changes.md), and — governing the order of effort — [make-it-work-then-make-it-right](../rules/verification/make-it-work-then-make-it-right.md).
+**Before you write it**
+- A helper for this may already exist → [reuse-before-writing](../rules/reuse/reuse-before-writing.md) (the first search happened in orient)
+- New code that more than one caller will want → [put-shared-code-at-the-right-home](../rules/reuse/put-shared-code-at-the-right-home.md)
+- You're tempted to make it general "for later" → [avoid-premature-abstraction](../rules/abstraction/avoid-premature-abstraction.md)
+- The slice needs a shape to hold its data → [choosing-the-right-data-structure](../rules/data-and-types/choosing-the-right-data-structure.md)
 
-Do not treat this as a checklist to run per line — most slices touch a handful. Reach for the rule when its situation appears; the point is that the judgment is made *deliberately and consistently*, so two builders resolve the same call the same way, not from private taste.
+**As the function takes shape**
+- Nesting is past two levels, or an early return would flatten it → [guard-clauses-vs-nesting](../rules/functions/guard-clauses-vs-nesting.md)
+- It's doing two things, or you're about to write a "// now do X" comment mid-body → [when-to-extract-a-function](../rules/functions/when-to-extract-a-function.md), [keep-functions-cohesive](../rules/functions/keep-functions-cohesive.md)
+- High-level orchestration and low-level detail sit side by side in one body → [one-level-of-abstraction-per-function](../rules/functions/one-level-of-abstraction-per-function.md)
+- Branches are multiplying, or you keep extending a switch → [reduce-branching-complexity](../rules/functions/reduce-branching-complexity.md)
+- It reaches outside itself — ambient state, a mutable field, a global → [keep-functions-pure](../rules/functions/keep-functions-pure.md), [minimize-state-scope](../rules/functions/minimize-state-scope.md)
+
+**When you name something**
+- Any new name → [name-for-the-reader](../rules/naming/name-for-the-reader.md)
+- A value whose unit or nullability a wrong guess would act on → [naming-variables](../rules/naming/naming-variables.md)
+- A function, or a boolean-returning predicate → [naming-functions](../rules/naming/naming-functions.md)
+- The surrounding code already has a word for this thing → [one-name-per-concept](../rules/naming/one-name-per-concept.md)
+- The obvious name would overstate or misdescribe what it does → [avoid-misleading-names](../rules/naming/avoid-misleading-names.md)
+
+**When you add an abstraction or a type**
+- A new interface, base class, or layer → [right-altitude-abstraction](../rules/abstraction/right-altitude-abstraction.md), [shallow-interface-deep-module](../rules/abstraction/shallow-interface-deep-module.md)
+- You're reaching for inheritance → [prefer-composition-over-inheritance](../rules/abstraction/prefer-composition-over-inheritance.md)
+- The type could make the invalid state unrepresentable → [model-with-the-type-system](../rules/data-and-types/model-with-the-type-system.md)
+- A value can be absent, empty, or not-yet-loaded → [null-and-empty-handling](../rules/data-and-types/null-and-empty-handling.md)
+- Untrusted or loosely-typed input crosses into the slice → [parse-dont-validate](../rules/data-and-types/parse-dont-validate.md)
+- State two callers could mutate → [immutable-by-default](../rules/data-and-types/immutable-by-default.md)
+
+**When the slice can fail**
+- A call crosses a boundary — a service, a store, the filesystem, user input → [handle-errors-at-the-boundary](../rules/errors/handle-errors-at-the-boundary.md), [choose-an-error-strategy](../rules/errors/choose-an-error-strategy.md)
+- You're relying on an invariant you believe cannot break → [fail-loud-in-dev](../rules/errors/fail-loud-in-dev.md)
+- The failure could be made impossible instead of handled → [define-errors-out-of-existence](../rules/errors/define-errors-out-of-existence.md)
+
+**Before you call the slice green**
+- The diff grew past what the task needed → [keep-the-diff-focused](../rules/change-hygiene/keep-the-diff-focused.md)
+- You improved something while passing through → [boy-scout-rule-bounded](../rules/change-hygiene/boy-scout-rule-bounded.md), [separate-refactor-from-behavior-change](../rules/change-hygiene/separate-refactor-from-behavior-change.md)
+- You felt the pull to explain a line → [comment-the-why-not-the-what](../rules/comments/comment-the-why-not-the-what.md), [keep-comments-truthful](../rules/comments/keep-comments-truthful.md)
+- The slice adds or changes something a caller outside this module uses → [document-the-public-contract](../rules/comments/document-the-public-contract.md)
+- It does something an operator would need to see from outside → [logging-what-matters](../rules/verification/logging-what-matters.md)
+- Landing it switched on is risky → [feature-flagging-risky-changes](../rules/risk/feature-flagging-risky-changes.md)
+- You're polishing before it works → [make-it-work-then-make-it-right](../rules/verification/make-it-work-then-make-it-right.md)
+- The same shape now appears a third time → [dry-vs-incidental-duplication](../rules/reuse/dry-vs-incidental-duplication.md)
+
+Reach for a rule when its situation appears; the point is that the judgment is made *deliberately and consistently*, not from private taste.
 
 ## Prove each slice green before the next
 

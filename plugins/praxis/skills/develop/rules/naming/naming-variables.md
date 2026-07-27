@@ -1,6 +1,6 @@
 # Naming variables
 
-The moment this rule governs is choosing what to call a value you're binding — a local, a field, a parameter. The failure when it's left to taste is quiet: one builder writes `t` for a timeout and `d` for a payload, another writes `elapsedTimeoutInMillisecondsSinceStart` for a three-line local; a third writes `price` for a value the rest of the system carries in cents. At every later read someone has to reconstruct what's in the box — or worse, guesses the unit and is wrong. This rule pins the discriminator so two builders converge on the same name for the same value.
+The moment this rule governs is choosing what to call a value you're binding — a local, a field, a parameter. The failure when it's left to taste is quiet: one builder writes `t` for a timeout and `d` for a payload, another writes `elapsedTimeoutInMillisecondsSinceStart` for a three-line local; a third writes `price` for a value the rest of the system carries in cents. At every later read someone has to reconstruct what's in the box — or worse, guesses the unit and is wrong.
 
 ## The discriminator
 

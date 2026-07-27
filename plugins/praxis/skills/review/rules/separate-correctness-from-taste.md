@@ -1,6 +1,6 @@
 # Separate correctness from taste
 
-The most useful thing a review does for an author is tell a *bug* apart from a *preference*. Blur them and every finding reads as equally optional — the author fixes the naming nit and ships the null-deref — or equally mandatory, and the author resents being told to rename a variable as if it were a crash. Keeping the two classes distinct is what makes the verdict actionable: must-fix defects in one pile, optional cleanups in another, each judged by its own bar. This rule pins the line between them so two reviewers sort the same finding the same way.
+The most useful thing a review does for an author is tell a *bug* apart from a *preference*. Blur them and every finding reads as equally optional — the author fixes the naming nit and ships the null-deref — or equally mandatory, and the author resents being told to rename a variable as if it were a crash. Keeping the two classes distinct is what makes the verdict actionable: must-fix defects in one pile, optional cleanups in another, each judged by its own bar.
 
 ## The discriminator
 

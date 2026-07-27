@@ -1,6 +1,6 @@
 # Feature-flagging risky changes
 
-The moment this rule governs is wiring a change live: you feel the pull to gate it behind a switch — a flag, a config toggle, a percentage rollout — so it can be turned off without a code revert. But a flag is not free. It forks every path it guards, and a flag left in past its purpose is debris that outlives the reason it existed. So the judgment cuts both ways: flag a change too eagerly and you litter the code with dead switches nobody prunes; ship a hard-to-undo change bare and a bad rollout means an emergency revert under fire. Left to taste, one builder flags every change and another flags none. This rule pins the discriminator so two builders converge on which changes earn a flag.
+The moment this rule governs is wiring a change live: you feel the pull to gate it behind a switch — a flag, a config toggle, a percentage rollout — so it can be turned off without a code revert. But a flag is not free. It forks every path it guards, and a flag left in past its purpose is debris that outlives the reason it existed. So the judgment cuts both ways: flag a change too eagerly and you litter the code with dead switches nobody prunes; ship a hard-to-undo change bare and a bad rollout means an emergency revert under fire. Left to taste, one builder flags every change and another flags none.
 
 ## The discriminator
 

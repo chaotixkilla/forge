@@ -1,6 +1,6 @@
 # Degrading unsupported content
 
-Backends differ in what they can represent — nesting depth, table richness, embeds, code blocks, callouts. When the neutral tree meets a backend that can't render a block, "degrade predictably to the nearest faithful form" is the instruction, but the bare verb converges on nothing: one executor drops the block, another errors the whole publish, a third flattens it beyond recognition, and the same artifact lands three different ways on the same backend. This rule pins *what faithful means* and *the order in which to try fallbacks*, so two cold executors degrade an unrepresentable block the same way.
+Backends differ in what they can represent — nesting depth, table richness, embeds, code blocks, callouts. When the neutral tree meets a backend that can't render a block, "degrade predictably to the nearest faithful form" is the instruction, but the bare verb converges on nothing: one executor drops the block, another errors the whole publish, a third flattens it beyond recognition, and the same artifact lands three different ways on the same backend. This rule pins *what faithful means* and *the order in which to try fallbacks*.
 
 ## What "faithful" means
 

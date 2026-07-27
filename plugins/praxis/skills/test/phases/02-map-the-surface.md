@@ -19,4 +19,3 @@ If there is no runnable suite and no way to author one — no language runtime, 
 ## Output
 
 The mapped surface — touched paths, seams, and reverse-dependents; the existing test locations and conventions; and the project's runner — handed to [design-the-cases](03-design-the-cases.md).
-</content>

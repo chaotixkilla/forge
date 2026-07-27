@@ -1,6 +1,6 @@
 # Logging what matters
 
-As you write a slice, the judgment this rule governs is which log lines to leave behind and at what level. It is easy to under-do (ship a path that fails silently in production with nothing to go on) and just as easy to over-do (narrate every step until the real signal drowns, or quietly write a secret into the log). Left to taste, two builders instrument the same code differently — one leaves a trail a future debugger can follow, the other leaves noise, a blank, or a leak. This rule pins the discriminator so they converge on what earns a log line and where it goes.
+As you write a slice, the judgment this rule governs is which log lines to leave behind and at what level. It is easy to under-do (ship a path that fails silently in production with nothing to go on) and just as easy to over-do (narrate every step until the real signal drowns, or quietly write a secret into the log). Left to taste, two builders instrument the same code differently — one leaves a trail a future debugger can follow, the other leaves noise, a blank, or a leak. This rule pins the discriminator on what earns a log line and where it goes.
 
 ## The discriminator
 

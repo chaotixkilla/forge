@@ -1,6 +1,6 @@
 # One coherent change per unit
 
-A commit or PR that bundles two unrelated concerns is a unit you can neither cleanly review, cleanly revert, nor cleanly bisect. When the bugfix and the refactor ride in one commit and the bugfix later proves wrong, reverting drags the refactor out with it; when a history-bisection lands on that commit it points at a +800/−300 blob instead of the one line that broke. Keeping each unit scoped to a single reviewable concern is what makes the whole downstream chain — review, revert, bisect — land on one thing at a time. This rule pins the discriminator so two cold runs split the same working tree the same way.
+A commit or PR that bundles two unrelated concerns is a unit you can neither cleanly review, cleanly revert, nor cleanly bisect. When the bugfix and the refactor ride in one commit and the bugfix later proves wrong, reverting drags the refactor out with it; when a history-bisection lands on that commit it points at a +800/−300 blob instead of the one line that broke. Keeping each unit scoped to a single reviewable concern is what makes the whole downstream chain — review, revert, bisect — land on one thing at a time.
 
 ## The discriminator — is this one concern?
 

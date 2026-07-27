@@ -2,7 +2,7 @@
 
 Everything communicate hands to a human is an export of the work's *substance* for that audience — the content and the decisions, never the machinery that produced them. The reader wants the decision, not the fact that an explorer surfaced it; the status, not that a critic flagged it; the recommendation, not which phase composed it. Internal-process references leak the producer's world into the reader's, force them to learn machinery irrelevant to them, and — for an external reader — expose how the sausage is made where only the sausage was asked for. This is a ratified house standard, not a style preference. It is applied in [draft-the-content](../phases/04-draft-the-content.md) (draft clean) and enforced as a check in [tighten-and-verify](../phases/05-tighten-and-verify.md), and it re-applies before any publish in [deliver-and-route](../phases/06-deliver-and-route.md).
 
-`(basis: ratified house decision — USING-ANVIL §2, "artifacts are team-facing documents": anything written for a human audience carries the content and the decisions and none of the internal machinery. The producing skill strips every internal-process reference before handoff; the port publishes faithfully and adds no process metadata of its own. This is the same bar operate applies to a published incident record.)`
+`(basis: ratified house decision — "artifacts are team-facing documents": anything written for a human audience carries the content and the decisions and none of the internal machinery. The producing skill strips every internal-process reference before handoff; the port publishes faithfully and adds no process metadata of its own. This is the same bar operate applies to a published incident record.)`
 
 ## What counts as an internal-process reference
 

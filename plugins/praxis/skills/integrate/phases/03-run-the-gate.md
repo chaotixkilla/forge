@@ -19,7 +19,7 @@ The change proceeds only when every required check has concluded a **pass**, per
 
 ## Degrade when the pipeline backend is absent
 
-The hosted pipeline goes through the [ci](../../ci/SKILL.md) capability (which owns `tools.ci` — doer-owns-prerequisites; integrate declares none). If it reports the backend unavailable, **degrade**: run the local build/tests/lint as the gate and report plainly that the *hosted* pipeline was not consulted, so the caller knows the gate was narrower than a fully-configured run (the `ci` skill owns guiding the user through `init:ci`). Do not treat an unavailable pipeline as a pass — an absent gate is not a green one. `(basis: integrate's per-capability degrade — a missing pipeline narrows the gate to local checks, it never fabricates a pass; USING-ANVIL §2 doer-owns-prerequisites, mirrors review's vcs degrade.)`
+The hosted pipeline goes through the [ci](../../ci/SKILL.md) capability (which owns `tools.ci` — doer-owns-prerequisites; integrate declares none). If it reports the backend unavailable, **degrade**: run the local build/tests/lint as the gate and report plainly that the *hosted* pipeline was not consulted, so the caller knows the gate was narrower than a fully-configured run (the `ci` skill owns guiding the user through `init:ci`). Do not treat an unavailable pipeline as a pass — an absent gate is not a green one. `(basis: integrate's per-capability degrade — a missing pipeline narrows the gate to local checks, it never fabricates a pass; doer-owns-prerequisites, mirrors review's vcs degrade.)`
 
 ## Close the phase
 

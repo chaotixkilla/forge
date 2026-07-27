@@ -1,4 +1,4 @@
-# notify-stakeholders (`--notify`)
+# notify-stakeholders (`--notify[=<target>]`)
 
 Activated by `--notify`, referenced from the SKILL.md body — the flag spans phase boundaries (it fires at each status transition), so it has no single activation phase.
 
@@ -6,7 +6,7 @@ Base behavior: [communicate-status](../phases/05-communicate-status.md) composes
 
 ## The delta — push transitions at phase boundaries
 
-At each status transition — acknowledged (incident declared), mitigated, resolved (and any severity change or material impact change) — push the update out through the [communication](../../communication/SKILL.md) port to the target `--channel` (absent, the configured incident channel). The *content* and the *cadence* still come from [communicate-status](../phases/05-communicate-status.md) and [right-sized-status-updates](../rules/right-sized-status-updates.md) — this module does not decide what to say or how often; it only delivers what that phase composed, at the transitions. The audience-appropriate content bar (jargon-free for public, business framing for stakeholders) is the phase's, applied to whatever is pushed.
+At each status transition — acknowledged (incident declared), mitigated, resolved (and any severity change or material impact change) — push the update out through the [communication](../../communication/SKILL.md) port to the target named by `--notify=<target>` (absent, the configured incident channel). The *content* and the *cadence* still come from [communicate-status](../phases/05-communicate-status.md) and [right-sized-status-updates](../rules/right-sized-status-updates.md) — this module does not decide what to say or how often; it only delivers what that phase composed, at the transitions. The audience-appropriate content bar (jargon-free for public, business framing for stakeholders) is the phase's, applied to whatever is pushed. The target rides on the flag itself rather than on a companion flag of its own. (basis: context-engineering alignment pass, 2026-07-26 — one flag name must carry one shape across sibling skills, and `communicate` already declares the same operation as `--notify[=<target>]`; a separate target flag was a second name for the same input, inert on its own and guessable by nobody who had learned the sibling.)
 
 ## Prerequisite and degrade
 

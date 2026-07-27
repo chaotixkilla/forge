@@ -1,6 +1,6 @@
 # Keep callers working
 
-When you change existing code — a signature, a return shape, a default, an error mode — the code in front of you can be perfectly correct and still ship a regression, because something you can't see on screen was calling it the old way. The judgment this rule governs is how far out from the edited line your responsibility reaches. Left to taste it goes wrong by tunnel vision — a builder makes the local change work, sees green on the file in front of them, and calls it done, while a caller two modules away now passes an argument that no longer exists. Two builders left to instinct read the blast radius to different distances. This rule pins the discriminator so two builders converge on which callers must be handled before done.
+When you change existing code — a signature, a return shape, a default, an error mode — the code in front of you can be perfectly correct and still ship a regression, because something you can't see on screen was calling it the old way. The judgment this rule governs is how far out from the edited line your responsibility reaches. Left to taste it goes wrong by tunnel vision — a builder makes the local change work, sees green on the file in front of them, and calls it done, while a caller two modules away now passes an argument that no longer exists. Two builders left to instinct read the blast radius to different distances.
 
 ## The discriminator
 
