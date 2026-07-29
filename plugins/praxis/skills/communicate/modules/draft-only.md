@@ -1,12 +1,12 @@
 # draft-only (`--draft`)
 
-Activated by `--draft`, referenced from [deliver-and-route](../phases/06-deliver-and-route.md).
+Activated by `--draft`, referenced from [deliver-and-route](../phases/07-deliver-and-route.md).
 
-Base behavior: [deliver-and-route](../phases/06-deliver-and-route.md) routes the finished artifact to its resolved sink (returning it, and — under `--notify`/`--publish` — posting or publishing it). This module holds that: it stops before external routing and returns the content as an unsent draft for review. Deletion test: remove it and deliver-and-route routes normally; the flag adds a "hold before delivery" gate the base run doesn't have — so it is a module.
+Base behavior: [deliver-and-route](../phases/07-deliver-and-route.md) routes the finished artifact to its resolved sink (returning it, and — under `--notify`/`--publish` — posting or publishing it). This module holds that: it stops before external routing and returns the content as an unsent draft for review. Deletion test: remove it and deliver-and-route routes normally; the flag adds a "hold before delivery" gate the base run doesn't have — so it is a module.
 
 ## The delta — hold delivery, return for review
 
-Stop after [tighten-and-verify](../phases/05-tighten-and-verify.md), and return the finished content **marked as an unsent draft**, with a note of where it *would* have gone (the resolved form, channel, and any `--notify`/`--publish` targets). The point of `--draft` is "let me see it before anything happens," so it is authored to the same bar as a delivered artifact — clean-export applied, ask explicit, tier-pitched — it simply isn't sent. A draft returned half-finished ("I'll tighten it if you approve") defeats the purpose: the reviewer can't judge what they can't see finished.
+Stop after [tighten-and-verify](../phases/06-tighten-and-verify.md), and return the finished content **marked as an unsent draft**, with a note of where it *would* have gone (the resolved form, channel, and any `--notify`/`--publish` targets). The point of `--draft` is "let me see it before anything happens," so it is authored to the same bar as a delivered artifact — clean-export applied, ask explicit, tier-pitched — it simply isn't sent. A draft returned half-finished ("I'll tighten it if you approve") defeats the purpose: the reviewer can't judge what they can't see finished.
 
 ## Precedence — `--draft` wins over delivery
 

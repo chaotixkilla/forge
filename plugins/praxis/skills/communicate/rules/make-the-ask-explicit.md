@@ -1,6 +1,6 @@
 # Make the ask explicit
 
-The most common way an artifact fails is not being wrong — it is being ignored, because the reader could not tell they were being asked for something. A reader who isn't sure whether a message informs or requests defaults to "informs" and moves on; the response the writer expected never comes, and each blames the other. This rule makes the ask a stated element, not an inference the reader must draw. It is fixed in [frame-the-message](../phases/01-frame-the-message.md), written where the reader will act on it in [draft-the-content](../phases/04-draft-the-content.md), and checked for ambiguity in [tighten-and-verify](../phases/05-tighten-and-verify.md).
+The most common way an artifact fails is not being wrong — it is being ignored, because the reader could not tell they were being asked for something. A reader who isn't sure whether a message informs or requests defaults to "informs" and moves on; the response the writer expected never comes, and each blames the other. This rule makes the ask a stated element, not an inference the reader must draw. It is fixed in [frame-the-message](../phases/01-frame-the-message.md), written where the reader will act on it in [draft-the-content](../phases/05-draft-the-content.md), and checked for ambiguity in [tighten-and-verify](../phases/06-tighten-and-verify.md).
 
 ## The bar: who does what, by when — or explicitly nothing
 

@@ -1,6 +1,6 @@
 # Structure for scanning
 
-Almost no one reads a work artifact top to bottom; they scan for the part that concerns them, and if they can't find it in a few seconds they either read nothing or read the wrong thing. Structure is what makes an artifact navigable at a glance — and it's a different craft from ordering the content (that's [lead-with-the-takeaway](lead-with-the-takeaway.md)): ordering decides what comes first, structure decides how a skimmer *finds their part* without reading in order. It is applied while laying the skeleton in [draft-the-content](../phases/04-draft-the-content.md).
+Almost no one reads a work artifact top to bottom; they scan for the part that concerns them, and if they can't find it in a few seconds they either read nothing or read the wrong thing. Structure is what makes an artifact navigable at a glance — and it's a different craft from ordering the content (that's [lead-with-the-takeaway](lead-with-the-takeaway.md)): ordering decides what comes first, structure decides how a skimmer *finds their part* without reading in order. It is applied while laying the skeleton in [draft-the-content](../phases/05-draft-the-content.md).
 
 ## Make the skeleton legible without reading the prose
 

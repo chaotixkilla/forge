@@ -1,6 +1,6 @@
 # Preserve the why
 
-A decision recorded as only its conclusion is a decision that will be re-litigated. Six months on, no one remembers why the obvious-looking alternative was rejected, someone proposes it again, and the team re-runs the whole argument — or worse, reverses the call without knowing what it cost last time. The reasoning and the roads not taken are what survive to prevent that; the conclusion alone does not. This rule pins what a preserved why must contain. It is applied in [frame-the-message](../phases/01-frame-the-message.md) (recognizing the type owes a why) and [draft-the-content](../phases/04-draft-the-content.md) (writing it).
+A decision recorded as only its conclusion is a decision that will be re-litigated. Six months on, no one remembers why the obvious-looking alternative was rejected, someone proposes it again, and the team re-runs the whole argument — or worse, reverses the call without knowing what it cost last time. The reasoning and the roads not taken are what survive to prevent that; the conclusion alone does not. This rule pins what a preserved why must contain. It is applied in [frame-the-message](../phases/01-frame-the-message.md) (recognizing the type owes a why) and [draft-the-content](../phases/05-draft-the-content.md) (writing it).
 
 ## When the why is owed
 

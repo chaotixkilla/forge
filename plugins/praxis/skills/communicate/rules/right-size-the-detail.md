@@ -1,6 +1,6 @@
 # Right-size the detail
 
-Detail altitude is where "tailor it to the reader" most often collapses into instinct: one writer inlines every caveat and buries the point, another cuts so hard the reader can't act, and both believe they judged well. The cost is real either way — a padded artifact wastes every reader's time, a thin one fails the decision it was written for. This rule makes altitude decidable: a test that sorts every candidate detail into a tier, discriminators for the close calls, and a stopping test that says when two writers have converged. It is applied in [draft-the-content](../phases/04-draft-the-content.md) (sizing as you fill) and [tighten-and-verify](../phases/05-tighten-and-verify.md) (the cut).
+Detail altitude is where "tailor it to the reader" most often collapses into instinct: one writer inlines every caveat and buries the point, another cuts so hard the reader can't act, and both believe they judged well. The cost is real either way — a padded artifact wastes every reader's time, a thin one fails the decision it was written for. This rule makes altitude decidable: a test that sorts every candidate detail into a tier, discriminators for the close calls, and a stopping test that says when two writers have converged. It is applied in [draft-the-content](../phases/05-draft-the-content.md) (sizing as you fill) and [tighten-and-verify](../phases/06-tighten-and-verify.md) (the cut).
 
 ## The precondition
 

@@ -1,6 +1,6 @@
 # Meet the learner where they are
 
-Teaching is a distinct mode from informing, and it fails in a distinct way: the writer explains from where *they* stand — the finished mental model, all the pieces in place — and the learner, who has only some of the pieces, can't attach the new one to anything. Onboarding notes, mentoring messages, and walkthroughs that read as reference material leave the learner able to *follow* the explanation but not to *do the thing next time*. This rule is the learning-mode overlay: it layers on top of whichever audience tier the reader occupies (a peer being onboarded is a peer *in learning mode*), and it applies in [draft-the-content](../phases/04-draft-the-content.md) when [frame-the-message](../phases/01-frame-the-message.md) flagged the mode.
+Teaching is a distinct mode from informing, and it fails in a distinct way: the writer explains from where *they* stand — the finished mental model, all the pieces in place — and the learner, who has only some of the pieces, can't attach the new one to anything. Onboarding notes, mentoring messages, and walkthroughs that read as reference material leave the learner able to *follow* the explanation but not to *do the thing next time*. This rule is the learning-mode overlay: it layers on top of whichever audience tier the reader occupies (a peer being onboarded is a peer *in learning mode*), and it applies in [draft-the-content](../phases/05-draft-the-content.md) when [frame-the-message](../phases/01-frame-the-message.md) flagged the mode.
 
 ## Build from the known toward the gap
 

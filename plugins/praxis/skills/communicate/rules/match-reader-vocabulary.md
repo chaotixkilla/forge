@@ -1,6 +1,6 @@
 # Match reader vocabulary
 
-Jargon is a tool for compression among people who share it and a wall for everyone else. The same acronym that lets two peers skip a paragraph forces a newcomer to stop and look it up, and signals to an external reader that this wasn't written for them. Writers reach for their own vocabulary by default — it's what's loaded — so this rule makes vocabulary a deliberate choice keyed to the tier, not a reflex. It is applied in [draft-the-content](../phases/04-draft-the-content.md) and checked against the tier in [tighten-and-verify](../phases/05-tighten-and-verify.md).
+Jargon is a tool for compression among people who share it and a wall for everyone else. The same acronym that lets two peers skip a paragraph forces a newcomer to stop and look it up, and signals to an external reader that this wasn't written for them. Writers reach for their own vocabulary by default — it's what's loaded — so this rule makes vocabulary a deliberate choice keyed to the tier, not a reflex. It is applied in [draft-the-content](../phases/05-draft-the-content.md) and checked against the tier in [tighten-and-verify](../phases/06-tighten-and-verify.md).
 
 ## The three moves, keyed to the tier
 

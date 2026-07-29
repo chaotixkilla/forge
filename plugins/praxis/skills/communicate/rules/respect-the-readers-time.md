@@ -1,6 +1,6 @@
 # Respect the reader's time
 
-Every sentence in an artifact is read by everyone it reaches, so a wasted sentence is a tax multiplied by the audience. Hedging, throat-clearing, and redundancy feel harmless to the writer — they cost nothing to leave in — but they push the point further down, train readers that this source pads, and make a busy reader stop before the part that mattered. This rule is the word-level cut, and it sits on a clean seam with [right-size-the-detail](right-size-the-detail.md): that rule decides *which facts* the artifact carries, this one decides *how tightly each surviving fact is written*. It is applied in [tighten-and-verify](../phases/05-tighten-and-verify.md).
+Every sentence in an artifact is read by everyone it reaches, so a wasted sentence is a tax multiplied by the audience. Hedging, throat-clearing, and redundancy feel harmless to the writer — they cost nothing to leave in — but they push the point further down, train readers that this source pads, and make a busy reader stop before the part that mattered. This rule is the word-level cut, and it sits on a clean seam with [right-size-the-detail](right-size-the-detail.md): that rule decides *which facts* the artifact carries, this one decides *how tightly each surviving fact is written*. It is applied in [tighten-and-verify](../phases/06-tighten-and-verify.md).
 
 ## What to cut
 

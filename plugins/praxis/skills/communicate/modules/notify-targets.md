@@ -1,8 +1,8 @@
 # notify-targets (`--notify[=<target>]`)
 
-Activated by `--notify[=<target>]`, referenced from [deliver-and-route](../phases/06-deliver-and-route.md).
+Activated by `--notify[=<target>]`, referenced from [deliver-and-route](../phases/07-deliver-and-route.md).
 
-Base behavior: [deliver-and-route](../phases/06-deliver-and-route.md) produces the finished artifact and returns it (the record). This module additionally announces it to a communication target. Deletion test: remove it and deliver-and-route still produces and returns the artifact; the channel announcement is additive — so it is a module.
+Base behavior: [deliver-and-route](../phases/07-deliver-and-route.md) produces the finished artifact and returns it (the record). This module additionally announces it to a communication target. Deletion test: remove it and deliver-and-route still produces and returns the artifact; the channel announcement is additive — so it is a module.
 
 ## The delta — announce it through the communication port
 

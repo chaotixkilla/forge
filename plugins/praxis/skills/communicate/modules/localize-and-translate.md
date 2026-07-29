@@ -1,8 +1,8 @@
 # localize-and-translate (`--lang=<code>`)
 
-Activated by `--lang=<code>`, referenced from [draft-the-content](../phases/04-draft-the-content.md).
+Activated by `--lang=<code>`, referenced from [draft-the-content](../phases/05-draft-the-content.md).
 
-Base behavior: [draft-the-content](../phases/04-draft-the-content.md) writes the artifact in the work's default language. This module produces it in the target language instead. Deletion test: remove it and drafting still produces a complete artifact in the default language; the target-language rendering is additive — so it is a module.
+Base behavior: [draft-the-content](../phases/05-draft-the-content.md) writes the artifact in the work's default language. This module produces it in the target language instead. Deletion test: remove it and drafting still produces a complete artifact in the default language; the target-language rendering is additive — so it is a module.
 
 ## The delta — render in the target language, preserving meaning
 

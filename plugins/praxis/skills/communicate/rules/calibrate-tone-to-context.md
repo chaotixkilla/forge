@@ -1,6 +1,6 @@
 # Calibrate tone to context
 
-Register — how formal, how warm, how direct — is the layer that decides whether an artifact reads as native to its destination or as an import from somewhere else. It is genuinely house- and context-specific: there is no universal "right voice," and a model default here is the average of all writing, which reads as no one's. So this rule does not *pick* a register; it pins the order in which a register is derived, and the per-tier tone that layers on top. It is applied in [draft-the-content](../phases/04-draft-the-content.md) and checked in [tighten-and-verify](../phases/05-tighten-and-verify.md).
+Register — how formal, how warm, how direct — is the layer that decides whether an artifact reads as native to its destination or as an import from somewhere else. It is genuinely house- and context-specific: there is no universal "right voice," and a model default here is the average of all writing, which reads as no one's. So this rule does not *pick* a register; it pins the order in which a register is derived, and the per-tier tone that layers on top. It is applied in [draft-the-content](../phases/05-draft-the-content.md) and checked in [tighten-and-verify](../phases/06-tighten-and-verify.md).
 
 ## The register fork — derive it, in order
 

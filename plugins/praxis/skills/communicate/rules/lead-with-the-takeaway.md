@@ -1,6 +1,6 @@
 # Lead with the takeaway
 
-The reader decides whether to keep reading in the first sentence, and they read to find out what it means for them — not to follow the writer's path to the conclusion. An artifact that opens with background, chronology, or setup makes every reader do the work of finding the point, and the busy ones simply don't: they skim, miss the ask, and the artifact fails silently. This rule is not the slogan "put the point first" — the hard part is *finding* the point and telling it apart from the material that feels like it must come first. It is applied in [frame-the-message](../phases/01-frame-the-message.md) (fixing the takeaway) and [draft-the-content](../phases/04-draft-the-content.md) (opening with it).
+The reader decides whether to keep reading in the first sentence, and they read to find out what it means for them — not to follow the writer's path to the conclusion. An artifact that opens with background, chronology, or setup makes every reader do the work of finding the point, and the busy ones simply don't: they skim, miss the ask, and the artifact fails silently. This rule is not the slogan "put the point first" — the hard part is *finding* the point and telling it apart from the material that feels like it must come first. It is applied in [frame-the-message](../phases/01-frame-the-message.md) (fixing the takeaway) and [draft-the-content](../phases/05-draft-the-content.md) (opening with it).
 
 ## Find the takeaway: the deletion test
 

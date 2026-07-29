@@ -10,7 +10,7 @@ Under `--notify[=<target>]`, post the artifact (or a fit-for-channel summary of 
 
 ## `--publish` — publish it durably through the publish-artifact port
 
-Under `--publish`, publish the artifact as a durable, team-facing document and return its canonical location — see [publish-output](../modules/publish-output.md). The publish goes through the [publish-artifact](../../publish-artifact/SKILL.md) port, which owns the carve into a page tree and the backend; communicate hands over the **clean export** verified in [tighten-and-verify](05-tighten-and-verify.md) — the clean-export bar re-applies at the boundary, because publishing puts the artifact somewhere durable and public. The port publishes faithfully and adds no process metadata of its own.
+Under `--publish`, publish the artifact as a durable, team-facing document and return its canonical location — see [publish-output](../modules/publish-output.md). The publish goes through the [publish-artifact](../../publish-artifact/SKILL.md) port, which owns the carve into a page tree and the backend; communicate hands over the **clean export** verified in [tighten-and-verify](06-tighten-and-verify.md) — the clean-export bar re-applies at the boundary, because publishing puts the artifact somewhere durable and public. The port publishes faithfully and adds no process metadata of its own.
 
 ## `--draft` — hold delivery
 

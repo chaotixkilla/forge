@@ -1,6 +1,6 @@
 # Show, don't just tell
 
-An abstract claim asks the reader to build the picture themselves, and they build it wrong, or don't build it at all. One concrete example, a before/after, or a sample does the building for them — it out-teaches a paragraph of description because it gives the reader something to check their understanding against. This rule pins when an example is owed versus when it's padding. It is applied in [draft-the-content](../phases/04-draft-the-content.md).
+An abstract claim asks the reader to build the picture themselves, and they build it wrong, or don't build it at all. One concrete example, a before/after, or a sample does the building for them — it out-teaches a paragraph of description because it gives the reader something to check their understanding against. This rule pins when an example is owed versus when it's padding. It is applied in [draft-the-content](../phases/05-draft-the-content.md).
 
 ## When an example is owed
 
