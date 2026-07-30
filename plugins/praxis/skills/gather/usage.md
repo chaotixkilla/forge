@@ -18,5 +18,5 @@ Reach for `gather` from *inside another skill* that needs evidence gathered and 
 ## Gotchas
 - **Delegated, not user-facing.** It returns raw weighted findings (by tier, with conflicts and gaps), not a formatted deliverable — the calling skill shapes the output.
 - **It surfaces, it doesn't decide.** Conflicts and the transfer-to-this-project question are handed back flagged; gather never resolves them — the caller, which has the project context gather lacks, makes the transfer call.
-- **The knowledge backend is the caller's.** gather recruits `knowledge-base` with the backend the caller passes in; it never resolves the backend itself. Needs `tools.knowledge` configured, or it degrades to the remaining lanes.
-- **Consumers shed the prerequisite.** A skill that delegates its whole gather step to `gather` drops its own `tools.knowledge` from `config_requires` — the doer owns the prerequisite (as `spec` sheds `tools.artifacts` to `publish-artifact`).
+- **gather declares no config of its own.** Its code, repository, and web lanes are ambient; its knowledge lane reads through the `knowledge` port, which owns `tools.knowledge` and blocks without it. gather's own posture is behavioral: it catches that signal and drops the lane with an explicit note, returning a picture that shows which lanes it rests on.
+- **Consumers shed the prerequisite too.** A skill that delegates its gather step to `gather` declares no knowledge config either — the doer owns the prerequisite, and the doer here is the port (as `spec` sheds `tools.artifacts` to `publish-artifact`).

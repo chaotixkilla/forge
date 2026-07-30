@@ -9,15 +9,12 @@ metadata:
     --notify[=<target>]: after producing the artifact, announce it to a communication target through the communication capability; <target> names it, and absent one there is no default to fall back on, so the announcement is held and reported unresolved rather than sent somewhere arbitrary (activates notify-targets)
     --draft: stop after tighten-and-verify and return the content unsent — no delivery, publish, or notify (activates draft-only)
     --publish: publish the artifact as a durable team-facing document through the artifacts capability and return its canonical location (activates publish-output)
-  config_requires:
-    - key: tools.knowledge
-      if_missing: guide via init:knowledge, else degrade
 ---
 Usage & examples — when to reach for this skill, and concrete flag invocations: see [usage.md](usage.md).
 
 Each numbered step's full procedure lives in the linked phase file — read it, then carry out the step. The phases cite the rules/ craft where it applies.
 
-communicate owns the judgment — *what* to say, *to whom*, at *what altitude*, in *what form*, and *whether* to send — and delegates the mechanism: it routes messages and notifications to the `communication` port and publishes durable documents to the `publish-artifact` port, so it declares no `config_requires` for either (doer-owns-prerequisites; the ports own `tools.communication` and `tools.artifacts`). It keeps `config_requires: tools.knowledge` alone, because it reads knowledge as direct doc-context — pulling the substance and surrounding conventions it shapes into an artifact — not as a gather step (the settled §2 rule). Its block/degrade posture is behavioral, written into the phases: knowledge unavailable degrades to what the session already holds; a delivery backend unavailable degrades to returning the finished artifact for the user to send or publish by hand.
+communicate owns the judgment — *what* to say, *to whom*, at *what altitude*, in *what form*, and *whether* to send — and delegates every mechanism: it routes messages and notifications to the `communication` port, publishes durable documents to the `publish-artifact` port, and reads recorded knowledge through the `knowledge` port. So it declares **no `config_requires` at all** (doer-owns-prerequisites; those ports own `tools.communication`, `tools.artifacts`, and `tools.knowledge`). It still reaches knowledge as *direct doc-context* — pulling the substance and surrounding conventions it shapes into an artifact — rather than as a gather step (the settled §2 rule), which is why it calls that port itself instead of routing through `gather`. Its block/degrade posture is behavioral, written into the phases: knowledge unavailable degrades to what the session already holds; a delivery backend unavailable degrades to returning the finished artifact for the user to send or publish by hand.
 
 1. Frame the message: fix intent before writing — what the reader must know, decide, or do after reading, the single takeaway if they read nothing else, and the explicit ask  — see [phases/01-frame-the-message.md](phases/01-frame-the-message.md)
 2. Model the audience: profile who receives this on two axes — knowledge-proximity and role/stake — and assign the tier that sets depth, jargon, and framing  — see [phases/02-model-the-audience.md](phases/02-model-the-audience.md)

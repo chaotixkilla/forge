@@ -8,9 +8,6 @@ metadata:
     --rounds=<n>: how many lead-chasing rounds to run before returning (the fan-out phase's iteration count)
     --budget=<n>: cap the number of recruit/fetch operations and allocate across lanes by importance — activates the budget-discipline module
     --inputs-only: gather only from provided inputs and the project-internal lanes; forbid the open-web lanes — activates the inputs-only module
-  config_requires:
-    - key: tools.knowledge
-      if_missing: guide via init:knowledge, else degrade
 ---
 Usage & examples — when to reach for this skill, and concrete flag invocations: see [usage.md](usage.md).
 

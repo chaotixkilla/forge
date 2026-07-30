@@ -11,7 +11,7 @@ metadata:
 ---
 Usage & examples — when to reach for this skill, and concrete flag invocations: see [usage.md](usage.md).
 
-`--deep` widens the whole investigation (blast radius, secondary paths, corroboration depth): see [modules/deep-dive.md](modules/deep-dive.md). understand owns no backend of its own: it delegates its evidence-gathering (the locate and corroborate steps) to the `gather` skill — the doer that owns the `tools.knowledge` prerequisite — so it declares no `config_requires`.
+`--deep` widens the whole investigation (blast radius, secondary paths, corroboration depth): see [modules/deep-dive.md](modules/deep-dive.md). understand owns no backend of its own: it delegates its evidence-gathering (the locate and corroborate steps) to the `gather` skill, whose knowledge lane reads through the `knowledge` port — the doer that owns the `tools.knowledge` prerequisite — so it declares no `config_requires`.
 
 Each numbered step's full procedure lives in the linked phase file — read it, then carry out the step. The phases cite the rules/ craft where it applies.
 

@@ -36,6 +36,15 @@ import sys
 # #fragment already excluded so `file.md#L12` resolves against `file.md`.
 LINK = re.compile(r"\[[^\]]*\]\(\s*(?!https?://|mailto:|#)([^)\s#]+)")
 
+# An agent carrying no `tools:` allowlist is normally a defect: nothing at the interface holds it
+# read-only. One case is legitimate and cannot be fixed by writing a better allowlist — a lane whose
+# sources are reachable *only* through tools an allowlist categorically cannot admit, which must then
+# carry the boundary as stated discipline. That exemption is earned by documenting it, never by
+# omission: a `(basis: …)` marker that speaks to the envelope. An agent with no allowlist and no such
+# note is still a finding, so silence never buys the exemption — only an argument the next maintainer
+# can read and contest does.
+ENVELOPE_BASIS = re.compile(r"\(basis:.{0,600}?\b(allowlist|envelope)\b", re.IGNORECASE | re.DOTALL)
+
 # Authoring debris: fragments of the tool-call envelope an authoring session runs inside, left at the
 # tail of a file when a write was captured with its wrapper. Every one of these shipped to consumers
 # in this marketplace at least once — 21 files, one of them an always-resident SKILL.md — and passed
@@ -287,7 +296,8 @@ def audit_plugin(plugin_dir: str, findings: list[Finding]) -> dict:
     if os.path.isdir(agents_root):
         for af in md_files(agents_root):
             stats["agents"] += 1
-            fm = frontmatter(read(af))
+            body = read(af)
+            fm = frontmatter(body)
             stem = os.path.splitext(os.path.basename(af))[0]
             declared = fm.get("name", "")
             if not declared:
@@ -296,9 +306,15 @@ def audit_plugin(plugin_dir: str, findings: list[Finding]) -> dict:
                 findings.append(Finding("high", "frontmatter", rel(af), f"name {declared!r} != filename stem {stem!r}"))
             if not fm.get("description"):
                 findings.append(Finding("high", "frontmatter", rel(af), "agent has no `description`"))
-            if not fm.get("tools"):
+            if not fm.get("tools") and not ENVELOPE_BASIS.search(body):
                 findings.append(
-                    Finding("medium", "agent-envelope", rel(af), "no `tools:` allowlist — envelope is not enforced at the interface")
+                    Finding(
+                        "medium",
+                        "agent-envelope",
+                        rel(af),
+                        "no `tools:` allowlist and no `(basis: …)` note addressing the envelope — "
+                        "the read-only boundary is neither enforced nor argued for",
+                    )
                 )
     return stats
 

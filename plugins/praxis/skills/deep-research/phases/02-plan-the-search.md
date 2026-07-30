@@ -7,7 +7,7 @@ Choose, per sub-question, the lanes whose sources would answer it — by fit, no
 - **official-documentation** — an authoritative, version-matched contract (what an API guarantees, a config's real defaults). The lane for "what does X officially do."
 - **authoritative-literature** — papers, standards, and books; the strongest tier for a settled-knowledge or methodological question.
 - **community-practices** — how practitioners actually solved it and the pitfalls they hit; the lane for "does this hold up in practice."
-- **knowledge-base** — org-internal prior art: prior research, RFCs, runbooks, and the history and decisions behind a feature (what, when, who). Reached through the [gather](../../gather/SKILL.md) port *when a knowledge backend is configured* — gather owns `tools.knowledge`. Often the highest-value lane for a question about your own systems; when no backend is set, gather drops the lane with a note, so its absence degrades the run, never blocks it.
+- **knowledge-base** — org-internal prior art: prior research, RFCs, runbooks, and the history and decisions behind a feature (what, when, who). Reached through the [gather](../../gather/SKILL.md) port *when a knowledge backend is configured* — the [knowledge](../../knowledge/SKILL.md) port owns `tools.knowledge`. Often the highest-value lane for a question about your own systems; when no backend is set, gather drops the lane with a note, so its absence degrades the run, never blocks it.
 
 Lead each sub-question with the lane that would yield its strongest source ([weight-by-source-strength](../rules/weight-by-source-strength.md)): a guaranteed-behavior question leads with official-documentation; a "scales in practice" question pairs authoritative-literature with community-practices.
 

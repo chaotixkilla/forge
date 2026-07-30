@@ -2,7 +2,7 @@ A design that isn't anchored to the real system is fiction — it reasons about 
 
 ## Locate the blast radius
 
-Find the modules, services, and data the change will touch — directly and one hop out (the callers of what you change, the consumers of the data you reshape). This is a cross-lane investigation, so **delegate it to the `gather` skill** rather than reading in one dimension: `gather` recruits the fleet in parallel — the `code` lane for how the affected surfaces actually behave, `knowledge-base` for the documented architecture, invariants, and interfaces, and `repository` for the history (why it is this way, what was tried before, what got reverted). Take back its weighted, anchored picture; plan owns what to do with it, `gather` owns the fan-out (and owns the `tools.knowledge` prerequisite, which is why plan declares none).
+Find the modules, services, and data the change will touch — directly and one hop out (the callers of what you change, the consumers of the data you reshape). This is a cross-lane investigation, so **delegate it to the `gather` skill** rather than reading in one dimension: `gather` recruits the fleet in parallel — the `code` lane for how the affected surfaces actually behave, `knowledge-base` for the documented architecture, invariants, and interfaces, and `repository` for the history (why it is this way, what was tried before, what got reverted). Take back its weighted, anchored picture; plan owns what to do with it, `gather` owns the fan-out, and its knowledge lane reads through the [knowledge](../../knowledge/SKILL.md) port, which owns the `tools.knowledge` prerequisite — which is why plan declares none.
 
 ## Read the local norms and the constraints they impose
 

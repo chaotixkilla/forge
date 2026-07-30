@@ -26,7 +26,7 @@ Convert a spec into a buildable design — anchored to the real system, with con
 `--from-spec=<path> --deep --critics=3` — the heavyweight combination for a design that has to be right the first time: authoritative spec in, wide exploration, multiple critics.
 
 ## Gotchas
-- plan declares **no config of its own**. Its evidence-gathering (blast radius in phase 1, prior art in phase 2, hard-flow literature in phase 4) is delegated to the `gather` skill, which owns `tools.knowledge` and degrades to its remaining lanes if the knowledge backend is unconfigured — so the documented architecture/invariants won't feed the design, but code/repository/web lanes still do.
+- plan declares **no config of its own**. Its evidence-gathering (blast radius in phase 1, prior art in phase 2, hard-flow literature in phase 4) is delegated to the `gather` skill, whose knowledge lane reads through the `knowledge` port (the owner of `tools.knowledge`), and which degrades to its remaining lanes if the knowledge backend is unconfigured — so the documented architecture/invariants won't feed the design, but code/repository/web lanes still do.
 - `--publish` delegates wholesale to `publish-artifact`, which owns `tools.artifacts` and guides you through `init:artifacts` if it's unconfigured; without a backend the plan is still produced and returned locally, just not sent anywhere.
 - This is design, not requirements-gathering and not building. It assumes the *what* is settled — if the spec is thin, plan will surface the gaps but won't invent the missing intent for you.
 - The rejected-alternatives record (phase 2) is deliberate, not busywork — it's the part of the design that ages well and answers "why not X?" six months later.
