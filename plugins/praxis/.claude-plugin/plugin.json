@@ -1,7 +1,7 @@
 {
   "name": "praxis",
   "description": "Codifies engineering/SDLC processes — spec, plan, and more — as skills and subagents.",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "author": {
     "name": "Sergio Salgado",
     "email": "sergiodiassalgado@gmail.com"

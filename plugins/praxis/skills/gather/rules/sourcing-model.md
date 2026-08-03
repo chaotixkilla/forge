@@ -3,7 +3,7 @@ This is the model gather applies to weigh findings from different lanes into one
 ## The three tiers
 - **Authoritative** — `official-documentation` (the vendor/maintainer contract; authoritative because the owner would publish the correction) and `authoritative-literature` (standards, specs, peer-reviewed results, definitive books; authoritative because the spec *is* the behavior or the result survived scrutiny).
 - **Anecdotal** — `community-practices` (forums, issues, blogs, Q&A; real signal about friction and pitfalls, weighted below authority).
-- **Project-internal ground truth** — `code` (what the code does, anchored file:line), `repository` (why it is that way — history, reverts, intent, anchored to commits/PRs), and `knowledge-base` (human-authored org docs from a caller-passed backend).
+- **Project-internal ground truth** — `code` (what the code does, anchored file:line), `repository` (why it is that way — history, reverts, intent, anchored to commits/PRs), and `knowledge-base` (human-authored org docs from the configured knowledge backend).
 
 ## How the tiers compose
 1. **Authority over anecdote.** On conflict the more-authoritative source wins; corroboration across INDEPENDENT origins raises confidence but never promotes anecdote into authority — count origins not posts (the discipline is [corroborate-across-independent-origins](corroborate-across-independent-origins.md)).
