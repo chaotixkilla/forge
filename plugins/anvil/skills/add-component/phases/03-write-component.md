@@ -47,6 +47,17 @@ For either kind, if the body encodes a real *process* — multiple decision poin
 
 A hook fires on a harness lifecycle event. Write the handler for the concern this hook owns and keep it scoped to *this plugin* — a hook that reaches outside its plugin's business is a packaging risk and a surprise to consumers. The body says what to do when the event fires, and it must state its **failure posture** explicitly: when the hook's check fails, does it block the event or warn past it? That one line is the hook's most consequential decision — a blocking hook that should have warned halts a consumer's work; a warning hook that should have blocked lets the very thing it guards against through — so never leave it implicit for the harness's default to decide. Phase 4 binds the file to the event in the plugin's hooks manifest (the file is inert until then). Pick the event that matches the concern — a check that should run as work is authored binds to an authoring-time event; a guard that should run before an action binds to that action's pre-event — and write the handler to do one thing well at that moment.
 
+## Under `--extend` — revise the body that is already there
+
+The kind sections above say what an adequate body holds. Under `--extend` they are unchanged: **the merged file is held to exactly the same bars as a newly written one, and it is the merged file that is judged, never the delta.** A small edit that leaves the body short of its kind's bar has not passed because the edit was small.
+
+Two disciplines are specific to editing:
+
+- **Lift, don't rewrite.** Preserve every part of the existing body that already clears its bar, and raise only what falls short — the same discipline [codify](../../codify/SKILL.md) states for its regenerate lane, which governs here unchanged rather than being restated. Discarding conformant content to recompose from scratch is this lane's failure mode, and it is invisible in the result: a rewritten body reads well while quietly having dropped the one exception a previous maintainer put there on purpose.
+- **Run the gate on the result.** An extend that writes prose and stops is hand-authoring with a procedure around it, which is the failure this lane exists to end. Recruit the **cold-executor**, **standards-skeptic**, and **economy-skeptic** critics on the merged body and close what they raise, looping until a pass over the current text raises nothing — the same three lenses codify's validation runs, reached by recruiting the critics directly because codify targets a skill and a component is not one. Without fan-out, apply each lens yourself in a deliberately amnesiac pass. `(basis: derived — the gap this lane closes was a component body edited with no gate at all; giving the lane a procedure but no verification would move the defect rather than fix it, and these three are the kit's existing answer for authored prose.)`
+
+An extend that changes only a citation or a flag name is wiring, not a body edit — it does not need this lane.
+
 ## Across every kind
 
 Keep the body minimal and earned — the scaffolding-skeptic lens applies to component bodies too: no speculative sections, no behavior the component wasn't asked for. Write into the mirrored shape from phase 2 so the file reads as family. Under `--dry-run`, compose nothing to disk: report the body you *would* write and the path it lands at, then stop. Then carry the finished file into phase 4, which makes it live by wiring it where it's consumed.

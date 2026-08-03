@@ -9,6 +9,7 @@ metadata:
     --name=<name>: the component's filename; for an adapter, defaults to --tool
     --skill=<skill>: for adapter/rule/module — which skill the component attaches to
     --tool=<provider>: for adapter — the provider/transport it wraps (the only place a concrete tool is named)
+    --extend: change the component that already lives at this name, instead of creating one — the edit lane for a component body
     --dry-run: show what would be created without writing
 ---
 Usage & examples — when to reach for this skill, and concrete flag invocations: see [usage.md](usage.md).

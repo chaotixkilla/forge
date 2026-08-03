@@ -30,6 +30,12 @@ A rule is a-la-carte craft, not gated behavior. Living in `rules/` and being cit
 
 A hook file is inert until the plugin's hooks manifest points at it, bound to a lifecycle event. Add that entry at the right event; without it the harness never loads the hook, and the file is just documentation.
 
+## Under `--extend` — confirm the wiring, don't re-add it
+
+A component that already existed is already registered, so this phase **verifies rather than adds**: confirm the dispatch, recruit reference, activating flag, or manifest entry the kind owes is still present and still correct. Adding a second one is the duplicate this phase exists to prevent.
+
+One case does need a write: an extend that *changed what the component is* — an agent given a new lane, a module whose flag was renamed, an adapter that now serves an operation it did not before — can leave the existing wiring accurate about the old body and wrong about the new one. Re-read the registration against the body you just wrote, not against the body you found.
+
 ## Finish — report, and honor `--dry-run`
 
 Report the full change set: the component file plus every parent-skill file you touched to wire it — dispatch line, recruit reference, flag declaration, manifest entry. The maintainer reviews the change as a whole, so a partial list is worse than none. Under `--dry-run`, produce that exact report — every file and registration that *would* be written — and write nothing. A dry run is a faithful preview, never a half-applied change.

@@ -27,7 +27,14 @@ Explorers, critics, and hooks take no `--skill` — they're plugin-wide and bind
 
 ## Confirm it doesn't already exist
 
-Send the plugin explorer to read the resolved home. If a file by that name is already there, do not clobber it — stop and surface the choice: extend the existing component, pick a different name, or abort. Silently overwriting is the worst outcome, because the maintainer loses authored work with no diff to recover it from. Reading the home now also feeds the next phase, which mirrors whatever siblings already live there.
+Send the plugin explorer to read the resolved home, then branch on **whether the collision was intended** — which the executor does not infer from context, it reads from the invocation:
+
+- **`--extend` given** — the maintainer means to change the component that is already there. This is the edit lane, not a collision: proceed, and phase 3 revises the existing body instead of composing a new one. If `--extend` is given and *no* file exists at that name, stop and say so rather than silently creating one — an extend that finds nothing is a wrong `--name` or a wrong home, and creating the file would hide the mistake behind a plausible result.
+- **`--extend` absent** — treat an existing file as a genuine collision. Do not clobber it: stop and surface the choice — re-run with `--extend` to change it, pick a different name, or abort. Silently overwriting is the worst outcome, because the maintainer loses authored work with no diff to recover it from.
+
+Intent is read from the flag rather than asked, because this skill is dispatched programmatically as often as it is invoked by hand — a lane that resolves the ambiguity by asking cannot be reached by a caller that has no one to answer. `(basis: derived — the collision guard already named extending as a legitimate outcome while offering no lane that performs it, so the gap was a missing branch, not a missing question; a flag is the only discriminator a dispatching caller can supply.)`
+
+Reading the home now also feeds the next phase, which mirrors whatever siblings already live there.
 
 Anti-pattern: resolving the home from `--kind` but skipping the existence check, then having phase 3 overwrite a sibling. The check costs one read and prevents the one truly destructive failure this skill can cause.
 
