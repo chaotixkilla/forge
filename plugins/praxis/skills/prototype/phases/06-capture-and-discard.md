@@ -15,6 +15,10 @@ Assemble what survives the spike into one findings blob:
 
 By default, **return the blob to the caller** — prototype composes nothing downstream. With **`--publish`**, hand it wholesale to the artifacts capability as a clean, team-facing findings document — see [publish-learnings](../modules/publish-learnings.md). `(basis: ratified by the maintainer, 2026-07-09 — leaf by default; opt-in --publish delegates wholesale to publish-artifact, which owns the artifacts prerequisite, so prototype stays config-less. A direct memory/knowledge sink was rejected: it would need its own adapter and config_requires and break the config-less directive.)`
 
+## Before it goes out, read it as its reader
+
+Put the finished report through [deliver-at-the-readers-register](../../communicate/rules/deliver-at-the-readers-register.md) before delivering it: take from that rule the obligations this phase has not already settled for itself, and apply its honesty floor to the result. A run with no register to write to falls back on the only vocabulary it has loaded — this procedure's own — which is how a report comes out accurate and unreadable. Read the floor from the rule item by item rather than from memory — the passages it protects are exactly the ones that read as padding to anyone not checking whether the claim is true — and let its carve-out for named levels and verdict values hold the graded rungs and status names this skill defines and reports on.
+
 ## Dispose of the code explicitly — never by default
 
 Make a deliberate disposition of the spike code; do not leave it lying around to accrete commits:

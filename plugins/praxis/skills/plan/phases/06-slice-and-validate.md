@@ -18,6 +18,12 @@ A design is **closed / buildable** when all of these hold — check them explici
 
 Do **not** substitute Scrum's Definition of Done (that is "increment shipped", downstream of this handoff) or a full IEEE-1016 design document (documentation completeness, not buildability) for this bar unless the domain contractually requires the formal artifact.
 
+## Before it goes out, read it as its reader
+
+Put the finished report through [deliver-at-the-readers-register](../../communicate/rules/deliver-at-the-readers-register.md) before delivering it: take from that rule the obligations this phase has not already settled for itself, and apply its honesty floor to the result. A run with no register to write to falls back on the only vocabulary it has loaded — this procedure's own — which is how a report comes out accurate and unreadable. Read the floor from the rule item by item rather than from memory — the passages it protects are exactly the ones that read as padding to anyone not checking whether the claim is true — and let its carve-out for named levels and verdict values hold the graded rungs and status names this skill defines and reports on.
+
+**And a visual where prose would carry it worse.** Where what this report describes alters a *structure* — a shape, a flow, a set of relationships — show it rather than describing it, per `output.diagrams` (`when-structural` by default — [report-style-settings](../../init/rules/report-style-settings.md)) and the judgment in [when-a-visual-is-owed](../../communicate/rules/when-a-visual-is-owed.md), which decides whether one is genuinely owed here. A visual is earned by what the subject *is*, never by how long the prose ran: it stands in for the paragraph that would have described the shape, and it is decoration the moment it sits beside that paragraph instead.
+
 ## Flag residual risk, stress-test, and hand off
 
 Flag the known unknowns that remain and what needs a spike or throwaway prototype *before* committing to build — the design can be closed on paper and still name a risk that a small experiment should retire first. Run the final perspective-diverse critic panel on the closed design and fold surviving objections back in; `--critics=<n>` sets how many lenses attack it ([adversarial-critics](../modules/adversarial-critics.md)). When invoked with `--publish`, hand the finished design to [publish-handoff](../modules/publish-handoff.md) as a clean, team-facing document — the design and its decisions, stripped of all praxis machinery.

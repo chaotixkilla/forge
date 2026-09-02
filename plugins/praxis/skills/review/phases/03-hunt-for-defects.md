@@ -18,6 +18,8 @@ For each behavior the change introduces or alters, ask "how does this break?" ac
 
 ## Judge across the blast radius, and label confidence honestly
 
+Where a candidate turns on what the code *does* at run time rather than what it says — a dependency's actual return, a pattern's actual match, an ordering — settle it with a scratch probe instead of another read, within the bounds [confirm-before-claiming](../rules/confirm-before-claiming.md) sets on one. This applies to the change's own stated claims as much as to your suspicions.
+
 A changed function being locally correct is useless if the change broke a caller that relied on the old contract, so carry each candidate out through its radius ([read-the-diff-in-its-blast-radius](../rules/read-the-diff-in-its-blast-radius.md)) to the depth the effort allows. Before recording a candidate as a defect, confirm it — the failing input exists, the path is reachable, and no guard one frame up already handles it ([confirm-before-claiming](../rules/confirm-before-claiming.md)) — and tag it with the confidence the evidence earns (confirmed / probable / speculative, per [calibrate-confidence-to-effort](../rules/calibrate-confidence-to-effort.md)). Keep only correctness here: if you cannot name an input where the code is wrong, it is a craft finding, not a defect — hold it for the next pass ([separate-correctness-from-taste](../rules/separate-correctness-from-taste.md)). Anchor every candidate to its `file:line` and failing scenario as you record it ([anchor-every-finding-to-evidence](../rules/anchor-every-finding-to-evidence.md)); an unanchored candidate cannot be triaged.
 
 ## Recruit an adversary at high effort

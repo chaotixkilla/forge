@@ -39,6 +39,10 @@ State the [coverage-adequacy](../rules/coverage-adequacy.md) level and name ever
 
 Two cold runs must produce a report of the same character. The verdict carries: the framed claim and its pass condition; the verdict value against it (PASS / FAIL / INCONCLUSIVE); each in-claim genuine failure with its reproduction; out-of-claim genuine failures (pre-existing / attribution-unestablished) listed separately; flakes and environment noise listed separately; the coverage-adequacy level with its named gaps and residual risk; and — under `--from-spec` — per-criterion status. `(basis: a pinned report shape is what makes two cold runs' verdicts comparable — the recurring output-shape lesson from review's phase-06 and prototype's verdict output.)`
 
+## Before it goes out, read it as its reader
+
+Put the finished report through [deliver-at-the-readers-register](../../communicate/rules/deliver-at-the-readers-register.md) before delivering it: take from that rule the obligations this phase has not already settled for itself, and apply its honesty floor to the result. A run with no register to write to falls back on the only vocabulary it has loaded — this procedure's own — which is how a report comes out accurate and unreadable. Read the floor from the rule item by item rather than from memory — the passages it protects are exactly the ones that read as padding to anyone not checking whether the claim is true — and let its carve-out for named levels and verdict values hold the graded rungs and status names this skill defines and reports on.
+
 ## Output
 
 The verdict — test's whole deliverable. test **does not fix** (a genuine failure hands off to develop or debug) and **does not drive the live app** (that is [verify](../../verify/SKILL.md)); it returns the verdict to its caller.

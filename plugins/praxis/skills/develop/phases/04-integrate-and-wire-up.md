@@ -8,7 +8,7 @@ Connect each new unit to the entry point phase 1 identified: the caller, route, 
 
 ## Keep every caller working
 
-When the change altered an existing contract — a signature, a return shape, an invariant, an error mode — the change is not done until **every caller is migrated or confirmed unaffected** ([keep-callers-working](../rules/change-hygiene/keep-callers-working.md)). Find the callers (the code explorer, or a usage search) and carry the change out through its blast radius; a locally-correct change that silently breaks a caller is a regression, not an integration. This is the reverse-dependency reading orient set up.
+When the change altered an existing contract — a signature, a return shape, an invariant, an error mode — the change is not done until **every caller is migrated or confirmed unaffected** ([keep-callers-working](../rules/change-hygiene/keep-callers-working.md)). Find the callers (the code explorer, or a usage search) and carry the change out through its blast radius; a locally-correct change that silently breaks a caller is a regression, not an integration. This is the reverse-dependency reading orient set up. When carrying the change through that radius turns out to reach materially further than the task implied — a migration across callers the task never mentioned — that is the escalation case, not a bigger day's work: put it to the user before migrating ([orient-in-the-code](01-orient-in-the-code.md)).
 
 ## Get the boundaries right where the change meets the rest of the system
 

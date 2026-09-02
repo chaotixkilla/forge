@@ -22,6 +22,10 @@ Deliver the covered, ordered unit set to the sink the caller chose — the three
 
 **Degraded case:** when `--ticket` is asked for but the project_mgmt backend is unavailable, do not block — fall back to `--checklist` (or, failing that, `--plan-only`) and tell the caller the requested tracker could not be reached and what was emitted instead ([emit-tickets](../modules/emit-tickets.md) owns this degrade). The decomposition still lands; only the sink narrows.
 
+## Before it goes out, read it as its reader
+
+Put the finished report through [deliver-at-the-readers-register](../../communicate/rules/deliver-at-the-readers-register.md) before delivering it: take from that rule the obligations this phase has not already settled for itself, and apply its honesty floor to the result. A run with no register to write to falls back on the only vocabulary it has loaded — this procedure's own — which is how a report comes out accurate and unreadable. Read the floor from the rule item by item rather than from memory — the passages it protects are exactly the ones that read as padding to anyone not checking whether the claim is true — and let its carve-out for named levels and verdict values hold the graded rungs and status names this skill defines and reports on.
+
 ## The terminal outcome
 
 This phase completes the run's terminal-outcome partition opened in [ingest-the-source](01-ingest-the-source.md): a run that reached here resolves to **`decomposed`** — the covered, ordered unit set, emitted to a sink (the requested one, or its fallback if the requested one degraded; the degrade is noted, but the outcome is still `decomposed`). The only other terminal outcome, **`routed-back`**, is reached earlier, at the readiness gate, and never here — by the time a run reaches coverage it has units to deliver. The two outcomes are exhaustive (every run either had a decomposable source and lands `decomposed`, or did not and was `routed-back` at ingest) and mutually exclusive (a run stopped at the readiness gate never reaches this phase).

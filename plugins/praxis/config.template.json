@@ -9,6 +9,12 @@
     "communication": { "provider": "slack | teams", "transport": "mcp | api", "secret_ref": "" },
     "telemetry":     { "provider": "datadog | sentry | grafana | …", "transport": "mcp | api", "secret_ref": "" }
   },
+  "output": {
+    "brief":     true,
+    "diagrams":  "when-structural",
+    "verbosity": "terse",
+    "comments":  "why-only"
+  },
   "me": "",
   "teams": {},
   "team": [

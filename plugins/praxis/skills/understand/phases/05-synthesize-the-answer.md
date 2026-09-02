@@ -13,6 +13,10 @@ Render the map in a fixed shape, so two runs are comparable:
 
 `(basis: the record shape is the minimum a reader needs to act on and re-verify a map — the claim, its certainty, and its anchor — mirroring review's pinned finding shape (grade · what · where); pinning it is what makes two cold investigations format alike.)`
 
+## Before it goes out, read it as its reader
+
+Put the finished map through [deliver-at-the-readers-register](../../communicate/rules/deliver-at-the-readers-register.md) before delivering it: take from that rule the obligations this phase has not already settled for itself, and apply its honesty floor to the result. A run with no register to write to falls back on the only vocabulary it has loaded — this procedure's own — which is how a map comes out accurate and unreadable. Read the floor from the rule item by item rather than from memory — the passages it protects are exactly the ones that read as padding to anyone not checking whether the claim is true — and let its carve-out for named levels and verdict values hold the graded rungs and status names this skill defines and reports on. Classify this deliverable on that rule's fork before any cut: its shape invites the guidance default, and the honesty floor is what a wrong classification reaches first.
+
 ## Confirm the question is answered, then stop
 Confirm the stopping test holds ([stop-when-answered](../rules/stop-when-answered.md)): every claim the question requires is at or above its target rung and no open divergence would change the answer. If a load-bearing claim is still below its target rung, that is a signal to trace more, not to ship the gap unflagged — or, when the rung is genuinely unreachable (e.g. *observed* under `--read-only`), state the cap. When the test holds, return the map.
 

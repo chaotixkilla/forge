@@ -38,6 +38,10 @@ Any of these → **blocked-and-reported**: report what blocked and what would un
 
 The two questions partition every run: it either landed (Q1) or it didn't; if it landed, it either carries change-made-necessary follow-up work (Q2) or it doesn't.
 
+## Before it goes out, read it as its reader
+
+Put the finished report of the change through [deliver-at-the-readers-register](../../communicate/rules/deliver-at-the-readers-register.md) before delivering it: take from that rule the obligations this phase has not already settled for itself, and apply its honesty floor to the result. A run with no register to write to falls back on the only vocabulary it has loaded — this procedure's own — which is how a report comes out accurate and unreadable. Read the floor from the rule item by item rather than from memory — the passages it protects are exactly the ones that read as padding to anyone not checking whether the claim is true — and let its carve-out for named levels and verdict values hold the graded rungs and status names this skill defines and reports on.
+
 ## Stop at the handoff
 
 The clean, recorded diff is the end of maintain's mandate. Judging it is [review](../../review/SKILL.md)'s job; landing it into the trunk is [integrate](../../integrate/SKILL.md)'s. Do not review or merge your own work here.

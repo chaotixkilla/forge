@@ -8,10 +8,11 @@ Build in the order phase 1 carried forward. When you set the order yourself (a s
 
 ## Write each slice applying the craft-library
 
-The rules under `rules/` are the in-the-moment judgments woven into writing — an open, seeded library of 43 across 10 families. What follows is a **routing table, not a checklist**: each entry leads with the situation that puts it in play, so you can decide from this page alone which two or three a slice needs, and open only those. Most slices trigger a handful. A slice that triggers none needs none — that is a valid outcome, not a skipped step.
+The rules under `rules/` are the in-the-moment judgments woven into writing — an open, seeded library of 44 across 10 families. What follows is a **routing table, not a checklist**: each entry leads with the situation that puts it in play, so you can decide from this page alone which two or three a slice needs, and open only those. Most slices trigger a handful. A slice that triggers none needs none — that is a valid outcome, not a skipped step.
 
 **Before you write it**
 - A helper for this may already exist → [reuse-before-writing](../rules/reuse/reuse-before-writing.md) (the first search happened in orient)
+- A dependency almost does what you need and the last piece doesn't fit → [exhaust-the-documented-path](../rules/reuse/exhaust-the-documented-path.md)
 - New code that more than one caller will want → [put-shared-code-at-the-right-home](../rules/reuse/put-shared-code-at-the-right-home.md)
 - You're tempted to make it general "for later" → [avoid-premature-abstraction](../rules/abstraction/avoid-premature-abstraction.md)
 - The slice needs a shape to hold its data → [choosing-the-right-data-structure](../rules/data-and-types/choosing-the-right-data-structure.md)
@@ -60,6 +61,8 @@ Reach for a rule when its situation appears; the point is that the judgment is m
 A slice is not done when it compiles or when you believe it works — it is done when it is a **verified slice** per [verified-slice](../rules/verified-slice.md): its behavior was exercised on the loop and the loop passed, *and* nothing in the baseline-green set regressed. "Green" (and the baseline it's measured against) is defined there; hold to it. A slice you cannot get green is a **red slice**, and the hand-off test is *where the fault lives*, not how long you've tried: if the cause is in the lines this slice changed, fix it and re-verify; if it isn't localizable to this slice's own diff, stop and hand off to `debug` rather than thrashing (`--until=red` makes this an explicit stop). Never build the next slice on an unverified one; the whole point of slicing is lost the moment failures can accumulate across two.
 
 ## Recruit the simplicity-hawk, checkpoint, and stop conditions
+
+A slice can also surface a decision that is not yours to close alone — a substitute for behavior a dependency was meant to provide, or a footprint outgrowing the task. Apply the third branch of the decide-or-route test ([orient-in-the-code](01-orient-in-the-code.md)) as it arises, rather than banking it for the final report: its whole value is being asked before the next slice builds on the answer.
 
 - **Challenge for accidental complexity.** On a non-trivial slice — one that introduces an abstraction, adds branching, or touches more than a localized one-spot edit — recruit the **simplicity-hawk critic** to attack what isn't pulling its weight — premature abstraction, speculative generality, a structure a simpler one would beat. Without fan-out, apply the lens yourself: before accepting a slice, ask what in it could be deleted or flattened. Fold surviving objections back in before the slice is called green.
 - **Checkpoint at slice boundaries.** With `--checkpoint-commit`, record a commit at each verified-slice boundary — see [checkpoint-commit](../modules/checkpoint-commit.md) (which also carries the commit-granularity fork). A verified slice is exactly the right commit boundary: recoverable progress, and history that reads as the build.

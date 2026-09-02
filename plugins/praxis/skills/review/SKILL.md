@@ -9,8 +9,9 @@ metadata:
     --comment: publish findings back through the vcs capability instead of returning them locally
     --inline: with --comment, anchor each finding to its exact line rather than one summary comment
     --fix: apply the accepted findings to the working tree as edits
-    --lenses=<list>: restrict the defect and craft passes to a named subset of these eleven — correctness: logic, boundary, error-paths, concurrency, security, resource-safety, data-integrity; craft: reuse, simplification, efficiency, altitude
+    --lenses=<list>: restrict the defect and craft passes to a named subset of these twelve — correctness: logic, boundary, error-paths, concurrency, security, resource-safety, data-integrity; craft: reuse, simplification, efficiency, altitude, comments
     --severity-min=<level>: drop findings below this severity before delivery
+    --typed: also emit the findings to the harness's typed finding channel as structured records, alongside the report (activates typed-findings)
     --gate: turn the review into a pass/fail check that exits non-zero on findings at or above the floor
 ---
 Usage & examples — when to reach for this skill, and concrete flag invocations: see [usage.md](usage.md).

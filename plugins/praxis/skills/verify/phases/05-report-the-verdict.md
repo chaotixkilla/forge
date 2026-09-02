@@ -51,6 +51,10 @@ verify's deliverable is the verdict, and it repairs nothing: a run that turns it
 
 **When invoking a sibling skill is not available in this context** — a lone executor with no way to hand anything off — the report names the invocation that should be made against each specific finding, and stops there. Naming the handoff discharges the obligation; doing the other skill's work in its place does not.
 
+## Before it goes out, read it as its reader
+
+Put the finished report through [deliver-at-the-readers-register](../../communicate/rules/deliver-at-the-readers-register.md) before delivering it: take from that rule the obligations this phase has not already settled for itself, and apply its honesty floor to the result. A run with no register to write to falls back on the only vocabulary it has loaded — this procedure's own — which is how a report comes out accurate and unreadable. Read the floor from the rule item by item rather than from memory — the passages it protects are exactly the ones that read as padding to anyone not checking whether the claim is true — and let its carve-out for named levels and verdict values hold the graded rungs and status names this skill defines and reports on.
+
 ## Output
 
 The verdict, returned to the caller: the headline with its unit set, its environment, and its un-driven set — or, for an empty unit set, the run-level terminal outcome in its place; the per-unit levels with their scope, or per-requirement status under `--from-spec` with unobserved requirements called out and any driven-but-unmapped flow in its own section; a reproduction-bearing finding for every defect, with environment faults, pre-existing defects, and not-established failures labelled as such; usability findings in their own section; and the named handoff for each finding.

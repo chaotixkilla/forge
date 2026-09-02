@@ -1,6 +1,6 @@
 ---
 name: init
-description: Detect and fill the per-project praxis config — the tools map and team roster — proposing every inference for confirmation and asking only where the environment is silent.
+description: Detect and fill the per-project praxis config — the tools map, team roster, and report-style settings — proposing every inference for confirmation and asking only where the environment is silent.
 metadata:
   flags:
     --phase=<name|n>: run one section of setup in isolation — a capability-slot key, a phase name (`tools`/`team`), or an ordinal; this is the target `init:<cap>` resolves to (see modules/single-phase.md)
@@ -17,4 +17,4 @@ Each numbered step's full procedure lives in the linked phase file — read it, 
 1. Detect the environment: read the cheap signals once, grade each, and stage proposals — commit nothing yet  — see [phases/01-detect-environment.md](phases/01-detect-environment.md)
 2. Resolve the tools: walk the seven capability slots — provider, transport, per-category fields, secret reference — proposing inferences and asking gaps  — see [phases/02-resolve-tools.md](phases/02-resolve-tools.md)
 3. Resolve the team: fill `me`, the `team[]` roster, and `teams`, asking for ownership and reviewer status the environment can't know  — see [phases/03-resolve-team.md](phases/03-resolve-team.md)
-4. Write and validate: emit the config preserving shape + version (a scoped run merges), then check every slot is resolved and no placeholder remains  — see [phases/04-write-and-validate.md](phases/04-write-and-validate.md)
+4. Write and validate: emit the config preserving shape + version (a scoped run merges, and the `output` style section is carried not resolved), then check every slot is resolved and no placeholder remains  — see [phases/04-write-and-validate.md](phases/04-write-and-validate.md)
