@@ -7,12 +7,10 @@ The base review is informational — it delivers findings and the reader decides
 ## The delta
 
 - **Compute a status from the floored list.** After triage, if any finding remains at or above the gate floor, the review **fails**; otherwise it **passes**. Exit accordingly (non-zero on fail), so a pipeline can block on it.
-- **Read the same triaged findings the report shows** — gating does not re-judge or re-grade; it thresholds the list [triage-and-rank](../phases/05-triage-and-rank.md) already produced against [severity-scale](../rules/severity-scale.md). Composition with `--comment` and `--fix` is defined in [deliver-findings](../phases/06-deliver-findings.md) — with `--fix`, the status is computed against what *remains* after fixing.
+- **Read the same triaged findings the report shows** — gating does not re-judge or re-grade; it thresholds the list [triage-and-rank](../phases/05-triage-and-rank.md) already produced against [severity-scale](../rules/severity-scale.md). Composition with `--typed` is defined in [deliver-findings](../phases/06-deliver-findings.md).
 
 ## The gate floor
 
-The floor is `--severity-min` when the caller sets one. When they don't, the gate needs a default floor to threshold against:
+The floor is `--severity-min` when the caller sets one, and an explicit `--severity-min` always overrides the default. When they don't set one, the floor is **high**: the gate blocks on high and critical findings and treats medium and below as advisory. A lower floor makes the gate noisy enough that teams disable it; a higher one lets landing-blocking bugs through. `(basis: maintainer, 2026-07-02)`
 
-`(basis: ratified by the maintainer, 2026-07-02. Default gate floor = high — the gate blocks on high and critical findings, treating medium and below as advisory; a floor below high makes the gate noisy (teams disable it), a floor above high lets landing-blocking bugs through. An explicit --severity-min always overrides this default.)`
-
-An explicit `--severity-min` always overrides the default. State the floor in the gate's output either way, so a failed check tells the reader *what* threshold it failed against, not just that it failed.
+State the floor in the gate's output either way, so a failed check tells the reader *what* threshold it failed against, not just that it failed.

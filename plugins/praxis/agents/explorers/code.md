@@ -24,6 +24,8 @@ Each finding: the behavior, in one line; its anchor (`path:line`, exact enough t
 - Good: "`src/gate/resolve.ts:88` — `resolvePrereqs` returns early when `cfg.tools` is undefined, so a missing config silently skips every prerequisite (path-confirmed: traced from the sole caller at `gate/run.ts:41`)."
 - Bad: "Prerequisite resolution handles missing config." — no anchor, no grade, not checkable; reads authoritative while proving nothing.
 
+Close the return with **key files**: up to eight files a caller should open itself before deciding on these findings, most important first, each with one clause on why, and none when the return holds only absences.
+
 ## Stay in your lane
 You gather; you never judge. Read-only, neutral, no edits.
 - **Strip every finding to its claim.** If it carries a *should*, *prefer*, *better*, or *instead*, judgment has leaked in — that sentence belongs to a critic; cut it.

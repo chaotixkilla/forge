@@ -1,6 +1,6 @@
 # Trace each requirement to a need
 
-Every requirement in a spec should answer to someone's stated goal or a real constraint. A requirement that answers to neither is an *orphan*, and an orphan is one of two problems wearing a requirement's clothes: **scope creep** — gold-plating nobody asked for, a feature the specifier thought would be nice — or a **hidden assumption** — a need that is real but was never stated, so the requirement floats free of the reasoning that justifies it. Either way the orphan costs build effort no stakeholder is paying for, or it smuggles in an unexamined belief. This rule requires each requirement to carry its lineage, so the spec contains what is needed and only what is needed, and so time pressure cuts by need rather than by whim.
+Every requirement in a spec should answer to someone's stated goal or a real constraint. A requirement that answers to neither is an *orphan*, and an orphan is one of two problems wearing a requirement's clothes: **scope creep** — gold-plating nobody asked for, a feature the specifier thought would be nice — or a **hidden assumption** — a need that is real but was never stated, so the requirement floats free of the reasoning that justifies it.
 
 ## The discriminator: whose need dies if this is dropped?
 
@@ -13,7 +13,7 @@ The question that forces the call: *whose need dies if this requirement is dropp
 
 ## Method
 
-As you structure the requirements ([requirement-structuring](../phases/03-requirement-structuring.md)), link each back to the actor-goal list built during interrogation, or to the constraint that demands it. A requirement seeded from a tracker item or a discussion traces to its source ([ingest-from-issue](../modules/ingest-from-issue.md), [ingest-from-discussion](../modules/ingest-from-discussion.md)) — the originating need, attributed. The traceability is not bureaucratic ceremony: it is the mechanism that makes the priority call in [sequencing-and-sizing](../phases/05-sequencing-and-sizing.md) honest, because a requirement whose need you can name can be weighed, and one whose need you can't should not be in the list to weigh.
+As you structure the requirements ([requirement-structuring](../phases/03-requirement-structuring.md)), link each back to the actor-goal list built during interrogation, or to the constraint that demands it. A requirement seeded from a tracker item or a discussion traces to its source ([ingest-from-issue](../modules/ingest-from-issue.md), [ingest-from-discussion](../modules/ingest-from-discussion.md)) — the originating need, attributed. Traceability is what makes the priority call in [sequencing-and-sizing](../phases/05-sequencing-and-sizing.md) honest: a requirement whose need you can name can be weighed, and one whose need you can't should not be in the list to weigh.
 
 ## The boundary: derived requirements
 

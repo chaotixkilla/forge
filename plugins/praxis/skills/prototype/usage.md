@@ -20,13 +20,12 @@ Reduce uncertainty by building the smallest throwaway thing that answers one ope
 `--max-agents=3` — race three candidate approaches to the same question in parallel, then compare and select on the declared basis.
 `--prior-art=REF` — seed from a named reference: reproduce it to a working baseline, then diverge toward the framed question.
 `--timebox=2h` — bound the spike to two hours; on expiry, stop and report the best answer reached so far.
-`--publish` — hand the extracted learnings to the artifacts capability as a clean, team-facing findings document.
 `--max-agents=3 --timebox=1h --sandbox` — race three approaches, each in isolation, under a shared one-hour budget.
 
 ## Gotchas
 - **The code is meant to be thrown away.** prototype optimizes for learning speed, not durability; hardening a spike in place is the anti-pattern `favor-disposability` names. If you want to keep and grow the code, that's a tracer-bullet/evolutionary build — a different posture (see the fork in `favor-disposability`).
-- **A verdict must be grounded in a run, not in reasoning.** "This should work" is not *answered*; *answered* means the framed unknown itself was exercised by something that actually ran (`ground-claims-in-a-run`).
+- **A verdict must be grounded in a run, not in reasoning.** "This should work" is not *answered*; *answered* means the framed unknown itself was exercised by something that actually ran (`observation-over-inference`).
 - **`still-open` is a real, honest result.** A spike that ran but stubbed the very thing under test has not answered its question — reporting it as answered is exactly the failure mode the verdict scale guards against.
-- **prototype is config-less and a leaf.** By default it returns a findings blob to the caller; it invokes no downstream skill. `--publish` is the only path that writes anywhere, and it delegates wholesale to `publish-artifact` (which owns the artifacts prerequisite; if unconfigured, prototype degrades by returning the findings locally).
-- **It answers ONE framed question.** With several unknowns, frame and spike them separately (or re-invoke); a spike that tries to answer everything muddies the signal (`isolate-what-you-test`).
+- **prototype is config-less and a leaf.** It returns a findings blob to the caller and invokes no downstream skill; filing or publishing the findings is the caller's.
+- **It answers ONE framed question.** With several unknowns, frame and spike them separately (or re-invoke); a spike that tries to answer everything muddies the signal (`change-one-thing-at-a-time`).
 - **Isolation and timeboxes don't make the result more trustworthy** — only exercising the real risk does. `keep-the-real-thing-in-view`: track which shortcuts wouldn't survive production scale or data, so the result isn't read as more than it is.

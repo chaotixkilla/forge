@@ -1,10 +1,10 @@
 # Confirm reachability before flagging
 
-A security review's credibility dies the first time it reports a "vulnerability" the author cannot reach. They trace the scary sink, find that nothing an attacker controls ever gets there, and quietly discount every later finding. This is the dominant false-positive class in security review — a dangerous-looking sink whose input is not actually adversary-controlled, a custom sanitizer the reviewer didn't notice one frame up, a code path nothing live ever calls. This rule pins the bar a candidate must clear to be a finding at all: reachability is not a severity input, it is the **floor** — an unreachable sink is *dropped*, not graded low.
+A security review's credibility dies the first time it reports a "vulnerability" the author cannot reach. They trace the scary sink, find that nothing an attacker controls ever gets there, and quietly discount every later finding. This is the dominant false-positive class in security review — a dangerous-looking sink whose input is not actually adversary-controlled, a custom sanitizer the reviewer didn't notice one frame up, a code path nothing live ever calls. Reachability is not a severity input; it is the **floor** a candidate must clear to be a finding at all — an unreachable sink is *dropped*, not graded low.
 
 ## What "reachable" requires
 
-A path is *actually reachable* only when all four hold — this is the test practitioners converge on, and it is the same source→sanitizer→sink data-flow the hunt already traced ([follow-the-tainted-data](follow-the-tainted-data.md)):
+A path is *actually reachable* only when all four hold — the same source→sanitizer→sink data-flow the hunt already traced ([follow-the-tainted-data](follow-the-tainted-data.md)):
 
 - **An adversary-controlled source** — you can name who supplies the value and what they control. A value only trusted callers set is not a source.
 - **A real entry point reaches it** — an actual route, upload, message, webhook, or job carries the attacker's input to the start of the path. A path with no live entry point is dead code, not an attack.
@@ -15,11 +15,11 @@ A path is *actually reachable* only when all four hold — this is the test prac
 
 ## The confidence tiers — how much of the path you traced
 
-Reachability is the yes/no floor; **confidence** grades how firmly you established it, and rides alongside severity ([severity-scale](severity-scale.md)) without collapsing into it (*how reachable and exploitable* versus *how sure you traced it*). It is a graded output, so it carries the same defined-scale obligation severity does — named levels, a per-level test, anchors, and adjacent-level discriminators:
+Reachability is the yes/no floor; **confidence** grades how firmly you established it, and rides alongside severity ([severity-scale](severity-scale.md)) without collapsing into it (*how reachable and exploitable* versus *how sure you traced it*):
 
 - **confirmed** — every one of the four reads above is done: you can state the attacker, the input, and each hop from entry point to sink. *Anchor:* you traced `id` from the route parameter, through the handler, into the string-concatenated query, and read the intervening frames to confirm no validator neutralizes it.
 - **probable** — the source, a real entry point, and the sink are all traced, but one link — typically whether a **neutralizing guard on the path** (a validator, parameterizer, or escape) breaks the chain — rests on a strong inference you did not fully read. *Anchor:* you traced a request field into a string-built query and reached it from a real unauthenticated route, but inferred from the handler's shape that no sanitizer intervenes without reading every frame in between.
-- **speculative** — the sink is real and the value looks attacker-shaped, but you **have not finished tracing** whether an adversary-controlled route actually drives input to it: the suspicion stands, the trace does not. *Anchor:* a raw query whose input resembles a request field, and you ran out of trace budget before either establishing or ruling out a route that drives attacker input into it. Reported only when the effort level admits it, always labelled.
+- **speculative** — the sink is real and the value looks attacker-shaped, but you **have not finished tracing** whether an adversary-controlled route actually drives input to it: the suspicion stands, the trace does not. *Anchor:* a raw query whose input resembles a request field, and you ran out of trace budget before either establishing or ruling out a route that drives attacker input into it. Always reported, always labelled ([assessing-severity](../phases/04-assessing-severity.md)).
 
 **The adjacent-level discriminators** — the tests that stop a candidate sliding between tiers:
 
@@ -29,4 +29,4 @@ Reachability is the yes/no floor; **confidence** grades how firmly you establish
 
 Do not launder a speculation into a certainty: the answer to "am I sure it's reachable?" is another read of the path, not a raised confidence. When a full trace is beyond the run's budget, report at true confidence with the unread link named.
 
-`(basis: the four-part reachability test — attacker-controlled source, real entry point, traced path, no guard — is corroborated practice across SAST-triage and pentest guidance (~7 independent 2024–2026 origins) and matches OWASP/standard taint-analysis theory; the emerging tightening from "statically reachable" toward "attacker can drive the entry point" is why the real-entry-point clause is explicit. The confidence tiers mirror review's confirmed/probable/speculative ladder, keyed here to trace-completeness.)`
+`(basis: SAST-triage and pentest guidance, 2024–2026; OWASP taint analysis; the tiers after review's confidence ladder)`

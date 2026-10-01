@@ -1,6 +1,6 @@
 # newrelic — telemetry adapter
 
-Implements the **telemetry** capability for New Relic, over the transport configured in `tools.telemetry.transport` (api or mcp). The [telemetry](../SKILL.md) skill names the read and dispatches here; each read below is one of the telemetry capability's requests, translated to New Relic's concrete surface. Resolve exact query/field names against the live tool at call time (below) — the names here are not frozen.
+Implements the **telemetry** capability for New Relic, over the transport configured in `tools.telemetry.transport` (api or mcp). The [telemetry](../SKILL.md) skill names the read and dispatches here.
 
 ## Operations
 
@@ -22,4 +22,4 @@ Report failures upward in capability terms — the caller hears an outcome, neve
 
 ## Call-time discovery
 
-New Relic's surface shifts (the query language's functions and data-type names, NerdGraph schema, the logs and traces payloads, MCP tool names), so name the read and its purpose here and resolve the exact query text and parameters when you call: confirm the current query syntax for count/facet over the error and log data, the trace read, the time-window clause, and the correlation-attribute names against the live API/connector at call time. An adapter that pins today's exact query fields ages into a confident wrong call; one that names the read and re-derives the query ages gracefully.
+New Relic's surface shifts (the query language's functions and data-type names, NerdGraph schema, the logs and traces payloads, MCP tool names), so name the read and its purpose here and resolve the exact query text and parameters when you call: confirm the current query syntax for count/facet over the error and log data, the trace read, the time-window clause, and the correlation-attribute names against the live API/connector at call time.

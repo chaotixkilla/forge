@@ -1,10 +1,10 @@
-The hunt produces *candidates* — some are reachable breaches, some are sinks nothing hostile reaches, some are hardening nits, some are suspicions not yet traced. This phase turns that pile into the trustworthy, ranked list the owner acts on. It is what separates an audit from a scanner dump: every candidate is confirmed reachable or dropped, graded on severity and confidence, and sorted so the breach that must block the release reads first. An audit that skips this ships noise; one that does it ships a diagnosis.
+The hunt produces *candidates* — some are reachable breaches, some are sinks nothing hostile reaches, some are hardening nits, some are suspicions not yet traced. Turn that pile into the trustworthy, ranked list the owner acts on.
 
 ## Confirm reachability — the floor, not a downgrade
 
 Take each candidate and clear the reachability bar before anything else ([confirm-reachability-before-flagging](../rules/confirm-reachability-before-flagging.md)): can you name an adversary-controlled source, a real entry point, a traced path to the sink, and the absence of a neutralizing guard? Recruit the **adversary** critic with the inverted lens — "assume this is a false positive: argue the path is unreachable or already guarded" — and keep only the candidates that survive; without fan-out, argue the opposing case yourself for each before letting it stand.
 
-A candidate that fails the floor is **dropped, not graded low** — an unreachable sink is noise, and reporting it is exactly what burns the audit's credibility. A candidate whose reachability you cannot confirm either way is not dropped and not asserted: it survives at **speculative** confidence, labelled, for the report to carry honestly. This is where over-eager findings die.
+A candidate that fails the floor is **dropped, not graded low** — an unreachable sink is noise, and reporting it is exactly what burns the audit's credibility. A candidate whose reachability you cannot confirm either way is not dropped and not asserted: it survives at **speculative** confidence, labelled, for the report to carry honestly.
 
 ## Grade the survivors — severity and confidence, separately
 
@@ -13,7 +13,7 @@ For each survivor that cleared the floor, assign two independent grades:
 - **Severity** — how bad and how exploitable, per [severity-scale](../rules/severity-scale.md) (critical / high / medium / low), assigned by decomposing the finding into exploitability × impact ([exploit-then-impact](../rules/exploit-then-impact.md)) — never by the weakness class in the abstract.
 - **Confidence** — how sure the path is real, per [confirm-reachability-before-flagging](../rules/confirm-reachability-before-flagging.md) (confirmed / probable / speculative), assigned from how much of the attack path you actually traced.
 
-Keep them orthogonal: a confirmed-reachable version leak is low severity / high confidence; a suspected remote-code-execution path you could not fully trace is critical severity / speculative confidence — and honest labelling of the second is more valuable than either dropping it or dressing it as certain.
+Keep them orthogonal: a confirmed-reachable version leak is low severity / confirmed confidence; a suspected remote-code-execution path you could not fully trace is critical severity / speculative confidence — and honest labelling of the second is more valuable than either dropping it or dressing it as certain.
 
 ## Separate the hardening notes, then apply the floor
 

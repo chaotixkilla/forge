@@ -1,6 +1,6 @@
 # Check coverage and hand off
 
-This is the closure gate, and then the exit. A decomposition can look complete — every unit sized, ordered, actionable — and still have silently dropped a requirement or double-owned an outcome, faults that surface mid-build as "who was doing this?" or a merge conflict between two units building the same thing. This phase proves the units actually *cover* the source before anything is emitted, flags the risks that a small investigation should retire first, and then delivers the breakdown in the form the caller asked for. A decomposition that skips the coverage proof is a list of plausible units; one that does it is a plan of record.
+This is the closure gate, and then the exit: nothing is emitted until the units are proven to *cover* the source.
 
 ## Prove coverage against the source
 
@@ -10,21 +10,18 @@ Recruit the **completeness-auditor** critic to attack the source→units directi
 
 ## Flag residual risk
 
-Coverage can hold on paper and the breakdown can still rest on an unretired unknown. Surface the risks that remain — an approach not yet proven, a fact not yet known — and carve each into a timeboxed spike to run *before* the units that depend on it, rather than discovering the unknown mid-build ([size-the-unknowns-as-spikes](../rules/size-the-unknowns-as-spikes.md)). A spike is sequenced early by the risk pass of [order-by-dependency-then-risk](../rules/order-by-dependency-then-risk.md).
+Coverage can hold on paper and the breakdown can still rest on an unretired unknown. Surface the risks that remain — an approach not yet proven, a fact not yet known — and carve each into a timeboxed spike to run *before* the units that depend on it ([size-the-unknowns-as-spikes](../rules/size-the-unknowns-as-spikes.md)). A spike is sequenced early by the risk pass of [order-by-dependency-then-risk](../rules/order-by-dependency-then-risk.md).
 
-## Emit in the requested form
+## Return it in the requested form
 
-Deliver the covered, ordered unit set to the sink the caller chose — the three are mutually exclusive:
+Return the covered, ordered unit set to the caller:
 
-- **`--plan-only` (the base behavior, and the default when no output flag is given):** present the decomposition for review — the ordered units, each with its done-condition, dependencies, and just-enough context — and emit nothing external. This is the safe default: it produces the breakdown without mutating any tracker, and the caller opts into a side-effecting sink explicitly. `(basis: --plan-only as the default is ratified by the maintainer, 2026-07-10 — a side-effect-free presentation is the least-surprising default, mirroring how review returns findings locally unless a sink flag is given.)`
-- **`--ticket`:** create one tracked work-item per unit via the project_mgmt capability — see [emit-tickets](../modules/emit-tickets.md).
-- **`--checklist`:** render the units as one ordered checklist — see [emit-checklist](../modules/emit-checklist.md).
-
-**Degraded case:** when `--ticket` is asked for but the project_mgmt backend is unavailable, do not block — fall back to `--checklist` (or, failing that, `--plan-only`) and tell the caller the requested tracker could not be reached and what was emitted instead ([emit-tickets](../modules/emit-tickets.md) owns this degrade). The decomposition still lands; only the sink narrows.
+- **The base:** present the decomposition — the ordered units, each with its done-condition, dependencies, and just-enough context. decompose emits nothing external: filing the units as tracked work-items is the caller's delivery. `(basis: maintainer, 2026-07-10)`
+- **`--checklist`:** render the units as one ordered checklist instead — see [emit-checklist](../modules/emit-checklist.md).
 
 ## Before it goes out, read it as its reader
 
-Put the finished report through [deliver-at-the-readers-register](../../communicate/rules/deliver-at-the-readers-register.md) before delivering it: take from that rule the obligations this phase has not already settled for itself, and apply its honesty floor to the result. A run with no register to write to falls back on the only vocabulary it has loaded — this procedure's own — which is how a report comes out accurate and unreadable. Read the floor from the rule item by item rather than from memory — the passages it protects are exactly the ones that read as padding to anyone not checking whether the claim is true — and let its carve-out for named levels and verdict values hold the graded rungs and status names this skill defines and reports on.
+Put the finished report through [deliver-at-the-readers-register](../../../craft/writing/deliver-at-the-readers-register.md) before delivering it, applying its honesty floor item by item from the rule, not from memory.
 
 ## The terminal outcome
 

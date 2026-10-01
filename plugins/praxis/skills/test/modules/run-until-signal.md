@@ -14,7 +14,7 @@ What `<condition>` means is the caller's per-run choice, and **deliberately open
 
 - **`green`** — stop when the run passes against the framed claim; report the first passing run. Bounded by a maximum attempt count so an always-red change terminates and reports FAIL rather than looping forever.
 - **`first-failure`** — stop at the first genuine failure; report it immediately (fast triage of a suspected break).
-- **`<N>`** (a repeat count) — run the case(s) N times regardless of outcome; report the pass/fail distribution — the flake-exposure mode ([control-nondeterminism](../rules/control-nondeterminism.md)).
+- **`<N>`** (a repeat count) — run the case(s) N times regardless of outcome; report the pass/fail distribution — the flake-exposure mode ([control-nondeterminism](../../../craft/engineering/control-nondeterminism.md)).
 - **change-triggered** — re-run on each change to the watched surface; the loop is bounded by the caller ending the watch, not by an outcome.
 
-Every condition carries a bound: an explicit count, an outcome that must eventually occur, or a caller-ended watch. A loop with no terminating bound is a defect — never re-run "until green" without a maximum attempt count, or an always-failing change hangs the run instead of reporting FAIL.
+Every condition carries a bound: an explicit count, an outcome that must eventually occur, or a caller-ended watch. A loop with no terminating bound is a defect.

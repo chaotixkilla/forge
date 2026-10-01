@@ -6,7 +6,7 @@ This is a plugin-level skill, so it needs a plugin to point at. If `--plugin` is
 
 ## Enumerate the skill layer
 
-The skill layer is everything in a skill that a maintainer reads as *instruction*: the `SKILL.md` (its description, its flag meanings, its phase spine), the `usage.md` — caller-facing docs are instruction too, and a tool name in a usage example pins the skill for every caller before a single phase runs — plus every body slot — `phases/`, `rules/`, and `modules/`. Walk every skill in the target plugin and gather all of these. Use the plugin explorer to enumerate and read them; it already knows a plugin's shape and returns findings anchored to file and line, which is exactly the anchoring later phases need to point a maintainer at an offending token.
+The skill layer is everything in a skill that a maintainer reads as *instruction*: the `SKILL.md` (its description, its flag meanings, its phase spine), the `usage.md` — caller-facing docs are instruction too, and a tool name in a usage example pins the skill for every caller before a single phase runs — plus every body slot — `phases/`, `rules/`, `modules/`, and, in an orchestrator skill, `acts/`. Walk every skill in the target plugin and gather all of these. Use the plugin explorer to enumerate and read them; it already knows a plugin's shape and returns findings anchored to file and line, which is exactly the anchoring later phases need to point a maintainer at an offending token.
 
 Two slots beyond the skills also belong to the skill layer and are easy to forget:
 

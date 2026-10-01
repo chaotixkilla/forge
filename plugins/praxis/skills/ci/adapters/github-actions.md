@@ -1,6 +1,6 @@
 # github-actions — ci adapter
 
-Implements the **ci** capability for GitHub Actions, over the transport configured in `tools.ci.transport` (cli, api, or mcp). The [ci](../SKILL.md) skill names the operation and dispatches here; each operation below is one of the ci capability's requests, translated to GitHub's concrete surface. Resolve exact field/flag names against the live tool at call time (below) — the names here are not frozen.
+Implements the **ci** capability for GitHub Actions, over the transport configured in `tools.ci.transport` (cli, api, or mcp). The [ci](../SKILL.md) skill names the operation and dispatches here. Resolve exact field/flag names against the live tool at call time (below) — the names here are not frozen.
 
 ## Operations
 
@@ -26,4 +26,4 @@ Report failures upward in capability terms — the caller hears an outcome, neve
 
 ## Call-time discovery
 
-GitHub Actions' surface shifts (gh subcommand flags, the Actions/Checks/Deployments API shapes, the check-runs-vs-workflow-runs distinction, deployment-status payloads), so name the operation and its purpose here and resolve the exact parameters when you call: confirm the current workflow-dispatch inputs, the run-status/conclusion field names, whether the ref's verdict comes from check-runs or the combined status, and the log-download shape against the live CLI/API at call time. An adapter that pins today's exact field names ages into a confident wrong call; one that names the operation and re-derives the arguments ages gracefully.
+GitHub Actions' surface shifts (gh subcommand flags, the Actions/Checks/Deployments API shapes, the check-runs-vs-workflow-runs distinction, deployment-status payloads), so name the operation and its purpose here and resolve the exact parameters when you call: confirm the current workflow-dispatch inputs, the run-status/conclusion field names, whether the ref's verdict comes from check-runs or the combined status, and the log-download shape against the live CLI/API at call time.

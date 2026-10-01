@@ -6,13 +6,13 @@ Testability is not optional in spec — [testable-or-its-not-a-requirement](../r
 
 ## The delta
 
-- **Escalate, don't re-check.** The three conditions are already assessed in the base flow — this module does not introduce a new pass, it changes what happens when one fails. Under `--strict`, the run does not return while **any** of these holds:
+- **Escalate, don't re-check.** The three conditions are already assessed in the base flow. Under `--strict`, the run does not return while **any** of these holds:
   1. a requirement is not pass/fail verifiable to the bar in [testable-or-its-not-a-requirement](../rules/testable-or-its-not-a-requirement.md) (the skill's completion condition, sourced there);
   2. an ambiguity surfaced in [pin-down-ambiguity](../phases/02-pin-down-ambiguity.md) is unresolved — a vague adjective not yet quantified, an "it depends" not yet branched;
   3. an inferred assumption ([make-the-unsaid-explicit](../rules/make-the-unsaid-explicit.md)) is written but unconfirmed.
-- **Block with the list, not a verdict.** A blocked `--strict` run returns *what is blocking it* — the specific requirements, ambiguities, and assumptions that failed, each anchored so the caller can close it — never a bare "spec incomplete." The block is actionable or it is noise.
-- **Resolution, not deletion, clears the block.** A requirement made verifiable, an ambiguity quantified, an assumption confirmed clears its block; **dropping** a requirement to silence its warning does not — a requirement removed to pass the gate is recorded as out-of-scope with its reason ([make-the-unsaid-explicit](../rules/make-the-unsaid-explicit.md)), not quietly deleted. The gate exists to force resolution, and deleting-to-pass is the failure mode it must not reward.
+- **Block with the list, not a verdict.** A blocked `--strict` run returns *what is blocking it* — the specific requirements, ambiguities, and assumptions that failed, each anchored so the caller can close it — never a bare "spec incomplete."
+- **Resolution, not deletion, clears the block.** A requirement made verifiable, an ambiguity quantified, an assumption confirmed clears its block; **dropping** a requirement to silence its warning does not — a requirement removed to pass the gate is recorded as out-of-scope with its reason ([make-the-unsaid-explicit](../rules/make-the-unsaid-explicit.md)), not quietly deleted.
 
 ## Composition
 
-`--strict` composes with `--first-pass` by yielding to it: `--first-pass` returns a deliberately incomplete skeleton, so the strict block does not fire on that early return ([first-pass-draft](first-pass-draft.md) owns the skeleton's open-by-design gaps). The gate applies to the *finished* spec, not the skeleton. With `--from-issue`/`--from-discussion`, the escalation covers the seeded requirements exactly as it covers hand-entered ones — an inherited-but-untestable requirement blocks under `--strict` like any other.
+`--strict` composes with `--first-pass` by yielding to it: `--first-pass` returns a deliberately incomplete skeleton, so the strict block does not fire on that early return ([first-pass-draft](first-pass-draft.md) owns the skeleton's open-by-design gaps). With `--from-issue`/`--from-discussion`, the escalation covers the seeded requirements exactly as it covers hand-entered ones — an inherited-but-untestable requirement blocks under `--strict` like any other.

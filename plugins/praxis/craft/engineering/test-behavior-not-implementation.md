@@ -1,0 +1,5 @@
+# Test behavior, not implementation
+
+Assert on the observable contract — the inputs, outputs, and effects a caller can see — not on internal structure like private method calls, field values, or the sequence of steps taken to get there. The test for whether an assertion is about behavior or implementation is the **refactor-survival test**: change the internals without changing what the code does for any input, and re-run. A behavior assertion stays green; an implementation assertion breaks. If a faithful refactor reddens your test, the test was pinned to *how* the code works, not *what* it does — and it will cry wolf on every future refactor while telling you nothing about correctness.
+
+This is why a claim to verify is stated as observable behavior ("given X, produce Y, and never Z"), and why cases assert outcomes rather than call patterns. It is also the classicist reason to keep collaborators real ([mock-at-the-boundary](mock-at-the-boundary.md)): asserting on interactions with mocked collaborators is asserting on implementation. `(basis: Fowler, "Refactoring"; Beck's structure-insensitive test desideratum)`

@@ -27,7 +27,7 @@ Plugin-level skills take `--plugin=<name>`; the rest act on the marketplace as a
 | skill | what it does |
 |---|---|
 | `new-plugin` | birth a new plugin — config posture, shell, and skill-pool design |
-| `scaffold-skill` | lay a new skill's slot skeleton (frontmatter + phases/rules) |
+| `scaffold-skill` | lay a new skill's slot skeleton (frontmatter + phases, rules, modules, and acts for an orchestrator) |
 | `codify` | turn a process into a skill's runnable procedure (the content engine) |
 | `add-component` | add an adapter, explorer, critic, rule, module, or hook |
 

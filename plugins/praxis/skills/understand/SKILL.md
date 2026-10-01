@@ -3,7 +3,7 @@ name: understand
 description: Build an accurate, anchored mental model of an unfamiliar system, feature, or area — trace how it actually behaves, where things live, and why — and produce a certainty-graded map, not a change. The read-only orientation pass to run before touching unfamiliar code; distinct from gather (the delegated evidence engine it consumes) and deep-research (open-world cited reports).
 metadata:
   flags:
-    --deep: maximum-rigor mode — widen the blast radius, follow secondary paths and edge cases, and corroborate harder across history and ground truth (activates the deep-dive module)
+    --deep: maximum-rigor mode — widen the blast radius, follow secondary paths and edge cases, and corroborate harder across history and ground truth (activates the deep-dive module) (asks before starting)
     --symbol=<name>: seed the investigation from a named symbol — start at its definition and fan out through its references (a seeding mode, applied in frame-the-question)
     --from-code=<glob|symbol>: bottom-up — start from given code locations and reconstruct intent and behavior outward, rather than from a question (a seeding mode, applied in frame-the-question)
     --read-only: hard guarantee of zero mutations — pure static observation, no runs, edits, or state changes to the system under study (activates the read-only-boundary module)

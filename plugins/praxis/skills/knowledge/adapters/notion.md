@@ -1,6 +1,6 @@
 # notion — knowledge adapter
 
-Implements the **knowledge** capability against Notion, over the Notion MCP. The space is the one the skill resolved from `tools.knowledge` (SKILL step 1); auth comes from the configured connection. The [knowledge](../SKILL.md) skill takes the caller's read and dispatches here; this adapter owns the concrete Notion calls, the page-model mapping, and the error mapping. Resolve exact MCP tool and param names against the live Notion MCP schema at call time — the names here are not frozen.
+Implements the **knowledge** capability against Notion, over the Notion MCP. The space is the one the skill resolved from `tools.knowledge` (SKILL step 1); auth comes from the configured connection. The [knowledge](../SKILL.md) skill takes the caller's read and dispatches here.
 
 ## Search the space
 
@@ -26,7 +26,7 @@ Returns as readable text: headings, prose, lists, tables, code, quotes and callo
 
 ## Failure surface
 
-Map Notion/MCP conditions to the capability outcomes in [outcome-taxonomy](../rules/outcome-taxonomy.md) — the caller hears an outcome, never a status code:
+Map Notion/MCP conditions to the capability outcomes in [outcome-taxonomy](../rules/outcome-taxonomy.md):
 
 - **MCP unreachable, not connected, not authenticated, or rate-limited/transient** → `unavailable` (the retryable class). **A Notion MCP absent from the running context's tool pool is this same case** — the read never reached an authenticated backend, so it is `unavailable` and never an empty result.
 - **Authenticated, but the integration lacks access to the page or space** → `unauthorized`.
@@ -37,4 +37,4 @@ Map Notion/MCP conditions to the capability outcomes in [outcome-taxonomy](../ru
 
 ## Call-time discovery
 
-Notion's MCP surface shifts — tool names, block schemas, database property shapes, the page-vs-data-source distinction — so name the operation and its purpose here and resolve the arguments when you call: confirm the current search, fetch, and child-listing tools, the scoping parameters search accepts, and how a data source is distinguished from a page in the schema as it stands. **Never pin an MCP tool id.** The ids are install-specific — the same Notion connector is exposed under different server prefixes depending on how a project connected it — so an adapter that hardcodes one is wrong for every other install. An adapter that names the operation and re-derives the arguments ages gracefully; one that pins today's ids ages into a confident wrong call.
+Notion's MCP surface shifts — tool names, block schemas, database property shapes, the page-vs-data-source distinction — so name the operation and its purpose here and resolve the arguments when you call: confirm the current search, fetch, and child-listing tools, the scoping parameters search accepts, and how a data source is distinguished from a page in the schema as it stands. **Never pin an MCP tool id.** The ids are install-specific — the same Notion connector is exposed under different server prefixes depending on how a project connected it — so an adapter that hardcodes one is wrong for every other install.

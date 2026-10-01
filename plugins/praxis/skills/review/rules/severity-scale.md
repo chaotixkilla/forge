@@ -1,12 +1,10 @@
 # The severity scale
 
-Every finding review keeps carries a severity, and severity is what lets the author triage: fix this before landing, fix it soon, or note it and move on. If the scale is undefined, each reviewer invents their own ladder — one calls a null-deref "critical," another "medium," and the same change gets two incompatible verdicts. A rated output with no defined scale is not a lighter-weight review; it is a review whose most load-bearing judgment is left to chance.
-
-Severity answers one question: **how bad is the consequence, and how reachable is it?** It is assigned in [triage-and-rank](../phases/05-triage-and-rank.md), consumed by [deliver-findings](../phases/06-deliver-findings.md) (the `--severity-min` floor and the ranking) and by [gate-mode](../modules/gate-mode.md) (the pass/fail floor). Severity is orthogonal to confidence ([calibrate-confidence-to-effort](calibrate-confidence-to-effort.md)): *how bad if real* versus *how sure it is real*. Keep them separate — a confirmed nit is low severity/high confidence; a speculative data-loss bug is critical severity/low confidence.
+Severity answers one question: **how bad is the consequence, and how reachable is it?** It is assigned in [triage-and-rank](../phases/05-triage-and-rank.md), consumed by [deliver-findings](../phases/06-deliver-findings.md) (the `--severity-min` floor and the ranking) and by [gate-mode](../modules/gate-mode.md) (the pass/fail floor). Severity is orthogonal to confidence ([calibrate-confidence-to-rigor](calibrate-confidence-to-rigor.md)): *how bad if real* versus *how sure it is real*. Keep them separate — a confirmed nit is low severity/high confidence; a speculative data-loss bug is critical severity/low confidence.
 
 ## The five levels
 
-`(basis: ratified by the maintainer, 2026-07-02. The five-level scale below — derived from blast-radius → reachability → correctness → actionability; code-review severity has no single external authority the way security vulnerabilities have CVSS, so the rung boundaries and anchors are the maintainer's ratified house standard.)`
+`(basis: maintainer, 2026-07-02)`
 
 - **critical** — a correctness or security defect that, on a reachable path, causes an unrecoverable loss (data loss/corruption, a security breach such as auth bypass, injection, or secret exposure) or takes down a core flow, with no guard stopping it.
   - *Anchor (top of scale):* a query built by concatenating unsanitized request input, on the login path — an attacker bypasses auth and reads other users' data.
@@ -25,7 +23,7 @@ Each level carries a **pinned visual marker**, so a reader scans severities at a
 
 **🔴 critical · 🟠 high · 🟡 medium · 🔵 low · ⚪ info**
 
-The marker is **always paired with the word** (`🔴 critical`), never emoji-only — so it degrades to the plain label in a text-only sink and stays legible to a reader who can't see the glyph. `(basis: ratified marker set, 2026-07-15 — the maintainer asked for at-a-glance colour-coding of severity; the red→blue→white ramp mirrors the scale's own high→low order, and pairing glyph-with-word keeps it accessible and sink-portable.)`
+The marker is **always paired with the word** (`🔴 critical`), never emoji-only — so it degrades to the plain label in a text-only sink and stays legible to a reader who can't see the glyph. `(basis: maintainer, 2026-07-15)`
 
 ## The adjacent-level discriminators
 
@@ -36,7 +34,7 @@ Assign by walking down until a level fits; the boundary tests are what stop a fi
 - **medium vs low** — can it produce a *wrong result*, now or as the code plausibly evolves? Medium. Is behavior *correct for all inputs* and only the form worse? Low. (this is the correctness/craft line — [separate-correctness-from-taste](separate-correctness-from-taste.md))
 - **low vs info** — does a maintainer pay a *real cost* (a likely future bug, a genuine inefficiency, a name that misleads)? Low. Is *declining it reasonable*? Info. (actionability)
 
-When two levels both seem to fit, the higher wins only if you can name the input or path that justifies it; absent that evidence, drop a level. A severity you cannot anchor to a concrete consequence is a confidence problem masquerading as severity — re-check it against [anchor-every-finding-to-evidence](anchor-every-finding-to-evidence.md).
+When two levels both seem to fit, the higher wins only if you can name the input or path that justifies it; absent that evidence, drop a level. A severity you cannot anchor to a concrete consequence is a confidence problem masquerading as severity — re-check it against [anchor-every-claim](../../../craft/evidence/anchor-every-claim.md).
 
 ## What this scale does *not* grade
 

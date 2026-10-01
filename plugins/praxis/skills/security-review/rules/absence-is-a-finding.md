@@ -1,6 +1,6 @@
 # Absence is a finding
 
-A code review reads what is written; a security review must also read what is *missing*. The most damaging vulnerabilities are often not a wrong line but an absent one — the authorization check that was never added, the validation that no one wrote, the rate limit that doesn't exist. A missing control has no line to point at, so a line-by-line read slides right past it: nothing looks wrong because nothing is there. This rule is the discipline of hunting the control that *should* exist against the surface's own requirements, not just judging the controls that do.
+A code review reads what is written; a security review must also read what is *missing*. The most damaging vulnerabilities are often not a wrong line but an absent one — the authorization check that was never added, the validation that no one wrote, the rate limit that doesn't exist. A missing control has no line to point at, so a line-by-line read slides right past it.
 
 ## Read for the owed control, not the written one
 
@@ -17,4 +17,4 @@ Anchor the finding at the site where the control *belongs* (the handler that ski
 
 The gilding trap is real — you can always name one more control that *could* exist, and demanding controls the situation never required is this rule's characteristic noise. So a missing control is a finding only when its absence is **reachably abusable**: name the adversary and the concrete abuse the absence permits ([confirm-reachability-before-flagging](confirm-reachability-before-flagging.md)), and hold it to the exploitable-vs-hardening line ([separate-finding-from-noise](separate-finding-from-noise.md)). The test: **is the control owed by this surface's own trust boundaries and the project's own posture ([match-the-projects-security-posture](match-the-projects-security-posture.md)), and does its absence let a reachable attacker do something?** Owed-and-abusable is a finding; merely-conceivable is defense-in-depth, kept out of the ranked list.
 
-`(basis: missing-control analysis is core to threat modeling — the DFD-and-STRIDE method asks per element which controls are owed, not only which are present; the method, not a graded bar.)`
+`(basis: the DFD-and-STRIDE method's per-element control analysis)`

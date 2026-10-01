@@ -7,11 +7,10 @@ metadata:
     --max-agents=<n>: race up to n candidate approaches to the same question in parallel, then compare them on a common basis and select — activates the parallel-fan-out module
     --prior-art=REF: seed the spike from a named reference (repo, paper, example) — reproduce it to a working baseline, then diverge toward the framed question — activates the anchor-to-prior-art module
     --timebox=<duration>: bound the spike to a fixed effort budget; when it expires, stop and report the best answer reached so far rather than chasing completeness — activates the timeboxed-spike module
-    --publish: hand the extracted learnings to the artifacts capability as a clean, team-facing findings document — activates the publish-learnings module
 ---
 Usage & examples — when to reach for this skill, and concrete flag invocations: see [usage.md](usage.md).
 
-prototype owns no backend of its own: it is config-less. It resolves `--sandbox` locally (a scratch throwaway environment), and delegates every flag-borne capability wholesale to a port skill — `--publish` to `publish-artifact`, and version-controlled isolation to `vcs` — each of which owns its own prerequisite. So it declares no `config_requires`. It is a leaf: by default it returns the findings to its caller and invokes no downstream skill.
+prototype owns no backend of its own: it is config-less. It resolves `--sandbox` locally (a scratch throwaway environment), and delegates version-controlled isolation to `vcs`, which owns its own prerequisite. So it declares no `config_requires`. It is a leaf: by default it returns the findings to its caller and invokes no downstream skill.
 
 `--max-agents=<n>` reshapes the middle of the run — pick, build, and compare N candidate approaches instead of one: see [modules/parallel-fan-out.md](modules/parallel-fan-out.md). `--timebox=<duration>` bounds the whole spike effort and gates whether evaluate loops back: see [modules/timeboxed-spike.md](modules/timeboxed-spike.md).
 

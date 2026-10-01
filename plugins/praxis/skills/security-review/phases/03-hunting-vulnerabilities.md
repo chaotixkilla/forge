@@ -1,4 +1,4 @@
-This is the pass the audit exists for: take the directed threat list and, for each threat, find the concrete reachable path that realizes it — or establish that none exists. The discipline that separates a real audit from a scanner run is here: hunt by *tracing tainted data to sinks* and *checking for the control that should exist*, not by grepping for dangerous function names. A keyword sweep flags the unreachable and misses the plainly-named sink that hostile data reaches; a traced hunt finds what an attacker would actually use.
+Take the directed threat list and, for each threat, find the concrete reachable path that realizes it — or establish that none exists. Hunt by *tracing tainted data to sinks* and *checking for the control that should exist*, not by grepping for dangerous function names.
 
 ## Sweep the threat classes deliberately
 
@@ -13,11 +13,11 @@ The attack classes to carry across the surface — authn/authz, injection, secre
 
 Findings are named against a taxonomy so they are legible and comparable, and the taxonomy the sweep organizes by (and that `--standard` maps onto) has a sourced default and a routed fork. As with the framework, the authorities frame these as **complementary layers of different granularity, not rivals** — a finding pins to a specific CWE weakness, which rolls up into a broad OWASP Top 10 category; ASVS is a different axis (requirements to verify, not a label for a discovered bug). Route by **surrounding convention → house default → maintainer**, non-gating:
 
-- **OWASP Top 10** *(the default)* — ~10 broad, widely-recognized application-risk categories. *Strength:* the recognized baseline; communicates a finding's class to any developer at a glance. *Cost:* coarse — a category, not a precise root cause.
+- **OWASP Top 10** *(the house default when `--standard` is unset and the project has no taxonomy convention; its current edition)* — ~10 broad, widely-recognized application-risk categories. *Strength:* the recognized baseline; communicates a finding's class to any developer at a glance. *Cost:* coarse — a category, not a precise root cause.
 - **CWE** — the exhaustive weakness dictionary (hundreds of specific types). *Strength:* precise root-cause identification and cross-tool correlation; a finding pins to a CWE ID. *Cost:* granular and large; overkill for coarse communication. Reach for it when a finding needs a precise, correlatable identifier.
-- **ASVS** — a verification-requirements standard with assurance levels (L1/L2/L3). *Strength:* a testable pass/fail security bar. *Cost:* a *different axis* — a requirements checklist to verify against, not a label for a discovered vulnerability. Reach for it when the audit's job is to verify coverage against a defined bar rather than enumerate findings.
+- **ASVS** — a verification-requirements standard with assurance levels (L1/L2/L3). *Strength:* a testable pass/fail security bar. *Cost:* a *different axis* — a requirements checklist to verify against, not a label for a discovered vulnerability. Reach for it, via `--standard`, when the audit's job is to verify coverage against a defined bar rather than enumerate findings.
 
-`(basis: default attack-class taxonomy = OWASP Top 10 (current edition) when --standard is unset and the project shows no established convention — ratified by the maintainer, 2026-07-10. Sourced from: OWASP's own framing of the Top 10 as the "standard awareness document" and "globally recognized first step" — the broadest-recognized category baseline, the right default for legible findings. CWE is the fine-grained ID beneath it, reached for precision; ASVS is a verification axis, reached via --standard when the job is coverage.)`
+`(basis: maintainer, 2026-07-10; after OWASP's framing of the Top 10 as its standard awareness document)`
 
 When `--standard=<framework>` is set, map each candidate onto that framework's controls as it is found and report coverage — see [standard-mapping](../modules/standard-mapping.md).
 

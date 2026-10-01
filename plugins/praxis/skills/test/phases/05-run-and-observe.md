@@ -1,4 +1,4 @@
-Execute the cases and read what actually happened. The discipline is that a red result is a signal to *classify*, not a verdict to report raw — a genuine failure, a flaky test, and environment noise look identical until you sort them, and reporting any of them as another wastes someone's time or ships a bug.
+Execute the cases and read what actually happened.
 
 ## Run the suite via the project's own runner
 
@@ -6,11 +6,11 @@ Execute the designed cases through the project's configured runner (discovered i
 
 ## Prove a new test can fail before trusting its green
 
-Apply [prove-the-test-can-fail](../rules/prove-the-test-can-fail.md): a new or changed test is confirmed to redden against the broken or un-fixed behavior before its green is trusted as evidence. A test that has only ever passed may be asserting nothing — its green is not proof. For a test guarding a fix, this is the fail-before / pass-after check.
+Apply [prove-the-test-can-fail](../../../craft/engineering/prove-the-test-can-fail.md): a new or changed test is confirmed to redden against the broken or un-fixed behavior before its green is trusted as evidence. For a test guarding a fix, this is the fail-before / pass-after check.
 
 ## Classify every red result
 
-Apply [failure-classification](../rules/failure-classification.md): sort each red into **genuine failure / flake / environment noise** by the discriminators (phase, then scope, then determinism), and apply the critical guard — never let a single green rerun auto-resolve a red to "flake." Only a genuine failure feeds a FAIL verdict — and, per [report-the-verdict](06-report-the-verdict.md), only when it is **in-claim** by that phase's scope test (an out-of-claim genuine failure is a real finding surfaced separately, not this change's FAIL). Flakes and environment noise are reported as themselves, and a flake is a defect to root-cause, not noise to retry past ([control-nondeterminism](../rules/control-nondeterminism.md)).
+Apply [failure-classification](../rules/failure-classification.md): sort each red into **genuine failure / flake / environment noise** by the discriminators (phase, then scope, then determinism), and apply the critical guard — never let a single green rerun auto-resolve a red to "flake." Only a genuine failure feeds a FAIL verdict — and, per [report-the-verdict](06-report-the-verdict.md), only when it is **in-claim** by that phase's scope test (an out-of-claim genuine failure is a real finding surfaced separately, not this change's FAIL). Flakes and environment noise are reported as themselves, and a flake is a defect to root-cause, not noise to retry past ([control-nondeterminism](../../../craft/engineering/control-nondeterminism.md)).
 
 ## Under `--until`
 

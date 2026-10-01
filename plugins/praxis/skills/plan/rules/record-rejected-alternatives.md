@@ -1,6 +1,6 @@
 # Record the rejected alternatives
 
-The most durable part of a design is the record of what it *didn't* do and why. Six months out, the chosen approach is visible in the code, but the reasoning that beat the alternatives lives only in the head of whoever is now gone — so a maintainer re-litigates a settled question, or "simplifies" away a choice that silently prevented a bug. The rejection rationale is the guardrail. This rule pins what every recorded decision must carry and where it lives.
+Six months out, the chosen approach is visible in the code but the reasoning that beat the alternatives isn't, so a maintainer re-litigates a settled question or "simplifies" away a choice that silently prevented a bug.
 
 ## The content contract (pinned)
 
@@ -12,12 +12,12 @@ Every design decision worth recording carries these elements; the assignment tes
 - **Consequences, positive and negative** — what the decision buys and what it costs; a record listing only upsides is incomplete.
 - **A status** — proposed / accepted / superseded — so a later reversal is visible rather than silent.
 
-`(basis: ISO/IEC/IEEE 42010:2022 requires an architecture description record its rationale including "architectural alternatives not chosen"; Nygard 2011, MADR 4.0, Fowler's ADR bliki, Zimmermann's Y-statement, and Tyree & Akerman 2005 (IEEE Software) all converge on this element set — the richer templates add nothing that contradicts it.)` *Anchor (top):* an entry naming ≥2 considered options with concrete pros/cons and a decision tied to named drivers. *Anchor (bottom):* a bare "we chose X" with no alternatives and no negative consequences.
+`(basis: ISO/IEC/IEEE 42010:2022; Nygard 2011; MADR 4.0; Fowler's ADR bliki; Zimmermann's Y-statement; Tyree and Akerman 2005)` *Anchor (top):* an entry naming ≥2 considered options with concrete pros/cons and a decision tied to named drivers. *Anchor (bottom):* a bare "we chose X" with no alternatives and no negative consequences.
 
 ## Where the record lives (house default)
 
-`(basis: ratified by the maintainer, 2026-07-05. No external authority mandates a file layout — ISO 42010 requires the rationale content but is format-agnostic. House default: inline rationale inside the plan's design document, because plan already emits one team-facing design doc and a separate numbered ADR tree would drift out of sync with it and duplicate the export. Routing: an existing repo convention (a `doc/adr/` tree, or established rationale sections) wins first → this house default → maintainer.)`
+Record the rationale inline in the plan's design document: plan already emits one team-facing design doc, and a separate numbered decision tree would drift out of sync with it. An existing repository convention (a `doc/adr/` tree, or established rationale sections) wins over this default, and the maintainer settles anything else. `(basis: maintainer, 2026-07-05)`
 
-Escalate a decision to a **standalone MADR-minimal numbered file** only when it is architecturally significant *and* needs immutable, individually-addressable history that must outlive edits to the design doc — the case where the ADR camp's superseded-not-edited discipline earns its ceremony. The cost inline pays is that rationale is mutable and can be overwritten as the doc evolves; keep the rejection reasons intact through edits, since erasing them is exactly the failure this rule exists to prevent.
+Escalate a decision to a **standalone MADR-minimal numbered file** only when it is architecturally significant *and* needs immutable, individually-addressable history that must outlive edits to the design doc — the case where the ADR camp's superseded-not-edited discipline earns its ceremony. The cost inline pays is that rationale is mutable and can be overwritten as the doc evolves; keep the rejection reasons intact through edits.
 
-Cited by [choosing-approach](../phases/02-choosing-approach.md). Related: [design-for-reversibility](design-for-reversibility.md) (a one-way decision most needs its rationale), [surface-assumptions](surface-assumptions.md) (an assumption is a decision's hidden premise).
+Cited by [choosing-approach](../phases/02-choosing-approach.md). Related: [design-for-reversibility](../../../craft/engineering/design-for-reversibility.md) (a one-way decision most needs its rationale), [surface-assumptions](surface-assumptions.md) (an assumption is a decision's hidden premise).

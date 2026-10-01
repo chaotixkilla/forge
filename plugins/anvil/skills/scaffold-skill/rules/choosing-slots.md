@@ -1,6 +1,6 @@
-A skill's slots split two ways. One is **always present** — `usage.md`, the caller-facing doc every skill owes — seeded uniformly regardless of what the skill does. Three are **earned** — `phases/`, `rules/`, and `modules/` — seeded only when the skill genuinely carries a multi-step procedure, reusable craft, or flag-gated behavior. This rule is mostly about the earned three, because that's where the judgment lives: `usage.md` is not a decision, it's a given.
+A skill's slots split two ways. One is **always present** — `usage.md`, the caller-facing doc every skill owes — seeded uniformly regardless of what the skill does. Four are **earned** — `phases/`, `rules/`, `modules/`, and, in an orchestrator skill only, `acts/` — seeded only when the skill genuinely carries a multi-step procedure, reusable craft, flag-gated behavior, or kinds of work it routes between. This rule is mostly about the earned four, because that's where the judgment lives: `usage.md` is not a decision, it's a given.
 
-For the executor-facing slots, the slot you put a piece in is a claim about *how it runs*: a phase runs in sequence, a rule runs when something cites it, a module runs when a flag turns it on. Misfile a piece and you've lied about how it runs — a craft judgment numbered as a phase forces an order that doesn't exist; a flag-gated behavior dropped into phases runs unconditionally; an optional lens written as a rule can never be switched off. The contract audit's slot-placement check catches the gross cases, but the right time to get this right is at authoring time, when the piece is still a thought and not yet a file. This rule is the decision procedure.
+For the executor-facing slots, the slot you put a piece in is a claim about *how it runs*: a phase runs in sequence, a rule runs when something cites it, a module runs when a flag turns it on, an act runs when the orchestrator's routing selects it. Misfile a piece and you've lied about how it runs — a craft judgment numbered as a phase forces an order that doesn't exist; a flag-gated behavior dropped into phases runs unconditionally; an optional lens written as a rule can never be switched off. The contract audit's slot-placement check catches the gross cases, but the right time to get this right is at authoring time, when the piece is still a thought and not yet a file. This rule is the decision procedure.
 
 ## The always-present slot — usage.md
 
@@ -27,6 +27,33 @@ A rule is registered by being cited from the phase where it applies — and *onl
 
 If a piece is behavior that runs *only when explicitly turned on*, it's a module, and it comes as a pair with the flag that activates it. A `--security` flag and `modules/security.md` are two halves of one thing — the flag is the on-switch, the module is the behavior. The signature is optionality with a switch: the base procedure is complete without it, and a per-invocation choice brings it in. Two consequences follow. First, a module without a declared flag is unreachable dead code — the flags↔modules check exists precisely to catch a module nobody can turn on. Second, the inverse: if something *seems* to need activation wiring but you can't name the flag, it's not a module — reconsider whether it's a phase (always runs) or a rule (cited craft).
 
+## Act — one kind of work an orchestrator runs, selected by routing
+
+An **orchestrator** is a skill whose job is to run *other* skills as steps: it works out what kind of work a request is, then carries that work through a set of steps in order. Each kind of work it can carry out is an **act**, and each act is one file in `acts/`, named for the work (`reviewing`, `shipping`). Only an orchestrator carries `acts/`. The discriminator is whether the skill's procedure sequences sibling skills chosen per kind of work; a skill whose own phases *are* the method has no acts, however many modes it has.
+
+An act is none of the other three. It isn't a phase, because the orchestrator runs one act per run, not all of them in order. It isn't a rule, because it is a procedure, not a-la-carte craft. It isn't a module, by the default-selector test below: with no explicit choice the orchestrator still runs *some* act, chosen by routing, so the choice is a phase input and the act files are what that input selects.
+
+An act file holds:
+- the act's goal and its done-condition;
+- the principles specific to this kind of work;
+- the steps it proposes, each with the condition under which it may be skipped;
+- the order in which inputs reach those steps;
+- what gets recorded and what gets delivered.
+
+It never holds a step's method, which the step skill owns; an act that restates it gives one instruction two homes. The placement test for any line of an act file: would the line change if the same step ran inside a different act? If yes, it belongs in the act; if no, it belongs in the step.
+
+An act is cited from the orchestrator's routing phase, which chooses it from its list of acts; the phase that runs it works from the act routing chose. The contract checker flags an act that no body file links. `(basis: maintainer, 2026-09-30)`
+
+## Craft library — standards a plugin's steps share
+
+Some craft belongs to no single skill. A standard that reads the same whichever step applies it, whether the step designs, builds or judges ("name a thing for what it does", "anchor every claim to its source"), belongs to the plugin, not to whichever skill wrote it down first. A plugin keeps those standards in a **craft library** at its root: `craft/<family>/name.md`, one standard per file, grouped into a few families by what they govern. A software-engineering plugin, for example, might keep engineering, evidence and writing families. The library is not a skill slot. No skill owns it, and every skill may cite it.
+
+The placement test is the step-or-craft test: would this standard change if a different step applied it? If yes, it's method, and it stays in the skill's own `rules/`. If no, it's craft. A skill's `rules/` keeps only what is particular to its step.
+
+A step cites a craft file the way it cites its own rules, by a relative link from the phase or rule that applies it. That link is the only way the file loads. So a craft file stands alone: it may name a related standard, but applying it never takes opening another craft file. The library carries no index, since nothing would load one: a step cites the standards it applies, one by one.
+
+A library is earned, like any slot. Seed `craft/` when two or more skills apply the same standard, and not before. A standard only one skill applies stays in that skill's `rules/` until a second skill needs it. `(basis: maintainer, 2026-09-30, the step-or-craft test)`
+
 ## The three confusions worth naming
 
 **Rule vs. module.** Both are "not a phase", and they're easy to swap. The discriminator is the switch: a rule is *always available* and applied by judgment wherever it fits; a module is *off by default* and turned on by a flag. A rule needs no flag and must not get one — inventing a flag for a rule is how you end up with a flag that gates nothing. A module needs a flag and must have one. Ask: "is this on unless asked off, or off unless asked on?" Cited-craft is the former; flag-gated-behavior is the latter.
@@ -37,4 +64,4 @@ If a piece is behavior that runs *only when explicitly turned on*, it's a module
 
 ## Empty is a valid answer — for the earned slots
 
-Not every skill carries rules, most carry no modules, and a thin one carries no phases. A skill that is a shallow dispatch with no multi-step procedure, no reusable judgment, and no optional behavior is correctly skeletoned as `usage.md` alone plus an inline procedure in its SKILL.md — no `phases/`, no `rules/`, no `modules/`. Do not seed empty slots "for symmetry" or "in case it grows later": speculative slots are exactly the premature structure the scaffolding-skeptic critic hunts, and an empty `rules/` folder — or a `phases/` of one-line stubs — reads to the next maintainer as a missing-content promise rather than a deliberate absence. The *earned* slots are earned by content that exists, not anticipated by content that might. When in doubt, omit the earned slot; adding one later when a real phase, rule, or module appears is cheap, and far cleaner than deleting a slot that never earned its place. This skepticism is scoped to `phases/`, `rules/`, and `modules/` — it never argues away `usage.md`, which is seeded whether or not the skill is "big enough", because it is the uniform contract every skill meets.
+Not every skill carries rules, most carry no modules, only an orchestrator carries acts, and a thin one carries no phases. A skill that is a shallow dispatch with no multi-step procedure, no reusable judgment, and no optional behavior is correctly skeletoned as `usage.md` alone plus an inline procedure in its SKILL.md — no `phases/`, no `rules/`, no `modules/`. Do not seed empty slots "for symmetry" or "in case it grows later": speculative slots are exactly the premature structure the scaffolding-skeptic critic hunts, and an empty `rules/` folder — or a `phases/` of one-line stubs — reads to the next maintainer as a missing-content promise rather than a deliberate absence. The *earned* slots are earned by content that exists, not anticipated by content that might. When in doubt, omit the earned slot; adding one later when a real phase, rule, or module appears is cheap, and far cleaner than deleting a slot that never earned its place. This skepticism is scoped to `phases/`, `rules/`, `modules/` and `acts/` — it never argues away `usage.md`, which is seeded whether or not the skill is "big enough", because it is the uniform contract every skill meets.

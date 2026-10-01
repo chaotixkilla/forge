@@ -1,7 +1,7 @@
 {
   "name": "praxis",
-  "description": "Codifies engineering/SDLC processes — spec, plan, and more — as skills and subagents.",
-  "version": "0.3.1",
+  "description": "Engineering work as skills: ten acts — developing, fixing a bug, reviewing, shipping, responding to an incident and more — run as steps held to shared engineering, evidence and writing craft.",
+  "version": "0.4.0",
   "author": {
     "name": "Sergio Salgado",
     "email": "sergiodiassalgado@gmail.com"

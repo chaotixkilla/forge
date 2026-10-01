@@ -2,7 +2,7 @@
 
 Activated by `--checklist`, referenced from [check-coverage-and-handoff](../phases/05-check-coverage-and-handoff.md).
 
-The base run ends at `--plan-only` — the decomposition presented for review. This module changes the delivery form: render the units as a single ordered checklist for lightweight tracking, for when there is no tracker to emit to and none is wanted. Deletion test: remove this module and decompose still presents the decomposition; the checklist rendering is optional, which is why it is a module. It has a second role — it is the **fallback sink** [emit-tickets](emit-tickets.md) degrades to when the project_mgmt backend is unavailable.
+The base run ends with the decomposition presented for review. This module changes the delivery form: render the units as a single ordered checklist for lightweight tracking, for when there is no tracker to emit to and none is wanted. Deletion test: remove this module and decompose still presents the decomposition; the checklist rendering is optional, which is why it is a module.
 
 ## The delta — render one ordered checklist
 
@@ -12,4 +12,3 @@ This is a **local, config-less rendering** — a plain ordered checklist (markdo
 
 ## When it is a fallback
 
-When reached as [emit-tickets](emit-tickets.md)'s degrade path (tracker unavailable), render the same checklist and make the degrade explicit to the caller: the requested tracker could not be reached, so the units are delivered as a checklist instead — nothing about the decomposition is lost, only the sink narrowed.

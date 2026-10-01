@@ -1,4 +1,4 @@
-A structured requirement can still be unbuildable: "users can share documents" has a home in the functional bucket and no way to tell, at acceptance, whether it was met. This phase turns each requirement into something a build is held to and a test passes or fails on — acceptance criteria, examples, an explicit scope boundary, and surfaced assumptions. It is where the skill's thesis ([testable-or-its-not-a-requirement](../rules/testable-or-its-not-a-requirement.md)) is enforced on every requirement, not just asserted.
+A structured requirement can still be unbuildable: "users can share documents" has a home in the functional bucket and no way to tell, at acceptance, whether it was met. Turn each requirement into something a build is held to and a test passes or fails on, enforcing [testable-or-its-not-a-requirement](../rules/testable-or-its-not-a-requirement.md) on every one.
 
 ## Write acceptance criteria, not descriptions
 
@@ -8,7 +8,7 @@ A requirement's description says what it *is*; its acceptance criteria say how y
 - **one rule with many discrete cases** (pricing tiers, eligibility matrices) → an example/decision table, keyed to equivalence classes, not every combination;
 - a **continuous range or quality attribute** → a bounded, measurable assertion.
 
-`(basis: Given/When/Then is the house acceptance-criteria default — the existing spec skill's phase-04 convention, standard BDD practice; the per-shape fork is routed through match-existing-spec-conventions.)`
+`(basis: house convention; after BDD practice)`
 
 ## Add examples and counter-examples
 
@@ -24,7 +24,7 @@ Write every inference down so it can be challenged, and flag every genuine unkno
 
 ## Hold the testability bar, and challenge for gaps
 
-Two closing moves. **First, the baseline check** — hold every requirement to [testable-or-its-not-a-requirement](../rules/testable-or-its-not-a-requirement.md): verifiable, unambiguous, singular. A requirement below the bar is surfaced as a **warning** delivered with the spec; under `--strict` that warning becomes a hard block ([strict-gate](../modules/strict-gate.md)). The check runs the same either way — only the consequence differs.
+Two closing moves. **First, the baseline check** — hold every requirement to [testable-or-its-not-a-requirement](../rules/testable-or-its-not-a-requirement.md): verifiable, unambiguous, singular. A requirement below the bar is surfaced as a **warning** delivered with the spec; under `--strict` that warning becomes a hard block ([strict-gate](../modules/strict-gate.md)).
 
 **Second, challenge the spec for what is missing and whom it fails** — recruit the **completeness-auditor** critic ([completeness-auditor](../../../agents/critics/completeness-auditor.md)), whose lens is "what requirement, state, or case is absent?", and the **user-advocate** critic ([user-advocate](../../../agents/critics/user-advocate.md)), whose lens is "whose need does this leave unserved?" — and fold their findings in. Without fan-out, apply both lenses yourself: walk the buckets once asking what is missing, then walk them again as each actor asking what they still cannot do, before finalizing.
 

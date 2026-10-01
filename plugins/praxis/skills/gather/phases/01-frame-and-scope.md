@@ -1,4 +1,6 @@
-A gather is only as good as the question it starts from and the lanes it points at. A vague question fans out into noise; the wrong lane set either misses the answer or burns budget on lanes that can't hold it. Frame before you recruit.
+Before any work, ask whatever the run needs answered, all in one message ([ask-while-the-user-is-here](../rules/ask-while-the-user-is-here.md)); with `--deep`, that includes the cost question ([ask-before-a-heavyweight-run](../rules/ask-before-a-heavyweight-run.md)).
+
+Frame before you recruit: the wrong lane set either misses the answer or burns budget on lanes that can't hold it. Recruit only as [fan-out-only-when-it-pays](../rules/fan-out-only-when-it-pays.md) allows.
 
 ## Frame the question
 1. Restate the caller's ask as one precise, answerable gather question — what specifically must be true, and what evidence would settle it. A topic ("the auth system") is not a question; "what does the login path do on a failed token refresh, and why is it that way" is.
@@ -9,6 +11,6 @@ A gather is only as good as the question it starts from and the lanes it points 
 4. `--explorers=<list>` overrides the mapping: consult exactly the named lanes. `--inputs-only` forbids the open-web lanes regardless of the mapping — see [inputs-only](../modules/inputs-only.md).
 
 ## Set the breadth
-5. Set the fan-out breadth and lead-chasing rounds. Default: recruit each chosen lane once, then chase leads to saturation — the stop test in [know-when-to-stop](../rules/know-when-to-stop.md); "done" is saturation, not a single recruitment pass. `--rounds=<n>` caps the lead-chasing rounds; `--deep` widens both the lane set and the rounds — see [deep-mode](../modules/deep-mode.md); `--budget=<n>` caps total recruit/fetch operations — see [budget-discipline](../modules/budget-discipline.md).
+5. Set the fan-out breadth and lead-chasing rounds. Default: recruit each chosen lane once, then chase leads to saturation — the stop test in [know-when-to-stop](../../../craft/evidence/know-when-to-stop.md); "done" is saturation, not a single recruitment pass. `--rounds=<n>` caps the lead-chasing rounds; `--deep` widens both the lane set and the rounds — see [deep-mode](../modules/deep-mode.md); `--budget=<n>` caps total recruit/fetch operations — see [budget-discipline](../modules/budget-discipline.md).
 
 The output of this phase: the gather question, the chosen lane set, and the breadth/rounds/budget — the recruitment plan phase 02 executes.

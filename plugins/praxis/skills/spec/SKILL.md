@@ -7,7 +7,6 @@ metadata:
     --from-discussion=<ref>: seed from a discussion thread's decisions, constraints, and open points — activates the ingest-from-discussion module
     --strict: escalate the always-on testability check from warn to hard block — no requirement ships non-verifiable, no ambiguity unresolved, no assumption unconfirmed — activates the strict-gate module
     --first-pass: return the structural skeleton after structuring and pause for steering, gaps marked open — activates the first-pass-draft module
-    --publish: hand the finished spec to the artifacts capability as a clean team-facing document — activates the publish-spec module
 ---
 Usage & examples — when to reach for this skill, and concrete flag invocations: see [usage.md](usage.md).
 

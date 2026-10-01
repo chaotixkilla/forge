@@ -1,20 +1,20 @@
 # communication — usage
 
-A tool-layer interface skill: the single place the conversation backend is reached. It fronts the `communication` capability so a workflow skill names *what it needs from the conversation backend* and this skill resolves it to whichever provider is configured — the same ports-and-adapters seam `vcs` provides for the code host and `publish-artifact` provides for artifacts.
+A tool-layer interface skill: the single place the conversation backend is reached. It fronts the `communication` capability so a workflow skill names *what it needs from the conversation backend* and this skill resolves it to whichever provider is configured — the same ports-and-adapters seam `vcs` provides for the code host and `artifacts` provides for artifacts.
 
 ## When to use
 - A skill needs to reach the conversation backend and should stay provider-agnostic: read a discussion thread to seed from, or post a message/status update to a channel or a person. Call `communication` with the operation instead of talking to a chat provider directly.
-- You are adding a new skill that reads or posts on the conversation backend (spec's discussion ingest, communicate, operate): route its messaging operations through here rather than giving it its own adapter, so a provider swap changes one file.
+- You are adding a new skill that reads or posts on the conversation backend (spec's discussion ingest, communicate, work's acts): route its messaging operations through here rather than giving it its own adapter, so a provider swap changes one file.
 
 ## Not for / use instead
-- Publishing a spec, plan, report, or decision record as a **team-facing document** → **publish-artifact** (the artifacts/docs port). This is the settled artifacts-vs-communication line: publish-artifact writes durable, audience-facing *documents* to a docs backend; communication reads and posts *messages and threads* on a conversation backend. Posting a link to — or a summary of — a published document into a channel is a communication `post`; producing the document itself is publish-artifact.
+- Publishing a spec, plan, report, or decision record as a **team-facing document** → **artifacts** (the artifacts/docs port). This is the settled artifacts-vs-communication line: artifacts writes durable, audience-facing *documents* to a docs backend; communication reads and posts *messages and threads* on a conversation backend. Posting a link to — or a summary of — a published document into a channel is a communication `post`; producing the document itself is artifacts.
 - Fetching or posting on a pull request, or setting a merge-gating status → **vcs** (the code-host port). Creating or updating tracked work-items → **project-mgmt** (the work-tracking port). `communication` fronts the conversation backend, not the code host or the tracker.
-- Deciding *what* to post, *to whom*, or *whether* to send at all → the calling skill's judgment (e.g. **communicate** routes and pitches the message at the right altitude and audience; **operate** decides an incident warrants a notification); this skill only carries out the messaging operation it is handed.
+- Deciding *what* to post, *to whom*, or *whether* to send at all → the calling skill's judgment (e.g. **communicate** routes and pitches the message at the right altitude and audience; the incident act in **work** decides an incident warrants a status update); this skill only carries out the messaging operation it is handed.
 
 ## Operations (extended as consumers need them)
 Today it serves the operations `spec` (`--from-discussion`) and the messaging consumers require; new consumers add their operations to the same interface and adapter rather than forking a new one:
 `read a thread` — a discussion thread's messages, participants, and ordering, by reference, so the caller can distill its decisions, constraints, rejected options, and open points. (`spec --from-discussion` seeds a spec from it.)
-`post a message` — a notification or status update to a channel or a person. (`communicate`'s message routing and `operate`'s incident notifications post through it.)
+`post a message` — a notification or status update to a channel or a person. (`communicate`'s message routing and the acts' status updates and reports post through it.)
 
 The natural next operations — `reply in a thread` (a post anchored to an existing thread) and `react/acknowledge` — are deliberately **not** exposed yet: no built consumer needs them. Each lands with its first consumer.
 

@@ -2,7 +2,7 @@ Every component kind has exactly one canonical home in a plugin, and putting a f
 
 ## Require the inputs that name the component
 
-Three inputs are non-negotiable: `--plugin` (which target tree), `--kind` (which sort of component), and `--name` (the component's filename). The file lands as `<name>.md`. If `--name` is absent for an adapter, default it to `--tool` — the provider an adapter wraps *is* its natural name, so an adapter for a given provider's calls is named after that provider. For every other kind, a missing `--name` is a stop-and-ask: don't guess a filename from the kind, because the name is a design choice the maintainer owns (a critic's lens, a rule's craft-noun, a module's flag).
+Three inputs are non-negotiable: `--plugin` (which target tree), `--kind` (which sort of component), and `--name` (the component's filename). The file lands as `<name>.md` — except a hook, whose body is the handler its manifest runs, landing as `<name>` with its interpreter's extension. If `--name` is absent for an adapter, default it to `--tool` — the provider an adapter wraps *is* its natural name, so an adapter for a given provider's calls is named after that provider. For every other kind, a missing `--name` is a stop-and-ask: don't guess a filename from the kind, because the name is a design choice the maintainer owns (a critic's lens, a rule's craft-noun, a module's flag).
 
 If any required input is missing, stop and ask rather than inventing one. A scaffold built on a guessed target is worse than no scaffold — the maintainer has to find and undo it.
 
@@ -16,14 +16,16 @@ Each kind resolves to a fixed directory; this mapping is the whole point of the 
 - **rule** → `skills/<skill>/rules/` — a-la-carte craft attached to one skill.
 - **module** → `skills/<skill>/modules/` — flag-activated behavior attached to one skill.
 - **hook** → `hooks/` — lifecycle handlers are plugin-wide, like agents.
+- **act** → `skills/<skill>/acts/` — one kind of work an orchestrator skill runs; only an orchestrator carries acts.
+- **craft** → `craft/<family>/` — a standard several skills apply, kept in the plugin's craft library ([choosing-slots](../../scaffold-skill/rules/choosing-slots.md)).
 
-The split is altitude: adapters, rules, and modules are *parts of a skill* and nest under it; explorers, critics, and hooks are *plugin-wide* and sit at the root. Memorize that division and the home falls out of the kind.
+The split is altitude: adapters, rules, modules and acts are *parts of a skill* and nest under it; explorers, critics, hooks and craft are *plugin-wide* and sit at the root. Memorize that division and the home falls out of the kind.
 
 ## Require the kind-specific inputs
 
-Three kinds attach to a specific skill and so demand `--skill`: **adapter**, **rule**, and **module**. Without it there is no `<skill>/` segment to resolve the home into — stop and ask. Adapters need one input more: `--tool`, the provider/transport the adapter wraps. `--tool` is the *only* input in this whole skill that legitimately names a concrete tool, because it names the thing the adapter exists to encapsulate; everywhere else, naming a tool is the leak the kit audits for.
+Four kinds attach to a specific skill and so demand `--skill`: **adapter**, **rule**, **module**, and **act**, whose skill must be an orchestrator (one with an `acts/` slot; for any other skill, stop and say so). A **craft** standard demands `--family` instead, the library folder it joins; without it there is no home to resolve, so stop and ask. Without it there is no `<skill>/` segment to resolve the home into — stop and ask. Adapters need one input more: `--tool`, the provider/transport the adapter wraps. `--tool` is the *only* input in this whole skill that legitimately names a concrete tool, because it names the thing the adapter exists to encapsulate; everywhere else, naming a tool is the leak the kit audits for.
 
-Explorers, critics, and hooks take no `--skill` — they're plugin-wide and bind to skills later, at wire-up, by being recruited rather than by living under a skill.
+Explorers, critics, hooks and craft take no `--skill` — they're plugin-wide and bind to skills later, at wire-up, by being recruited rather than by living under a skill.
 
 ## Confirm it doesn't already exist
 

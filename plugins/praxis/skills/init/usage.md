@@ -10,7 +10,7 @@ Detect and write the per-project praxis config — the `tools` map and `team` ro
 
 ## Not for / use instead
 - Changing harness settings, permissions, hooks, or env vars → that is the CLI's own config, not praxis config; this skill only writes `praxis.json`.
-- Producing or filing a document into `tools.artifacts` → publish-artifact. init only records *where* artifacts go; it never writes one.
+- Producing or filing a document into `tools.artifacts` → artifacts. init only records *where* artifacts go; it never writes one.
 - Reading knowledge or prior art out of `tools.knowledge` → understand / deep-research. init only records the connection; it does not fetch through it.
 - Any downstream engineering step (spec, plan, develop, review, …) → those *consume* the config init produces; run init once first, then reach for them.
 

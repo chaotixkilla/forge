@@ -1,12 +1,11 @@
 ---
 name: debug
-description: Find and fix the true root cause of a defect that has already bitten — reproduce it, localize the fault, form and test falsifiable hypotheses, confirm the mechanism rather than a coincidental trigger or downstream symptom, and (with --fix) resolve it at the cause with a guarding regression test. Reach for it when a specific failure needs root-causing; distinct from review (hunts latent defects in a change), test (confirms intended behavior), and verify (drives the running app to observe it).
+description: Find the true root cause of a defect that has already bitten — reproduce it, localize the fault, form and test falsifiable hypotheses, confirm the mechanism rather than a coincidental trigger or downstream symptom, and recommend the fix at the cause with the regression test that would guard it. Reach for it when a specific failure needs root-causing; distinct from review (hunts latent defects in a change), test (confirms intended behavior), and verify (drives the running app to observe it).
 metadata:
   flags:
     --from-incident=<ref>: seed the investigation from an incident/postmortem record — its symptoms, timeline, affected scope, and responder notes — read via the project-management or communication capability
     --from-telemetry=<ref>: seed from a telemetry signal (error-aggregate, trace, metric, dashboard) — anchor on the regression's onset and correlated signals, and turn the spike into a reproduction target
     --from-logs=<path|ref>: treat a log file (a local path) or a hosted log stream (a store reference) as the primary evidence to reconstruct the failure from
-    --fix: extend past diagnosis — apply the smallest correct change at the confirmed root cause and add a regression test that fails before the fix and passes after
     --sandbox: run reproduction and experiments in an isolated throwaway environment (branch/worktree/container) so probes, instrumentation, and risky toggles never touch the working tree or shared state
 ---
 Usage & examples — when to reach for this skill, and concrete flag invocations: see [usage.md](usage.md).
@@ -24,4 +23,4 @@ Each numbered step's full procedure lives in the linked phase file — read it, 
 3. Localize the fault: narrow from whole-system to the smallest suspect span by bisecting the input, the code path, and the timeline  — see [phases/03-localize-the-fault.md](phases/03-localize-the-fault.md)
 4. Hypothesize and test: form falsifiable hypotheses about the mechanism and run the cheapest experiment that could disprove each; let observation, not intuition, eliminate candidates  — see [phases/04-hypothesize-and-test.md](phases/04-hypothesize-and-test.md)
 5. Confirm the root cause: prove the mechanism end to end — show the bug appears and disappears when the claimed cause is toggled — and grade the confidence, distinguishing the true cause from a coincidental trigger or symptom  — see [phases/05-confirm-root-cause.md](phases/05-confirm-root-cause.md)
-6. Report or resolve: write up the mechanism, blast radius, and reproduction; hand off a precise diagnosis, or (with --fix) make the smallest correct change at the cause plus a guarding regression test  — see [phases/06-report-or-resolve.md](phases/06-report-or-resolve.md)
+6. Report the diagnosis: write up the mechanism, blast radius and reproduction, and recommend the fix at the cause with its guarding test  — see [phases/06-report-the-diagnosis.md](phases/06-report-the-diagnosis.md)

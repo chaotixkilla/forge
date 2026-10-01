@@ -14,7 +14,7 @@ Establish that a change actually works by driving the real running application: 
 - **Root-causing a failure whose cause is unknown** → **debug**. verify localizes only far enough to tell a defect in the change from noise in the setup around it, then hands off with a reproduction; chasing the cause down through the code is debug's work.
 - **Reading the change without running it** → **review**. review reads statically and executes nothing. verify's evidence is *always* an observation of a running system — a conclusion drawn from how the code looks is not a verify result at all.
 - **A throwaway probe answering an open question** → **prototype**. prototype builds something new to learn from and discards it; verify exercises the real built thing, as wired, and changes nothing.
-- **A live production incident** → **operate**, which owns the running production system. verify is a pre-landing check against an instance you stood up.
+- **A live production incident** → the incident act in **work**, which triages and mitigates the running production system. verify is a pre-landing check against an instance you stood up.
 - **Fixing what verify found** → **develop**. The verdict and its reproductions are the deliverable; the change that clears them is a separate run of a different skill.
 - **Getting the verdict in front of people** → **communicate**. That is deliberately not a flag here; verify returns the verdict to its caller.
 

@@ -1,10 +1,10 @@
-State the verdict against the framed claim — not "the suite is green" — attach a reproduction for every genuine failure, and surface what was *not* verified. This is test's whole deliverable, and its value is that the caller can trust it: a verdict that reports green while the risky path went unexercised is worse than no verdict.
+State the verdict against the framed claim — not "the suite is green" — attach a reproduction for every genuine failure, and surface what was *not* verified.
 
 ## State the verdict against the framed claim
 
 Measure the verdict against the pass condition stated in [frame-what-to-verify](01-frame-what-to-verify.md), not against a green suite. The verdict is one of three values — they partition the space, so every run lands on exactly one:
 
-- **PASS** — every part of the framed claim's pass condition is met by a discriminating case that was seen able to fail ([prove-the-test-can-fail](../rules/prove-the-test-can-fail.md)), **and** coverage is **adequate**, or **partial** with every gap named as accepted residual risk ([coverage-adequacy](../rules/coverage-adequacy.md)). The change is established to do what it should, to the depth the coverage reaches.
+- **PASS** — every part of the framed claim's pass condition is met by a discriminating case that was seen able to fail ([prove-the-test-can-fail](../../../craft/engineering/prove-the-test-can-fail.md)), **and** coverage is **adequate**, or **partial** with every gap named as accepted residual risk ([coverage-adequacy](../rules/coverage-adequacy.md)). The change is established to do what it should, to the depth the coverage reaches.
   - *Anchor:* the discount change's over-100% and empty-cart criteria each have a discriminating case seen red first, all now green, and every High/Medium-risk behavior is covered — PASS.
 - **FAIL** — at least one **genuine failure** ([failure-classification](../rules/failure-classification.md)) that is **in-claim** (the scope test below): the change is demonstrably wrong on a reachable input. Such a failure dominates — it makes the verdict FAIL regardless of coverage. An **out-of-claim** genuine failure does **not** set the verdict — it is a real finding, reported separately (see below), not this change's FAIL.
   - *Anchor:* `computeTotal` returns `NaN` for a valid cart on every run — a genuine failure contradicting the claim — FAIL.
@@ -29,7 +29,7 @@ This is distinct from the **coverage universe**: [design-the-cases](03-design-th
 
 ## Attach a reproduction for every genuine failure
 
-For each genuine failure, attach a reproduction ([make-failures-diagnostic](../rules/make-failures-diagnostic.md)): the input and conditions, the expected-vs-actual, and where it failed — enough that someone who wasn't at the run can reproduce it. Report flakes and environment noise **separately**, each classified, so they are not mistaken for the verdict. Report an **out-of-claim** genuine failure (by the scope test above — a pre-existing bug, or an *attribution-unestablished* failure the missing baseline could not attribute) separately too — it is a real finding worth surfacing, but it does not set this change's verdict value; do not hide it, and do not let it flip the change's verdict to FAIL.
+For each genuine failure, attach a reproduction ([make-failures-diagnostic](../../../craft/engineering/make-failures-diagnostic.md)): the input and conditions, the expected-vs-actual, and where it failed — enough that someone who wasn't at the run can reproduce it. Report flakes and environment noise **separately**, each classified, so they are not mistaken for the verdict. Report an **out-of-claim** genuine failure (by the scope test above — a pre-existing bug, or an *attribution-unestablished* failure the missing baseline could not attribute) separately too — it is a real finding worth surfacing, but it does not set this change's verdict value; do not hide it, and do not let it flip the change's verdict to FAIL.
 
 ## Surface coverage gaps and residual risk
 
@@ -37,11 +37,15 @@ State the [coverage-adequacy](../rules/coverage-adequacy.md) level and name ever
 
 ## The verdict shape
 
-Two cold runs must produce a report of the same character. The verdict carries: the framed claim and its pass condition; the verdict value against it (PASS / FAIL / INCONCLUSIVE); each in-claim genuine failure with its reproduction; out-of-claim genuine failures (pre-existing / attribution-unestablished) listed separately; flakes and environment noise listed separately; the coverage-adequacy level with its named gaps and residual risk; and — under `--from-spec` — per-criterion status. `(basis: a pinned report shape is what makes two cold runs' verdicts comparable — the recurring output-shape lesson from review's phase-06 and prototype's verdict output.)`
+Two cold runs must produce a report of the same character. The verdict carries: the framed claim and its pass condition; the verdict value against it (PASS / FAIL / INCONCLUSIVE); each in-claim genuine failure with its reproduction; out-of-claim genuine failures (pre-existing / attribution-unestablished) listed separately; flakes and environment noise listed separately; the coverage-adequacy level with its named gaps and residual risk; and — under `--from-spec` — per-criterion status. `(basis: derived from review's and prototype's pinned verdict shapes)`
 
 ## Before it goes out, read it as its reader
 
-Put the finished report through [deliver-at-the-readers-register](../../communicate/rules/deliver-at-the-readers-register.md) before delivering it: take from that rule the obligations this phase has not already settled for itself, and apply its honesty floor to the result. A run with no register to write to falls back on the only vocabulary it has loaded — this procedure's own — which is how a report comes out accurate and unreadable. Read the floor from the rule item by item rather than from memory — the passages it protects are exactly the ones that read as padding to anyone not checking whether the claim is true — and let its carve-out for named levels and verdict values hold the graded rungs and status names this skill defines and reports on.
+Put the finished report through [deliver-at-the-readers-register](../../../craft/writing/deliver-at-the-readers-register.md) before delivering it, applying its honesty floor item by item from the rule, not from memory.
+
+## Commit what the run authored, when the change is committed
+
+When the change under test is the caller's own work, already committed on a branch — its window holds commits — commit the cases this run authored on that branch, in their own commit, its message by [commits-tell-the-why](../../../craft/engineering/commits-tell-the-why.md) and the commit by the repo's policy ([honor-commit-policy](../../../craft/engineering/honor-commit-policy.md)). When the change is still uncommitted, the cases stay in the working tree beside it, for whoever commits the change; when the caller says the change is under review rather than being built, nothing is committed and the cases are left for the caller to remove. Never commit anything else. (routed to maintainer: test commits its own cases once the change it tests is committed, so a review request carries them.)
 
 ## Output
 

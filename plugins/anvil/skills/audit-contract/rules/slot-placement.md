@@ -6,6 +6,8 @@ A skill's body files are split across slots, and the slot a file lives in is a c
 - **`rules/` — reusable a-la-carte craft.** Standalone judgment or technique that several phases (or several skills) cite when they need it. The defining property is *reuse without order*: a rule is pulled in on demand, not run at a fixed point. This file is a rule.
 - **`modules/` — flag-activated behavior.** A self-contained lens or capability that runs only when its flag turns it on. The defining property is *gated activation*: a module is dormant until a declared flag fires it.
 
+One home sits outside every skill: the plugin's **craft library**, `craft/<family>/`, for standards that several skills apply ([choosing-slots](../../scaffold-skill/rules/choosing-slots.md) defines it). Its tell is the step-or-craft test: a standard that would read the same whichever step applied it is craft, and a skill `rules/` file that passes that test while another skill applies the same standard belongs in the library. A craft file that only one step could use is method, and belongs back in that skill's `rules/`.
+
 ## How to judge a file's true kind
 
 Read the file and ask what it *is*, then check the slot matches. The tells are concrete:

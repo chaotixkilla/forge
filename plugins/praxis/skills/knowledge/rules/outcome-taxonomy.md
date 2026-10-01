@@ -2,7 +2,7 @@
 
 A caller reads this port to learn what the org wrote down. What it does next turns entirely on *which kind of nothing* it got back: retry, escalate access, fix a reference, reshape the request, or record a genuine absence as evidence. So this port returns one of a fixed set of **capability-level outcomes**, never a backend's own error, and one of them is a *success*. The distinction the whole port exists to preserve is between **reached the space and it holds nothing** and **never reached the space** — a caller that conflates them reports an absence it never established, and a fabricated absence is indistinguishable from a real one downstream.
 
-`(basis: derived — the five failure axes and the confusable-pair method are the sibling artifacts port's ([publish-artifact/rules/failure-taxonomy.md](../../publish-artifact/rules/failure-taxonomy.md)), reused rather than re-derived; this set drops its write-only `conflict` (no write can be blocked by target state here) and adds two values a failure-only vocabulary has no rung for — `ok`, which must carry the empty result, and `partial`, the known-incomplete read. Named outcome- rather than failure-taxonomy because it classifies successes too. Not a maintainer-ratified fork — a derivation proposed with the skill.)`
+`(basis: derived from [artifacts/rules/failure-taxonomy.md](../../artifacts/rules/failure-taxonomy.md))`
 
 ## The six outcomes
 
@@ -28,8 +28,8 @@ Exhaustive because every run answers all six questions; mutually exclusive becau
 
 ## Confusable-pair discriminators
 
-- **`ok`-empty vs `unavailable`** — the distinction this port exists for. The space was queried and answered nothing → `ok`; the query never reached the space → `unavailable`. Never let an unreached read return an empty result: an empty `ok` asserts *the space does not hold this*, which is a claim about the org that only a completed read can make.
-- **`ok`-empty vs `target-not-found`** — turns on what the request *named*. A **search** asks a question of the space; no match is `ok` with zero references. A **fetch** or **children** request names a specific target; its absence is `target-not-found`. So a search finding nothing and a fetch of a nonexistent page are different answers, not two spellings of one.
+- **`ok`-empty vs `unavailable`** — the space was queried and answered nothing → `ok`; the query never reached the space → `unavailable`. Never let an unreached read return an empty result: an empty `ok` asserts *the space does not hold this*, which is a claim about the org that only a completed read can make.
+- **`ok`-empty vs `target-not-found`** — turns on what the request *named*. A **search** asks a question of the space; no match is `ok` with zero references. A **fetch** or **children** request names a specific target; its absence is `target-not-found`.
 - **`ok`-empty vs `partial`** — `ok` asserts the answer is complete; `partial` asserts it is knowably not. An empty result the backend confirmed is `ok`; an empty-so-far result cut off by a limit is `partial`.
 - **`unavailable` vs `unauthorized`** — reachability against permission: no credentials or no transport → `unavailable`; reached and authenticated but forbidden → `unauthorized`.
 - **`unauthorized` vs `target-not-found`** — existence counts as *confirmed* only when the backend returns an unambiguous not-found distinct from its forbidden response. Where a backend masks absence as forbidden (one indistinguishable response for both), the default is **`unauthorized`** — never guess absence into a not-found, because a fabricated not-found sends the caller to fix a reference that was never wrong.
@@ -37,8 +37,8 @@ Exhaustive because every run answers all six questions; mutually exclusive becau
 
 ## What this taxonomy does not cover
 
-A **malformed invocation** — a read request naming no operation, or a reference the port cannot parse before any backend interaction — is not one of these six. It is rejected up front as the caller error it is, so a caller never reads a self-inflicted argument error as a fact about the backend.
+A **malformed invocation** — a read request naming no operation, or a reference the port cannot parse before any backend interaction — is not one of these six. It is rejected up front as the caller error it is, so a caller never reads a self-inflicted argument error as a fact about the backend. Nor is there a `conflict` outcome: the port never writes, so no target state can block a request.
 
 ## Where it binds
 
-Adapters do the mapping: each adapter's **Failure surface** section translates its backend's concrete conditions into exactly these outcomes, so the vocabulary is honored below the seam rather than merely asserted here. The concrete condition→outcome mappings live in the adapter, never in this rule. Step 4 of [SKILL.md](../SKILL.md) returns the outcome to the caller unchanged.
+Adapters do the mapping: each adapter's **Failure surface** section translates its backend's concrete conditions into exactly these outcomes. The concrete condition→outcome mappings live in the adapter, never in this rule. Step 4 of [SKILL.md](../SKILL.md) returns the outcome to the caller unchanged.

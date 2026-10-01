@@ -1,6 +1,6 @@
 # Cut along natural seams
 
-When you must place a boundary between units, there is always a temptation to cut for a tidy count — five units instead of "one big one and two small ones." But a cut placed for the count runs straight through whatever coupling happens to sit there, and the two pieces it makes cannot move without each other: you have manufactured a dependency the design never had, and called it a unit boundary. This rule pins *where* to cut — at the seams the system already has — so the units come out genuinely independent rather than independent-looking. It is cited by [carve-into-units](../phases/02-carve-into-units.md).
+When you must place a boundary between units, there is always a temptation to cut for a tidy count — five units instead of "one big one and two small ones." But a cut placed for the count runs straight through whatever coupling happens to sit there, and the two pieces it makes cannot move without each other: you have manufactured a dependency the design never had, and called it a unit boundary. This rule is cited by [carve-into-units](../phases/02-carve-into-units.md).
 
 ## The discriminator: cut where coupling is already lowest
 
@@ -8,9 +8,9 @@ Cut at the boundaries the work hands you, where two sides already change for dif
 
 - **If the two sides change for different reasons** — a realistic change to one leaves the other untouched — the seam is real; cut there, and each unit stays independently buildable and reviewable.
 - **If a realistic change to one side forces the other to change too** — they share a reason to change — the cut runs through a coupling; do not put a unit boundary there, or you get two units that must always be worked together.
-- **The count is an output, not an input.** Let the number of units fall out of where the real seams are. If the seams give you three units, three is right; forcing a fourth by cutting a coupled pair in half is how independence becomes fictional.
+- **The count is an output, not an input.** Let the number of units fall out of where the real seams are. If the seams give you three units, three is right.
 
-`(basis: the low-coupling / high-cohesion boundary is the coupling-and-cohesion principle of structured design (Constantine & Yourdon) and information-hiding (Parnas — modules encapsulate what changes together); within praxis it is the unit-level application of plan's seam-along-change-boundaries rule, which places design seams where change and ownership diverge. The reason-to-change discriminator is the operative test, mirroring develop's dry-vs-incidental-duplication.)`
+`(basis: Constantine and Yourdon's coupling and cohesion; Parnas's information hiding; after plan's seam-along-change-boundaries; the reason-to-change test after develop's dry-vs-incidental-duplication)`
 
 ## When a plan already drew the seams
 

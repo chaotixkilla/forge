@@ -1,12 +1,12 @@
-Cases designed without knowing where the change lives, how it is reached, and how the codebase already tests similar surfaces are cases that don't fit and don't run. This phase maps the touched surface and learns the suite's conventions before a single case is designed — so the next phase designs cases that are both complete and native to this codebase.
+Map the touched surface and learn the suite's conventions before a single case is designed, so the next phase designs cases that are both complete and native to this codebase.
 
 ## Locate the touched surface (explore · code)
 
-Recruit the **code explorer** to locate: the code paths the change introduces or alters, the seams it crosses (external dependencies, I/O), its callers and callees (the reverse-dependents that inherit the change's behavior), and where the existing tests for this area live. Without fan-out, do these reads inline — locate the touched symbols, their call sites, and the existing tests yourself before proceeding; the reads are not optional, only the delegation is — see [code](../../../agents/explorers/code.md). Under `--changed`, scope this to the changed files plus their reverse-dependents.
+Recruit the **code explorer** to locate: the code paths the change introduces or alters, the seams it crosses (external dependencies, I/O), its callers and callees (the reverse-dependents that inherit the change's behavior), and where the existing tests for this area live. Without fan-out, do these reads inline — locate the touched symbols, their call sites, and the existing tests yourself before proceeding; the reads are not optional, only the delegation is — see [code](../../../agents/explorers/code.md). Under `--changed`, scope this to the changed files plus their reverse-dependents. Recruit only as [fan-out-only-when-it-pays](../../gather/rules/fan-out-only-when-it-pays.md) allows.
 
 ## Learn how this codebase already tests
 
-Read the surrounding suite to learn its conventions ([match-the-suites-conventions](../rules/match-the-suites-conventions.md)): the runner it uses, the directory layout and naming, the fixture and double style, and how it exercises similar surfaces. **Discover the project's own test command** — how the suite is invoked *here* — and carry it forward as "the project's configured runner" for later phases; never assume or hardcode a framework. The goal is that the cases designed next read as natives of this suite, not imports.
+Read the surrounding suite to learn its conventions ([match-the-surrounding-code](../../../craft/engineering/match-the-surrounding-code.md)): the runner it uses, the directory layout and naming, the fixture and double style, and how it exercises similar surfaces. **Discover the project's own test command** — how the suite is invoked *here* — and carry it forward as "the project's configured runner" for later phases; never assume or hardcode a framework.
 
 ## How much mapping is enough — deliberately open
 

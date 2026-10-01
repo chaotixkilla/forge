@@ -19,4 +19,4 @@ An incident record is a *claim*, often written under pressure and broader than t
 
 ## Incident context legitimizes mitigate-then-diagnose
 
-`--from-incident` is a signal that this is production-pressure context, which activates the incident branch of the mitigation-vs-root-cause fork in [report-or-resolve](../phases/06-report-or-resolve.md): stopping the bleeding first is legitimate here, with the mitigation recorded as provisional and the root-cause fix still owed. Absent that pressure, debug's cause-only default holds.
+`--from-incident` is a declared-incident signal, which activates the incident branch of the mitigation-vs-root-cause fork in [report-the-diagnosis](../phases/06-report-the-diagnosis.md): stopping the bleeding first is legitimate here, with the mitigation recorded as provisional and the root-cause fix still owed. Absent that pressure, debug's cause-only default holds.

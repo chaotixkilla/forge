@@ -12,8 +12,6 @@ The base audit is informational — it delivers findings and the reader decides 
 
 ## The gate floor
 
-The floor is `--severity-min` when the caller sets one. When they don't, the gate needs a default floor to threshold against:
-
-`(basis: default gate floor = high — the gate fails on high and critical findings and treats medium and below as advisory — ratified by the maintainer, 2026-07-10. Sourced from corroborated CI-gate practice: blocking on high+critical is the common, survivable baseline (it is the out-of-the-box behavior of widely-used code-scanning gates, and the practitioner-recommended threshold for dependency/SAST gates), because a floor below high makes the gate noisy enough that teams disable it, while a floor above high lets landing-blocking breaches through. A minority "start at critical-only during rollout" practice exists but is weakly corroborated. An explicit --severity-min always overrides this default.)`
+The floor is `--severity-min` when the caller sets one, which always overrides the default. When they don't, the default floor is **high**: the gate fails on high and critical findings and treats medium and below as advisory. A floor below high makes the gate noisy enough that teams disable it; one above high lets landing-blocking breaches through. `(basis: maintainer, 2026-07-10; after common CI code-scanning and SAST gate practice)`
 
 State the floor in the gate's output either way, so a failed check tells the reader *what* threshold it failed against — and, when the run is inconclusive, that the floor was never applied because the audit did not complete.

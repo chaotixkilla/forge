@@ -8,7 +8,7 @@ Reach for `understand` when you need an accurate mental model of an unfamiliar s
 - **An open-world, cited research report from the web** → `deep-research` (understand is grounded in *this* system; deep-research canvasses the outside world).
 - **Turning the understanding into a design or requirements** → `plan` / `spec` (they consume the understanding; understand stops at the map).
 - **Making the change once you understand it** → `develop` / `debug` (understand never mutates the system under study).
-- **Publishing the map as a durable team document** → pipe the map to `communicate` / `publish-artifact`; understand emits the map inline (or as a `--diagram`) and owns no publish path.
+- **Publishing the map as a durable team document** → pipe the map to `communicate` / `artifacts`; understand emits the map inline (or as a `--diagram`) and owns no publish path.
 
 ## Examples
 - `understand "how does the login path handle an expired token"` — frame the question, delegate the locate/corroborate reads to gather, trace the path, return a certainty-graded map.
@@ -20,5 +20,5 @@ Reach for `understand` when you need an accurate mental model of an unfamiliar s
 ## Gotchas
 - **Read-only by nature.** understand observes; it never edits, commits, or changes the system under study. The default posture *may* run or probe non-destructively to observe behavior (the top certainty rung); `--read-only` hardens that to zero execution, and the highest a claim can then reach is *traced*, not *observed*.
 - **It delegates its fan-out to gather.** understand frames, traces, and synthesizes; the cross-lane locate and corroborate reads go to `gather`, whose knowledge lane reads through the `knowledge` port (the owner of the `tools.knowledge` prerequisite) — so understand declares no config of its own. Without gather reachable, do the reads inline; the reads are not optional, only the delegation is.
-- **The map is graded, not asserted.** Every claim carries a certainty level (what you observed vs. inferred vs. took on faith). A map that states inferences as facts is the failure mode this skill exists to prevent.
+- **The map is graded, not asserted.** Every claim carries a certainty level (what you observed vs. inferred vs. took on faith).
 - **Scope is the framed question.** understand traces the paths the question turns on and stops when the question is decided; it is not a whole-system tour. `--deep` widens the radius when the question needs it.

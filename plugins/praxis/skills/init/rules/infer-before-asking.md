@@ -1,6 +1,6 @@
 # Infer before asking
 
-The expensive failure of a setup skill is interrogation: a run that fires a dozen questions at the user when half the answers were sitting in the environment. Every question init asks that the project could have answered is a question that erodes the "let inference do the first draft" promise the skill is built on. This rule is the discipline of exhausting the cheap signals before reaching for the user — and, just as important, of grading how strong each signal is, because a signal that *determines* a value and a signal that merely *hints* at one must be treated differently downstream.
+The expensive failure of a setup skill is interrogation: a run that fires a dozen questions at the user when half the answers were sitting in the environment.
 
 ## Climb the cost ladder, cheapest rung first
 
@@ -16,7 +16,7 @@ A field escalates to the user on exactly one trigger: the cheaper rungs returned
 
 Detection does not just find signals; it grades how much each one settles. The grade is read off the signal's determinism, never guessed — a model's hunch about the likely provider is not a signal, it is the anecdote the sourcing discipline forbids. Every detected field lands in exactly one tier:
 
-`(basis: ratified by the maintainer, 2026-07-05. The three tiers and their boundary tests are init's derivation of "how strong is strong enough to fill" — there is no external authority for a config-detection confidence ladder the way there is for, say, severity, so the rung boundaries and anchors are the maintainer's ratified house standard. The scale drives the posture matrix in [confirm-dont-assume-defaults](confirm-dont-assume-defaults.md); the two were ratified together.)`
+`(basis: maintainer, 2026-07-05, for the three tiers and their boundary tests)`
 
 - **derivable** — a single environment signal *uniquely* determines the field's value, and reading the signal is deterministic (two cold runs read it the same). Exactly one value is consistent with the signal.
   - *Anchor (top of scale):* the working tree's version-control remote resolves to a recognized hosting provider — the remote's host maps to exactly one provider, so the `vcs.provider` is fixed by the environment, no human needed to know it.
@@ -30,4 +30,4 @@ Detection does not just find signals; it grades how much each one settles. The g
 - **derivable vs suggestive** — does the signal admit *exactly one* value (derivable) or *more than one, or an unresolved slot assignment* (suggestive)? A recognized remote host → one provider is derivable; an unrecognized/self-hosted host, or a connection that could fill several slots, is suggestive. When you cannot name the single value the signal forces, it is not derivable — drop a tier.
 - **suggestive vs absent** — does *any* signal bear on the field (suggestive) or *none* (absent)? If nothing on disk or in the connection registry constrains it, it is absent, and the user is the only source.
 
-The tier is not the action — a derivable field is still surfaced for confirmation under the default posture, and a suggestive one is still skipped under `--degrade`. The tier feeds the posture matrix in [confirm-dont-assume-defaults](confirm-dont-assume-defaults.md), which is where a tier becomes an auto-fill, a proposal, a question, or a skip. Keep the two concerns separate: this rule decides *how strong the signal is*; that rule decides *what to do about it* given the run's posture.
+The tier is not the action — a derivable field is still surfaced for confirmation under the default posture, and a suggestive one is still skipped under `--degrade`. The tier feeds the posture matrix in [confirm-dont-assume-defaults](confirm-dont-assume-defaults.md), which is where a tier becomes an auto-fill, a proposal, a question, or a skip.

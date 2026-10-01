@@ -1,4 +1,4 @@
-A hunt with no threat model is a keyword sweep: it greps for dangerous patterns and misses the attack the architecture actually invites. This phase turns the surface map into a *deliberate* target list — who would attack this, what they want, and which classes of attack the trust boundaries genuinely expose — so the hunt in [hunting-vulnerabilities](03-hunting-vulnerabilities.md) knows where to spend its attention. Skip it and the hunt is undirected; do it and every later trace is aimed at a threat someone would actually attempt.
+Turn the surface map into a *deliberate* target list — who would attack this, what they want, and which classes of attack the trust boundaries genuinely expose — so the hunt in [hunting-vulnerabilities](03-hunting-vulnerabilities.md) knows where to spend its attention.
 
 ## Scope the adversary
 
@@ -12,14 +12,14 @@ A threat is defined against an attacker, so name the attacker before the threat.
 
 ## Choose the threat-modeling framework — a sourced default, a routed fork
 
-A threat-modeling framework is the lens that turns "what could go wrong" from improvisation into systematic enumeration. Several exist, and — importantly — the authorities frame them as **complementary tools of different scope, not rival answers to one question** ("enumerate with STRIDE, explore with attack trees"). So this is not a pick-a-winner fork; it is a default plus a reach-for-X-when, routed by **the project's surrounding convention (a threat-model the repo already uses) → the house default → the maintainer**, non-gating:
+A threat-modeling framework is the lens that turns "what could go wrong" from improvisation into systematic enumeration. Several exist, and the authorities frame them as **complementary tools of different scope, not rival answers to one question** ("enumerate with STRIDE, explore with attack trees"). So this is not a pick-a-winner fork; it is a default plus a reach-for-X-when, routed by **the project's surrounding convention (a threat-model the repo already uses) → the house default → the maintainer**, non-gating:
 
-- **STRIDE** *(the default)* — categorize threats per surface element as Spoofing, Tampering, Repudiation, Information disclosure, Denial of service, Elevation of privilege. *Strength:* broad, low-barrier, design-level coverage — one threat class per element, systematically. *Cost:* breadth not depth; it enumerates, it does not prioritize by business risk or decompose a single goal.
+- **STRIDE** *(the house default when `--threat-model` names no framework and the repo has no threat-model convention)* — categorize threats per surface element as Spoofing, Tampering, Repudiation, Information disclosure, Denial of service, Elevation of privilege. *Strength:* broad, low-barrier, design-level coverage — one threat class per element, systematically. *Cost:* breadth not depth; it enumerates, it does not prioritize by business risk or decompose a single goal.
 - **Attack trees** — root an attacker goal and refine it downward (AND/OR) into concrete paths. *Strength:* depth on one high-value objective and the feasibility of each path. *Cost:* one goal at a time; not a full-surface enumeration. Reach for it to drill into a specific goal after STRIDE finds it.
 - **PASTA** — a seven-stage, risk-centric method tying threats to business impact via attacker simulation. *Strength:* business-prioritized, evidence-based risk output. *Cost:* heavyweight; disproportionate for a per-change review. Reach for it when the output must be business-risk-ranked.
 - **LINDDUN** — the privacy analogue of STRIDE (linkability, identifiability, non-repudiation, detectability, disclosure, unawareness, non-compliance). *Strength:* systematic privacy-threat elicitation. *Cost:* privacy-scoped; not a general security method. Reach for it when personal-data/privacy risk is in scope.
 
-`(basis: default threat-modeling framework = STRIDE when --threat-model is unset and the project shows no established convention — ratified by the maintainer, 2026-07-10. Sourced from: Microsoft's SDL Threat Modeling Tool ships STRIDE as its default template, and OWASP presents STRIDE as the primary threat-categorization method — the broadest, lowest-barrier design-level enumeration. The others are reached for by scope, per the routing rule above.)`
+`(basis: maintainer, 2026-07-10, for STRIDE as default; after the SDL Threat Modeling Tool's default template and OWASP's framing of STRIDE)`
 
 ## Derive the threat list
 

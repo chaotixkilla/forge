@@ -13,6 +13,6 @@ The base spec starts from a request stated as a request. This module seeds it fr
 
 ## Prerequisite and degrade
 
-`--from-discussion` is a reason spec reaches the communication capability; the base path touches no backend. Following doer-owns-prerequisites, spec **declares no communication prerequisite** — the capability is owned by its port skill, as spec's `--publish` hands its prerequisite to [publish-artifact](../../publish-artifact/SKILL.md).
+`--from-discussion` is a reason spec reaches the communication capability; the base path touches no backend. Following doer-owns-prerequisites, spec **declares no communication prerequisite** — the capability is owned by its port skill.
 
-The serving port is a **`communication` port skill that is ratified but not yet built** (basis: ratified by the maintainer, 2026-07-04 — a `communication` port owning `tools.communication`, mirroring `vcs`, is the chosen route; the spec-local-adapter alternative, which would make spec config-bearing and duplicate what the port will own, was set aside). Until that port exists, degrade cleanly: report that the thread could not be fetched and fall back to interrogating whatever the caller can summarize inline — do **not** silently proceed as though no `<ref>` was given.
+Read the thread through the [communication](../../communication/SKILL.md) port's *read a thread* operation. (basis: maintainer, 2026-07-04) When the port reports any failure (the backend unavailable, the thread not found, a retryable error), degrade cleanly: report that the thread could not be fetched and fall back to interrogating whatever the caller can summarize inline — do **not** silently proceed as though no `<ref>` was given.

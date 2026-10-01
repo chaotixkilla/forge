@@ -14,6 +14,7 @@ A consumer needs these to invoke and run the plugin, so they belong inside the p
 
 - The skill bodies and their frontmatter — the capability surface the consumer invokes.
 - The agents the skills recruit — explorers that gather, critics that challenge.
+- The craft library the skills cite — shared standards a step loads while it runs.
 - The adapters that resolve a named capability to a concrete tool — the running plugin dispatches through them.
 - Lifecycle hooks the harness loads.
 - The plugin manifest.

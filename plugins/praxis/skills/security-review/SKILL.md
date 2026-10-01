@@ -7,7 +7,7 @@ metadata:
     --threat-model=<framework>: bias the hunt toward a named threat-modeling framework or adversary, weighting which threats to prioritize
     --standard=<framework>: map the findings onto a named standard/compliance framework's control taxonomy and report coverage against it (activates standard-mapping)
     --severity-min=<level>: drop findings below this severity from the report before delivery
-    --exhaustive: trade speed for completeness — enumerate every entry point and every threat class rather than the high-likelihood subset
+    --exhaustive: trade speed for completeness — enumerate every entry point and every threat class rather than the high-likelihood subset (asks before starting)
     --sarif=<path>: emit findings as a machine-readable findings document at the path, in addition to the human report (activates sarif-output)
     --gate: reduce the run to a pass/fail verdict for CI — fail when a finding meets the configured severity bar (activates gate-decision)
 ---

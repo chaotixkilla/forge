@@ -3,20 +3,16 @@ name: deep-research
 description: Fan out multi-source web research, fetch and adversarially verify the load-bearing claims, then synthesize a cited report with explicit confidence and gaps — for a genuinely open question that in-context and repository knowledge can't settle.
 metadata:
   flags:
-    --deep: escalate depth — wider fan-out, more rounds of lead-chasing, and the authoritative-literature lane engaged on every sub-question rather than only where it fits, instead of a single pass (activates deep-mode)
+    --deep: escalate depth — wider fan-out, more rounds of lead-chasing, and the authoritative-literature lane engaged on every sub-question rather than only where it fits, instead of a single pass (activates deep-mode) (asks before starting)
     --budget=<n>: bound the number of searches/fetches, allocated across sub-questions by importance (activates budget-discipline)
     --timebox=<duration>: work to a wall-clock limit, degrading to a best-effort answer when it expires (activates timeboxing)
     --cited: raise rendered attribution to a formal citation for every non-obvious claim — a compose-output rigor input; provenance is tracked regardless
     --verify=<off|light|strict>: how hard the load-bearing claims are tested before they're trusted — the rigor dial (see the verification-level rule)
-    --publish: render the finished report as a publishable, team-facing document through the artifacts capability (activates publish-output)
-    --background: run the research detached so a long fan-out doesn't block the session (activates background-run)
-    --notify: on completion of a detached run, signal the invoker — valueless by design, since the signal goes to whoever launched the run and there is no target to name (activates notify-on-completion)
 ---
 Usage & examples — when to reach for this skill, and concrete flag invocations: see [usage.md](usage.md).
 
-deep-research owns no backend of its own. Searching the web and fetching a source is an **ambient capability** — like reading a local file — so it wires no config and no adapter for it, naming only the capability in prose, and it recruits the web-facing explorer lanes directly. The one *configured* source — org-internal knowledge (a feature's history, prior decisions, who and when) — it reaches through the `gather` port, whose knowledge lane reads via the `knowledge` port (the owner of `tools.knowledge`), and which drops the lane with a note when no backend is configured. Publishing it delegates wholesale to the `publish-artifact` port (which owns `tools.artifacts`). Every doer owns its own prerequisite, so deep-research declares **no `config_requires`** — the org-knowledge lane is present when a backend is configured and degrades cleanly when it isn't.
+deep-research owns no backend of its own. Searching the web and fetching a source is an **ambient capability** — like reading a local file — so it wires no config and no adapter for it, naming only the capability in prose, and it recruits the web-facing explorer lanes directly. The one *configured* source — org-internal knowledge (a feature's history, prior decisions, who and when) — it reaches through the `gather` port, whose knowledge lane reads via the `knowledge` port (the owner of `tools.knowledge`), and which drops the lane with a note when no backend is configured. Every doer owns its own prerequisite, so deep-research declares **no `config_requires`**.
 
-One flag reshapes the whole run rather than activating inside a phase: `--background` runs the research detached — see [modules/background-run.md](modules/background-run.md). (`--notify`, its usual companion, activates at completion — see [phases/06-compose-output.md](phases/06-compose-output.md).)
 
 Each numbered step's full procedure lives in the linked phase file — read it, then carry out the step. The phases cite the rules/ craft where it applies and recruit the shared explorer/critic agents.
 

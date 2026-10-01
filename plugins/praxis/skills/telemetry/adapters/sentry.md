@@ -1,6 +1,6 @@
 # sentry — telemetry adapter
 
-Implements the **telemetry** capability for Sentry, over the transport configured in `tools.telemetry.transport` (api or mcp). The [telemetry](../SKILL.md) skill names the read and dispatches here; each read below is one of the telemetry capability's requests, translated to Sentry's concrete surface. Resolve exact field/parameter names against the live tool at call time (below) — the names here are not frozen.
+Implements the **telemetry** capability for Sentry, over the transport configured in `tools.telemetry.transport` (api or mcp). The [telemetry](../SKILL.md) skill names the read and dispatches here.
 
 ## Operations
 
@@ -21,4 +21,4 @@ Report failures upward in capability terms — the caller hears an outcome, neve
 
 ## Call-time discovery
 
-Sentry's surface shifts (endpoint shapes, query parameter names, the logs product's availability and payload, MCP tool names), so name the read and its purpose here and resolve the exact parameters when you call: confirm the current issues/events read shape, the stats-period/window parameters, the trace read, and whether structured logs are available for the project (versus breadcrumbs) against the live API/connector at call time. An adapter that pins today's exact field names ages into a confident wrong call; one that names the read and re-derives the arguments ages gracefully.
+Sentry's surface shifts (endpoint shapes, query parameter names, the logs product's availability and payload, MCP tool names), so name the read and its purpose here and resolve the exact parameters when you call: confirm the current issues/events read shape, the stats-period/window parameters, the trace read, and whether structured logs are available for the project (versus breadcrumbs) against the live API/connector at call time.

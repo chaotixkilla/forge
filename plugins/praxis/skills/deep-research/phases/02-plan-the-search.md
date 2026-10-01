@@ -1,5 +1,3 @@
-With the sub-questions framed, planning decides where each is likely to be answered and how much parallel search to throw at it. The judgment is allocation: match each sub-question to the lanes whose sources would actually settle it, and set a fan-out wide enough to triangulate but not so wide it buries the signal in restatement.
-
 ## Map each sub-question to source lanes
 
 Choose, per sub-question, the lanes whose sources would answer it — by fit, not one-of-each:
@@ -13,7 +11,7 @@ Lead each sub-question with the lane that would yield its strongest source ([wei
 
 ## Set the fan-out strategy
 
-The default is **a single broad pass**: recruit the fitting lanes once, in parallel, then chase leads until the answer stops moving ([know-when-to-stop](../rules/know-when-to-stop.md)). (basis: single-pass breadth is what a caller who names no depth wants — enough to triangulate the load-bearing claims without a multi-round spend; the escalations are opt-in.) The flags reshape it: [deep-mode](../modules/deep-mode.md) (`--deep`) widens the lane set and the rounds; [budget-discipline](../modules/budget-discipline.md) (`--budget`) bounds the spend and allocates it across sub-questions by importance; [timeboxing](../modules/timeboxing.md) (`--timebox`) caps wall-clock and forces early prioritization.
+The default is **a single broad pass**, enough to triangulate the load-bearing claims without a multi-round spend: recruit the fitting lanes once, in parallel, then chase leads until the answer stops moving ([know-when-to-stop](../../../craft/evidence/know-when-to-stop.md)). (basis: derived from what a caller who names no depth wants) The flags reshape it: [deep-mode](../modules/deep-mode.md) (`--deep`) widens the lane set and the rounds; [budget-discipline](../modules/budget-discipline.md) (`--budget`) bounds the spend and allocates it across sub-questions by importance; [timeboxing](../modules/timeboxing.md) (`--timebox`) caps wall-clock and forces early prioritization.
 
 Sequence the sub-questions so a lead-rich one — whose answer reshapes the others — runs first ([follow-the-leads](../rules/follow-the-leads.md)), rather than in the order the ask happened to list them.
 

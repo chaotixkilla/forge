@@ -1,0 +1,36 @@
+# Make the rollout reversible
+
+Ship a risky change all-at-once and, when it misbehaves, the only way back is a scramble — redeploy the old version while users are hurting, or discover the change can't be cleanly undone at all. Prefer a rollout you can *undo fast* over one you can only *push forward*: the more a change resists reversal, the more the rollout must decouple exposure from deployment so a bad outcome is bounded and recoverable.
+
+Risk here answers one question: **how hard is this to take back if it's wrong, and how much breaks before you can?** It is assigned in [assess-the-rollout](../phases/01-assess-the-rollout.md) and consumed in [promote](../phases/02-promote.md).
+
+## The four risk tiers and the strategy each demands
+
+`(basis: house model, after AWS deployment whitepapers, Google SRE canarying, Fowler's blue-green and feature toggles, Sato's parallel change and DORA; "one-way side effect" is practitioner lore)`
+
+`(routed to maintainer: the four tiers and default strategies below, in every environment; where broad ends and bounded begins is the house's call)`
+
+- **irreversible-if-wrong** → **behind a switch** (decouple release from deploy; whether a change earns one, and what it owes at birth, is [feature-flagging-risky-changes](feature-flagging-risky-changes.md)). A change that a plain revert cannot fully undo once traffic hits it: it changes data-at-rest (a schema/data migration), an external contract other consumers depend on, or performs a one-way side effect (a payment captured, an email sent, an event published). roll-out's lever here is the **switch it can apply at ship time**: ship the code path behind a feature flag / kill switch, or dark-launched, so turning it off is a config flip and not a redeploy. **The boundary roll-out must respect:** the switch decouples *the code path*; it does not make a fused destructive data/contract change reversible. Making an incompatible data/contract change reversible is **expand-contract** (add the new alongside the old, migrate, then remove the old) — and that is a property of how the change was *authored upstream* as a sequence of individually-revertible steps, not something roll-out can synthesize in one pass. So: where the change is already structured reversibly (or is only code, flag-decouplable), ship it behind the switch; where its irreversibility is **structural and unsequenced** — a raw destructive migration fused with the feature it serves — roll-out **surfaces that the change can't be rolled out reversibly as-is and routes back** (the sequencing belongs to how it was built — develop/decompose), rather than faking a sequence it cannot produce or silently shipping it irreversibly.
+  - *Anchor (top of scale):* an online migration that rewrites a production table in place, or a change to a published API contract external clients already call — reverting the deploy does not un-migrate the rows or un-break the clients.
+- **broad-but-reversible** → **staged exposure** (canary). A change that a revert *does* fully undo, but whose reachable blast radius is wide — a shared or high-traffic path many users hit at once. Expose it to a small subset first, compare the subset's signals against a baseline/control ([confirm-healthy](../phases/03-confirm-healthy.md) defines the health read), and ramp only while it stays healthy, so a bad change reaches few before it's caught.
+  - *Anchor:* a change to a request-handling path on the main user flow — cleanly revertible, but if wrong it degrades everyone at once unless exposure is staged.
+- **reversible-bounded** → **small increment** (rolling). A real behavior change confined to one bounded flow or component, cleanly revertible, where old and new can coexist during the roll. Ship it incrementally (batch by batch) rather than to the whole fleet at once, so a failure is bounded to the batch and rolls back by redeploying just that batch.
+  - *Anchor:* a localized fix to a single feature's logic — if it regresses, the blast radius is that feature and the revert is clean.
+- **reversible-trivial** → **all-at-once**. A change no user can observe a behavior difference from, that a plain revert fully undoes, touching a tiny surface — the staging machinery would cost more than the risk it removes.
+  - *Anchor (bottom of scale):* fixing a typo in a log string, a comment, or a test; a formatting-only or docs-only change.
+
+## The adjacent-tier discriminators
+
+Assign by walking **down** from the top: take the highest tier whose condition holds, because irreversibility outranks breadth outranks behavior-presence. The boundary tests are what stop a change sliding between tiers:
+
+- **irreversible-if-wrong vs broad-but-reversible** — does a plain revert (or a blue-green switch-back) *fully restore the prior state*? If reverting leaves migrated data, a changed external contract, or an executed one-way side effect behind → irreversible-if-wrong, regardless of how narrow it looks. If the revert fully restores → at most broad-but-reversible. (**reversibility, not breadth, is this line** — a one-row migration is irreversible-if-wrong; a huge but cleanly-revertible refactor is not.) Rolling and blue-green both presuppose old and new coexisting, so a change that breaks coexistence also loses their fast rollback.
+- **broad-but-reversible vs reversible-bounded** — how *wide* is the reachable blast radius if it's wrong: a shared/high-traffic path that degrades many users at once (broad), or one bounded flow or component (bounded)? (blast-radius breadth, among cleanly-revertible changes.)
+- **reversible-bounded vs reversible-trivial** — can *any* input produce a user-observable behavior change (bounded), or is there no observable behavior change at all — docs, comments, logging, formatting, test-only (trivial)? (behavior-change presence.)
+
+When two tiers seem to fit, the higher (more conservative) wins unless you can name why the change is safer than it looks; absent that, stage it. A tier you cannot tie to a concrete reversibility or blast-radius fact is a guess — re-derive it from the diff, not from how urgent the change feels.
+
+**The hotfix floor — a specific raise, not just "higher."** The landing type, from the caller or [assess-the-rollout](../phases/01-assess-the-rollout.md)'s hotfix test, can *raise* the floor but never *lowers* it — urgency is never a reason to ship irreversibly. A **hotfix** raises the floor to **at least broad-but-reversible (staged exposure)**: it touches a path that is *currently broken in production*, which is by definition load-bearing and high-reach, so it is never shipped all-at-once and never as an unwatched small increment — it goes out staged, watched as it rolls, so a bad fix does not widen the very incident it is meant to close. A hotfix that is *also* irreversible-if-wrong still goes behind a switch (the floor only rises). `(routed to maintainer: a staged-exposure floor for every hotfix, in every environment; an all-at-once or unwatched rollout could widen the incident)`
+
+## Interaction with the target and the switches
+
+`--target` names *where* the change rolls out; this rule sets *how*. A production target does not force all-at-once, and a staging target does not excuse skipping a switch for an irreversible change — the tier governs the strategy in whichever environment the change is promoted to.

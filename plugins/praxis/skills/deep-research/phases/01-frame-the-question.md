@@ -1,10 +1,10 @@
-A research run is only as good as the question it starts from. A vague topic fans out into noise; a decomposed question, each part naming what would answer it, fans out into a plan. This phase turns the ask into answerable sub-questions and draws the line between what the open web must settle and what context or the repository already answers — so the fan-out spends only on what's genuinely open.
+Before any work, ask whatever the run needs answered, all in one message ([ask-while-the-user-is-here](../../gather/rules/ask-while-the-user-is-here.md)); with `--deep`, that includes the cost question ([ask-before-a-heavyweight-run](../../gather/rules/ask-before-a-heavyweight-run.md)).
 
 ## Decompose into answerable sub-questions
 
-Break the question into the sub-questions that must each be settled for the whole to be answered. A sub-question is **answerable** when you can state, *in advance*, the evidence that would decide it — the kind of source and the concrete observation that would confirm or refute each candidate answer. If you cannot name what evidence would move it, it is not yet a research question: sharpen it or split it until you can. (basis: the standard research-framing discipline — name what would change your mind before searching, so the fan-out targets deciding evidence rather than confirming prose.)
+Break the question into the sub-questions that must each be settled for the whole to be answered. A sub-question is **answerable** when you can state, *in advance*, the evidence that would decide it — the kind of source and the concrete observation that would confirm or refute each candidate answer — so the fan-out targets deciding evidence rather than confirming prose. If you cannot name what evidence would move it, it is not yet a research question: sharpen it or split it until you can. (basis: the standard research-framing discipline)
 
-Separate the sub-questions from the *assumptions* smuggled into the ask ([separate-claim-from-inference](../rules/separate-claim-from-inference.md)): "which cache library is fastest?" assumes caching is the bottleneck. Surface that assumption as its own sub-question — *is caching the bottleneck?* — rather than inheriting it unexamined.
+Separate the sub-questions from the *assumptions* smuggled into the ask ([separate-fact-from-inference](../../../craft/evidence/separate-fact-from-inference.md)): "which cache library is fastest?" assumes caching is the bottleneck. Surface that assumption as its own sub-question — *is caching the bottleneck?* — rather than inheriting it unexamined.
 
 ## Draw the open-vs-known line
 

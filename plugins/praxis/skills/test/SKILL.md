@@ -3,14 +3,14 @@ name: test
 description: Establish whether a change does what it should by designing meaningful test coverage and observing real behavior — frame the claim under test, map the existing suite, design the cases that actually discriminate (prioritized by risk), run the project's own suite, separate genuine failures from flakes and environment noise, and report a verdict with coverage gaps and residual risk. Authors and runs tests and reports the verdict; its deliverable never includes a production-code change (fixing a failure is develop/debug) and it does not drive the running app to observe it (that is verify).
 metadata:
   flags:
-    --changed: scope the run to what the working-tree diff touched (changed files plus their reverse-dependents) rather than the whole surface — a phase input to framing/mapping, not a separate mode
+    --changed: scope the run to what the change touched — its window from the merge base with the integration line to the working tree, the branch's commits included — the changed files plus their reverse-dependents, rather than the whole surface; a phase input to framing/mapping, not a separate mode
     --from-spec=<path>: treat a spec file as the source of the claim under test — map each acceptance criterion to a concrete pass/fail check — instead of deriving the claim from the change; a phase input to framing
     --until=<condition>: loop the verification until a stop condition is met (first failure, green, or a repeat count) instead of a single pass — activates the run-until-signal module
     --sandbox: run in a disposable, network/filesystem-isolated local environment with seeded fixtures, so the run is reproducible and side-effect-free — activates the isolated-sandbox module
 ---
 Usage & examples — when to reach for this skill, and concrete flag invocations: see [usage.md](usage.md).
 
-test owns no backend of its own: it is config-less. Running the project's suite and observing its behavior is in-environment execution (it discovers and runs the project's own test command, it declares no runner backend), `--changed` derives from the local working-tree diff, and `--sandbox` is resolved locally (a disposable scratch environment). So it declares no `config_requires`. It is a leaf: it returns the verdict to its caller and invokes no downstream skill.
+test owns no backend of its own: it is config-less. Running the project's suite and observing its behavior is in-environment execution (it discovers and runs the project's own test command, it declares no runner backend), `--changed` derives from local version control, committing the cases it authored once the change it tests is committed is local version control too, and `--sandbox` is resolved locally (a disposable scratch environment). So it declares no `config_requires`. It is a leaf: it returns the verdict to its caller and invokes no downstream skill.
 
 `--until=<condition>` reshapes [run-and-observe](phases/05-run-and-observe.md) — loop rather than a single pass: see [modules/run-until-signal.md](modules/run-until-signal.md). `--sandbox` reshapes the execution environment established in [set-up-the-harness](phases/04-set-up-the-harness.md): see [modules/isolated-sandbox.md](modules/isolated-sandbox.md).
 

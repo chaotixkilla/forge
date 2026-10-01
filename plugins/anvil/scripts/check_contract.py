@@ -6,7 +6,8 @@ matches its altitude, is this bar closed, is this capability a disguised tool. A
 are mechanical facts about the files, with exactly one right answer and no reading required:
 
   * does every relative markdown link resolve to a file that exists
-  * is every phase reachable from its SKILL.md spine, and every rule reachable from some body file
+  * is every phase reachable from its SKILL.md spine, every rule, module and act reachable from
+    some body file in its skill, and every craft-library file cited by some skill or agent
   * does every frontmatter `name` obey the charset and match its own directory or filename
 
 Those three are what this script owns. It exists because a model hand-executing a link-resolution
@@ -71,7 +72,9 @@ PLACEHOLDER = re.compile(r"[<>]|(?:^|/)(?:name|NN-name)\.md$")
 # A numbered spine step in a SKILL.md body: "1. Do the thing — see [phases/01-x.md](...)"
 SPINE_STEP = re.compile(r"^\s*\d+\.\s")
 
-BODY_SLOTS = ("phases", "rules", "modules", "adapters")
+# `acts` is carried only by an orchestrator skill: one file per kind of work it can run, selected by
+# its routing phase. Listing it here makes an act's links count as citations and its files checkable.
+BODY_SLOTS = ("phases", "rules", "modules", "adapters", "acts")
 
 
 class Finding:
@@ -165,6 +168,9 @@ def audit_plugin(plugin_dir: str, findings: list[Finding]) -> dict:
     plugin_dir = os.path.abspath(plugin_dir.rstrip(os.sep))
     plugin = os.path.basename(plugin_dir)
     stats = {"plugin": plugin, "skills": 0, "agents": 0, "files": 0, "links": 0}
+    # Every link out of an executor-facing file, plugin-wide: the craft library has no owner skill, so
+    # its reachability can only be judged against all of them at once.
+    plugin_inbound: set[str] = set()
 
     def rel(p: str) -> str:
         return os.path.relpath(p, os.path.dirname(plugin_dir))
@@ -264,8 +270,9 @@ def audit_plugin(plugin_dir: str, findings: list[Finding]) -> dict:
                 bbase = os.path.dirname(bf)
                 for t in links_in(bf):
                     inbound.add(os.path.normpath(os.path.join(bbase, t)))
+            plugin_inbound.update(inbound)
 
-            for slot, kind in (("rules", "orphaned-rule"), ("modules", "orphaned-module")):
+            for slot, kind in (("rules", "orphaned-rule"), ("modules", "orphaned-module"), ("acts", "orphaned-act")):
                 d = os.path.join(sdir, slot)
                 if not os.path.isdir(d):
                     continue
@@ -306,6 +313,9 @@ def audit_plugin(plugin_dir: str, findings: list[Finding]) -> dict:
                 findings.append(Finding("high", "frontmatter", rel(af), f"name {declared!r} != filename stem {stem!r}"))
             if not fm.get("description"):
                 findings.append(Finding("high", "frontmatter", rel(af), "agent has no `description`"))
+            abase = os.path.dirname(af)
+            for t in links_in(af):
+                plugin_inbound.add(os.path.normpath(os.path.join(abase, t)))
             if not fm.get("tools") and not ENVELOPE_BASIS.search(body):
                 findings.append(
                     Finding(
@@ -315,6 +325,17 @@ def audit_plugin(plugin_dir: str, findings: list[Finding]) -> dict:
                         "no `tools:` allowlist and no `(basis: …)` note addressing the envelope — "
                         "the read-only boundary is neither enforced nor argued for",
                     )
+                )
+
+    # ---- craft library: shared standards, loaded only through a step's citation -------------
+    # A craft file is cited directly by the steps that apply it; a link from another craft file
+    # doesn't count, because each craft file has to stand alone and only the step's own link loads it.
+    craft_root = os.path.join(plugin_dir, "craft")
+    if os.path.isdir(craft_root):
+        for cf in md_files(craft_root):
+            if os.path.normpath(cf) not in plugin_inbound:
+                findings.append(
+                    Finding("medium", "orphaned-craft", rel(cf), "no skill or agent body cites it — never loads")
                 )
     return stats
 

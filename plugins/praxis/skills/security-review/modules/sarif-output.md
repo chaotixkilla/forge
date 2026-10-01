@@ -15,6 +15,11 @@ The base audit produces a human report. This module additionally writes the find
 
 SARIF's `level` enum does not line up one-to-one with the four severity bands, and **no authority pins the mapping** (the OASIS spec defines the enum but not how a producer's severity maps onto it). So the numeric score above is the real severity channel; `level` is a coarse secondary signal, mapped by house convention:
 
-`(basis: house convention, ratified by the maintainer 2026-07-10 — critical and high → error, medium → warning, low → note; hardening notes, if emitted at all, → none. No external standard defines the severity→level direction (OASIS defines the level enum; the numeric-score property is the conventional severity carrier), so this coarse mapping is a house choice and the band-floor numeric score remains the primary signal. Consistent with common producer practice of surfacing high-severity results as errors.)`
+- **critical** and **high** → `error`
+- **medium** → `warning`
+- **low** → `note`
+- hardening notes, if emitted at all → `none`
 
-Emit the band's floor as the score for every finding; a consumer that ignores the property bag still gets a sensible `level`, and one that reads the score maps it back to the finding's band unambiguously.
+`(basis: maintainer, 2026-07-10)`
+
+A consumer that ignores the property bag still gets a sensible `level`.

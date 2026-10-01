@@ -26,9 +26,17 @@ For example, a skill declares `--security: also run the security lens` under `me
 
 A rule is a-la-carte craft, not gated behavior. Living in `rules/` and being cited by the phases that apply it *is* its registration — no manifest entry, no flag. If a "rule" seems to need activation wiring, it's a module in disguise; reclassify it rather than inventing a flag for it.
 
+## Acts — link from routing and from the phase that runs it
+
+An act loads only through a link. Add it to the list of acts in the orchestrator's routing phase, as a resolvable link: routing chooses an act from that list, and the phase that runs it works from the act routing chose. An act no body file links is never selected.
+
+## Craft — cite it from every step that applies it
+
+A craft file loads only through a step's citation. Add a resolvable link from each phase or rule that applies the standard, at the point where it applies. When the standard moved out of skills that carried their own copies, delete each copy and repoint every citation of it to the craft file, so the plugin keeps one home for it. A craft file no skill or agent body cites is an orphan the contract checker flags.
+
 ## Hooks — add the manifest entry
 
-A hook file is inert until the plugin's hooks manifest points at it, bound to a lifecycle event. Add that entry at the right event; without it the harness never loads the hook, and the file is just documentation.
+A hook's handler is inert until the plugin's hooks manifest runs it. Add an entry at the right event whose command runs the handler; without it the harness never calls the hook.
 
 ## Under `--extend` — confirm the wiring, don't re-add it
 
