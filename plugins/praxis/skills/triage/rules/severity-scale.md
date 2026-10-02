@@ -2,13 +2,13 @@
 
 Every incident carries a severity, and severity is the dial the rest of the response turns on: it sets how fast and how widely the response communicates, how aggressively it mitigates, and how high the bar sits for declaring the incident resolved.
 
-Severity is assigned in [scope-and-grade](../phases/02-scope-and-grade.md), and only *after* [real-signal-vs-flapping](real-signal-vs-flapping.md) has confirmed there is a real incident to rate — a flapping alert is stood down, not assigned a severity. It answers one question: **how badly is the user's ability to use the product affected, and how widely?**
+Severity is assigned in [scope-and-grade](../phases/02-scope-and-grade.md), and only *after* [real-signal-vs-flapping](real-signal-vs-flapping.md) has found a real incident to rate — a flapping alert is stood down, not assigned a severity. It answers one question: **how badly is the user's ability to use the product affected, and how widely?**
 
 ## The three levels
 
 `(basis: maintainer, 2026-07-11; discriminators after the published incident-response guides of PagerDuty, Atlassian and incident.io, and ITIL)`
 
-- **SEV1 — critical** — a core customer-facing capability is completely unavailable for all or most users, **or** confirmed data loss/corruption, **or** a security/privacy breach. No workaround; the product cannot be used for its primary purpose.
+- **SEV1 — critical** — a core customer-facing capability is completely unavailable for all or most users, **or** data loss/corruption that has occurred, not merely risked, **or** a security/privacy breach. No workaround; the product cannot be used for its primary purpose.
   - *Anchor (top of scale):* the primary API returns errors for every request — all users are locked out; or customer records have been irreversibly deleted; or an auth bypass is exposing one tenant's data to another.
 - **SEV2 — major** — key functionality is broken or badly degraded, but the damage is bounded: a subset of users, or a non-core flow for everyone, with a painful-but-real workaround or partial availability. The product is impaired, not down.
   - *Anchor:* checkout succeeds but retries for ~10% of users on one payment method; or search returns results 5× slower than baseline for everyone while the rest of the app is fine.

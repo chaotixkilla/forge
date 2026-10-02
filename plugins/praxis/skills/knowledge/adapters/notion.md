@@ -2,6 +2,10 @@
 
 Implements the **knowledge** capability against Notion, over the Notion MCP. The space is the resolved source's (SKILL step 1); auth comes from the configured connection — with several connections to Notion, the one whose workspace holds the source's root, found by trying each until the root resolves. The [knowledge](../SKILL.md) skill takes the caller's read and dispatches here.
 
+## Supported reads
+
+Search, fetch and children.
+
 ## Search the space
 
 1. Before a scoped search, fetch the page it is confined to — the source's root, or the caller's subtree beneath it — once per run: a refused or missing scope makes the search `unauthorized` or `target-not-found` by the failure surface below, never an empty result; a scope that is a database searches within its data source, as below. Then run a search for the caller's query **confined to the source's root** — pass the root page as the search's scope, or the subtree the caller names beneath it; where the scope names a database's data source, search within that source. When the live search accepts no page scope, say so with the results, so the caller reads them as the workspace's rather than this source's.

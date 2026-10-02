@@ -1,5 +1,5 @@
 {
-  "description": "praxis: session guidance and task-memory upkeep; no code changes outside an act; end-of-turn checks on a running act; a notice when a step runs alone",
+  "description": "praxis: session guidance and task-memory upkeep; no code changes while this session runs no act; end-of-turn checks on a running act, and on any praxis skill run without its phase files read; after work or a praxis step skill with no act running, this session's id, plus an offer to file a step's result, or a notice when this session's marker can't be read",
   "hooks": {
     "SessionStart": [
       {

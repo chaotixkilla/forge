@@ -8,7 +8,7 @@ Connect each new unit to the entry point phase 1 identified: the caller, route, 
 
 ## Keep every caller working
 
-When the change altered an existing contract — a signature, a return shape, an invariant, an error mode — the change is not done until **every caller is migrated or confirmed unaffected** ([preserve-the-contract](../../../craft/engineering/preserve-the-contract.md)). Find the callers (the code explorer, or a usage search) and carry the change out through its blast radius. When carrying the change through that radius turns out to reach materially further than the task implied — a migration across callers the task never mentioned — that is the escalation case, not a bigger day's work: put it to the user before migrating ([decide-or-route](../rules/decide-or-route.md)).
+When the change altered an existing contract — a signature, a return shape, an invariant, an error mode — the change is not done until **every caller is migrated or checked and found unaffected** ([preserve-the-contract](../../../craft/engineering/preserve-the-contract.md)). Find the callers (the code explorer, or a usage search) and carry the change out through its blast radius. When carrying the change through that radius turns out to reach materially further than the task implied — a migration across callers the task never mentioned — that is the escalation case, not a bigger day's work: put it to the user before migrating ([decide-or-route](../rules/decide-or-route.md)).
 
 ## Get the boundaries right where the change meets the rest of the system
 
@@ -20,6 +20,6 @@ Integration is where the change's boundaries are real, so it is where the bounda
 
 ## Gate a risky integration behind a switch
 
-When wiring the change makes it live on a path that is hard to undo — a user-facing flow, a data migration, a change to a shared hot path — put it behind a feature flag or equivalent switch with a defined removal path, so the integration is reversible and can be turned off without a revert ([feature-flagging-risky-changes](../../roll-out/rules/feature-flagging-risky-changes.md)). Whether a given change is "risky enough" to flag is that rule's discriminator; apply it here.
+When wiring the change makes it live on a path that is hard to undo — a user-facing flow, a data migration, a change to a shared hot path — put it behind a feature flag or equivalent switch with a defined removal path, so the integration is reversible and can be turned off without a revert ([feature-flagging-risky-changes](../../../craft/engineering/feature-flagging-risky-changes.md)). Whether a given change is "risky enough" to flag is that rule's discriminator; apply it here.
 
 The output of this phase is a change that is reachable and exercised in the running system, with its callers intact. Checking it against its task, before anyone else reads it, is [self-review-the-diff](05-self-review-the-diff.md)'s work.

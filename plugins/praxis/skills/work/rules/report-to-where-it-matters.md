@@ -10,7 +10,7 @@ A shipping outcome that lands in a channel nobody watches, or addressed to nobod
 
 ## What the report says — the outcome, not the machinery
 
-The report is a **clean, team-facing account of what happened**: what change landed and where (which line, which environment), the gate status, the rollout's exposure and its health verdict (healthy / needs-rollback / indeterminate), and — when not healthy — what is being done or what the owner should do. It renders the *outcome and the decision*, and nothing about how the act produced it: no phase/agent/tool trace, no account of the run's internal steps, no praxis process ([clean-export](../../../craft/writing/clean-export.md)).
+The report is a **clean, team-facing account of what happened**: what change landed and where (which line, which environment), the gate status, the rollout's exposure, and its health result ([results-and-certainty](../../../craft/evidence/results-and-certainty.md)): `holds`, `fails`, `unsettled`, or `not checked`, which the report states as health unread, with its reason. When the result isn't `holds`, it adds what is being done or what the owner should do. It renders the *outcome and the decision*, and nothing about how the act produced it: no phase/agent/tool trace, no account of the run's internal steps, no praxis process ([clean-export](../../../craft/writing/clean-export.md)).
 
 ## The reach never blocks the landing
 

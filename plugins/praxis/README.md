@@ -83,7 +83,7 @@ You can run any step on its own; inside an act, the act runs it for you.
 | skill | what it does |
 |---|---|
 | `develop` | implement to a finished, integrated, self-checked local state |
-| `test` | design and run tests to a coverage-adequacy verdict |
+| `test` | design and run tests to a result on the claim, with coverage adequacy reported beside it |
 | `verify` | drive the running app end-to-end and report what it actually did |
 | `review` | review a change for correctness and craft, findings ranked, with questions for the author |
 | `security-review` | audit a change or a system for reachable vulnerabilities |
@@ -136,13 +136,19 @@ In a project with praxis settings (`.claude/praxis.json`), praxis enforces what 
 can't:
 
 - **At session start**, it points engineering work at `work`, applies the project's comment posture,
-  and trims closed or idle tasks from Claude's memory index.
-- **Before a code change**, it blocks file edits and commits inside the project while no act is
-  running, and says how to start one: a trivial change runs the developing act's small-change path.
-- **When a step runs outside an act**, it adds a note to offer filing the step's result into a task.
-- **At the end of a turn**, three checks block once: a step in a running act skipped without a reason,
-  a step's result neither filed nor marked unfiled with a reason, and a praxis skill run without its
-  phase files being read.
+  states this session's id, reports each act marker another session left idle, whether or not it can
+  be read as a marker, and a marker file an older praxis left, and trims closed or idle tasks from
+  Claude's memory index.
+- **Before a code change**, it blocks file edits and commits inside the project while this session
+  runs no act, and says how to start one: a trivial change runs the developing act's small-change path.
+- **After `work` or a step skill runs while this session has no act**, it states the session's id
+  and, after a step, adds a note to offer filing the step's result into a task. When this session's
+  marker exists but can't be read, a notice says so in place of that offer.
+- **At the end of a turn**, three checks block once: in a running act, a step left without an honest
+  outcome (skipped without a reason, passed over, or still pending though its result waits unfiled),
+  and a step's result or the record of where a delivery went neither filed in the task's
+  documentation nor written as its own file in `.claude/praxis/unfiled/<task>/` for a later filing;
+  and, in or out of an act, a praxis skill run without its phase files being read.
 
 ## Quick start
 

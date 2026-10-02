@@ -1,12 +1,22 @@
 # Deliver through the ports
 
-An act's delivery reaches people through more than one channel — a review request, a status post, a published document, a work-item — and two failures recur: an announcement that links a document not yet published, and a channel that failed quietly and reads as delivered. This rule is how work delivers — at an act's close-out, or for a lone step it runs outside an act.
+An act's delivery reaches people through more than one channel — a review request, a status post, a published document, a work-item — and three failures recur: an announcement that links a document not yet published, a link its readers can't open, and a channel that failed quietly and reads as delivered. This rule is how work delivers — at an act's close-out, or for a lone step it runs outside an act.
 
 ## Publish before you announce
 
 When a delivery both publishes a durable document and announces it, publish first and post the announcement through [communication](../../communication/SKILL.md) with a link to the published location. Never post before the publish resolves, or the link dangles. When the publish degrades, there is nothing to link to: the announcement is *held* until the document has a home.
 
 A short message that *is* the announcement, with nothing to link, posts directly.
+
+## Link only what its readers can open
+
+A delivery that links the task's documentation, such as a review summary, a review request's description or an announcement, goes by the reach the [artifacts](../../artifacts/SKILL.md) port returned for that location, which an act keeps in its marker's `docs` with the port's share line:
+
+- **`open`** — link it.
+- **`private-until-shared`** — before delivering, give the user the port's share line and ask them to share it. Link it once they say it's shared; otherwise treat it as `local-only`.
+- **`local-only`** — say instead that the full record is kept locally by the person delivering it, with no path or link. A documentation directory inside the repository is the exception, once [open-the-review-request](open-the-review-request.md) has committed it on the change's branch: link it there.
+
+A reach the marker records came from the port, and holds in any session that reads it, after a takeover too. A reach not known, because the marker records none for the location, is read as `private-until-shared`: ask the user whether its readers can open it, and link it only on a yes. (basis: maintainer, 2026-10-02; the unknown case derived from the artifacts port reading an undecidable reach the same way)
 
 ## Publish where the document is meant to go
 

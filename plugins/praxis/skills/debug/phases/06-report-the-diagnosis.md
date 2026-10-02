@@ -1,25 +1,25 @@
 ## Write up the diagnosis
 
-Whatever the outcome, produce the diagnosis record: the **mechanism** (the cause and the cause→symptom chain from [confirm-root-cause](05-confirm-root-cause.md)), its **confidence rung**, the **blast radius** (what else the cause can affect — other call sites, data already corrupted, related inputs that share the flaw), and the **reproduction** (the minimal trigger, so the reader can see the failure themselves). This is the content a hand-off carries; if it is routed onward to an incident record, a change request, or a published document through a capability port, it carries the findings and the reproduction — not debug's internal phase/critic/loop machinery.
+Whatever the outcome, produce the diagnosis record: the **mechanism** (the cause and the cause→symptom chain from [confirm-root-cause](05-confirm-root-cause.md)), its **certainty**, the **blast radius** (what else the cause can affect — other call sites, data already corrupted, related inputs that share the flaw), and the **reproduction** (the minimal trigger, so the reader can see the failure themselves). This is the content a hand-off carries; if it is routed onward to an incident record, a change request, or a published document through a capability port, it carries the findings and the reproduction — not debug's internal phase/critic/loop machinery.
 
 ## Route to one terminal outcome
 
-Every run lands in exactly one of three outcomes. Walk the two questions in order — they partition the space:
+The run's result is the diagnosis's, on the shared results scale ([results-and-certainty](../../../craft/evidence/results-and-certainty.md)), scoped to the reproduction it was shown on. Every run lands in exactly one of three. Walk the two questions in order — they partition the space:
 
-1. **Did you reproduce the failure?** No → **not-reproduced**: report the conditions tried and the evidence that would let someone reproduce it (from [reproduce-and-frame](01-reproduce-and-frame.md)). Stop — no fix is recommended for an unreproduced bug.
-2. **Did you confirm a cause to a defensible rung** (at least *probable* with an observed link)? No → **inconclusive**: report the leading hypothesis and the specific evidence that would confirm or kill it. Yes → **confirmed-diagnosis**: the diagnosis, with its recommended fix (below), is the deliverable. A reproduced behavior that turns out to match its contract — the expectation was wrong, not the code — is a confirmed diagnosis too: its mechanism is the contract, and its recommendation is to correct the expectation or its documentation, with no code change. debug never edits the code it diagnoses; making the change is the recipient's.
+1. **Did you reproduce the failure?** No → **not checked**, because the failure couldn't be reproduced: report the conditions tried and the evidence that would let someone reproduce it (from [reproduce-and-frame](01-reproduce-and-frame.md)). Stop — no fix is recommended for an unreproduced bug.
+2. **Did the cause reach the diagnosis floor** ([root-cause certainty](../rules/root-cause-confidence.md))? No → **unsettled**: report the leading hypothesis, its certainty, and the specific evidence that would settle it or kill it. Yes → **holds**: the diagnosis, with its certainty and its recommended fix (below), is the deliverable. A reproduced behavior that turns out to match its contract — the expectation was wrong, not the code — is a diagnosis that holds too: its mechanism is the contract, and its recommendation is to correct the expectation or its documentation, with no code change. debug never edits the code it diagnoses; making the change is the recipient's.
 
-`(basis: derived by construction)`
+A hypothesis its experiment refuted **fails**, and is reported among the eliminated rivals; it is never the run's result, so a run whose every candidate failed is **unsettled**. `(basis: derived by construction)`
 
 ## Recommend the fix at the cause
 
-A confirmed diagnosis carries the fix it recommends, held to the disciplines a fix owes:
+A diagnosis that holds carries the fix it recommends, held to the disciplines a fix owes:
 
 - **Its altitude** — the layer that owns the violated invariant, not the first convenient call site ([fix-the-cause-not-the-symptom](../../../craft/evidence/fix-the-cause-not-the-symptom.md), *Place the fix where the invariant lives*).
 - **Its guard** ([regression-guard-the-specific-failure](../../../craft/engineering/regression-guard-the-specific-failure.md)) — the test that would encode the reproduction, failing before the change and passing after, so the bug can't return silently.
 - **Its size.** **Bounded** when the correct fix is a localized change at the fault's owning layer plus its guarding test, introducing no new design decision; **needs design work** when it requires a decision the author owns — a new abstraction, an interface or contract change that ripples across call sites, a cross-cutting refactor. `(basis: maintainer, 2026-07-10; after Hayes, WPShout, 2018)`
 
-And keep asking whether the recommended fix addresses the mechanism or just hides the symptom: a change that would make the reproduction pass without touching the confirmed cause is a symptom patch, not a fix.
+And keep asking whether the recommended fix addresses the mechanism or just hides the symptom: a change that would make the reproduction pass without touching the diagnosed cause is a symptom patch, not a fix.
 
 ## Under a declared incident
 

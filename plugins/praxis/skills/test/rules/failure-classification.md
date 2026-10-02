@@ -26,13 +26,13 @@ Re-run the *same* test on the *unchanged* revision and config: it produces both 
 
 ## 3. genuine failure — the production code is wrong
 
-Reproduces *deterministically* on the unchanged revision: fails every run, same assertion, stack pointing at production code. This is the only class that can set the verdict to **FAIL** — but classification only establishes that a red is *genuine*; whether it sets FAIL is decided in [report-the-verdict](../phases/06-report-the-verdict.md), which fires FAIL only for an **in-claim** genuine failure (its scope test — which uses the pre-change test below) and surfaces an out-of-claim genuine failure separately.
+Reproduces *deterministically* on the unchanged revision: fails every run, same assertion, stack pointing at production code. This is the only class that can make the claim **fail** — but classification only establishes that a red is *genuine*; whether the claim fails is decided in [report-the-verdict](../phases/06-report-the-verdict.md), which places `fails` only for an **in-claim** genuine failure (its scope test — which uses the pre-change test below) and surfaces an out-of-claim genuine failure separately.
 
 - *Anchor:* an assertion failure that fires on every run with the same expected-vs-actual — genuine.
 
 ## 4. test defect — the test's own expectation is wrong
 
-A deterministic red where the production code behaves to its contract and the authored test expects something else. It is not genuine: it is fixed in the test before the verdict, and never sets FAIL.
+A deterministic red where the production code behaves to its contract and the authored test expects something else. It is not genuine: it is fixed in the test before the verdict, and never makes the claim fail.
 
 - **genuine vs test defect** — *does the code's contract condemn the result, or the test's expectation?* Read the contract the claim rests on — the spec, the documented interface, the callers' use. A red the contract explains is a test defect; a red it condemns is genuine, whether the change broke the code or it was already broken (a pre-existing bug reproduces on the pre-change revision and is still genuine, surfaced out-of-claim by [report-the-verdict](../phases/06-report-the-verdict.md)). When no contract settles it, it is genuine, with the doubt named — a test rewritten to green without grounds hides the bug it found. `(basis: derived from genuine meaning the production code is wrong)`
 

@@ -7,13 +7,17 @@ Implements the **artifacts** capability against the local filesystem, writing th
 1. Ensure the destination directory exists (create it and any missing parents).
 2. Write the main page as `index.md` at the destination root; write each subpage as `NN-<slug>.md` alongside it, where `NN` is a two-digit position in tree order (`01`, `02`, …) and `<slug>` is the normalized title (below).
 3. Render each page's neutral sections to Markdown (the block kinds below); link the index to its subpages with relative paths.
-4. Return the directory and the written file paths, main page first.
+4. Return the directory and the written file paths, main page first, with reach `local-only`.
 
 **Content support surface.** This adapter renders these neutral block kinds natively: heading, prose, list, table (Markdown table), code (fenced), quote (blockquote), link/reference. This list is the authoritative content-support surface the degradation ladder ([degrade-unsupported-content](../rules/degrade-unsupported-content.md)) keys off; a kind not on it degrades. In practice Markdown covers nearly all neutral kinds, so degradation is rare (a rich interactive embed → a link + caption).
 
 ## Fetch
 
 Read `index.md` at the location and each `NN-<slug>.md` beside it, in `NN` order, as the main page and its subpages. A location with no `index.md` is `target-not-found`.
+
+## Retire
+
+A location with no `index.md` is `target-not-found`. Otherwise remove the tree at it: its `index.md` and `NN-<slug>.md` files, then the directory, now empty. When the directory holds anything else (a `v<n>/` or `drafts/` subdirectory, a file this adapter didn't write), remove nothing and fail `conflict`, naming those entries, since the directory can't go without them. `(basis: derived from the conflict class: the write can't proceed as asked without loss)` A versioned copy is retired by its own location first. What retiring leaves behind: nothing on disk. Where the files were committed, the repository's history keeps them, and the removal is a working-tree change for the caller's next commit.
 
 ## Filename normalization
 
@@ -36,7 +40,7 @@ The **resolved destination directory path is the durable id** — the tree at a 
 Map filesystem errors to the capability outcomes in [failure-taxonomy](../rules/failure-taxonomy.md). The boundary between the first two is *storage reachability* vs *a named target's existence*:
 
 - **The storage itself is unusable** — destination root not configured, the volume is not mounted, or the filesystem is read-only/offline → `unavailable` (retryable). This is infrastructure, not a missing directory: a missing destination directory is *created* (Publish step 1), not an error.
-- **Write permission denied** on a reachable path → `unauthorized`.
+- **Write permission denied** on a reachable path, a removal's included → `unauthorized`; a retire that stops after removing some files → `partial`, naming the files removed.
 - **An explicit `--to` target names a location that does not exist** (the caller pointed at a specific existing file/dir that is absent) → `target-not-found`. (A missing `--dest-dir` path is created, so it is not this case.)
 - **An existing tree at the target with no `--idempotent`/`--version`**, or an `--idempotent` slug matching several candidates → `conflict`.
 - **A neutral block no Markdown form can express even degraded** (rare — see the content support surface) → `unsupported-content`; degrade first per [degrade-unsupported-content](../rules/degrade-unsupported-content.md).

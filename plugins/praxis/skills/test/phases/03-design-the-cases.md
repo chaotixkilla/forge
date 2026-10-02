@@ -18,7 +18,7 @@ Rank the kept cases by [risk-priority](../rules/risk-priority.md) (likelihood ×
 
 ## Judge coverage adequacy
 
-Grade the designed set against [coverage-adequacy](../rules/coverage-adequacy.md), whose three levels and their tests decide it. A *partial* set is acceptable to proceed on only if each gap is carried forward as named residual risk to [report-the-verdict](06-report-the-verdict.md).
+Grade the designed set against [coverage-adequacy](../rules/coverage-adequacy.md), whose three grades and their tests decide it. A *partial* set is acceptable to proceed on only if each gap is carried forward as named residual risk to [report-the-verdict](06-report-the-verdict.md).
 
 ## Output
 

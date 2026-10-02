@@ -50,7 +50,7 @@ The engineering standards are the in-the-moment judgments woven into writing —
 - You felt the pull to explain a line → [comment-the-why-not-the-what](../../../craft/engineering/comment-the-why-not-the-what.md), [keep-comments-truthful](../../../craft/engineering/keep-comments-truthful.md)
 - The slice adds or changes something a caller outside this module uses → [document-the-public-contract](../../../craft/engineering/document-the-public-contract.md)
 - It does something an operator would need to see from outside → [logging-what-matters](../../../craft/engineering/logging-what-matters.md)
-- Landing it switched on is risky → [feature-flagging-risky-changes](../../roll-out/rules/feature-flagging-risky-changes.md)
+- Landing it switched on is risky → [feature-flagging-risky-changes](../../../craft/engineering/feature-flagging-risky-changes.md)
 - You're polishing before it works → [make-it-work-then-make-it-right](../rules/verification/make-it-work-then-make-it-right.md)
 - The same shape now appears a third time → [dry-vs-incidental-duplication](../../../craft/engineering/dry-vs-incidental-duplication.md)
 

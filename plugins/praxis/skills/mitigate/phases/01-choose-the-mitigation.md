@@ -1,4 +1,4 @@
-Once an incident is confirmed, the job changes from *understanding* to *stopping the harm*. mitigate carries the authority to act on production before the cause is known — the authority a plain investigation deliberately doesn't have, and defers to a declared incident.
+Once there is a real incident, the job changes from *understanding* to *stopping the harm*. mitigate carries the authority to act on production before the cause is known — the authority a plain investigation deliberately doesn't have, and defers to a declared incident.
 
 ## Reach for the fastest safe, reversible mitigation
 

@@ -1,6 +1,6 @@
 # test — usage
 
-Establish whether a change does what it should: design meaningful test coverage for it, run the project's own suite, observe the real behavior, and return a verdict — pass/fail against a framed claim, plus the coverage gaps and residual risk left unverified.
+Establish whether a change does what it should: design meaningful test coverage for it, run the project's own suite, observe the real behavior, and return a verdict — a result against a framed claim, plus the coverage gaps and residual risk.
 
 ## When to use
 - A change is written (or being written) and you want to *know* it behaves correctly — not eyeball the diff, but design the cases that would catch it being wrong and watch them run.
@@ -24,9 +24,9 @@ Establish whether a change does what it should: design meaningful test coverage 
 
 ## Gotchas
 - **test does not fix.** Its *deliverable* is the test suite and the verdict, never a production-code change. A failing test is *reported* with a reproduction; turning it green is develop's or debug's job. This keeps the boundary with develop/debug clean. (The ban is on *delivering* a production change — a transient, self-reverting probe to watch a new test go red, per prove-the-test-can-fail, leaves a net-zero diff and is verification, not a delivered change.)
-- **Green is not the verdict; the framed claim is.** A suite passing tells you nothing until you've said what "passing" had to mean for *this* change. test frames the claim first, then reads the run against it — a green suite that never exercised the risky path is a coverage gap, reported as such, not a pass.
+- **Green is not the verdict; the framed claim is.** A suite passing tells you nothing until you've said what "passing" had to mean for *this* change. test frames the claim first, then reads the run against it — a green suite that never exercised the risky path is a coverage gap, reported as such, never `holds`.
 - **Coverage is judged for meaning, not for a number.** "Enough" coverage is assessed against a defined adequacy bar (does each behavior that can break have a case that would catch it), not a line-percentage target. Where the project already has a coverage convention, test follows it; it does not impose a number.
 - **A test never seen red proves nothing.** A new or changed test is confirmed to *fail against the broken behavior* before it is trusted green — a test that has only ever passed may be asserting nothing.
-- **test discovers the project's own runner; it names no tool.** It reads how this codebase already runs and structures tests and uses that, rather than assuming a framework. If there is no runnable suite and no way to author one (no language runtime, no test surface), that is a stated stop, not a silent pass.
+- **test discovers the project's own runner; it names no tool.** It reads how this codebase already runs and structures tests and uses that, rather than assuming a framework. If there is no runnable suite and no way to author one (no language runtime, no test surface), that is a stated stop, reported `not checked` with its reason, never a silent pass.
 - **`--changed` assumes a version-controlled working tree.** With no diff to derive (not a repo, or nothing changed), it falls back to the framed surface and says so.
 - **In a project set up for praxis, it changes code only inside an act.** Invoked on its own there, its edits are blocked until an act starts; the work skill routes the change to the act that runs it.

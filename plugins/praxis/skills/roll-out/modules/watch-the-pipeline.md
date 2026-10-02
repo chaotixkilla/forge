@@ -7,8 +7,8 @@ Base behavior: roll-out promotes and returns the *immediate* result — the prom
 ## The delta — stay attached until it settles
 
 - **Await the deploy run.** Instead of returning when the pipeline is *triggered*, block on the [ci](../../ci/SKILL.md) capability's *await a run* operation until the run reaches a terminal verdict within the deploy run's own configured timeout — 30 minutes where none is configured (routed to maintainer: 30 minutes as the default, since it covers a typical build-and-deploy and still bounds a hung run). A timeout with the run still in flight comes back **unsettled**, never silently treated as a pass.
-- **Watch the post-ship signals.** After the rollout, read the post-ship signals through the [telemetry](../../telemetry/SKILL.md) capability across the watch window and apply the health verdict pinned in [confirm-healthy](../phases/03-confirm-healthy.md) — don't return "rolled out, healthy" the instant the promotion is accepted; a rollout can be accepted and then degrade.
-- **Return the settled verdict.** Return the outcome — the deploy run's pass/fail and the post-ship health verdict (healthy / needs-rollback / indeterminate) — as the run's result, so the caller acts on what settled, not on what was merely started.
+- **Watch the post-ship signals.** After the rollout, read the post-ship signals through the [telemetry](../../telemetry/SKILL.md) capability across the watch window and apply the health verdict pinned in [confirm-healthy](../phases/03-confirm-healthy.md) — don't return a health verdict of holds the instant the promotion is accepted; a rollout can be accepted and then degrade.
+- **Return the settled verdict.** Return the outcome — the deploy run's pass/fail and the post-ship health verdict (holds / fails / unsettled / not checked, per [results-and-certainty](../../../craft/evidence/results-and-certainty.md)) — as the run's result, so the caller acts on what settled, not on what was merely started.
 
 ## Composition
 
@@ -17,6 +17,6 @@ Base behavior: roll-out promotes and returns the *immediate* result — the prom
 
 ## Prerequisite and degrade
 
-The await goes through the [ci](../../ci/SKILL.md) capability and the signal watch through the [telemetry](../../telemetry/SKILL.md) capability (each owns its own prerequisite — doer-owns-prerequisites; roll-out declares none). Degrade **per capability**: if `tools.ci` is unavailable, the deploy run can't be awaited — return the immediate outcome and that the run couldn't be watched; if `tools.telemetry` is unavailable, the rollout still stands but post-ship health can't be judged — report *indeterminate* health and say why. A missing watch backend narrows what can be *observed*; it never undoes the rollout. `(basis: per-capability degrade; mirrors debug's --from-telemetry degrade)`
+The await goes through the [ci](../../ci/SKILL.md) capability and the signal watch through the [telemetry](../../telemetry/SKILL.md) capability (each owns its own prerequisite — doer-owns-prerequisites; roll-out declares none). Degrade **per capability**: if `tools.ci` is unavailable, the deploy run can't be awaited — return the immediate outcome and that the run couldn't be watched; if `tools.telemetry` is unavailable, the rollout still stands but post-ship health can't be judged — report the health verdict as **not checked**, with why. A missing watch backend narrows what can be *observed*; it never undoes the rollout. `(basis: per-capability degrade; mirrors debug's --from-telemetry degrade)`
 
 While watching, decide and record instead of asking ([ask-while-the-user-is-here](../../gather/rules/ask-while-the-user-is-here.md)).

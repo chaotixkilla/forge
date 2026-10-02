@@ -17,7 +17,7 @@ For each behavior, decide the level at which it is verified — unit, integratio
 
 ## State what "passing" means for this change — deliberately open
 
-The concrete pass condition is per-change and cannot be pinned in advance: for one change it is "these three criteria hold and no counter-example passes," for another "the p99 stays under the budget." **Deliberately open-by-design** — pinning a universal pass condition would be false precision, because the deciding specifics live in the change, not here. What *is* required every run: write the pass condition down *explicitly before designing cases* — the specific, checkable observation(s) that must hold for the claim to be met — so [report-the-verdict](06-report-the-verdict.md) can state pass/fail against it rather than against "the suite is green."
+The concrete pass condition is per-change and cannot be pinned in advance: for one change it is "these three criteria hold and no counter-example passes," for another "the p99 stays under the budget." **Deliberately open-by-design** — pinning a universal pass condition would be false precision, because the deciding specifics live in the change, not here. What *is* required every run: write the pass condition down *explicitly before designing cases* — the specific, checkable observation(s) that must hold for the claim to be met — so [report-the-verdict](06-report-the-verdict.md) can state the result against it rather than against "the suite is green."
 
 ## Output
 

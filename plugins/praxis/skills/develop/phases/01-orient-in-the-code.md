@@ -23,7 +23,7 @@ Before you write, answer three questions about the code the change touches:
 **From a map.** When the caller hands you a map of the code the change touches — an understand run's result, its claims anchored and graded by certainty — start from it. What it establishes answers the questions above, and the entry point below, without a second read. Read only what it leaves open for this unit, the way a run without a map reads its neighborhood:
 
 - a touch-point of this unit the map doesn't cover;
-- a claim about code the unit will call, extend or rely on that the map carries only as *inferred* or *assumed-unverified* — check it before building on it ([observation-over-inference](../../../craft/evidence/observation-over-inference.md));
+- a claim about code the unit will call, extend or rely on that the map carries only as *inferred* or *unverified* ([results-and-certainty](../../../craft/evidence/results-and-certainty.md)) — check it before building on it ([observation-over-inference](../../../craft/evidence/observation-over-inference.md));
 - code an earlier unit of the same change has edited since the map was traced, which the map describes as it was;
 - an external contract the unit leans on that the map doesn't establish — a library's, a framework's or a service's — read from its official documentation, as below.
 

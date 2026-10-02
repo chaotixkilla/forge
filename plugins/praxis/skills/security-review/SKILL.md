@@ -9,7 +9,7 @@ metadata:
     --severity-min=<level>: drop findings below this severity from the report before delivery
     --exhaustive: trade speed for completeness — every entry point and every threat class rather than the high-likelihood subset, asking before starting (activates exhaustive)
     --sarif=<path>: emit findings as a machine-readable findings document at the path, in addition to the human report (activates sarif-output)
-    --gate: reduce the run to a verdict for CI — fail when a confirmed or probable finding meets the severity floor, pass when none does, inconclusive when the audit didn't complete (activates gate-decision)
+    --gate: reduce the run to a gate result for CI — fails when a traced finding meets the severity floor, holds when none does, not checked when nothing was audited (activates gate-decision)
 ---
 Usage & examples — when to reach for this skill, and concrete flag invocations: see [usage.md](usage.md).
 
@@ -20,5 +20,5 @@ Each numbered step's full procedure lives in the linked phase file — read it, 
 1. Scope the surface: resolve what is under audit and map its trust boundaries, entry points, assets, and the attacker's reachable surface  — see [phases/01-scoping-the-surface.md](phases/01-scoping-the-surface.md)
 2. Model the threats: derive who the adversary is, what they want, and which attack classes the architecture actually exposes  — see [phases/02-modeling-the-threats.md](phases/02-modeling-the-threats.md)
 3. Hunt vulnerabilities: trace tainted input to dangerous sinks across the surface, probing each threat class deliberately rather than pattern-matching keywords  — see [phases/03-hunting-vulnerabilities.md](phases/03-hunting-vulnerabilities.md)
-4. Assess severity: for each candidate, establish exploitability and impact, confirm reachability, and discard what is unreachable or already mitigated  — see [phases/04-assessing-severity.md](phases/04-assessing-severity.md)
-5. Report the findings: write each confirmed finding as attacker-path + impact + concrete remediation, ordered by severity, with enough evidence to act on  — see [phases/05-reporting-findings.md](phases/05-reporting-findings.md)
+4. Assess severity: for each candidate, establish exploitability and impact, confirm reachability, and discard what is unreachable or already guarded  — see [phases/04-assessing-severity.md](phases/04-assessing-severity.md)
+5. Report the findings: write each finding that cleared the floor as attacker-path + impact + concrete remediation, ordered by severity, with enough evidence to act on  — see [phases/05-reporting-findings.md](phases/05-reporting-findings.md)

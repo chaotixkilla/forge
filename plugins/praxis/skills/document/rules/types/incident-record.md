@@ -4,4 +4,4 @@ The record of a real incident, written once the service is stable: what happened
 
 ## Membership
 
-The incident act's retrospective: the timeline, the impact, the contributing factors and the follow-ups with their owners and gating marks, and the outcome the incident rests at, written blamelessly ([blameless-framing](../../../../craft/writing/blameless-framing.md)). The timeline notes kept while the incident was live are [scratchpad](scratchpad.md) sections the record links. A stood-down signal files no incident record. (basis: derived from the deliverable of the act that files it)
+The incident act's retrospective, led by the impact and the outcome the incident rests at, then the follow-ups with their owners and gating marks, the contributing factors and the timeline, written blamelessly ([blameless-framing](../../../../craft/writing/blameless-framing.md)). (basis: maintainer, 2026-10-02) The timeline notes kept while the incident was live are [scratchpad](scratchpad.md) sections the record links. A stood-down signal files no incident record. (basis: derived from the deliverable of the act that files it)

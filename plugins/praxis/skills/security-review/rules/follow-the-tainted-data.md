@@ -1,6 +1,6 @@
 # Follow the tainted data
 
-The fastest way to produce a security review no one trusts is to grep for dangerous function names and flag every hit. Half are unreachable, the input to the other half is never attacker-controlled, and the one real vulnerability — an innocuous-looking call reached by hostile data — isn't on the list because its function name looked safe. A vulnerability is not a keyword; it is a *reachable path* from an untrusted source to a dangerous sink with the taint preserved along the way.
+The fastest way to produce a security review no one trusts is to search for dangerous function names and flag every hit. Half are unreachable, the input to the other half is never attacker-controlled, and the one real vulnerability — an innocuous-looking call reached by hostile data — isn't on the list because its function name looked safe. A vulnerability is not a keyword; it is a *reachable path* from an untrusted source to a dangerous sink with the taint preserved along the way.
 
 ## Trace source → sink, and ask whether taint survives
 

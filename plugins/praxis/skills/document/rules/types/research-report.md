@@ -4,4 +4,4 @@ The answer a researching task reached, kept so the question needn't be researche
 
 ## Membership
 
-The research step's final result: the question as framed, the answer with its confidence, the evidence it rests on with each source, the dissenting evidence and how it was weighed, and what stays open. (basis: derived from the deliverable of the act that files it)
+The research step's final result, led by the answer with its support ([results-and-certainty](../../../../craft/evidence/results-and-certainty.md)), then each sub-question the question was split into with its answer and the evidence it rests on, each source named, the dissenting evidence and how it was weighed, and what stays open, with how hard the claims were tested. (basis: derived from the deliverable of the act that files it; maintainer, 2026-10-02, for the order)

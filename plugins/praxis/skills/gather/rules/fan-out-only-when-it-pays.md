@@ -18,4 +18,4 @@ Each recruiting step recruits at most three agents, in a single round. A heavywe
 
 (basis: maintainer, 2026-09-02, for never passing session limits, a dozen at most and one round; Anthropic's prompting guidance on recent models' predilection for subagents) (routed to maintainer: three per step by default, since most phases recruit one to three explorers or critics.)
 
-This is a run-conduct rule, kept in gather beside [ask-while-the-user-is-here](ask-while-the-user-is-here.md) and [ask-before-a-heavyweight-run](ask-before-a-heavyweight-run.md) though every skill that recruits cites it, because none of the craft library's three families fits it. (routed to maintainer: a fourth craft family for run conduct, or leave the three here.)
+This is a run-conduct rule, kept in gather beside [ask-while-the-user-is-here](ask-while-the-user-is-here.md) and [ask-before-a-heavyweight-run](ask-before-a-heavyweight-run.md) though every skill that recruits cites it, because none of the craft library's three families fits it. (basis: maintainer, 2026-10-02, keeping the three here as a recorded exception: they govern how a run asks and fans out, which gather owns.)

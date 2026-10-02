@@ -1,6 +1,6 @@
 ---
 name: debug
-description: Find the true root cause of a defect that has already bitten — reproduce it, localize the fault, form and test falsifiable hypotheses, confirm the mechanism rather than a coincidental trigger or downstream symptom, and recommend the fix at the cause with the regression test that would guard it. Reach for it when a specific failure needs root-causing; distinct from review (hunts latent defects in a change), test (confirms intended behavior), and verify (drives the running app to observe it).
+description: Find the true root cause of a defect that has already bitten — reproduce it, localize the fault, form and test falsifiable hypotheses, prove the mechanism rather than a coincidental trigger or downstream symptom, and recommend the fix at the cause with the regression test that would guard it. Reach for it when a specific failure needs root-causing; distinct from review (hunts latent defects in a change), test (confirms intended behavior), and verify (drives the running app to observe it).
 metadata:
   flags:
     --from-incident=<ref>: seed the investigation from an incident/postmortem record — its symptoms, timeline, affected scope, and responder notes — read via the project-management or communication capability, or a postmortem document via the knowledge capability
@@ -14,7 +14,7 @@ debug owns no backend of its own: it delegates telemetry reads to the `telemetry
 
 `--sandbox` routes all reproduction and experiments into an isolated throwaway environment so no probe touches the working tree or shared state: see [modules/sandbox-isolation.md](modules/sandbox-isolation.md).
 
-Phases 3–5 (localize → hypothesize-and-test → confirm) run as an **iterate-until-pinned loop**, not a strict waterfall: cycle between narrowing and testing until the mechanism is confirmed, then confirm and resolve.
+Phases 3–5 (localize → hypothesize-and-test → confirm) run as an **iterate-until-pinned loop**, not a strict waterfall: cycle between narrowing and testing until the mechanism is pinned, then grade it and report.
 
 Each numbered step's full procedure lives in the linked phase file — read it, then carry out the step. The phases cite the rules/ craft where it applies.
 
@@ -22,5 +22,5 @@ Each numbered step's full procedure lives in the linked phase file — read it, 
 2. Gather evidence: collect the observable facts around the failure — code paths, recent changes near the symptom, telemetry/logs, and prior occurrences — recruiting explorers for the sweep  — see [phases/02-gather-evidence.md](phases/02-gather-evidence.md)
 3. Localize the fault: narrow from whole-system to the smallest suspect span by bisecting the input, the code path, and the timeline  — see [phases/03-localize-the-fault.md](phases/03-localize-the-fault.md)
 4. Hypothesize and test: form falsifiable hypotheses about the mechanism and run the cheapest experiment that could disprove each; let observation, not intuition, eliminate candidates  — see [phases/04-hypothesize-and-test.md](phases/04-hypothesize-and-test.md)
-5. Confirm the root cause: prove the mechanism end to end — show the bug appears and disappears when the claimed cause is toggled — and grade the confidence, distinguishing the true cause from a coincidental trigger or symptom  — see [phases/05-confirm-root-cause.md](phases/05-confirm-root-cause.md)
+5. Confirm the root cause: prove the mechanism end to end — show the bug appears and disappears when the claimed cause is toggled — and grade its certainty, distinguishing the true cause from a coincidental trigger or symptom  — see [phases/05-confirm-root-cause.md](phases/05-confirm-root-cause.md)
 6. Report the diagnosis: write up the mechanism, blast radius and reproduction, and recommend the fix at the cause with its guarding test  — see [phases/06-report-the-diagnosis.md](phases/06-report-the-diagnosis.md)

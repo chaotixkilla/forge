@@ -1,6 +1,6 @@
 # Confirm the signal holds
 
-A change to a running service — a mitigation, a rollout — isn't confirmed when it's applied, and not when the first read looks calm. A dashboard quiet for five minutes says nothing about the leak that exhausts the connection pool an hour later under real load, and an alert that cleared is the start of confirming, not the end. What confirms the change is the signal holding at its baseline for as long as the signal itself takes to settle.
+A change to a running service — a mitigation, a rollout — isn't shown to hold when it's applied, and not when the first read looks calm. A dashboard quiet for five minutes says nothing about the leak that exhausts the connection pool an hour later under real load, and an alert that cleared is the start of the check, not the end. What shows the change holds is the signal staying at its baseline for as long as the signal itself takes to settle.
 
 ## Baseline is defined, not eyeballed
 
@@ -23,8 +23,15 @@ The signal is at **baseline** when the user-facing measure — the SLI, the symp
 - **An unrepresentative sample** — internal users, a warm cache, one geography.
 - **A level that hides a slope** — for leak and saturation classes, watch connections or memory trending up, not the instantaneous level; the leak is invisible at low load and exhausts later.
 
-## Three states, and the thin one is never rounded up
+## The watch's result, and the thin one is never rounded up
 
-A watch ends in exactly one of: the signal **held** at baseline through the window; it **regressed** — a sustained breach during the watch, so the change didn't hold; or it's **too thin to judge** — too little traffic, or too short a window, to tell a real regression from noise. The third is the one a two-value read drops: "no breach seen" collapses *held* and *too thin* together and reports a "looks fine" that was really "couldn't tell". So a thin signal is reported as unsettled, never rounded up to held. Hand the watch off instead: report the last observed state and what would settle it. A run doesn't extend its own window, since nobody is there to choose a longer one; and when the signal becomes unreadable mid-watch, report the last observed state as unsettled and say the watch couldn't continue.
+A watch ends in exactly one result on the scale [results-and-certainty](results-and-certainty.md) defines, scoped to the signals read and the window watched:
+
+- **holds** — the signal stayed at baseline through the window;
+- **fails** — a sustained breach during the watch, so the change didn't hold;
+- **unsettled** — the signal was read but is too thin to judge: too little traffic, or too short a window, to tell a real regression from noise;
+- **not checked** — the signal was never read, with the reason.
+
+The thin case is the one a two-value read drops: "no breach seen" collapses *holds* and *unsettled* together and reports a "looks fine" that was really "couldn't tell". So a thin signal is reported as unsettled, never rounded up to holds. Hand the watch off instead: report the last observed state and what would settle it. A run doesn't extend its own window, since nobody is there to choose a longer one; and when the signal becomes unreadable mid-watch, report the last observed state as unsettled and say the watch couldn't continue.
 
 `(basis: derived — a watch that extended itself would have no end, and a watch run doesn't ask)`

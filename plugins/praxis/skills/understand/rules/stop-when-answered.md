@@ -7,7 +7,7 @@ An investigation with no stopping rule fails two ways: it quits early and the ma
 `(basis: derived from review's [read-the-diff-in-its-blast-radius](../../review/rules/read-the-diff-in-its-blast-radius.md) and the saturation stop in [know-when-to-stop](../../../craft/evidence/know-when-to-stop.md))`
 
 The question is **answered** when both hold:
-- **every claim the framed question requires is at or above its target certainty rung** (default target: *traced* for the claims the answer turns on; [certainty-scale](certainty-scale.md)), and
+- **every claim the framed question requires is at or above its target certainty rung** (default target: *traced* for the claims the answer turns on, on the certainty scale in [results-and-certainty](../../../craft/evidence/results-and-certainty.md)), and
 - **no open divergence or unresolved sub-question remains that would change the answer.**
 
 The dig is **done** when the next read would neither raise a load-bearing claim's certainty rung nor change any part of the map. Past that point, stop and synthesize.

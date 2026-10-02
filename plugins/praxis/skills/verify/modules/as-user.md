@@ -25,9 +25,9 @@ Resolve both from the project's own material — its spec, design notes, prior u
 
 ## The discipline that separates this from guesswork
 
-Before writing each line, apply the discriminator defined in [observation-over-inference](../../../craft/evidence/observation-over-inference.md) and label the line as the side of that discriminator it falls on; this module is where the temptation to conflate observation and inference is strongest.
+Before writing each line, apply the discriminator defined in [observation-over-inference](../../../craft/evidence/observation-over-inference.md) and label the line `observed` or, on the inference side, with the certainty it reaches on the scale in [results-and-certainty](../../../craft/evidence/results-and-certainty.md) — traced, inferred or unverified; this module is where the temptation to conflate observation and inference is strongest.
 
-The specific failure mode: a claim about a user whose path you did not exercise. *"A user relying on announced output would be lost at this step"*, written after looking at the surface rather than driving it through that access path, is an inference — a defensible one, sometimes, but it is not a persona finding and it does not go in the persona record. A persona finding requires all three of the recorded elements above: the constraint in play, the named step, and what was observed **through that access path**. A line missing any one of the three is an inference at best, is labelled one, and never counts as evidence about that user.
+The specific failure mode: a claim about a user whose path you did not exercise. *"A user relying on announced output would be lost at this step"*, written after looking at the surface rather than driving it through that access path, is an inference — a defensible one, sometimes, but it is not a persona finding and it does not go in the persona record. A persona finding requires all three of the recorded elements above: the constraint in play, the named step, and what was observed **through that access path**. A line missing any one of the three is labelled with the certainty it reaches, never `observed`, and never counts as evidence about that user.
 
 ## What the pass yields
 

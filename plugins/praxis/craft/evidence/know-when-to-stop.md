@@ -10,8 +10,8 @@ Stop chasing a question, or one lane of it, when one full round of new sources a
 
 The two stops look identical (new sources stop changing the answer) but mean opposite things, so name which:
 
-- **Saturated** — the answer stopped moving because *independent origins converge* on it. A strong stop: the claim is as established as the evidence allows. Say so: `saturated — N independent origins converge`.
-- **Thin dead end** — the answer stopped moving because you keep finding the *same one or few origins* echoed, or nothing at all. A weak stop the caller must see: the answer rests on thin or circular evidence, delivered at low confidence, never as if it were saturated. Say where you searched, so the thinness is auditable: `thin — one origin found, searched <where>`.
+- **Saturated** — the answer stopped moving because *independent origins converge* on it. A strong stop: the claim goes out at the support its origins earn, on the scale [results-and-certainty](results-and-certainty.md) defines. Say so: `saturated — N independent origins converge`.
+- **Thin dead end** — the answer stopped moving because you keep finding the *same one or few origins* echoed, or nothing at all. A weak stop the caller must see: the answer rests on thin or circular evidence, so what it found goes out as **single-source**, never as if it were saturated. Say where you searched, so the thinness is auditable: `thin — one origin found, searched <where>`.
 
 The split is the independent-origin count: two or more independent origins is saturated, one or none is thin. `(basis: maintainer, 2026-07-13)`
 

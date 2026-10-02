@@ -6,19 +6,17 @@ Base behavior: [apply-and-confirm](../phases/03-apply-and-confirm.md) reads the 
 
 ## The delta — hold open until the signal holds at baseline
 
-Keep the run open, re-reading the signal through the [telemetry](../../telemetry/SKILL.md) port, until it holds at baseline for the hold [confirm-the-signal-holds](../../../craft/evidence/confirm-the-signal-holds.md) derives from the signal's own evaluation window, reading at least once per the signal's refresh interval. Holding at baseline is the *stability* half of resolving an incident, not the whole of it: the incident also needs a durable fix in place, so a held window resolves it only when the cause is gone, not merely because the signal is quiet.
+Keep the run open, re-reading the signal through the [telemetry](../../telemetry/SKILL.md) port, until it holds at baseline for the window apply-and-confirm sets — the caller's named hold, else the one [confirm-the-signal-holds](../../../craft/evidence/confirm-the-signal-holds.md) derives from the signal's own evaluation window — reading at least once per the signal's refresh interval. Holding at baseline is the *stability* half of resolving an incident, not the whole of it: the incident also needs a durable fix in place, so a held window resolves it only when the cause is gone, not merely because the signal is quiet.
 
 - **Baseline** is that standard's, read against the incident: the user-facing SLI or symptom metric back within its pre-incident range, and the burn rate below threshold on all configured windows where the signal is SLO-based.
 - **The fallback hold** — when no evaluation window is derivable from the signal: ~30 minutes at baseline for a steady signal, or one representative traffic cycle for a slow, load- or time-triggered failure whose recurrence only shows under a full cycle. `(basis: maintainer, 2026-07-11)`
 
-## The verdicts it produces
+## The result
 
-- Signal holds at baseline through the window → *mitigated*, held through the window.
-- Window elapses with the signal unsettled or too thin to judge → *indeterminate*, never rounded up to mitigated; the watch is handed off with the last observed state and what would settle it.
-- Signal regresses during the watch → *not-mitigated*: the mitigation didn't hold, and the result says so.
+The watch's result is placed by [apply-and-confirm](../phases/03-apply-and-confirm.md)'s result list.
 
 ## Relation to the harness loop
 
-`--watch` stays **attached** and polls within the run — it does not reimplement scheduling; this module only defines *what stable means* and *how long to hold*. Prerequisite: the re-reads go through the telemetry port (doer-owns-prerequisites; mitigate declares none); if telemetry becomes unavailable mid-watch, the standard's unreadable case applies: *indeterminate*, with the last observed state.
+`--watch` stays **attached** and polls within the run — it does not reimplement scheduling; this module only defines *what stable means* and *how long to hold*. Prerequisite: the re-reads go through the telemetry port (doer-owns-prerequisites; mitigate declares none); if telemetry becomes unavailable mid-watch, the watch ends there and apply-and-confirm places the result.
 
 While watching, decide and record instead of asking ([ask-while-the-user-is-here](../../gather/rules/ask-while-the-user-is-here.md)).

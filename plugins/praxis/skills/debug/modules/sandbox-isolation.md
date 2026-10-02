@@ -12,6 +12,6 @@ Route all side-effecting work — reproduction, instrumentation, risky toggles �
 
 Isolation must not silently discard the result. At the end of the run, one thing crosses back out of the throwaway environment:
 
-- **The diagnosis** — the mechanism, confidence rung, blast radius, and reproduction — always, since it is the run's deliverable.
+- **The diagnosis** — the mechanism, its certainty, blast radius, and reproduction — always, since it is the run's deliverable.
 
 Everything else — instrumentation, reverted probes, experimental state — is thrown away with the sandbox, and the report says so; debug carries no change out, since making the fix is the recipient's.

@@ -8,7 +8,7 @@ The base run resolves the config and writes it. This module runs the whole resol
 
 - **Resolve and validate as normal**, at whatever posture the other flags set — `--dry-run` changes only the ending, not the resolution.
 - **Render the would-be config** with its validity verdict from [write-and-validate](../phases/04-write-and-validate.md): the full file as it would land, which slots are configured, which disabled, and any defect that *would* block the real write.
-- **Write nothing, and trigger no secret side effect** — do not touch `praxis.json`, and do not prompt the user to set a `secret_ref` value in userConfig ([route-secrets-to-userconfig](../rules/route-secrets-to-userconfig.md)); report that the ref *would* be recorded and where its value *would* go, then stop.
+- **Write nothing, and trigger no secret side effect** — do not touch `praxis.json` or the project's instruction files (list any stale lines, saying whether each would be offered for removal or handed to the user, per [write-and-validate](../phases/04-write-and-validate.md)), and do not prompt the user to set a `secret_ref` value in userConfig ([route-secrets-to-userconfig](../rules/route-secrets-to-userconfig.md)); report that the ref *would* be recorded and where its value *would* go, then stop.
 
 ## Composition
 

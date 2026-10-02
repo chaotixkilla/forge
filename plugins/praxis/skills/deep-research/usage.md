@@ -1,6 +1,6 @@
 # deep-research — usage
 
-Turn a genuinely open question into a verified, cited report: fan out across web-facing source lanes, fetch and adversarially verify the load-bearing claims, and synthesize an answer that separates what's established from what's contested — with the confidence and the gaps stated plainly.
+Turn a genuinely open question into a verified, cited report: fan out across web-facing source lanes, fetch and adversarially verify the load-bearing claims, and synthesize an answer that separates what's established from what's contested — with each claim's support and the gaps stated plainly.
 
 ## When to use
 - The answer isn't in context or the repository, and settling it needs the open web — official docs, standards and papers, and community practice, weighed against each other rather than trusted one at a time.
@@ -15,16 +15,16 @@ Turn a genuinely open question into a verified, cited report: fan out across web
 - Root-causing a specific known failure → **debug**; reading a finished change for defects → **review**.
 
 ## Examples
-`deep-research "<question>"` — a default single-pass run: fan out, verify the load-bearing claims at the default rigor, and return a cited answer with confidence and gaps.
+`deep-research "<question>"` — a default single-pass run: fan out, verify the load-bearing claims at the default rigor, and return a cited answer with each claim's support and the gaps.
 `--deep` — escalate: wider fan-out, more rounds of lead-chasing, and the authoritative-literature lane engaged on every sub-question (not only where it fits by default); for a hard or high-stakes question.
-`--verify=strict` — adversarially check every material claim, not just the load-bearing few; `--verify=off` skips verification and returns a clearly-flagged unverified sweep.
+`--verify=strict` — adversarially check every material claim, not just the load-bearing few; `--verify=off` skips verification and returns a clearly flagged scan, each claim graded only on what the search turned up.
 `--budget=40` — bound the run to ~40 searches/fetches, allocated across sub-questions by importance and spent down first on the ones that matter.
 `--timebox=15m` — prioritize the highest-value evidence early and degrade gracefully to a best-effort answer when the clock runs out.
 `--cited` — render a formal citation for every non-obvious claim (provenance is tracked regardless; this governs the output form).
 
 ## Gotchas
-- **A thin-evidence dead end is not saturation.** deep-research stops when new sources stop *changing the answer*, not when the answer is merely repeated by weak echoes of one origin; it names which of the two it hit, and a dead end returns a low-confidence answer, not a confident one.
+- **A thin-evidence dead end is not saturation.** deep-research stops when new sources stop *changing the answer*, not when the answer is merely repeated by weak echoes of one origin; it names which of the two it hit, and a thin dead end goes out single-source.
 - **Confidence is not fluency.** A source is weighed by its basis — method, expertise, independence, currency — not by how confidently or fluently it asserts; a polished blog post does not outweigh a primary standard.
-- **The report carries no machinery.** It holds the findings, sources and confidence for a human reader, never tool calls or praxis process.
-- **`--verify=off` returns an unverified sweep.** It is a fast scan of what the sources say, every claim flagged unverified — useful for orientation, not for a decision that rests on the answer being right.
+- **The report carries no machinery.** It holds the findings, sources and support for a human reader, never tool calls or praxis process.
+- **`--verify=off` returns an unchecked sweep.** It is a fast scan of what the sources say, each claim graded only on what the search turned up — useful for orientation, not for a decision that rests on the answer being right.
 - **deep-research needs no configuration of its own.** Web search and source-fetch are ambient; the org-internal knowledge lane is reached through the `gather` skill, which routes it to the `knowledge` port (the prerequisite's owner), so it is present only when a knowledge backend is configured and degrades cleanly when it isn't. Each doer owns its prerequisite, so deep-research declares none.

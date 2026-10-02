@@ -2,7 +2,7 @@
 
 **Entry condition.** The request is to answer a feasibility question by building something small and throwaway: will this approach work, how fast is it, does this library do what it claims. Building the thing for real goes to the developing act. (basis: maintainer, 2026-09-30)
 
-**Done when** the spike findings are filed, with the question read as answered, refuted or still open, and the spike's code is discarded. (basis: derived from the step's outcome)
+**Done when** the spike findings are filed, carrying the result on the assumption the question tests — `holds`, `fails`, `unsettled` or `not checked` with its reason ([results-and-certainty](../../../craft/evidence/results-and-certainty.md)) — and the spike's code is discarded. (basis: derived from the step's outcome)
 
 ## The code is thrown away
 

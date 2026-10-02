@@ -1,6 +1,6 @@
 # Make units actionable
 
-Give each unit enough to be started *cold*. The bar is a specific reader: a competent teammate who was not in the room, handed this one unit. If they would have to guess at scope, or open the design to know when they are finished, the unit is not yet actionable.
+Give each unit enough to be started *cold*. The bar is a specific reader: a competent teammate who was not in the room, handed this one unit. If they would have to guess at scope, or open the design to know when they are finished, the unit is not yet actionable. `(basis: house craft rule, after Wake's INVEST, 2003: Estimable and Testable)`
 
 ## Give each unit a checkable done-condition
 

@@ -1,6 +1,6 @@
 # The severity scale
 
-Severity answers one question: **how bad is the consequence, if the finding is real?** It is assigned in [triage-and-rank](../phases/05-triage-and-rank.md), consumed by [deliver-findings](../phases/06-deliver-findings.md) (the `--severity-min` floor and the ranking) and by [gate-mode](../modules/gate-mode.md) (the pass/fail floor). Severity is orthogonal to confidence ([calibrate-confidence-to-rigor](calibrate-confidence-to-rigor.md)): *how bad if real* versus *how sure it is real*. Keep them separate — a confirmed nit is low severity/high confidence; a speculative data-loss bug is critical severity/speculative confidence. Reachability is a confidence input, never a severity one: an unconfirmed path lowers how sure the finding is, not how bad it would be. `(basis: derived from the orthogonality above)`
+Severity answers one question: **how bad is the consequence, if the finding is real?** It is assigned in [triage-and-rank](../phases/05-triage-and-rank.md), consumed by [deliver-findings](../phases/06-deliver-findings.md) (the `--severity-min` floor and the ranking) and by [gate-mode](../modules/gate-mode.md) (the gate's floor). Severity is orthogonal to certainty ([calibrate-certainty-to-rigor](calibrate-certainty-to-rigor.md)): *how bad if real* versus *how sure it is real*. Keep them separate — a traced nit is low severity / traced certainty; an unverified data-loss bug is critical severity / unverified certainty. Reachability is a certainty input, never a severity one: an unestablished path lowers how sure the finding is, not how bad it would be. `(basis: derived from the orthogonality above)`
 
 ## The five levels
 
@@ -30,11 +30,11 @@ The marker is **always paired with the word** (`🔴 critical`), never emoji-onl
 Assign by walking down until a level fits; the boundary tests are what stop a finding sliding between two rungs:
 
 - **critical vs high** — is the consequence *unrecoverable or a breach*? Critical. *Bounded and recoverable*? High. (blast radius + recoverability)
-- **high vs medium** — does a *plausible real input* trigger it? High. Does it need an *edge* input? Medium. (input plausibility; reachability is confidence's)
+- **high vs medium** — does a *plausible real input* trigger it? High. Does it need an *edge* input? Medium. (input plausibility; reachability is certainty's)
 - **medium vs low** — can it produce a *wrong result*, now or as the code plausibly evolves? Medium. Is behavior *correct for all inputs* and only the form worse? Low. (this is the correctness/craft line — [separate-correctness-from-taste](separate-correctness-from-taste.md))
 - **low vs info** — does a maintainer pay a *real cost* (a likely future bug, a genuine inefficiency, a name that misleads)? Low. Is *declining it reasonable*? Info. (actionability)
 
-When two levels both seem to fit, the higher wins only if you can name the input or path that justifies it; absent that evidence, drop a level. A severity you cannot anchor to a concrete consequence is a confidence problem masquerading as severity — re-check it against [anchor-every-claim](../../../craft/evidence/anchor-every-claim.md).
+When two levels both seem to fit, the higher wins only if you can name the input or path that justifies it; absent that evidence, drop a level. A severity you cannot anchor to a concrete consequence is a certainty problem masquerading as severity — re-check it against [anchor-every-claim](../../../craft/evidence/anchor-every-claim.md).
 
 ## What this scale does *not* grade
 

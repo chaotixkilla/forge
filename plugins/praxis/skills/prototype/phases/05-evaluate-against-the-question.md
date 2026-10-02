@@ -4,7 +4,7 @@ Execute the spike and capture the raw observation — the number, the output, th
 
 ## Assign the verdict against the framed question
 
-Read the observation against the success test framed in [frame-the-question](01-frame-the-question.md) — the *pre-committed* one, not a bar chosen after seeing the result — and assign exactly one verdict on the [verdict-scale](../rules/verdict-scale.md) — **answered**, **refuted**, or **still-open** — by its assignment test.
+Read the observation against the success test framed in [frame-the-question](01-frame-the-question.md) — the *pre-committed* one, not a bar chosen after seeing the result — and assign exactly one result from [results-and-certainty](../../../craft/evidence/results-and-certainty.md), placed by the [verdict-scale](../rules/verdict-scale.md) — **holds**, **fails**, **unsettled** or **not checked** — by its discriminators.
 
 Then state how far the verdict generalizes: name the shortcuts the spike took that would not survive production scale, data, or constraints ([keep-the-real-thing-in-view](../rules/keep-the-real-thing-in-view.md)), so the caller reads the verdict as what it is — a signal about the framed unknown under the spike's conditions — and not as more.
 
@@ -14,10 +14,10 @@ When approaches were raced, this is where they are compared and one is selected,
 
 ## The loop-back gate — spike again, or stop
 
-A still-open verdict poses one decision: probe again, or stop and report it. Resolve it mechanically:
+An `unsettled` or `not checked` verdict poses one decision: probe again, or stop and report it. Resolve it mechanically:
 
-- **Loop back** to [pick-the-cheapest-probe](03-pick-the-cheapest-probe.md) — re-entering with a *narrowed* question — only when **all** hold: the verdict is **still-open**; budget remains (`--timebox` not expired and, under `--max-agents`, approaches not exhausted — see [timeboxed-spike](../modules/timeboxed-spike.md)); **and** you can name the *specific* reason it's still-open and a different or narrower probe that would resolve it (e.g. "the serialization stub hid the real cost — next probe runs real serialization on 10 records"). Each loop-back must *narrow the unknown* — isolate more, stub less, or fix the confound — never merely re-run the same probe hoping for a different number.
-- **Stop** — proceed to [capture-and-discard](06-capture-and-discard.md) — when the verdict is **answered** or **refuted** (the question is resolved either way), **or** budget is exhausted, **or** the still-open reason names no narrower probe that would resolve it. A still-open verdict that can't be narrowed within budget is a complete, honest result: re-invoking prototype on a re-framed question is the outer loop, not an in-run spin.
+- **Loop back** to [pick-the-cheapest-probe](03-pick-the-cheapest-probe.md) — re-entering with a *narrowed* question — only when **all** of these are true: the verdict is **unsettled** or **not checked**; budget remains (`--timebox` not expired and, under `--max-agents`, approaches not exhausted — see [timeboxed-spike](../modules/timeboxed-spike.md)); **and** you can name the *specific* reason it didn't settle and a different or narrower probe that would resolve it (e.g. "the serialization stub hid the real cost — next probe runs real serialization on 10 records"). Each loop-back must *narrow the unknown* — isolate more, stub less, or fix the confound — never merely re-run the same probe hoping for a different number.
+- **Stop** — proceed to [capture-and-discard](06-capture-and-discard.md) — when the verdict is **holds** or **fails** (the question is resolved either way), **or** budget is exhausted, **or** the reason it didn't settle names no narrower probe that would resolve it. An `unsettled` or `not checked` verdict that can't be narrowed within budget is a complete, honest result: re-invoking prototype on a re-framed question is the outer loop, not an in-run spin.
 
 `(basis: maintainer, 2026-07-09; after Ries's build-measure-learn, Frey et al. 2009 and Cohn)`
 

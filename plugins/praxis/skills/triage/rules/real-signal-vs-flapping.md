@@ -7,7 +7,7 @@ The first judgment in triage is whether there is an incident at all. A firing al
 No single test is sufficient; combine them in this order, first match wins:
 
 1. No user-facing symptom → a lead to **investigate**, not an incident.
-2. Corroborated, or unmistakable by the hold test below → **engage**: independent confirmation outweighs oscillation and flappy history.
+2. Corroborated, or unmistakable by the hold test below → **engage**: an independent second signal outweighs oscillation and flappy history.
 3. Oscillating past flap detection → noise, **stand down**.
 4. Persisted past its hold → **engage** — unless the alert is known-flappy, which waits out one more hold first: still firing, engage; cleared, stand down with the alert flagged for fixing. (routed to maintainer: one extra hold for a known-flappy alert, since an alert that habitually clears in minutes and still fires after two holds is behaving unlike its history.)
 5. Not yet past its hold → wait it out and judge again; cleared inside it → **stand down**.
@@ -16,7 +16,7 @@ No single test is sufficient; combine them in this order, first match wins:
 
 - **Persistence** — has the signal *stayed* firing past a metric-appropriate hold, or is it *oscillating* (ALERT↔OK repeatedly)? A real signal survives a hold timer; a transient blip clears inside it. A signal oscillating fast enough to trip flap detection (a high state-change ratio across its recent evaluations, at the threshold the alerting backend or the runbook sets) is noise, not an incident. `(basis: alerting practice of a hold duration before firing, and of flap detection over recent state changes)`
 - **Symptom-mapping** — does the signal map to a **user-facing symptom** (errors users see, failing requests, latency they feel), or is it a **single internal probe** (one host's CPU, a queue depth) with no user-visible consequence? Engage on symptoms; a cause-metric with no symptom is a warning to investigate, not an incident to declare. `(basis: Ewaschuk, "My Philosophy on Alerting", Google SRE)`
-- **Corroboration** — is the signal confirmed by an **independent or correlated** second signal, or is it alone? A user-facing error rate *and* a latency rise *and* support tickets is an incident; one metric with everything around it healthy is suspect. `(basis: Google SRE multi-window burn-rate alerting; alert correlation and suppression of dependent alerts)`
+- **Corroboration** — is the signal backed by an **independent or correlated** second signal, or is it alone? A user-facing error rate *and* a latency rise *and* support tickets is an incident; one metric with everything around it healthy is suspect. `(basis: Google SRE multi-window burn-rate alerting; alert correlation and suppression of dependent alerts)`
 - **Known-flappy history** — does this alert have a track record of **auto-resolving within minutes** (about five) — at least three of its last five firings? (routed to maintainer: three of the last five, as the house default where the runbook sets none.) If it habitually clears itself, it waits out the extra hold in step 4 rather than engaging at once: it needs fixing, not paging. `(basis: incident-management practice of pausing notifications for alerts that habitually auto-resolve)`
 
 ## The tests, concretely
@@ -27,7 +27,7 @@ No single test is sufficient; combine them in this order, first match wins:
 
 ## Anchors
 
-- *Clearest REAL (engage now):* a user-facing error rate or latency SLI that has stayed above threshold past its hold window **and** is corroborated by a second correlated signal (or by both burn-rate windows) — a symptom, sustained, confirmed. Assign severity and drive the response.
+- *Clearest REAL (engage now):* a user-facing error rate or latency SLI that has stayed above threshold past its hold window **and** is corroborated by a second correlated signal (or by both burn-rate windows) — a symptom, sustained, corroborated. Assign severity and drive the response.
 - *Clearest FLAPPING (stand down):* a single internal probe oscillating OK↔ALERT within minutes, auto-resolving on its own, mapping to no user-visible symptom, with a known-flappy history. Record it, route the noisy alert to be tuned, and do not open the incident spine.
 
 ## The sanity bar

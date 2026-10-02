@@ -21,7 +21,7 @@ Restructure existing code without changing what it does: locate the code and cap
 `--dry-run` — report the target, baseline, risk tier and intended edit without changing anything.
 
 ## Gotchas
-- **Behavior is the contract.** Proving it unchanged rests on the baseline captured before the edit. Code that can't be exercised at all gives no baseline, and the verdict is inconclusive, never verified.
+- **Behavior is the contract.** Proving it unchanged rests on the baseline captured before the edit. Code that can't be exercised at all gives no baseline, and the verdict is not checked, never holds ([results-and-certainty](../../craft/evidence/results-and-certainty.md)).
 - **Unknown reach grades high.** When the consumers can't be enumerated, the change grades `exposed` and needs a migration path, or it's blocked and reported.
 - **It commits locally and stops.** refactor never pushes, opens a review request or records anything outside the repository.
 - **In a project set up for praxis, it changes code only inside an act.** Invoked on its own there, its edits are blocked until an act starts; the work skill routes the change to the act that runs it.

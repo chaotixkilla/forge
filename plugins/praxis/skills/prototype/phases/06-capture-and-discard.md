@@ -4,7 +4,7 @@ The learning is easy to lose — it lives in your head and in code that's about 
 
 Assemble what survives the spike into one findings blob:
 
-- **The verdict** — `answered` / `refuted` / `still-open` on the [verdict-scale](../rules/verdict-scale.md), leading the blob.
+- **The verdict** — `holds` / `fails` / `unsettled` / `not checked` (with its reason) on the [verdict-scale](../rules/verdict-scale.md), leading the blob.
 - **The observed evidence** it rests on — the run, the input, the result ([observation-over-inference](../../../craft/evidence/observation-over-inference.md)) — so the verdict is reconstructable by someone who wasn't there.
 - **The rejected paths** — the dead-ends with their causes ([record-dead-ends](../rules/record-dead-ends.md)), including the runner-up approaches under `--max-agents` and why each lost.
 - **The generalization caveats** — the shortcuts that wouldn't survive production scale, data, or constraints ([keep-the-real-thing-in-view](../rules/keep-the-real-thing-in-view.md)), so the reader knows the boundary between demonstrated and assumed.

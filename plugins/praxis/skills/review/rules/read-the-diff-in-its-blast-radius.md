@@ -12,6 +12,6 @@ For each symbol the diff touches, read outward along three directions until you 
 
 ## Where the edge is — the stopping test
 
-The radius is bounded, not infinite, and the bound is a *test*, not a fixed hop count: **stop following a direction when you can predict the change's runtime effect on everything reachable that way, and reading one more hop would not change a verdict.** A change to a pure leaf function with three local callers has a small radius; a change to a shared signature with thirty callers, or to a data invariant, has a large one. `--rigor` sets how far to push before withholding (the depth row in [calibrate-confidence-to-rigor](calibrate-confidence-to-rigor.md)); this rule sets *how* to push and *when* the pushing is done.
+The radius is bounded, not infinite, and the bound is a *test*, not a fixed hop count: **stop following a direction when you can predict the change's runtime effect on everything reachable that way, and reading one more hop would not change a verdict.** A change to a pure leaf function with three local callers has a small radius; a change to a shared signature with thirty callers, or to a data invariant, has a large one. `--rigor` sets how far to push before withholding (the depth row in [calibrate-certainty-to-rigor](calibrate-certainty-to-rigor.md)); this rule sets *how* to push and *when* the pushing is done.
 
 `(basis: derived from understand's blast-radius method and its stop-when-answered test)`

@@ -1,22 +1,50 @@
 #!/usr/bin/env python3
 """praxis Stop hook: no silent skips.
 
-While an act is running (its marker, .claude/praxis-act.json, exists), blocks
-the end of a turn when a step was passed over without an honest outcome: a step
-still pending while a later step has run, an outcome that isn't one of the
-three, or a skip with no reason recorded. It blocks once per turn: when the
-harness is already continuing because of a stop hook, the turn ends. On any
-error the turn ends too.
+While this session runs an act (its marker, .claude/praxis/acts/<session-id>.json,
+is a JSON object naming its task, the test the edit guard uses), blocks the end of
+a turn when a step was passed over without an honest outcome: a step still
+pending while a later step has run, a step still pending whose result waits in
+the task's unfiled directory (it has ended, so it must not run again), an outcome that
+isn't one of the three, or a skip with no reason recorded. Other sessions'
+markers are never read. It blocks once per turn: when the harness is already continuing
+because of a stop hook, the turn ends. On any error, an unreadable marker or an
+event with no usable session id included, the turn ends too.
 """
 import json
 import os
+import re
 import sys
 
 # The outcomes of the skip-only-with-a-reason rule, plus the state before a step runs.
 OUTCOMES = {"pending", "ran", "skipped-by-act", "skipped-by-user"}
+SESSION = re.compile(r"^[A-Za-z0-9_-]+$")
 
 
-def problems(steps):
+def read_marker(path):
+    """The marker at path when it is a JSON object naming its task, else None."""
+    try:
+        with open(path, encoding="utf-8") as f:
+            marker = json.load(f)
+    except (OSError, ValueError):
+        return None
+    if isinstance(marker, dict) and str(marker.get("task") or "").strip():
+        return marker
+    return None
+
+
+def waiting(project, task, name):
+    """The project-relative path of a step's unfiled result when that file exists, else ''.
+    A step keyed "1:understand" files as .claude/praxis/unfiled/<task>/1-understand.md."""
+    root = os.path.realpath(os.path.join(project, ".claude", "praxis", "unfiled"))
+    folder = os.path.realpath(os.path.join(root, task))
+    path = os.path.join(folder, str(name).replace(":", "-") + ".md")
+    if name and folder.startswith(root + os.sep) and os.sep not in str(name) and os.path.isfile(path):
+        return os.path.relpath(path, os.path.realpath(project))
+    return ""
+
+
+def problems(project, task, steps):
     last_done = max((i for i, s in enumerate(steps) if s.get("outcome", "pending") != "pending"), default=-1)
     found = []
     for i, step in enumerate(steps):
@@ -24,6 +52,9 @@ def problems(steps):
         outcome = step.get("outcome", "pending")
         if outcome not in OUTCOMES:
             found.append(f"{name}: '{outcome}' isn't an outcome (ran, skipped-by-act or skipped-by-user)")
+        elif outcome == "pending" and (copy := waiting(project, task, step.get("step") or "")):
+            found.append(f"{name} has its result waiting at {copy}, so it has ended: record it as ran, or as "
+                         "the skip that file records, with that path as its unfiled, rather than running it again")
         elif outcome == "pending" and i < last_done:
             found.append(f"{name} has no outcome, but a later step has run")
         elif outcome.startswith("skipped") and not str(step.get("reason") or "").strip():
@@ -35,16 +66,20 @@ def main():
     event = json.load(sys.stdin)
     if event.get("stop_hook_active"):
         return
-    project = os.environ.get("CLAUDE_PROJECT_DIR") or event.get("cwd") or os.getcwd()
-    marker = os.path.join(project, ".claude", "praxis-act.json")
-    if not os.path.isfile(marker):
+    session = str(event.get("session_id") or "")
+    if not SESSION.match(session):
         return
-    with open(marker, encoding="utf-8") as f:
-        found = problems(json.load(f).get("steps") or [])
+    project = os.environ.get("CLAUDE_PROJECT_DIR") or event.get("cwd") or os.getcwd()
+    marker = read_marker(os.path.join(project, ".claude", "praxis", "acts", session + ".json"))
+    if not marker:
+        return
+    steps = marker.get("steps")
+    found = problems(project, str(marker["task"]).strip(), steps if isinstance(steps, list) else [])
     if found:
         reason = ("The running act's checklist has steps without an honest outcome:\n- " + "\n- ".join(found)
-                  + "\nRun each one, or record why it was skipped: the condition the act file names, "
-                  "or the user's own reason. A step is never skipped silently.")
+                  + "\nRun each one, record the outcome its waiting result gives it, or record why it was "
+                  "skipped: the condition the act file names, or the user's own reason. A step is never "
+                  "skipped silently.")
         json.dump({"decision": "block", "reason": reason}, sys.stdout)
 
 

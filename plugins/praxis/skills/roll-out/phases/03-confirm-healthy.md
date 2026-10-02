@@ -2,7 +2,7 @@ Shipping and walking away is how a green-looking deploy becomes a 2 a.m. page: t
 
 ## Read the post-ship signals through telemetry
 
-When the change rolled out ([promote](02-promote.md)), read the affected service's signals through the [telemetry](../../telemetry/SKILL.md) capability (a metric, error-aggregate, or log stream by reference) across a watch window. The references come from the caller — the shipping act passes the service's dashboards or alerts; with none, the verdict is **indeterminate**, naming the missing references, since telemetry reads only by reference. roll-out declares no telemetry prerequisite — the `telemetry` skill owns `tools.telemetry` (doer-owns-prerequisites). Watch the **golden signals**: latency, traffic, errors, and saturation of the service the change touched.
+When the change rolled out ([promote](02-promote.md)), read the affected service's signals through the [telemetry](../../telemetry/SKILL.md) capability (a metric, error-aggregate, or log stream by reference) across a watch window. The references come from the caller — the shipping act passes the service's dashboards or alerts; with none, the verdict is **not checked**, naming the missing references, since telemetry reads only by reference. roll-out declares no telemetry prerequisite — the `telemetry` skill owns `tools.telemetry` (doer-owns-prerequisites). Watch the **golden signals**: latency, traffic, errors, and saturation of the service the change touched.
 
 ## The health verdict — the method
 
@@ -10,22 +10,27 @@ When the change rolled out ([promote](02-promote.md)), read the affected service
 
 - **Compare to a baseline, over the window**, by [confirm-the-signal-holds](../../../craft/evidence/confirm-the-signal-holds.md): each golden signal judged against its pre-ship baseline (or a control) as that standard defines it, held for the window it derives, with the traps that fake health avoided. Prefer a freshly comparable baseline over a long-running production cluster, whose warm caches confound the comparison; the error budget is the ship/halt rule.
 
-## The verdict — a three-value partition
+## The verdict
 
-The run resolves the health judgment to **exactly one** of:
+The health verdict is a result on the shared results scale ([results-and-certainty](../../../craft/evidence/results-and-certainty.md)), placed as [confirm-the-signal-holds](../../../craft/evidence/confirm-the-signal-holds.md) places a watch's and scoped to the signals read and the window.
 
-- **healthy** — each of the four golden signals the service's telemetry exposes stayed within its baseline band for the full window, with no sustained breach. The ship stands. A signal read back **empty** (collected, nothing matched) is within its band; one read back **not collected** is named as unobserved, and healthy needs at least one user-facing signal — errors or latency — observed, else the verdict is indeterminate. (routed to maintainer: one observed user-facing signal as healthy's floor, since a ship judged on no signal users feel has not been judged.)
-- **needs-rollback** — a key signal breached its threshold in a *sustained* way (not a lone spike). The change should be reversed per the rollout's reversibility strategy / the `--on-fail` policy.
-- **indeterminate** — the signal is too thin to judge: traffic or window too small to distinguish a real regression from noise (SRE guidance is explicit that a too-small canary reads noise as signal). **Report indeterminate honestly — never round it to healthy**: hand off the watch with the last observed state and what would settle it, as the standard says, never declaring success.
+The signals that count are every golden signal named for the change — each one whose reference the caller passed, not only the key ones — less any read back **not collected**, which is named as unobserved. Each counted signal is read against its baseline band, and that one band test decides both fails and holds. `(basis: derived — a band breached on a signal left uncounted is still a regression users can feel)`
 
-**Partition proof:** the three are mutually exclusive and exhaustive over the signal state — either a sustained breach exists (needs-rollback), or none exists *and* there was enough signal to be sure (healthy), or there was not enough signal to be sure (indeterminate). The third value is the one a binary verdict drops: "no breach seen" collapses *healthy* and *indeterminate* together and ships a "looks fine" that was really "couldn't tell." Every run that rolled out lands in exactly one; a run that didn't roll out carries no health verdict.
+It resolves to **exactly one** of:
 
-The numbers — the burn-rate thresholds, the baseline band and the watch-window length — are house-specific: the maintainer sets them or wires them to the project's SLOs, since no numbers transfer across contexts (they depend on traffic volume, velocity and time of day). `(routed to maintainer: call healthy only after representative traffic across at least one full load cycle, below that indeterminate; the authorities set no numbers)`
+- **not checked** — no signal was read: no references named, telemetry unavailable, or every read came back **not collected**. Named with the reason.
+- **fails** — any counted signal reads outside its baseline band in a sustained way; a lone spike that recovers is not a breach. The change should be reversed per the rollout's reversibility strategy / the `--on-fail` policy.
+- **holds** — each counted signal stayed within its baseline band for the full window, and at least one user-facing signal — errors or latency — was read. The ship stands. A signal read back **empty** (collected, nothing matched) is within its band. (routed to maintainer: one read user-facing signal as the floor for holds, since a ship judged on no signal users feel has not been judged.)
+- **unsettled** — anything between: signals were read with no sustained reading outside a band, but not every counted signal is shown within its band for the window: traffic or window too small to tell a real regression from noise (SRE guidance is explicit that a too-small canary reads noise as signal), or no user-facing signal among those read. Hand off the watch with the last observed state and what would settle it.
+
+Every run that rolled out lands in exactly one, by the standard's questions in order; a run that didn't roll out carries no health verdict.
+
+The numbers — the burn-rate thresholds, the baseline band and the watch-window length — are house-specific: the maintainer sets them or wires them to the project's SLOs, since no numbers transfer across contexts (they depend on traffic volume, velocity and time of day). `(routed to maintainer: call holds only after representative traffic across at least one full load cycle, below that unsettled; the authorities set no numbers)`
 
 ## `--watch` and the fail policy
 
-- **`--watch`** ([watch-the-pipeline](../modules/watch-the-pipeline.md)) keeps roll-out attached until the run and signals *settle* before returning — without it, roll-out reads the currently-available signals once and reports the verdict as of now (often *indeterminate* for a fresh ship, said honestly). A `--watch` timeout with signals unsettled reports *indeterminate*, not healthy.
-- **needs-rollback triggers the fail policy.** A needs-rollback verdict is a rollout failure for `--on-fail` purposes ([failure-policy](../modules/failure-policy.md)): default abort (stop and report the verdict), `rollback` reverses the ship where a reverse exists, `ask` surfaces it for a human.
+- **`--watch`** ([watch-the-pipeline](../modules/watch-the-pipeline.md)) keeps roll-out attached until the run and signals *settle* before returning — without it, roll-out reads the currently-available signals once and reports the verdict as of now (often *unsettled* for a fresh ship, said honestly). A `--watch` timeout with signals unsettled reports *unsettled*, not holds.
+- **A verdict that fails triggers the fail policy.** It is a rollout failure for `--on-fail` purposes ([failure-policy](../modules/failure-policy.md)): default abort (stop and report the verdict), `rollback` reverses the ship where a reverse exists, `ask` surfaces it for a human.
 
 ## The run's terminal outcome
 
@@ -38,6 +43,6 @@ Two states are not members. A `--dry-run` reports its *would-be* outcome, evalua
 
 ## Close the phase
 
-Return the outcome with what a caller needs to report it: the environment, the strategy and risk tier, the exposure reached and the stages that remain, the health verdict with the signals behind it and what a non-healthy verdict calls for, and, for *not-rolled-out*, why.
+Return the outcome with what a caller needs to report it: the environment, the strategy and risk tier, the exposure reached and the stages that remain, the health verdict with the signals behind it and what a verdict other than holds calls for, and, for *not-rolled-out*, why.
 
-**Degrade, per capability:** no `tools.telemetry` → the rollout still stands but health can't be judged, so the verdict is **indeterminate**, with why. A missing watch backend narrows what can be *observed*; it never undoes the rollout. Under `--dry-run`, return the signals that *would* be watched, without reading them.
+**Degrade, per capability:** no `tools.telemetry` → the rollout still stands but health can't be judged, so the verdict is **not checked**, with why. A missing watch backend narrows what can be *observed*; it never undoes the rollout. Under `--dry-run`, return the signals that *would* be watched, without reading them.

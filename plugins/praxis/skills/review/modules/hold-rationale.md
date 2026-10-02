@@ -6,11 +6,11 @@ The base review reads the author's rationale, meaning the change's description a
 
 ## The delta
 
-- **The intent comes from the caller.** Hold the change to the intent its caller supplies (a ticket, a spec, a requirement) in place of the description and commit messages. With none supplied, the fitness verdict judges the change against its own apparent intent, as the no-stated-requirement case in [deliver-findings](../phases/06-deliver-findings.md) already does. (basis: maintainer, 2026-09-30)
+- **The intent comes from the caller.** Hold the change to the intent its caller supplies (a ticket, a spec, a requirement) in place of the description and commit messages. With none supplied, fitness is judged against the change's own apparent intent, as the no-stated-requirement case in [deliver-findings](../phases/06-deliver-findings.md) already does. (basis: maintainer, 2026-09-30)
 - **Nothing the author wrote about the change is read.** That excludes its title and description, its commit messages, its linked discussion threads, and any work-item found only through them. With `--change`, fetch the change through the vcs capability with its description held back, and materialize it the same way ([hosted-change](hosted-change.md)). In any window, read the history of the changed lines only up to the change's base, and give every explorer this pass recruits the same limit: the base commit, history at or before it, and no review-request or issue threads. A document the diff adds that argues for the change, such as a design note, is held whole for the pass that reads the rationale. (routed to maintainer: holding it keeps this pass clean, at the cost of reviewing part of the diff later.)
 - **In the default window, the hold is local.** With nothing fetched, what the author wrote is what local version control would show: the range's commit messages, its notes and the branch's description. Read none of them, and run any command that prints them as it works — a checkout often echoes the head commit's subject — with its output discarded.
 - **The description/behavior divergence check waits** for the pass that reads the rationale, since there's no stated goal here to compare the behavior with. The decisions and the questions for the author ([questions-for-the-author](../rules/questions-for-the-author.md)) come from the reviewer's own reading, and that later pass checks them.
-- **The scope line says the rationale was held back**, so no reader takes the report's silence about the description for agreement with it.
+- **The scope line says the author's description and commit messages weren't read**, so no reader takes the report's silence about them for agreement.
 
 ## Degrade
 

@@ -1,6 +1,6 @@
 ---
 name: prototype
-description: Reduce uncertainty about a risky assumption or unproven approach by building the smallest throwaway thing that answers one framed question empirically — scout prior art, run the cheapest probe (or race candidate approaches), read the observed result against the question as answered/refuted/still-open, then extract the learnings and discard the code. The de-risking spike to run before committing a design; distinct from understand (reads existing code, builds nothing) and plan/spec (produce durable design, not throwaway experiments).
+description: Reduce uncertainty about a risky assumption or unproven approach by building the smallest throwaway thing that answers one framed question empirically — scout prior art, run the cheapest probe (or race candidate approaches), read the observed result against the question as holds/fails/unsettled/not checked, then extract the learnings and discard the code. The de-risking spike to run before committing a design; distinct from understand (reads existing code, builds nothing) and plan/spec (produce durable design, not throwaway experiments).
 metadata:
   flags:
     --sandbox: run the spike in an isolated throwaway environment (a scratch workspace, or a discardable local branch) so it can't touch real state and is trivial to discard wholesale — activates the sandbox-isolation module
@@ -20,5 +20,5 @@ Each numbered step's full procedure lives in the linked phase file — read it, 
 2. Scout prior art: recruit the code, official-documentation, and community-practices explorers for existing solutions, reference implementations, and known dead-ends before building anything  — see [phases/02-scout-prior-art.md](phases/02-scout-prior-art.md)
 3. Pick the cheapest probe: choose the smallest experiment that answers the framed question — stub everything not under test, bias to throwaway  — see [phases/03-pick-the-cheapest-probe.md](phases/03-pick-the-cheapest-probe.md)
 4. Build the spike: build fast and disposably toward a clear pass/fail signal — hardcode, skip polish, optimize for learning speed not durability  — see [phases/04-build-the-spike.md](phases/04-build-the-spike.md)
-5. Evaluate against the question: run the probe and read the observed result against the framed question — answered, refuted, or still-open — grounded in what actually ran  — see [phases/05-evaluate-against-the-question.md](phases/05-evaluate-against-the-question.md)
+5. Evaluate against the question: run the probe and read the observed result against the framed question — holds, fails, unsettled, or not checked — grounded in what actually ran  — see [phases/05-evaluate-against-the-question.md](phases/05-evaluate-against-the-question.md)
 6. Capture and discard: extract the durable learnings (verdict, evidence, rejected paths, caveats), hand them off, and throw away the throwaway code  — see [phases/06-capture-and-discard.md](phases/06-capture-and-discard.md)

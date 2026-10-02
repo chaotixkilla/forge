@@ -14,7 +14,7 @@ A tool-layer interface skill: the single place the org's knowledge sources are r
 - Configuring which backend serves the capability → **init** (`init:knowledge`); this skill consumes the config, it does not set it.
 
 ## Operations (extended as consumers need them)
-`list the sources` — each resolved source's name and note, the artifacts home included, so a caller can choose which to search; reaches no backend.
+`list the sources` — each resolved source's name, note, the reads it supports and its entry references, the artifacts home included, so a caller can choose which to search and where to start a walk; reaches no backend.
 `search` — a query, across every source or the named ones, optionally scoped to a subtree of one: returns each source's ranked references, not full documents.
 `fetch a document` — by reference and the source it came from: its content plus the provenance the backend exposes.
 `list a document's children` — by reference and its source: the immediate child documents in the backend's order, for walking a page→subpage tree a level at a time.
@@ -22,8 +22,10 @@ A tool-layer interface skill: the single place the org's knowledge sources are r
 ## Gotchas
 - **It reads only.** The port never writes to the backend — no page created, edited, moved, or archived. A read is safe to repeat.
 - **It blocks without a configured source.** `config_requires: tools.knowledge` with `if_missing: guide via init:knowledge, else block` — a knowledge port with no source has nothing to read. Consumers that can proceed without the lane (**gather** dropping it with a note, **communicate** falling back to what the session holds) catch the unavailable signal and degrade on *their* side; this skill itself blocks.
+- **Not every source can be searched.** A backend with no search, or a source with no root, answers a search `unsupported`. Reach it by fetching its entry references and following children and links from there — a walk, which can show a document is there but never that one isn't.
 - **"Could not reach it" and "it holds nothing" are different answers.** The port returns them as distinct outcomes, because a caller that conflates them reports an absence it never established. Callers must branch on which one came back rather than treating any empty return as a finding about the org.
 - **Results come back per source, unmerged.** Each source answers with its own outcome and references, tagged with its name; one source down leaves the others' answers intact. Deduplicating, ranking and weighing across sources is the caller's.
+- **An older config shape still reads, with an advisory.** Each entry read as its current equivalent, or ignored, comes back as an advisory naming the init setup that rewrites the slot.
 - **It reports failures in capability terms.** The caller hears "the backend is unavailable" or "that document wasn't found," never a backend error code — so a caller's degrade logic never has to learn one backend's vocabulary.
 - **Backend coverage is by adapter.** Whichever providers have an adapter under `adapters/` are supported; adding a provider is a new adapter, no change to callers.
-- **`--dry-run` previews the read.** It reports which query or reference would be fetched, and from which sources, without performing the fetch — useful when a reference's shape is uncertain.
+- **`--dry-run` previews the read.** It reports which query or reference would be read, from which sources, and which would answer `unsupported`, without reading anything — useful when a reference's shape is uncertain.

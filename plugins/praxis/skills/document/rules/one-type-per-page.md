@@ -2,7 +2,7 @@
 
 ## The rule
 
-- Every page of a task opens by naming its type, the part of the system it covers, and its task. The task log, which belongs to no single task, opens with its type and its last update instead.
+- Every page of a task closes with a footer line naming its type, the part of the system it covers, its task's key — with the round after it once the task has more than one — and the date the page was last updated: `Review record · the invoice export module · review-230, round 2 · 2026-10-02`. It's filing data, so it sits below everything the reader came for. The task log, which belongs to no single task, closes with its type and its last update instead. (basis: maintainer, 2026-10-02)
 - A page links to another page rather than repeating what that page says.
 - No page covers the whole system: a task documents only what it touched.
 

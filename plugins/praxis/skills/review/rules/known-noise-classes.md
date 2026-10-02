@@ -13,6 +13,6 @@ Some candidates come back on almost every review and are almost never worth the 
 | **Looks like a bug, isn't** | tracing shows a guard, invariant or caller contract that makes it safe on every reachable path | on some reachable path nothing makes it safe ([confirm-before-claiming](confirm-before-claiming.md)) |
 | **Handled one frame up** | every caller already handles the case | some caller doesn't |
 
-A withheld candidate isn't reported and isn't counted. When you can't tell which side of a row a candidate falls on, report it at its honest confidence. The classes apply at every rigor, max included: rigor moves the confidence floor and the lens set ([calibrate-confidence-to-rigor](calibrate-confidence-to-rigor.md)), not what counts as noise.
+A withheld candidate isn't reported and isn't counted. When you can't tell which side of a row a candidate falls on, report it at its honest certainty. The classes apply at every rigor, max included: rigor moves the certainty floor and the lens set ([calibrate-certainty-to-rigor](calibrate-certainty-to-rigor.md)), not what counts as noise.
 
 (basis: the false-positive classes established review practice withholds, adapted to praxis's blast-radius reading)

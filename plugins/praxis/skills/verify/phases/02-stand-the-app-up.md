@@ -35,7 +35,7 @@ The record is the scope statement the verdict is read against, so pin it before 
 
 The record is complete when a competent reader could stand up an equivalent instance from it alone *and* could name what the verdict does not cover. `(basis: derived from usage.md's scoping gotcha)`
 
-An item you genuinely cannot determine is recorded as **unknown**, with what you tried — not omitted, and not guessed. An unknown does not stop the run: the drive proceeds and the gap travels with the verdict as a stated scope limitation, since a partial observation with honest scope is worth more than none. `(basis: maintainer, 2026-07-27)` Whether a recorded unknown **caps the level** is decided in one place — [verdict-scale](../rules/verdict-scale.md)'s substitution-or-unknown degrade cell, which turns on whether a framed step's claimed effect depends on the undetermined fact. Note that dependence here, per unknown item, while the facts are in front of you, so the verdict phase can apply the cell without re-deriving it.
+An item you genuinely cannot determine is recorded as **unknown**, with what you tried — not omitted, and not guessed. An unknown does not stop the run: the drive proceeds and the gap travels with the verdict as a stated scope limitation, since a partial observation with honest scope is worth more than none. `(basis: maintainer, 2026-07-27)` Whether a recorded unknown **caps the result** is decided in one place — [verdict-scale](../rules/verdict-scale.md)'s substitution-or-unknown degrade cell, which turns on whether a framed step's claimed effect depends on the undetermined fact. Note that dependence here, per unknown item, while the facts are in front of you, so the verdict phase can apply the cell without re-deriving it.
 
 ## Under `--sandbox`
 
@@ -43,7 +43,7 @@ Stand the instance up in a disposable, isolated environment so the drive cannot 
 
 ## Degraded and error cases
 
-The app not coming up is a **result**, not an obstacle to work around. In each case below, capture the evidence, stop, and carry the stop to [report-the-verdict](05-report-the-verdict.md) — never a pass, never a silent retreat to driving an internal seam, and never a repair.
+The app not coming up is a **result**, not an obstacle to work around. In each case below, capture the evidence, stop, and carry the stop to [report-the-verdict](05-report-the-verdict.md) — never `holds`, never a silent retreat to driving an internal seam, and never a repair.
 
 - **No runnable application exists** — the project is a library, or the change lives in a project with no start path at all. Stated stop: this method cannot observe it. Distinguish it from the framed-empty case, where an application does run and nothing user-reachable changed — here there is no reachable application to stand up at all, and the two want different follow-up.
 - **The start path exists and fails.** The failure to start is itself an observation, and often the defect: capture what you invoked, what came back, and whether the same start path fails on the pre-change state too — that comparison is the cheap discriminator, and the classification it feeds belongs to [separate-defect-from-environment](04-separate-defect-from-environment.md), not here.

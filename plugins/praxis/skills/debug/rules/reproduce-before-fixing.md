@@ -15,6 +15,6 @@ Non-determinism doesn't excuse skipping this — it changes the form of the trig
 
 ## The discriminator: reproduced enough to proceed?
 
-You may proceed to localize and fix when the failure is **deterministic**, or **intermittent with a statistical harness that fires often enough to measure**. You may **not** proceed to a fix when it is **not-yet-reproduced** — there, reproduction *is* the task ([reproduce-and-frame](../phases/01-reproduce-and-frame.md)): gather more evidence to reconstruct the trigger, and if it truly can't be reached, report that with what's needed rather than guessing at a fix. Confidence in the eventual cause is capped by how well you can reproduce it (per [the root-cause-confidence scale](root-cause-confidence.md)).
+You may proceed to localize and fix when the failure is **deterministic**, or **intermittent with a statistical harness that fires often enough to measure**. You may **not** proceed to a fix when it is **not-yet-reproduced** — there, reproduction *is* the task ([reproduce-and-frame](../phases/01-reproduce-and-frame.md)): gather more evidence to reconstruct the trigger, and if it truly can't be reached, report that with what's needed rather than guessing at a fix. The eventual cause's certainty is capped by how well you can reproduce it ([root-cause certainty](root-cause-confidence.md)).
 
 `(basis: Agans 2002, rule 2; Zeller, Why Programs Fail; community practice for the non-deterministic case)`

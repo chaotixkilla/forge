@@ -1,6 +1,6 @@
 # Questions for the author
 
-Not everything a review can't settle is a defect, and left alone, that doubt goes one of two wrong ways: either it's dropped, and a choice nobody could justify is approved anyway, or it's dressed up as a speculative finding that asserts a defect no one has shown.
+Not everything a review can't settle is a defect, and left alone, that doubt goes one of two wrong ways: either it's dropped, and a choice nobody could justify is approved anyway, or it's dressed up as an unverified finding that asserts a defect no one has shown.
 
 ## What earns a question
 
@@ -20,7 +20,7 @@ Two things don't earn one. If the code or the evidence already answers it, the r
 - If the likeliest answer is "that's a bug", it's a finding: report the defect, graded like any other.
 - Otherwise it's a question, when the change's correctness turns on which answer is true, or when approving it knowingly needs the answer. A retry with no visible trigger, whose likeliest answer is "the upstream is flaky" but which is wrong if the call isn't idempotent, is a question.
 
-A question carries no severity and no confidence, and never enters the verdict tally.
+A question carries no severity and no certainty, and never enters the verdict tally.
 
 ## The form
 

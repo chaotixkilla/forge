@@ -1,6 +1,6 @@
 # Decision record
 
-One page per decision, holding plan's content contract ([record-rejected-alternatives](../../../plan/rules/record-rejected-alternatives.md)), its status included. A part of the contract the result doesn't hold — the alternatives an author weighed, say — is stated as not recorded, never reconstructed ([preserve-the-why](../../../../craft/writing/preserve-the-why.md)). (basis: Nygard 2011, through plan's contract)
+One page per decision, holding plan's content contract ([record-rejected-alternatives](../../../plan/rules/record-rejected-alternatives.md)) and led by the decision and its status. (basis: maintainer, 2026-10-02) A part of the contract the result doesn't hold — the alternatives an author weighed, say — is stated as not recorded, never reconstructed ([preserve-the-why](../../../../craft/writing/preserve-the-why.md)). (basis: Nygard 2011, through plan's contract)
 
 ## Membership
 

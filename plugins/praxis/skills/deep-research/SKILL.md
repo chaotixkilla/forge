@@ -1,6 +1,6 @@
 ---
 name: deep-research
-description: Fan out multi-source web research, fetch and adversarially verify the load-bearing claims, then synthesize a cited report with explicit confidence and gaps — for a genuinely open question that in-context and repository knowledge can't settle.
+description: Fan out multi-source web research, fetch and adversarially verify the load-bearing claims, then synthesize a cited report that states each claim's support and the gaps — for a genuinely open question that in-context and repository knowledge can't settle.
 metadata:
   flags:
     --deep: escalate depth — wider fan-out, more rounds of lead-chasing, and the authoritative-literature lane engaged on every sub-question rather than only where it fits, instead of a single pass (activates deep-mode) (asks before starting)
@@ -21,4 +21,4 @@ Each numbered step's full procedure lives in the linked phase file — read it, 
 3. Gather evidence: fan out searches and fetch sources with provenance, chase leads, and re-query to saturation  — see [phases/03-gather-evidence.md](phases/03-gather-evidence.md)
 4. Verify claims: adversarially test the load-bearing claims — corroborate, chase to the primary source, hunt disconfirming evidence  — see [phases/04-verify-claims.md](phases/04-verify-claims.md)
 5. Synthesize: reconcile conflicts, weight by source strength, and separate the established from the contested  — see [phases/05-synthesize.md](phases/05-synthesize.md)
-6. Compose the output: render to the requested form and rigor with an explicit statement of confidence and gaps  — see [phases/06-compose-output.md](phases/06-compose-output.md)
+6. Compose the output: render to the requested form and rigor, each claim's support and the gaps stated explicitly  — see [phases/06-compose-output.md](phases/06-compose-output.md)

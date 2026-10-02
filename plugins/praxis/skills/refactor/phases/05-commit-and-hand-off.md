@@ -1,4 +1,4 @@
-Make the verified change *reviewable and attributable*: an opaque diff with no rationale is one the next person can't trust or safely build on. The deliverable is a clean, self-explaining diff, committed, with the reasoning behind it and the follow-ups it surfaced. Reviewing it, landing it and recording it elsewhere belong to whoever delivers the change.
+Make the change *reviewable and attributable*: an opaque diff with no rationale is one the next person can't trust or safely build on. The deliverable is a clean, self-explaining diff, committed, with the reasoning behind it and the follow-ups it surfaced. Reviewing it, landing it and recording it elsewhere belong to whoever delivers the change.
 
 ## Make the diff self-explaining
 
@@ -18,10 +18,10 @@ Every run ends in exactly one of three outcomes. Decide it with two questions, *
 
 **Q1 — did the in-scope change land?** (get made, reach a trustworthy verdict, and get committed.) A run does **not** land when a gate refused it, for *any* cause:
 - `--require-clean` refused a dirty tree ([phase 01](01-locate-and-baseline.md));
-- the verdict was **not-verified** or **inconclusive** *and* the correction lies outside this change's scope ([phase 04](04-prove-it-unchanged.md)) — an *in-scope* failure instead loops back to [make-the-change](03-make-the-change.md) and is not terminal;
+- the verdict was **fails**, **unsettled** or **not checked** *and* the correction lies outside this change's scope ([phase 04](04-prove-it-unchanged.md)) — an *in-scope* failure instead loops back to [make-the-change](03-make-the-change.md) and is not terminal;
 - the change is `exposed` and no migration path can be built within scope ([phase 03](03-make-the-change.md)).
 
-Any of these → **blocked-and-reported**: report what blocked and what would unblock it, including whom to coordinate with. Nothing further is committed: an inconclusive or not-verified change is left uncommitted in the working tree, so whoever supplies the missing confirmation or fix commits it. Checkpoint commits a `--checkpoint-commit` run already made stay where they are — each is a green step — and the report lists them as the partial history, with the uncommitted remainder. `(basis: derived from a commit here meaning landed)` This outcome is defined by its *cause* — a gate refused — not by a fixed list, so a novel refusal still lands here rather than escaping the partition.
+Any of these → **blocked-and-reported**: report what blocked and what would unblock it, including whom to coordinate with. Nothing further is committed: a change whose verdict isn't holds is left uncommitted in the working tree, so whoever supplies the missing check or fix commits it. Checkpoint commits a `--checkpoint-commit` run already made stay where they are — each is a green step — and the report lists them as the partial history, with the uncommitted remainder. `(basis: derived from a commit here meaning landed)` This outcome is defined by its *cause* — a gate refused — not by a fixed list, so a novel refusal still lands here rather than escaping the partition.
 
 **Q2 — if it landed, did the change surface out-of-scope WORK that still must be done?** — a needed change outside the working set ([leave-the-campsite-cleaner](../../../craft/engineering/leave-the-campsite-cleaner.md)).
 - **Yes** → **committed-with-follow-ups**: the in-scope change landed and reached a verdict; the deferred work is returned so it isn't lost.

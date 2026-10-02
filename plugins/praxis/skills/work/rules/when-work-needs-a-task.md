@@ -1,6 +1,6 @@
 # When work needs a task
 
-A task is the unit praxis records: it gets documentation, a memory entry and a line in the task log. Carrying a quick question as a task wastes the user's time and crowds their memory; answering real work off the cuff leaves nothing for anyone to check.
+A task is the unit praxis records: it gets documentation, a memory entry and a line in the task log. Related work can be one task, in rounds ([open-the-task](../phases/02-open-the-task.md)'s Rounds). Carrying a quick question as a task wastes the user's time and crowds their memory; answering real work off the cuff leaves nothing for anyone to check.
 
 The test is one question: **will anyone — another person, or you in a later session — need to audit, continue or build on this?** If yes, it's a task; if no, answer directly. (basis: maintainer, 2026-09-30.)
 

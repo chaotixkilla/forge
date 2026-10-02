@@ -9,9 +9,9 @@ A finding is a **correctness defect** if you can name an input or state on which
 The test is one question: **can I name an input where the code is *wrong*?**
 
 - **Yes** → correctness. It belongs to [hunt-for-defects](../phases/03-hunt-for-defects.md) and is severity-graded by consequence.
-- **No** → craft. It belongs to [assess-craft](../phases/04-assess-craft.md) and is graded — on *severity* — by the cost a maintainer pays, not by any failing input. It still carries a *confidence* like every finding, but craft confidence measures how sure you are the finding's **premise** holds (the cited existing helper really exists and applies; the two blocks really duplicate; the simpler form really preserves behavior) — the craft-confidence ladder in [calibrate-confidence-to-rigor](calibrate-confidence-to-rigor.md), not the correctness cause→effect chain.
+- **No** → craft. It belongs to [assess-craft](../phases/04-assess-craft.md) and is graded — on *severity* — by the cost a maintainer pays, not by any failing input. It still carries a *certainty* like every finding, but a craft finding's certainty measures how sure you are its **premise** holds (the cited existing helper really exists and applies; the two blocks really duplicate; the simpler form really preserves behavior) — the craft placement in [calibrate-certainty-to-rigor](calibrate-certainty-to-rigor.md), not the correctness cause→effect chain.
 
-If you cannot name the wrong input but strongly suspect one exists, that is not a craft finding — it is a *speculative* correctness finding ([calibrate-confidence-to-rigor](calibrate-confidence-to-rigor.md)); keep it in the correctness pile at low confidence rather than demoting it to taste.
+If you cannot name the wrong input but strongly suspect one exists, that is not a craft finding — it is an *unverified* correctness finding ([calibrate-certainty-to-rigor](calibrate-certainty-to-rigor.md)); keep it in the correctness pile at that level rather than demoting it to taste.
 
 (basis: the review role's own framing)
 

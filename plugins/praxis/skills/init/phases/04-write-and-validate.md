@@ -20,6 +20,15 @@ hand-edited setting. A scoped run leaves the section exactly as it found it, **a
 not a scoped target, so a scoped run neither backfills nor rewrites it.
 `(basis: derived from the scoped-merge rule's read-modify-write discipline)`
 
+**A key init doesn't recognize is carried and reported, never dropped.** A key is unrecognized when it is in
+neither the template's shape nor an older shape the ports read (below). Any write over an existing file, full
+or scoped, carries each one into the written file unchanged and in the same place: at the top level, in
+`tools`, in a slot, in `output`, or in a knowledge source, audience space or roster member the run keeps
+(matched by `name`, or by `id` for a member). An entry that leaves the config, removed or renamed, takes its
+keys with it, and the report names them as dropped with it. List each carried key in the closing report as
+unread by this praxis. It is never a defect, so a config written by a newer praxis, or extended by hand,
+stays usable under this one. `(basis: maintainer, 2026-10-02)`
+
 **A scoped run merges, it does not overwrite.** When the run is scoped to one section (`--phase=<name>` or `init:<cap>`), the write is a read-modify-write against the *existing* file, not a fresh emit from the template — load the existing `praxis.json` as the base, replace only the resolved section, and write it back with every other slot and the version untouched. The mechanics and why the base must be the existing file (never the empty template) are in [single-phase](../modules/single-phase.md).
 
 ## Validate — what makes a config valid
@@ -59,9 +68,8 @@ examples here as its complement.
 **A defect** in one case: `output` present but **not an object** (a scalar or a list where the section
 belongs). A key set to a value **outside** its domain (`verbosity: "chatty"`, a string where `brief` takes
 a boolean) is *not* a defect: report it with its allowed values, since every consumer applies the documented
-default to a value it doesn't define and never halts on a style setting ([report-style-settings](../../../craft/writing/report-style-settings.md)). An **unrecognized key** inside `output` is *not* a defect — report it as
-ignored and carry it through the write untouched, so a config written by a newer praxis stays usable under an
-older one.
+default to a value it doesn't define and never halts on a style setting ([report-style-settings](../../../craft/writing/report-style-settings.md)). An **unrecognized key** inside `output` is carried and
+reported like any other (above).
 
 `(basis: derived from consumers' tolerance of an absent section)`
 
@@ -74,9 +82,16 @@ older one.
 
 `(basis: derived from how the roster is read: opportunistically, never gated on)`
 
-## The standing postures reach every session without CLAUDE.md
+## The standing postures reach every session without the project's instruction files
 
-One setting governs work done outside a praxis run: `output.comments`, the standing posture for code comments, since most comments are written during ordinary editing. praxis's session-start guidance reads that posture from the config and states it in every session of the project, so init writes nothing to `CLAUDE.md` and never offers to. `(basis: maintainer, 2026-09-30)`
+One setting governs work done outside a praxis run: `output.comments`, the standing posture for code comments, since most comments are written during ordinary editing. praxis's session-start guidance reads that posture from the config and states it in every session of the project, so init adds nothing to the project's instruction files and never offers to. `(basis: maintainer, 2026-09-30)` Removing stale praxis lines from them (next section) is a cleanup, not a way to carry a posture: it only takes text out, and only on the user's yes. `(basis: maintainer, 2026-10-02)`
+
+## Offer to remove the stale instruction lines
+
+When [detect-environment](01-detect-environment.md) staged stale instruction lines, list them grouped by file, each with its line number, its text and its class. A line goes whole, except that where it also carries text no class reaches, only the smallest whole clause or list item that carries the stale name or direction goes, shown in the list as the line before and after. An earlier init's block goes with its markers. What init does with the list turns on whether `.claude/praxis.json` existed when the run started, because once it exists praxis's edit guard refuses edits to project files outside `.claude/` while no act runs, and init runs none. `(basis: maintainer, 2026-10-02)`
+
+- **First run (no config yet).** Before writing the config, ask once whether to remove them; the user may take all, none or some. Edit only on a yes, and only what was taken. Nothing else in the file changes, and no file is deleted. A decline, or no answer, leaves the files as they are.
+- **Re-run (the config exists).** For a file outside `.claude/`, attempt no edit: hand the user its listed lines to remove themselves. A file inside `.claude/` is offered and edited as on a first run.
 
 ## Flag by kind — block on a defect, pass a disable
 
@@ -86,4 +101,4 @@ The validation pass sweeps for both placeholder kinds (un-replaced option-string
 - **A deliberately-disabled slot passes** — `provider: null` is a resolved decision, written and reported as disabled, not flagged.
 - **A non-object `output` section blocks the write** exactly as a slot defect does, reported with what was found; its fix is an edit to that section, since `output` isn't a `--phase` target. An out-of-domain value is reported, not blocked, and an absent or default-filled `output` passes silently.
 
-Under `--degrade`, slots the run could not resolve without the user are written disabled (`provider: null`), so a headless run produces a *valid* config — narrower, never defective ([degrade-gracefully](../modules/degrade-gracefully.md)). Under `--dry-run`, run the full resolution and validation and render the would-be file with its validity verdict, but write nothing and trigger no secret side effect ([dry-run](../modules/dry-run.md)). Close the phase by reporting what was written (or would be), which slots are configured, which are disabled, and any defect that blocked the write.
+Under `--degrade`, slots the run could not resolve without the user are written disabled (`provider: null`), so a headless run produces a *valid* config — narrower, never defective ([degrade-gracefully](../modules/degrade-gracefully.md)). Under `--dry-run`, run the full resolution and validation and render the would-be file with its validity verdict, but write nothing and trigger no secret side effect ([dry-run](../modules/dry-run.md)). Close the phase by reporting what was written (or would be), which slots are configured, which are disabled, any defect that blocked the write, the unrecognized keys carried, and the stale instruction lines removed, declined, left to the user, or only listed.

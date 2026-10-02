@@ -4,7 +4,7 @@ A retrospective that recounts what happened and stops there prevents nothing: th
 
 ## Reconstruct the timeline and the contributing factors
 
-Assemble what happened from the evidence, not memory: the onset, the detection, the mitigation, the diagnosis and the resolution, with timestamps. The evidence captured before mitigation and the confirmed mechanism are the spine of the record. Capture the *contributing factors*, plural, since incidents rarely have a single cause: the trigger, the gaps that let it reach production, and the reasons detection or recovery was slow are each a factor worth a follow-up.
+Assemble what happened from the evidence, not memory: the onset, the detection, the mitigation, the diagnosis and the resolution, with timestamps. The evidence captured before mitigation and the diagnosed mechanism, with its certainty ([results-and-certainty](../../../craft/evidence/results-and-certainty.md)), are the spine of the record. Capture the *contributing factors*, plural, since incidents rarely have a single cause: the trigger, the gaps that let it reach production, and the reasons detection or recovery was slow are each a factor worth a follow-up.
 
 ## Frame it blamelessly
 

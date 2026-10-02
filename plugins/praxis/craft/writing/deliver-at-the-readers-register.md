@@ -19,7 +19,7 @@ The dangerous misreading of "size the detail" is a tightening pass aimed at the 
 - **A divergence** — two sources that disagree, reported as disagreeing. Silently reconciling them to save a sentence destroys the one fact the reader most needed.
 - **A load-bearing hedge** — where the *strength* of a claim is itself the finding. Directness is a property of structure, not a licence to state a provisional result as a settled one.
 - **An explicit none-case** — a field or section whose emptiness is stated. A missing field and an empty one read identically, and only one of them is honest.
-- **A named level or verdict value the skill pins** — a graded rung, a verdict name, a fixed status string the skill defines and reports on. Paraphrasing one merges outcomes the scale exists to separate, so these **outrank** the plain-language obligation above *whether or not the skill separately forbids paraphrasing them* — being pinned and reported on is the whole trigger. Translate the machinery *around* such a value; never the value itself.
+- **A named level or verdict value** — a result, certainty or support word [results-and-certainty](../evidence/results-and-certainty.md) defines, or a graded rung, a verdict name, a fixed status string the skill defines and reports on. Paraphrasing one merges outcomes the scale exists to separate, so these **outrank** the plain-language obligation above *whether or not the skill separately forbids paraphrasing them* — being pinned and reported on is the whole trigger. Translate the machinery *around* such a value; never the value itself.
 
 `(basis: derived from the maintainer's verbosity complaint and praxis's honesty requirement)`
 

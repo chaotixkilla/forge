@@ -24,8 +24,8 @@ Reduce uncertainty by building the smallest throwaway thing that answers one ope
 
 ## Gotchas
 - **The code is meant to be thrown away.** prototype optimizes for learning speed, not durability; hardening a spike in place is the anti-pattern `favor-disposability` names. If you want to keep and grow the code, that's a tracer-bullet/evolutionary build — a different posture (see the fork in `favor-disposability`).
-- **A verdict must be grounded in a run, not in reasoning.** "This should work" is not *answered*; *answered* means the framed unknown itself was exercised by something that actually ran (`observation-over-inference`).
-- **`still-open` is a real, honest result.** A spike that ran but stubbed the very thing under test has not answered its question — reporting it as answered is exactly the failure mode the verdict scale guards against.
+- **A verdict must be grounded in a run, not in reasoning.** "This should work" does not *hold*; `holds` means the framed unknown itself was exercised by something that actually ran (`observation-over-inference`).
+- **`unsettled` and `not checked` are real, honest results.** A spike that ran but stubbed the very thing under test has not checked its question — reporting it as `holds` is exactly the failure mode the verdict scale guards against.
 - **prototype is config-less and a leaf.** It returns a findings blob to the caller and invokes no downstream skill; filing or publishing the findings is the caller's.
 - **It answers ONE framed question.** With several unknowns, frame and spike them separately (or re-invoke); a spike that tries to answer everything muddies the signal (`change-one-thing-at-a-time`).
 - **Isolation and timeboxes don't make the result more trustworthy** — only exercising the real risk does. `keep-the-real-thing-in-view`: track which shortcuts wouldn't survive production scale or data, so the result isn't read as more than it is.

@@ -8,7 +8,7 @@ Rather than deduce what a value "must be" at a suspected point, put an observati
 
 ## The discriminator: where to instrument
 
-Do not instrument everywhere — that buries the signal. Instrument at the **suspected boundary**: the point between the last state you have confirmed correct and the symptom, ideally the midpoint so the reading also halves the search ([bisect-aggressively](bisect-aggressively.md)). The reading you want is the one that will send you to one side of that boundary or the other; if a probe's result wouldn't change where you look next, it's the wrong probe.
+Do not instrument everywhere — that buries the signal. Instrument at the **suspected boundary**: the point between the last state you have seen correct and the symptom, ideally the midpoint so the reading also halves the search ([bisect-aggressively](bisect-aggressively.md)). The reading you want is the one that will send you to one side of that boundary or the other; if a probe's result wouldn't change where you look next, it's the wrong probe.
 
 ## Beware the probe that moves the bug
 

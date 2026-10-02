@@ -26,6 +26,7 @@ Start or resume a piece of engineering work and carry it through its act: the ri
 - `work review change 230` — routes to reviewing and runs its two passes.
 - `work checkout is failing for EU users` — routes to responding-to-an-incident: triage, mitigate, diagnose, communicate.
 - `work --task=review-230` — resumes that task where it stopped.
+- `work review change 230` again, after that review closed — reviews the change's new head as the task's next round, in the same documentation and log line.
 - `work --act=shipping --dry-run` — shows the steps it would propose and what it would record, without running or writing anything.
 
 ## Gotchas

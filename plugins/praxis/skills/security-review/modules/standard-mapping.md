@@ -7,7 +7,7 @@ The base audit hunts and reports findings against its default taxonomy. This mod
 ## The delta
 
 - **Select the taxonomy** the framework names — the fork in [attack-class-taxonomy](../rules/attack-class-taxonomy.md) (OWASP Top 10 / CWE / ASVS) — and tag each finding with its control id in that framework as it is found. A finding maps to a control by *what weakness it is*, not by name-matching: an authorization gap maps to the framework's access-control control, an injection to its injection control.
-- **Report coverage** in the report's coverage section ([reporting-findings](../phases/05-reporting-findings.md)): which of the framework's controls the audit *examined* (a threat on the surface touched them), which findings map to which controls, and which controls were **not examined** (no surface element exercised them) versus examined-and-clean. The distinction matters — an unexamined control is a coverage gap, not a pass.
+- **Report coverage** in the report's coverage section ([reporting-findings](../phases/05-reporting-findings.md)): one result per framework control, on the results scale in [results-and-certainty](../../../craft/evidence/results-and-certainty.md), with the findings that map to it listed. Ask in order: no surface element exercised the control → **not checked**, saying so; a traced finding maps to it → **fails**; an inferred finding maps to it → **unsettled**; a threat on the surface touched it and nothing above maps to it → **holds**, an unverified finding listed without moving the result. The first line matters most — an unexamined control is a coverage gap, never a holds. `(basis: derived from the standard's placement questions and the gate's traced bar)`
 
 ## Reproduce the framework's own vocabulary
 

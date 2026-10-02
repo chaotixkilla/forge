@@ -20,7 +20,7 @@ Establish that a change actually works by driving the real running application: 
 
 ## Examples
 `--flows=checkout,password-reset` — *replaces* the set framed from the change with exactly these, so anything else stays unobserved and is reported as such. Flow names are the project's own vocabulary, not a fixed menu: whatever this codebase calls a flow is a valid name.
-`--from-spec=specs/checkout.md` — derive the flows from the spec's requirements and key the report per requirement instead of per flow, which is what makes a requirement that *no flow could reach* show in the report — unobserved, or defective where the claim asserted it reachable — rather than quietly go missing.
+`--from-spec=specs/checkout.md` — derive the flows from the spec's requirements and key the report per requirement instead of per flow, which is what makes a requirement that *no flow could reach* show in the report — `not checked`, or `fails` where the claim asserted it reachable — rather than quietly go missing.
 `--ux` — add an experiential pass over the same flows: every point of hesitation, dead end, and unexplained state gets recorded, on top of whether the flow functioned. It adds findings; it does not change what counts as functioning.
 `--as-user=<persona>[,<persona>...]` — drive and report the flows as each named user, including a user of assistive technology; two names are two drives with two records, never averaged. Findings come back scoped to a persona, which is the point: what that user hits is a fact about that user's path, not a claim about everyone's.
 `--sandbox` — stand the instance up in a disposable, isolated environment so a driven flow cannot write to real state. Reach for it whenever the flows mutate data or send anything outward; the sandbox then *is* the environment the verdict is scoped to.
@@ -29,9 +29,9 @@ Establish that a change actually works by driving the real running application: 
 `--from-spec=specs/checkout.md --ux` — check the spec's requirements *and* record what satisfying each one is actually like to do, since a requirement can be fully met and still be painful to complete.
 
 ## Gotchas
-- **A `works` verdict is scoped, never global.** It means: the flows that were driven, in the environment the run recorded, behaved as claimed — never "the application works." Read it, and pass it on, with the flows and the environment attached.
+- **A `holds` result is scoped, never global.** It means: the flows that were driven, in the environment the run recorded, behaved as claimed — never "the application works." Read it, and pass it on, with the flows and the environment attached.
 - **verify does not fix.** The deliverable is the verdict plus a reproduction per defect; closing one is develop's run (or debug's first).
-- **An unobserved step is unobserved, not passing.** A step not reached, skipped past, or read off a log instead of watched is a gap, and a flow containing one cannot come back `works` however healthy the rest looked.
-- **A confusing-but-functioning flow is `works` plus a usability finding, not a defect.** The level tracks completion; friction rides alongside it as findings (hunted deliberately under `--ux` / `--as-user`).
+- **An unobserved step is unobserved, not passing.** A step not reached, skipped past, or read off a log instead of watched is a gap, and a flow containing one cannot come back `holds` however healthy the rest looked.
+- **A confusing-but-functioning flow `holds`, plus a usability finding; it is not a defect.** The result tracks completion; friction rides alongside it as findings (hunted deliberately under `--ux` / `--as-user`).
 - **verify needs no configuration.** There is no backend and nothing to set up before a run; routing the verdict onward is communicate's part, and that is where a prerequisite lives.
 - **Driving through a test harness, or calling the handler directly, is writing a test — not verifying.** The distinction the whole skill turns on. If the real entry point cannot be reached at all, that is a stated stop with the reason, not a pass earned through the harness.

@@ -2,7 +2,7 @@
 
 **Entry condition.** The request is a question answered from outside sources, with no code to change: how approaches compare, what a standard requires, how others solved a problem. A question about this codebase goes to [understand](../../understand/SKILL.md), and a quick fact is answered directly, with no task. (basis: maintainer, 2026-09-30)
 
-**Done when** the research report is filed with its answer, confidence, evidence and open questions, and delivered where the request asked. (basis: derived from the step's outcome)
+**Done when** the research report is filed with its answer, the answer's support ([results-and-certainty](../../../craft/evidence/results-and-certainty.md)), evidence and open questions, and delivered where the request asked. (basis: derived from the step's outcome)
 
 ## Steps
 

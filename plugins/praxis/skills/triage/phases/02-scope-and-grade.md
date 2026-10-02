@@ -1,4 +1,4 @@
-The signal is confirmed real ([confirm-the-signal](01-confirm-the-signal.md)). Now answer the second judgment: how bad is it?
+The signal is a real incident ([confirm-the-signal](01-confirm-the-signal.md)). Now answer the second judgment: how bad is it?
 
 ## Scope the blast radius
 
@@ -12,10 +12,10 @@ Assign severity per [severity-scale](../rules/severity-scale.md) — the 3-level
 
 Every run ends in exactly one of three outcomes, read off the first judgment:
 
-- **confirmed** — a real incident, returned with its scope, its severity and the reason for each, the signal it rests on, and any gap between a seed's report and the live picture.
+- **real incident** — returned with its scope, its severity and the reason for each, the signal it rests on, and any gap between a seed's report and the live picture; a scope read off the live signal is `observed`, and one that rests on the seed alone is `unverified` ([confirm-the-signal](01-confirm-the-signal.md)'s degrade).
 - **investigate** — a real signal but not an incident: it persists or is corroborated, yet maps to no user-facing symptom. Returned as a lead to investigate, with the signal and what to check; the alert is not flagged for tuning, since it fired correctly ([confirm-the-signal](01-confirm-the-signal.md) ends the run there).
 - **stood-down** — not a real signal: it oscillates or self-clears. Returned with the reason and the noisy alert flagged for tuning ([confirm-the-signal](01-confirm-the-signal.md) ends the run there).
 
 Every run lands in exactly one: the signal is real or not, and a real one maps to a user-facing symptom or doesn't. `(basis: derived from real-signal-vs-flapping's symptom-mapping test)`
 
-A signal triage couldn't confirm either way, because telemetry was unavailable and nothing was seeded, isn't an outcome: the run stopped before judging ([confirm-the-signal](01-confirm-the-signal.md)'s degrade).
+A signal triage couldn't judge either way, because telemetry was unavailable and nothing was seeded, isn't an outcome: the run stopped before judging ([confirm-the-signal](01-confirm-the-signal.md)'s degrade).

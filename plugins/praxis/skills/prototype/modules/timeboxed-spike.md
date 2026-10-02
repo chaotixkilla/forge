@@ -7,7 +7,7 @@ The base spike runs until it reaches a verdict or the executor judges it done. T
 ## The delta
 
 - **Bound the effort** to the caller's `<duration>` — prototype pins no default duration and no cap, since no authoritative universal cap exists — and track it across build and evaluate.
-- **On expiry, stop and report the best answer reached so far** — do not push past the box. "Best so far" is stated honestly on the [verdict-scale](../rules/verdict-scale.md): the current verdict (most often **still-open**), the evidence gathered, and explicitly *what was and wasn't observed* by the time the box closed. An expired spike reported as *answered* on partial evidence is the failure this module exists to prevent.
-- **Gate the loop-back** — a still-open verdict may re-spike only if budget remains ([evaluate-against-the-question](../phases/05-evaluate-against-the-question.md)); when the box is spent, still-open is the terminal result and the caller decides whether to proceed under uncertainty or re-invoke on a narrower question.
+- **On expiry, stop and report the best answer reached so far** — do not push past the box. "Best so far" is stated honestly on the [verdict-scale](../rules/verdict-scale.md): the current verdict (most often **unsettled**, or **not checked** if the framed unknown never ran), the evidence gathered, and explicitly *what was and wasn't observed* by the time the box closed. An expired spike reported as `holds` on partial evidence is the failure this module exists to prevent.
+- **Gate the loop-back** — an `unsettled` or `not checked` verdict may re-spike only if budget remains ([evaluate-against-the-question](../phases/05-evaluate-against-the-question.md)); when the box is spent, that verdict is the terminal result and the caller decides whether to proceed under uncertainty or re-invoke on a narrower question.
 
 `(basis: Cohn, Mountain Goat; Jeffries's "a couple of days" is one team's ceiling, not adopted)`

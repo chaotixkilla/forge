@@ -4,6 +4,10 @@ Implements the **knowledge** capability against a local docs tree, reading text 
 
 **The configured root is the space, and it is not the working tree.** This adapter serves a docs tree a project *configured* as its knowledge backend. Reading a file that merely happens to sit in the repo is ambient and needs no port at all — a caller doing that reads it directly.
 
+## Supported reads
+
+Search, fetch and children.
+
 ## The tree mapping
 
 A filesystem has no page→subpage concept, so the mapping is pinned here rather than left to the executor:

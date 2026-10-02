@@ -4,15 +4,16 @@ Each task keeps one entry in the harness's persistent memory, so a later session
 
 ## The entry
 
-One memory file per task, named `task-<key>`, in the memory's own file format. Its body holds these fields and nothing else, each as a `<field>: <value>` line: the task (its key and title), its status (starting with `open` or `closed`, then what it's waiting on), its act, its next step, its docs (the task record's location), its links (the change and the ticket), the commit it last worked at, and the date it was last updated, as YYYY-MM-DD. (basis: maintainer, 2026-09-30)
+One memory file per task, named `task-<key>`, in the memory's own file format; a stack's changes and every round share it. Its body holds these fields and nothing else, each as a `<field>: <value>` line: the task (its key and title), its status (starting with `open` or `closed`, then what it's waiting on), its act, its next step, its docs (the task record's location), its links (the ticket, and the change, or every change of a stack, base-most first), its rounds (latest first, each `<n> · <change>`, its number and the change it works on), the commit it last worked at, and the date it was last updated, as YYYY-MM-DD. (basis: maintainer, 2026-09-30; rounds, maintainer, 2026-10-02) The status and the commit are the latest round's. A round's line is written when it opens, or when its fold lands ([open-the-task](../phases/02-open-the-task.md)), and nothing else maintains it. An entry with no `rounds` reads as one round, round 1, on the base-most change its links name. (basis: derived from a stack's task being keyed by its base-most change)
 
     task:    review-230 · invoice export (PROJ-88)
     status:  open · delivery pending
     act:     reviewing
-    next:    post the review on review request 230
+    next:    post the review on review request 231
     docs:    the task record's location
-    links:   ticket PROJ-88 · review request 230
-    at:      3f9c2e1
+    links:   ticket PROJ-88 · review requests 230, 231
+    rounds:  2 · review request 231; 1 · review request 230
+    at:      9ab12cd
     updated: 2026-10-02
 
 ## The index line
@@ -21,6 +22,6 @@ While the task is open, one line in the memory index points to the entry, its li
 
 ## A record of what was true, not of what is
 
-An entry records what was true at its `at` commit, never the present: memory is user-global and unversioned, so nothing in it can be trusted the way a versioned file can, and the failure it invites isn't forgetting but remembering something that stopped being true — an empty memory prompts a look, a stale one prevents it. So a later session treats the entry as a **lead to verify against the repository as it now stands**, never as current fact ([open-the-task](../phases/02-open-the-task.md) re-runs the act when the change has moved past the entry's commit). An entry with no `at` commit can't be checked, and is treated as stale. The entry is rewritten on every status change, never added to, so one task never has two entries to choose between. Only the task's entry carries status across sessions: a step writes no status memory of its own. (basis: maintainer, 2026-09-02)
+An entry records what was true at its `at` commit, never the present: memory is user-global and unversioned, so nothing in it can be trusted the way a versioned file can, and the failure it invites isn't forgetting but remembering something that stopped being true — an empty memory prompts a look, a stale one prevents it. So a later session treats the entry as a **lead to verify against the repository as it now stands**, never as current fact ([open-the-task](../phases/02-open-the-task.md) re-runs a round's steps when the change has moved past the entry's commit). An entry with no `at` commit can't be checked, and is treated as stale. The entry is rewritten on every status change, never added to, so one task never has two entries to choose between. Only the task's entry carries status across sessions: a step writes no status memory of its own. (basis: maintainer, 2026-09-02)
 
 Cited by [open-the-task](../phases/02-open-the-task.md) and [close-out](../phases/04-close-out.md).

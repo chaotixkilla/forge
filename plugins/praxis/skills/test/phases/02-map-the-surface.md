@@ -14,7 +14,7 @@ Read the surrounding suite to learn its conventions ([match-the-surrounding-code
 
 ## Degraded case
 
-If there is no runnable suite and no way to author one — no language runtime, no test surface (a docs-only or config-only change) — that is a **stated stop** reported through [report-the-verdict](06-report-the-verdict.md), not a silent pass.
+If there is no runnable suite and no way to author one — no language runtime, no test surface (a docs-only or config-only change) — that is a **stated stop** reported through [report-the-verdict](06-report-the-verdict.md) as `not checked` with its reason, not a silent pass.
 
 ## Output
 

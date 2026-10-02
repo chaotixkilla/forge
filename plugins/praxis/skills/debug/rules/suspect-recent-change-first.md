@@ -10,6 +10,6 @@ Most incidents are self-inflicted: something changed, and the change broke it. S
 
 ## The guard
 
-Recency is a **prior, not proof**. A change that correlates with the onset is a hypothesis to confirm against evidence ([change-one-thing-at-a-time](../../../craft/evidence/change-one-thing-at-a-time.md)), not the confirmed cause — correlation in time is where the search *starts*, and the mechanism still has to be shown. And when nothing recent correlates, that itself is a finding: widen to the slow-onset causes (leaks, saturation, data growth, an upstream change) rather than forcing a recent change to fit.
+Recency is a **prior, not proof**. A change that correlates with the onset is a hypothesis to confirm against evidence ([change-one-thing-at-a-time](../../../craft/evidence/change-one-thing-at-a-time.md)), not the proven cause — correlation in time is where the search *starts*, and the mechanism still has to be shown. And when nothing recent correlates, that itself is a finding: widen to the slow-onset causes (leaks, saturation, data growth, an upstream change) rather than forcing a recent change to fit.
 
 `(basis: SRE operational practice)`

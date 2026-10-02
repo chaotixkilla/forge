@@ -4,7 +4,7 @@ Root-cause a specific failure that has already bitten — reproduce it, prove th
 
 ## When to use
 - A concrete defect has surfaced — a crash, a wrong result, a regression, a flaky test, a production error — and you need its *true* root cause, not a plausible guess or a symptom patch.
-- You want the mechanism proven: the failure appears and disappears when the claimed cause is toggled, with every link from cause to symptom traced — so the fix is derived, not hoped.
+- You want the mechanism proven: the failure appears and disappears when the claimed cause is toggled, with every link from cause to symptom named — so the fix is derived, not hoped.
 - You want to start from where the evidence already lives: a production error's traces and frequency (`--from-telemetry`), a log stream (`--from-logs`), or a postmortem's symptoms and timeline (`--from-incident`).
 - You want the fix recommended at the cause — its altitude, whether it's bounded or needs design work, and the test that would guard it — before anyone changes the code.
 
@@ -26,8 +26,8 @@ Root-cause a specific failure that has already bitten — reproduce it, prove th
 
 ## Gotchas
 - **No reproduction, no fix.** debug never acts on a fix it cannot first make fail on demand; if the bug cannot be reproduced, *reproduction is the job*, not the fix.
-- **Cause, not symptom, always.** debug resolves only at a confirmed mechanism; a patch at the symptom layer leaves the cause live. Under a declared incident, restoring service first is **mitigate**'s, and debug records a mitigation already in place as provisional context.
-- **debug doesn't change the code.** It returns a confirmed diagnosis with the fix it recommends; the fixing-a-bug act in **work** applies the fix, guards it and verifies it.
+- **Cause, not symptom, always.** debug's diagnosis names the mechanism that produces the failure; a patch at the symptom layer leaves the cause live. Under a declared incident, restoring service first is **mitigate**'s, and debug records a mitigation already in place as provisional context.
+- **debug doesn't change the code.** It returns a diagnosis, its cause graded for certainty, with the fix it recommends; the fixing-a-bug act in **work** applies the fix, guards it and verifies it.
 - **debug diagnoses; it does not confirm broad health.** The guarding test proves *this* bug is gone; end-to-end confirmation that the whole app still works is verify / **test**'s job.
 - **debug needs no configuration of its own.** It delegates telemetry reads to the `telemetry` port, incident reads to `project-mgmt` / `communication`, postmortem documents to `knowledge`, and recruits explorers directly. If telemetry isn't configured, `--from-telemetry` degrades — the port guides via `init:telemetry` (or blocks) and debug falls back to other evidence lanes.
 - **`--from-logs` is dual.** A local path is a plain file read (no backend); a store reference is a hosted log stream read through the telemetry capability.

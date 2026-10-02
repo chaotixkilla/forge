@@ -10,6 +10,6 @@ Build the probe chosen in [pick-the-cheapest-probe](03-pick-the-cheapest-probe.m
 
 - **`--sandbox`** — build and run the spike inside an isolated throwaway environment so it can't touch real state and is trivial to discard wholesale: see [sandbox-isolation](../modules/sandbox-isolation.md). (Its teardown is in [capture-and-discard](06-capture-and-discard.md).)
 - **`--prior-art=REF`** — start by reproducing the named reference to a known-good baseline, then diverge toward the framed unknown so the divergence isolates exactly what's in doubt: see [anchor-to-prior-art](../modules/anchor-to-prior-art.md).
-- Effort here is bounded by **`--timebox`** — see [timeboxed-spike](../modules/timeboxed-spike.md); if the clock expires mid-build, stop and carry whatever ran into [evaluate-against-the-question](05-evaluate-against-the-question.md) as a still-open result, rather than pushing on.
+- Effort here is bounded by **`--timebox`** — see [timeboxed-spike](../modules/timeboxed-spike.md); if the clock expires mid-build, stop and carry whatever ran into [evaluate-against-the-question](05-evaluate-against-the-question.md), where it is placed `unsettled`, or `not checked` if the framed unknown never ran, rather than pushing on.
 
 The output of this phase: a runnable probe that exercises the framed unknown and produces an observable pass/fail — ready to run and read in [evaluate-against-the-question](05-evaluate-against-the-question.md).
