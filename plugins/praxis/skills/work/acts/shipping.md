@@ -15,9 +15,9 @@ Hand roll-out the landing type land assigned. When the task came to shipping fro
 | # | step | inputs | skipped by the act when |
 |---|---|---|---|
 | 1 | [land](../../land/SKILL.md) | the change (its branch or its review request), and `--into=<branch>` when the request or the task names a target | never |
-| 2 | [roll-out](../../roll-out/SKILL.md) `--target=<env>` | the branch step 1 merged into, step 1's landing type, and the environment the request or the task names | step 1's outcome isn't merged, or neither the request nor the task names an environment |
+| 2 | [roll-out](../../roll-out/SKILL.md) `--target=<env>` | the branch step 1 merged into, step 1's landing type, the environment the request or the task names, and the service's dashboards or alerts the task or the project's runbook names, for its health verdict | step 1's outcome isn't merged, or neither the request nor the task names an environment |
 
-When step 1 doesn't merge, step 2 is skipped by its condition and the act stops, with step 1's outcome as the task's next step. A needs-rollback verdict doesn't roll back on its own: roll-out keeps its default failure policy unless the request names one, and the report tells the owners what the verdict calls for. (routed to maintainer: no automatic rollback in the act; a request that wants one says `--on-fail=rollback`.)
+When step 1 doesn't merge, step 2 is skipped by its condition and the act stops, with step 1's outcome as the task's next step. A needs-rollback verdict doesn't roll back on its own: roll-out keeps its default failure policy unless the request names one, and the report tells the owners what the verdict calls for. (routed to maintainer: no automatic rollback in the act, since reversing production is an outward action the request should choose; a request that wants one says `--on-fail=rollback`.)
 
 ## Filed
 

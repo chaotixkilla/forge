@@ -4,7 +4,7 @@ A gate is only worth running if a failure *stops* the change. Treat a failing, s
 
 ## The acceptance test — what counts as green
 
-The change may land only when **every required check has concluded a pass**. Each of these is *not* green, and each blocks:
+The change may land only when **every required check has concluded a pass**. A check is **required** when the target's landing constraint requires it (read through vcs's *read a landing constraint*), and the repo's own local build, tests and lint are always required; every other check is **advisory**. With no readable constraint, every check is required. `(basis: derived from the landing constraint being the target's own statement)` Each of these is *not* green, and each blocks:
 
 - **A failed check** — any required check whose verdict is failure/error. Blocks. Never land on red.
 - **A still-running check** — not yet a pass; wait for it to settle, do not land on an in-flight gate assuming it will pass.

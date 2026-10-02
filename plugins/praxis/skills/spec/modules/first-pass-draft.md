@@ -1,6 +1,6 @@
 # first-pass-draft (`--first-pass`)
 
-Activated by `--first-pass`, referenced from [SKILL.md](../SKILL.md) and [requirement-structuring](../phases/03-requirement-structuring.md) (where the skeleton is returned).
+Activated by `--first-pass`, referenced from [SKILL.md](../SKILL.md); the skeleton is returned after [requirement-structuring](../phases/03-requirement-structuring.md).
 
 The base spec runs all five phases and returns a finished, hardened spec. This module makes it stop early and *on purpose*: run through structuring, return the skeleton, and pause for the caller to steer before any detail is invested. Its whole reason to exist is catching **scope drift early** — a wrong shape corrected after phase 03 costs a conversation; the same wrong shape corrected after phases 04–05 costs a rewritten spec. Deletion test: remove this module and spec runs to a full spec; the early return and pause is the added, flag-gated behavior.
 

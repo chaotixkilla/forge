@@ -15,4 +15,4 @@ Some candidates come back on almost every review and are almost never worth the 
 
 A withheld candidate isn't reported and isn't counted. When you can't tell which side of a row a candidate falls on, report it at its honest confidence. The classes apply at every rigor, max included: rigor moves the confidence floor and the lens set ([calibrate-confidence-to-rigor](calibrate-confidence-to-rigor.md)), not what counts as noise.
 
-(basis: after code-review's published false-positive list, adapted to praxis's blast-radius reading)
+(basis: the false-positive classes established review practice withholds, adapted to praxis's blast-radius reading)

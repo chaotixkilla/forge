@@ -11,7 +11,7 @@ metadata:
 ---
 Usage & examples — when to reach for this skill, and concrete flag invocations: see [usage.md](usage.md).
 
-deep-research owns no backend of its own. Searching the web and fetching a source is an **ambient capability** — like reading a local file — so it wires no config and no adapter for it, naming only the capability in prose, and it recruits the web-facing explorer lanes directly. The one *configured* source — org-internal knowledge (a feature's history, prior decisions, who and when) — it reaches through the `gather` port, whose knowledge lane reads via the `knowledge` port (the owner of `tools.knowledge`), and which drops the lane with a note when no backend is configured. Every doer owns its own prerequisite, so deep-research declares **no `config_requires`**.
+deep-research owns no backend of its own. Searching the web and fetching a source is an **ambient capability** — like reading a local file — so it wires no config and no adapter for it, naming only the capability in prose, and it recruits the web-facing explorer lanes directly. The one *configured* source — org-internal knowledge (a feature's history, prior decisions, who and when) — it reaches through the `gather` skill, whose knowledge lane reads via the `knowledge` port (the owner of `tools.knowledge`), and which drops the lane with a note when no backend is configured. Every doer owns its own prerequisite, so deep-research declares **no `config_requires`**.
 
 
 Each numbered step's full procedure lives in the linked phase file — read it, then carry out the step. The phases cite the rules/ craft where it applies and recruit the shared explorer/critic agents.

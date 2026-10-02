@@ -14,4 +14,4 @@ Before any long work, ask every question the run needs answered, in one message:
 - **Background and watch runs never ask.** They decide and record instead.
 - **A called skill is mid-run.** A skill another skill invokes asks nothing, even at its own first step: its caller's opening question carries what it needs, the cost question included ([ask-before-a-heavyweight-run](ask-before-a-heavyweight-run.md)). Anything else it decides and records, except where its procedure has a path for when no one can be asked: there it takes that path.
 
-(basis: after claude-security, where users step away within about a minute; Anthropic's guidance on long turns ending early on progress updates; maintainer, 2026-09-30)
+(basis: after observed security-review practice, where users step away within about a minute; Anthropic's guidance on long turns ending early on progress updates; maintainer, 2026-09-30)

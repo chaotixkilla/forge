@@ -15,7 +15,7 @@ Write the body to the prescription the tier carries in [audience-tiers](../../..
 
 ## Ground the abstract, and preserve the why
 
-Two content rules apply where the type calls for them:
+Three content rules apply where the type calls for them:
 
 - Where the artifact makes an abstract claim the reader must grasp or trust, ground it in one concrete example, before/after, or sample — [show-dont-just-tell](../../../craft/writing/show-dont-just-tell.md) pins when an example is owed versus when it is padding.
 - Where the artifact is an **incident retrospective**, it owes what [incident-retrospective](../rules/incident-retrospective.md) lists: the timeline, the contributing factors, the blameless framing and the follow-ups.

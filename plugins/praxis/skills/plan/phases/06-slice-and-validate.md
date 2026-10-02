@@ -14,7 +14,7 @@ A design is **closed / buildable** when all of these hold — check them explici
 - **Each seam/contract is specified precisely enough that two independent developers would build the same interface** — the convergence bar from [specify-interfaces](03-specify-interfaces.md).
 - **Every open decision surfaced in [mapping-to-system](01-mapping-to-system.md) is now closed** — nothing deferred to "later". (With `--from-spec`, additionally: every spec requirement is addressed by some part of the design — [from-spec](../modules/from-spec.md).)
 - **Every moving part earns its place** against a constraint ([justify-every-moving-part](../../../craft/engineering/justify-every-moving-part.md)) — the closure pass is also the last chance to cut what doesn't.
-- **The single riskiest assumption has a named validation step** ([surface-assumptions](../rules/surface-assumptions.md)) — the design does not bet the build on an unchecked premise.
+- **The single riskiest assumption — chosen by the ranking in [surface-assumptions](../rules/surface-assumptions.md) — has a named validation step** — the design does not bet the build on an unchecked premise.
 
 Do **not** substitute Scrum's Definition of Done (that is "increment shipped", downstream of this handoff) or a full IEEE-1016 design document (documentation completeness, not buildability) for this bar unless the domain contractually requires the formal artifact.
 
@@ -22,7 +22,7 @@ Do **not** substitute Scrum's Definition of Done (that is "increment shipped", d
 
 Put the finished report through [deliver-at-the-readers-register](../../../craft/writing/deliver-at-the-readers-register.md) before delivering it, applying its honesty floor item by item from the rule, not from memory.
 
-**And a visual where prose would carry it worse:** where the report describes a *structure* — a shape, a flow, a set of relationships — show it rather than describe it, per `output.diagrams` ([report-style-settings](../../init/rules/report-style-settings.md)) and [when-a-visual-is-owed](../../../craft/writing/when-a-visual-is-owed.md), which decides whether one is owed.
+**And a visual where prose would carry it worse:** where the report describes a *structure* — a shape, a flow, a set of relationships — show it rather than describe it, per `output.diagrams` ([report-style-settings](../../../craft/writing/report-style-settings.md)) and [when-a-visual-is-owed](../../../craft/writing/when-a-visual-is-owed.md), which decides whether one is owed.
 
 ## Flag residual risk, stress-test, and hand off
 

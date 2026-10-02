@@ -1,12 +1,16 @@
 # Deliver through the ports
 
-An act's delivery reaches people through more than one channel — a review request, a status post, a published document, a work-item — and two failures recur: an announcement that links a document not yet published, and a channel that failed quietly and reads as delivered. This rule is how close-out delivers.
+An act's delivery reaches people through more than one channel — a review request, a status post, a published document, a work-item — and two failures recur: an announcement that links a document not yet published, and a channel that failed quietly and reads as delivered. This rule is how work delivers — at an act's close-out, or for a lone step it runs outside an act.
 
 ## Publish before you announce
 
-When a delivery both publishes a durable document and announces it, publish first and post the announcement with a link to the published location. Never post before the publish resolves, or the link dangles. When the publish degrades, there is nothing to link to: the announcement is *held* until the document has a home.
+When a delivery both publishes a durable document and announces it, publish first and post the announcement through [communication](../../communication/SKILL.md) with a link to the published location. Never post before the publish resolves, or the link dangles. When the publish degrades, there is nothing to link to: the announcement is *held* until the document has a home.
 
 A short message that *is* the announcement, with nothing to link, posts directly.
+
+## Publish where the document is meant to go
+
+The task's documentation lands in the artifacts home, through [document](../../document/SKILL.md). A durable document [communicate](../../communicate/SKILL.md) hands back lands where it says it is meant to go: the home, or an audience space for the reader it names. Choose that space from the configured audience spaces by their `for`: a space fits when its `for` names the reader's role or a group that plainly holds it, and in doubt it doesn't; of several that fit, one naming the role itself beats one naming a wider group. Publish through [artifacts](../../artifacts/SKILL.md) with `--space=<its name>`. When several still fit, ask the user which if they can still be asked — a lone step's delivery, right after their request; inside an act, past its opening question, the document is **held** with the candidate spaces named. When no space fits, or none is configured, it is **held** too: it never falls back to the home, and the report says an audience space can be set up with init's artifacts setup. `(basis: maintainer, 2026-10-01)`
 
 ## Every channel lands in one disposition
 
@@ -15,7 +19,7 @@ A short message that *is* the announcement, with nothing to link, posts directly
 - **degraded-return** — the channel's backend was unavailable: the finished content is returned for hand delivery, saying automated delivery was unavailable.
 - **sent by hand** — held or returned content the user has since confirmed they delivered themselves; it counts as delivered.
 
-When two blockers apply to one channel, **held outranks degraded-return**: a missing precondition binds even when the backend is also down, so record the channel as held and note the outage beside it. A channel whose only blocker is its own backend is degraded-return. A failed channel is never reported as sent, and never left without a disposition.
+When two blockers apply to one channel, **held outranks degraded-return**: a missing precondition binds even when the backend is also down, so record the channel as held and note the outage beside it. A channel whose only blocker is its own backend is degraded-return. A failed channel is never reported as sent, and never left without a disposition. The ports' other returns collapse onto these: **retryable** is retried once, then degraded-return; a **partial** send is sent for what went through and held for the rest, naming it; every other failure a port returns — refused, permanent, unauthorized, a target not found, unsupported content, a conflict, a mismatch — is held, with the port's reason as what's missing, since each needs a change or a decision before the content can go. `(basis: derived from held meaning a precondition someone must meet, and degraded-return meaning only the backend failed)`
 
 ## Never deliver twice
 
@@ -23,4 +27,4 @@ A port that returns a delivered reference guarantees it even when a follow-on st
 
 ## Report what landed where
 
-Close-out's report leads with what was delivered and where, then says plainly what was held or returned and what that now needs from the user. Each channel's disposition is part of the task's record. (basis: derived from communicate's delivery partition, which this rule now holds for every act)
+Close-out's report — or, for a lone step, the reply to the request — leads with what was delivered and where, then says plainly what was held or returned and what that now needs from the user. Each channel's disposition is part of the task's record. (basis: derived from communicate's delivery partition, which this rule now holds for every act)

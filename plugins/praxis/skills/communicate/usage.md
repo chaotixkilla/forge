@@ -5,7 +5,7 @@ Produce a human-facing artifact of the work — a doc, status update, decision r
 ## When to use
 - The substance already exists (a decision was made, work shipped, a design settled) and the job is to *land it on people* — shape it and get it to the right readers.
 - You want the artifact pitched to a specific reader: a one-line exec summary, a peer-dense design note, a self-contained external release note, or an onboarding walkthrough for a newcomer.
-- You want it routed, not just written: returned for review, announced to a channel or person, or published as a durable team-facing document — with the delivery degrading gracefully when no backend is wired.
+- You want it ready for delivery, not just written: returned for review, or shaped for the act that calls communicate to announce to a channel or person or publish as a durable team-facing document.
 - You want a decision record that preserves the *why* and the rejected alternatives, not just the conclusion.
 
 ## Not for / use instead
@@ -16,13 +16,14 @@ Produce a human-facing artifact of the work — a doc, status update, decision r
 - Writing the code change and its craft → **develop**; reviewing a diff and reporting findings → **review**. communicate carries *findings and decisions to an audience*, it does not produce them.
 
 ## Examples
-`communicate` — produce the artifact for the current work and return it (the default: no external delivery unless a flag asks for it).
+`communicate` — produce the artifact for the current work and return it (communicate never sends; the act that calls it delivers).
 `--audience=exec` — pitch it to a decision-maker: bottom-line-up-front, impact and cost, minimal mechanism.
 `--audience=newcomer --as=doc` — a self-contained onboarding document that defines house terms and states the why before the how.
 `--lang=pt-BR` — produce the artifact in Brazilian Portuguese, preserving the original's intent and tone.
 
 ## Gotchas
 - **communicate needs no configuration of its own.** Producing and returning the artifact is ambient. Sending it — posting, publishing, filing — is the delivering act's in **work**; communicate hands back the artifact with where it's meant to go.
+- **Durable documents go to the engineering home.** A document is written for a non-engineering reader, and placed in an audience space, only when you ask for one — name the reader by role or by name ("for the PM", "for Ana"). Any engineering document on the subject stays home.
 - **Clean export is not optional.** Anything communicate hands to a human — returned, posted, or published — carries the content and the decisions and *none* of the machinery: no tool calls, no agent/phase/skill mechanics, no praxis process, no account of how it was produced. The internal-process references are stripped before delivery, every time.
 - **`--audience=` and `--as=` name a value, they don't add behavior.** The skill always models an audience and picks a form; these flags override what it would have inferred. Getting the audience wrong silently pitches the whole artifact at the wrong reader — state the tier if you know it.
 - **The audience tier is the load-bearing call.** Depth, jargon, framing, and confidentiality all follow from it; a peer-dense note shipped to an external reader leaks internal context, and an exec summary handed to an implementer omits the mechanism they need.

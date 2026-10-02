@@ -20,7 +20,7 @@ Take a finished change and get it into its integration target: stage coherent co
 `--commit` — stop after recording coherent local commits: nothing is pushed, gated or merged.
 `--message="fix: guard against empty batch"` — use this text as the commit message verbatim.
 `--gate` — force the full gate and block on anything short of green, even where the flow would narrow it.
-`--on-fail=rollback` — if the landing fails after the merge, revert the merge instead of stopping and reporting.
+`--on-fail=rollback` — if a reconcile fails, undo it, restoring the branch to its pre-reconcile commit, instead of stopping where it failed.
 `--dry-run` — report the commits, reconcile, gate and merge that would happen, without doing any of them.
 
 ## Gotchas

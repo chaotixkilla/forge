@@ -8,7 +8,7 @@ Connect each new unit to the entry point phase 1 identified: the caller, route, 
 
 ## Keep every caller working
 
-When the change altered an existing contract — a signature, a return shape, an invariant, an error mode — the change is not done until **every caller is migrated or confirmed unaffected** ([preserve-the-contract](../../../craft/engineering/preserve-the-contract.md)). Find the callers (the code explorer, or a usage search) and carry the change out through its blast radius. When carrying the change through that radius turns out to reach materially further than the task implied — a migration across callers the task never mentioned — that is the escalation case, not a bigger day's work: put it to the user before migrating ([orient-in-the-code](01-orient-in-the-code.md)).
+When the change altered an existing contract — a signature, a return shape, an invariant, an error mode — the change is not done until **every caller is migrated or confirmed unaffected** ([preserve-the-contract](../../../craft/engineering/preserve-the-contract.md)). Find the callers (the code explorer, or a usage search) and carry the change out through its blast radius. When carrying the change through that radius turns out to reach materially further than the task implied — a migration across callers the task never mentioned — that is the escalation case, not a bigger day's work: put it to the user before migrating ([decide-or-route](../rules/decide-or-route.md)).
 
 ## Get the boundaries right where the change meets the rest of the system
 

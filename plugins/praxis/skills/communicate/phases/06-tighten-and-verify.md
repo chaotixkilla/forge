@@ -18,7 +18,7 @@ Check what a reader needs the artifact to do, against what [frame-the-message](0
 
 ## Run the clean-export check
 
-This is a content check, not a formatting pass. Read the whole artifact for **internal-process references** and strip every one, by the strip list and the machinery-vs-content discriminator in [clean-export](../../../craft/writing/clean-export.md). This check is mandatory for *every* delivery path — returned, notified, or published — because the artifact is a human-facing export the moment it leaves the skill. `(basis: ratified house decision, "artifacts are team-facing documents")`
+This is a content check, not a formatting pass. Read the whole artifact for **internal-process references** and strip every one, by the strip list and the machinery-vs-content discriminator in [clean-export](../../../craft/writing/clean-export.md). This check is mandatory for *every* delivery path — returned, notified, or published — because the artifact is a human-facing export the moment it leaves the skill. `(basis: ratified house decision, "artifacts are team-facing documents")` A document bound for an audience space also stands alone: it links nothing in the artifacts home, in a knowledge source whose note doesn't say the whole company can read it, or in the version-control, CI or telemetry backends, since its readers may have no access — state what the reader needs from such a page instead of linking it, and in doubt don't link. (routed to maintainer: the tracker and chat counted as open to the whole company, since in most companies they are, and assuming so errs toward the safer redaction.)
 
 ## Recruit the adversarial readers
 

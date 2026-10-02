@@ -14,7 +14,7 @@ When two edits both fully solve the task, prefer the one that is easier to back 
 - A change staged behind a guard (per [change-risk-scale](change-risk-scale.md)'s middle tier) is more reversible than a flag-day switch — the guard *is* the undo.
 - A change that preserves the old path until the new one is proven beats one that deletes the old path in the same motion.
 
-Tidiness is a real good, but it loses to reversibility when they conflict: a more elegant refactor you can't cleanly retract carries risk the maintenance task didn't ask for. When tidiness and reversibility *don't* conflict, take both.
+`(basis: derived from a maintenance change's cost being its risk and the difficulty of undoing it)` Tidiness is a real good, but it loses to reversibility when they conflict: a more elegant refactor you can't cleanly retract carries risk the maintenance task didn't ask for. When tidiness and reversibility *don't* conflict, take both.
 
 ## The bound on smallness
 

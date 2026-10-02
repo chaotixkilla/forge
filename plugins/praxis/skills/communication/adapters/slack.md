@@ -1,6 +1,6 @@
 # slack — communication adapter
 
-Implements the **communication** capability for Slack, over the transport configured in `tools.communication.transport` (mcp or api). The [communication](../SKILL.md) skill names the operation and dispatches here. In Slack a discussion thread is a **root message plus its replies** in a channel, addressed by the channel and the root message's timestamp (`ts`); a post target is a **channel** (by id, or by name resolved to an id via a channel lookup) or a **person** (by user id, or by handle/email resolved to a user id via a user lookup, to whom the adapter opens a DM). The message target is a per-call input from the caller — there is no configured default channel.
+Implements the **communication** capability for Slack, over the transport configured in `tools.communication.transport` (mcp or api). The [communication](../SKILL.md) skill names the operation and dispatches here. In Slack a discussion thread is a **root message plus its replies** in a channel, addressed by the channel and the root message's timestamp (`ts`); a post target is a **channel** (by id, or by name resolved to an id via a channel lookup) or a **person** (by user id, or by handle/email resolved to a user id via a user lookup, to whom the adapter opens a DM). The message target is a per-call input from the caller; the configured channels (`tools.communication.channels`) are resolved by the skill, not here.
 
 ## Operations
 

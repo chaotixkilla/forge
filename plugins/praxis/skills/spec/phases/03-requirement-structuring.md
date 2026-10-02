@@ -2,7 +2,7 @@ Give each hardened requirement a home, so nothing is forgotten and the reader ca
 
 ## Choose the taxonomy
 
-The house default is four buckets — **functional, non-functional, data, interface/contract** — but the taxonomy is a genuine fork (a pure user-story/Gherkin backlog and ADR-style decision records are defensible alternatives), so pick it by the routing chain rather than by habit: mirror the repo's existing spec convention if one exists, else take the house default, else propose one and route it ([match-existing-spec-conventions](../rules/match-existing-spec-conventions.md)). `(basis: praxis house taxonomy; after ISO/IEC/IEEE 29148)`
+The house default is four buckets — **functional, non-functional, data, interface/contract** — but the taxonomy is a genuine fork (a pure user-story/Given-When-Then backlog and ADR-style decision records are defensible alternatives), so pick it by the routing chain rather than by habit: mirror the repo's existing spec convention if one exists, else take the house default, else propose one and route it ([match-existing-spec-conventions](../rules/match-existing-spec-conventions.md)). `(basis: praxis house taxonomy; after ISO/IEC/IEEE 29148)`
 
 ## Functional — what it does
 
@@ -18,10 +18,10 @@ Name the entities, their fields and types, validation rules, and relationships. 
 
 ## Interface / contract — the boundary
 
-For a service: the endpoints — inputs, outputs, status codes, and error shapes. For a UI: the screens and their states, including the empty, error, denied, and extreme states pinned in [pin-down-ambiguity](02-pin-down-ambiguity.md), rendered rather than assumed. Name the capability the interface depends on, never the product that provides it ([name-capabilities-not-tools](../rules/name-capabilities-not-tools.md)).
+For a service: the endpoints — inputs, outputs, status codes, and error shapes. For a UI: the screens and their states, including the empty, error, denied, and extreme states pinned in [pin-down-ambiguity](02-pin-down-ambiguity.md), rendered rather than assumed. Name the capability the interface depends on, not the product that provides it — unless the product is an immovable constraint, an existing system the work must integrate with, which is recorded as a constraint; the swap test in [name-capabilities-not-tools](../rules/name-capabilities-not-tools.md) decides which.
 
 ## Ground against standing conventions and invariants
 
-Close with spec's strongest read: delegate to the `gather` skill ([gather](../../gather/SKILL.md)) to pull the standing conventions the spec must mirror and the behavioral invariants it must not violate — perf budgets, a11y and security baselines, tenancy and data-residency rules, the vocabulary the team already uses. These are constraints the spec inherits whether or not the prompt named them, and a requirement that contradicts a standing invariant is a defect — cheapest to catch here. `gather` owns the read and its degrade; without the delegation, read what standing context you can reach inline before finalizing the buckets.
+Close with spec's strongest read: delegate to the `gather` skill ([gather](../../gather/SKILL.md)) to pull the standing conventions the spec must mirror and the behavioral invariants it must not violate — perf budgets, a11y and security baselines, tenancy and data-residency rules, the vocabulary the team already uses. These are constraints the spec inherits whether or not the prompt named them, and a requirement that contradicts a standing invariant is a defect — cheapest to catch here. `gather` owns the read and its degrade, and runs its lanes inline when fan-out is unavailable.
 
 The output is the structured requirement set — every requirement in a bucket, traced to a need, portable, and consistent with the system's standing constraints — ready to be made concrete and testable in [making-it-concrete](04-making-it-concrete.md).

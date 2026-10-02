@@ -10,7 +10,7 @@ For each claim the design leans on, write it down as an explicit, **falsifiable*
 
 The discriminator: **would the design break if this assumption were false?** If yes, it is load-bearing — surface it. If the design survives either way, it is incidental — leave it out. Documenting the self-evident or the harmless is the over-correction: a reviewer should see exactly the premises the design bets on, not a catalogue of everything true about the world.
 
-The **single riskiest** load-bearing assumption — the one most likely to be wrong and most damaging if it is — gets a named validation step: a spike, a probe, a query against real data, before the design is committed. That named step is what [slice-and-validate](../phases/06-slice-and-validate.md)'s buildable bar checks for.
+The **single riskiest** load-bearing assumption — ranked by how damaging it would be if wrong, with how likely it is to be wrong breaking ties (routed to maintainer: damage first, as the risk scale's severity-dominant reading) — gets a named validation step: a spike, a probe, a query against real data, before the design is committed. That named step is what [slice-and-validate](../phases/06-slice-and-validate.md)'s buildable bar checks for.
 
 *Anchor (top):* a stated, falsifiable assumption with a named way to confirm it. *Anchor (bottom):* a silent dependency — an implicit ordering, a shared constant two places must agree on, an "always non-null" that a reachable path violates — that a maintainer breaks precisely because nothing named it (the trap the future-self critic hunts).
 

@@ -11,7 +11,7 @@ A change earns a flag when it is **hard to undo once live** *or* **needs a stage
 - **Must be revertible without a code revert.** When a bad outcome must be killable in seconds — by an operator flipping a switch, not by shipping and deploying a reverting commit — the switch has to exist ahead of the failure.
 - **A trivial, easily-reverted change needs no flag.** A pure internal refactor with unchanged behavior, a change a single clean revert fully undoes, an isolated unit no live path yet reaches — flagging these just pays the branching-and-cleanup cost for nothing. When none of the three tests fire, ship it bare.
 
-Every flag that *is* justified carries a **named removal condition** from the moment it's added: the concrete event that retires it ("remove once the migration is verified on all shards," "delete after the cohort hits 100% and holds a week"). The removal condition is part of the change, not a someday-ticket.
+Every flag that *is* justified is born with its retirement record — who removes it and the condition that ends it, such as "delete after the cohort hits 100% and holds a week" — per [retire-the-switches](../../../craft/engineering/retire-the-switches.md).
 
 (basis: Hodgson, "Feature Toggles", martinfowler.com)
 

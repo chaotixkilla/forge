@@ -20,7 +20,7 @@ Establish that a change actually works by driving the real running application: 
 
 ## Examples
 `--flows=checkout,password-reset` — *replaces* the set framed from the change with exactly these, so anything else stays unobserved and is reported as such. Flow names are the project's own vocabulary, not a fixed menu: whatever this codebase calls a flow is a valid name.
-`--from-spec=specs/checkout.md` — derive the flows from the spec's requirements and key the report per requirement instead of per flow, which is what makes a requirement that *no flow could reach* surface as unobserved rather than quietly go missing from the report.
+`--from-spec=specs/checkout.md` — derive the flows from the spec's requirements and key the report per requirement instead of per flow, which is what makes a requirement that *no flow could reach* show in the report — unobserved, or defective where the claim asserted it reachable — rather than quietly go missing.
 `--ux` — add an experiential pass over the same flows: every point of hesitation, dead end, and unexplained state gets recorded, on top of whether the flow functioned. It adds findings; it does not change what counts as functioning.
 `--as-user=<persona>[,<persona>...]` — drive and report the flows as each named user, including a user of assistive technology; two names are two drives with two records, never averaged. Findings come back scoped to a persona, which is the point: what that user hits is a fact about that user's path, not a claim about everyone's.
 `--sandbox` — stand the instance up in a disposable, isolated environment so a driven flow cannot write to real state. Reach for it whenever the flows mutate data or send anything outward; the sandbox then *is* the environment the verdict is scoped to.

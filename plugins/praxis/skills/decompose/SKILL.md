@@ -1,6 +1,6 @@
 ---
 name: decompose
-description: Break an approved design or plan into an ordered set of independently shippable work units — cut along natural seams, right-size each to the team's review/integration cadence, order by dependency then risk, make each unit actionable with a one-sentence done-condition and explicit cross-unit links, and prove the set covers the source with no orphans or overlaps; then present the breakdown for review, or emit it as tracked work-items or an ordered checklist. The bridge from approved design to work-ready tasks.
+description: Break an approved design or plan into an ordered set of independently shippable work units — cut along natural seams, right-size each to the team's review/integration cadence, order by dependency then risk, make each unit actionable with a one-sentence done-condition and explicit cross-unit links, and prove the set covers the source with no orphans or overlaps; then return the breakdown for review, or as an ordered checklist; filing the units as tracked work-items is the caller's. The bridge from approved design to work-ready tasks.
 metadata:
   flags:
     --from-plan=<path>: consume an approved plan's buildable units and ordering as the authoritative inventory to render into work-ready tasks (the preferred driving artifact); a phase-1 input, not a mode

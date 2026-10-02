@@ -7,14 +7,15 @@ Two consumers of the same gather must receive the same-shaped picture, so the sh
 
 ```
 LANES: <consulted> | dropped: <lane: reason>
+STOP: saturated — N independent origins | thin — <origins>, searched <where> | stopped at budget, not saturation; <lane> still open
 FINDINGS (by tier):
-  authoritative     — <claim> · <anchor: URL§ / RFC§> · <force/scope> · reach: <how far it applies>
+  authoritative     — <claim> · <anchor: URL§ / RFC§> · <force/scope> · reach: <how far it applies> · <owner | secondary reading> · <verified at source | unverified-at-source> · <current | presumed-stale>
   project-internal  — <claim> · <anchor: file:line / commit / page+provenance> · <grade, verbatim from the lane: code path-confirmed|inferred · repository on-record|reconstructed · knowledge-base current|possibly-stale|superseded>
   anecdotal         — <claim + mechanism> · <label, verbatim from the lane: opinion / single-report / corroborated-practice (N independent origins)> · <dates> · <links>
 CONFLICTS: <position A (tier, basis)> vs <position B (tier, basis)> — <where the dispute lives>
 DIVERGENCES: <code/repo> diverges from <spec/doc> at <anchor>
 KEY FILES: <path> — <why the caller should read it> · <the commit that explains it, when the repository lane names one>
-GAPS: <documented absences; lanes not consulted and why>
+GAPS: <documented absences; lanes not consulted and why; the part of a lane it didn't reach, such as a knowledge source unreachable or skipped>
 TRANSFER (caller decides): <source> reaches <scope>; gap to this project: <what is unverified>
 ```
 

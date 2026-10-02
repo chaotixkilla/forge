@@ -2,20 +2,9 @@ Pre-solve on paper the few flows where the design will bite mid-build: the migra
 
 ## Find and rate the hard flows — the risk scale
 
-Enumerate the flows that could bite, then rate each on two axes, so the deepest work goes where the risk is rather than to whichever flow was listed first.
+Enumerate the flows that could bite, then rate each on [the risk scale](../rules/risk-scale.md) — severity, likelihood-to-bite on its four-answer checklist, and the scale's routed rule for combining the two — so the deepest work goes where the risk is. If no flow could bite, say so and keep the phase short.
 
-`(basis: maintainer, 2026-07-05; after the AIAG-VDA FMEA Handbook 2019 and ISO 31000)`
-
-- **Severity — how hard it bites** (assign by the *worst realistic* consequence if the flow fails):
-  - *Critical* — irreversible or safety/legal/data-loss: data corruption, a security breach, regulatory noncompliance, unrecoverable state.
-  - *Significant* — a primary user journey degrades or breaks, but it is recoverable and bounded.
-  - *Minor* — no discernible effect on the user; cosmetic or a slight, secondary inconvenience.
-- **Likelihood-to-bite — how likely it is to go wrong** (assign by a fixed checklist: prevention controls present? path novel/complex? prior incidents on it? test coverage?):
-  - *High* — weak/absent controls, a new or complex path, or a history of failing here.
-  - *Medium* — partial controls, moderate complexity, some coverage.
-  - *Low* — strong controls, a well-trodden path, high coverage, no known prior failure.
-
-**Combining the two axes is a fork — plan does not crown one** (encode the fork, route the choice): *severity-dominant* (any Critical flow is top-priority regardless of likelihood; likelihood only orders within a severity band — `basis: AIAG-VDA Action Priority`) versus *symmetric* (likelihood × impact / RAG grid — `basis: PMI PMBOK 6e`). Cox (2008, *Risk Analysis*) is the caution against naive multiplication — a symmetric grid can mask a low-likelihood/Critical flow behind a high-likelihood/Minor one. Routing: the surrounding team's existing risk practice wins → house rule → maintainer. Whichever is used, a Critical flow is never deprioritized on low likelihood without a documented reason. Recruit the **adversary** critic here to construct the failing input for each hard flow (without fan-out, construct it yourself, as its own pass); delegate any hard-algorithm literature to `gather`.
+For each hard flow, recruit the **adversary** critic to construct the input that makes it fail (without fan-out, construct it yourself, as its own pass). Where a flow turns on a hard algorithm, invoke [gather](../../gather/SKILL.md) on its `authoritative-literature` lane with the flow and the property it must hold, and carry back the known approach and its failure modes.
 
 ## Sequence the tricky flows
 

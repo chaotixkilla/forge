@@ -7,7 +7,7 @@ When the system under study is *declarative* rather than executable — a config
 For the values the question turns on, follow the data across its lifecycle — shape at origin, validation and coercion points, mutation, and boundary crossings ([follow-the-data](../../../craft/engineering/follow-the-data.md)) — not just which functions call which.
 
 ## Grade every claim as you establish it
-As you record each claim, tag it with the certainty the evidence earns — *observed* / *traced* / *inferred* / *assumed-unverified* ([certainty-scale](../rules/certainty-scale.md)) — and anchor it to its locator ([anchor-every-claim](../../../craft/evidence/anchor-every-claim.md)). Grade honestly as you go; a claim you cannot anchor cannot be graded and is not yet a finding.
+As you record each claim, tag it with the certainty the evidence earns — *observed* / *traced* / *inferred* / *assumed-unverified*, by the tests between adjacent rungs in [certainty-scale](../rules/certainty-scale.md) — and anchor it to its locator ([anchor-every-claim](../../../craft/evidence/anchor-every-claim.md)). Grade honestly as you go; a claim you cannot anchor cannot be graded and is not yet a finding.
 
 ## The read-only posture — default and hardened
 understand is read-only with respect to the system under study: it never edits, commits, or changes it. What it *may run* is bounded by a deterministic trigger, so two cold runs make the same run/don't-run call:
@@ -15,6 +15,6 @@ understand is read-only with respect to the system under study: it never edits, 
 - **Default:** the target rung is *traced* ([stop-when-answered](../rules/stop-when-answered.md)), so **trace by reading first, and run a path (safe observation only) only when the static trace cannot settle a load-bearing claim** — the behavior turns on runtime state reading can't resolve (a dynamic-dispatch target, a config/env-driven branch, an external response), or two static readings are both defensible. When the trace settles the claim, accept *traced* and do not run — running there adds no certainty the map needs. Running an already-settled load-bearing path to reach *observed* is what `--deep` adds ([deep-dive](../modules/deep-dive.md)), not the default.
 - **`--read-only`:** running is forbidden entirely; a claim the static trace cannot settle stays at its true (sub-traced) rung, and the top achievable rung is *traced* — state that cap rather than grading a static read as observed.
 
-What counts as safe observation versus a mutation — the line both postures are defined against — is pinned in [read-only-boundary](../modules/read-only-boundary.md); obey it whether or not the flag is set. The certainty rungs are owned by [certainty-scale](../rules/certainty-scale.md).
+What counts as safe observation versus a mutation is pinned in [mutation-vs-observation](../rules/mutation-vs-observation.md); obey it on every run, and under `--read-only` also [read-only-boundary](../modules/read-only-boundary.md)'s zero-execution rule. The certainty rungs are owned by [certainty-scale](../rules/certainty-scale.md).
 
 The output of this phase: the traced paths as a set of anchored, certainty-graded claims about what the system does — the raw material [synthesize-the-answer](05-synthesize-the-answer.md) assembles into the map.

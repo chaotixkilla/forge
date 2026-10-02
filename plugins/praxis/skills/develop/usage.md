@@ -7,7 +7,7 @@ Implement a change to a finished, integrated standard: orient in the existing co
 - You want the change built *coherently with the existing system*: matching local conventions, reusing what already exists, kept to a focused diff, with errors handled deliberately at the right boundary.
 - You want each slice proven green as you go — behavior observed to actually run, not merely compiling — rather than a big-bang change checked only at the end.
 - You want to bias the whole build toward a concern (`--lens=performance`, `--lens=accessibility`, `--lens=security`) so it shapes choices throughout, not just at review time.
-- You want the branch left clean and hand-off ready: full local check green, no debris, tree committable — without opening a PR or shipping.
+- You want the branch left clean and hand-off ready: full local check green, no debris, tree committable — without opening a review request or shipping.
 
 ## Not for / use instead
 - **Designing the approach, choosing interfaces, or planning rollout** → **plan** (develop consumes a plan; it does not produce one). Turning a fuzzy request into requirements → **spec**.
@@ -28,7 +28,7 @@ Implement a change to a finished, integrated standard: orient in the existing co
 
 ## Gotchas
 - **develop needs no configuration of its own.** Building, running the local check, bringing the tree to a clean committable state, and **committing** are all ambient local git — no backend required, so it declares no `config_requires`.
-- **develop lands locally; it never pushes, opens a PR, or ships.** A develop run ends with a clean, committable branch, not a PR URL.
+- **develop lands locally; it never pushes, opens a review request, or ships.** A develop run ends with a clean, committable branch, not a review-request link.
 - **"Done" is a defined bar, not a feeling.** develop lands only when the change meets the [definition of done](rules/definition-of-done.md) — complete, integrated/reachable, verified-green, coherent, landed-clean. A run that stops short of it reports as *checkpointed* (a deliberate `--until`) or *blocked* (a red slice), never as done.
 - **The tightest loop first.** develop's leverage is the per-slice feedback loop (phase 2) — standing it up *before* building, so every slice is proven in seconds. Skipping it to "just write the code" is the anti-pattern the skill exists to prevent.
 - **The engineering craft is applied, not recited.** praxis's engineering standards are the in-the-moment judgments woven into building, shared with plan, refactor and review; a phase cites the ones it uses. They are an open library, extended over time — not a closed checklist.

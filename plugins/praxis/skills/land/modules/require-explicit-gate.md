@@ -2,7 +2,7 @@
 
 Activated by `--gate`, referenced from [run-the-gate](../phases/03-run-the-gate.md).
 
-The pre-merge gate runs on the default path already; on some landing types the flow may run a reduced gate or soft-pass a non-required check (e.g. a chore that touches no runtime path). This module forces the gate to run in full and **hard-block** on any non-pass. Deletion test: remove this module and the base gate still runs — `--gate` removes the flow's leniency, so it is a module (an escalation), not the gate itself. `(basis: mirrors spec's --strict gate)`
+The pre-merge gate runs on the default path already; on a hotfix the flow may run a reduced gate, scoped to the checks the change affects ([assess-the-change](../phases/01-assess-the-change.md)). There is no default soft-pass: a failed advisory check stops the run unless `--on-fail=continue` passes it ([failure-policy](failure-policy.md)). This module forces the gate to run in full and **hard-block** on any non-pass. Deletion test: remove this module and the base gate still runs — `--gate` removes the flow's leniency, so it is a module (an escalation), not the gate itself. `(basis: mirrors spec's --strict gate)`
 
 ## The delta — force the gate, block on anything less than green
 

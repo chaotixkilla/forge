@@ -12,8 +12,8 @@ Loop [run-and-observe](../phases/05-run-and-observe.md) — re-executing the run
 
 What `<condition>` means is the caller's per-run choice, and **deliberately open-by-design**: pinning a single stop condition would be false precision, because the useful signal differs by intent (a tight edit loop wants "green"; a flake hunt wants a repeat count; a triage wants "first failure"). What *is* pinned is the shape of legal conditions and a hard bound:
 
-- **`green`** — stop when the run passes against the framed claim; report the first passing run. Bounded by a maximum attempt count so an always-red change terminates and reports FAIL rather than looping forever.
-- **`first-failure`** — stop at the first genuine failure; report it immediately (fast triage of a suspected break).
+- **`green`** — stop when the run passes against the framed claim; report the first passing run. Bounded by an attempt count — the caller's, else 10 (routed to maintainer: 10 as the default bound, since it absorbs a short edit loop while an always-red change still ends fast) — so an always-red change terminates; at the bound the last run goes to [report-the-verdict](../phases/06-report-the-verdict.md), which resolves it like any run: a genuine in-claim red is FAIL, a red from noise is INCONCLUSIVE.
+- **`first-failure`** — stop at the first genuine failure; report it immediately (fast triage of a suspected break). Bounded by the same attempt count: reaching it with no genuine failure hands the clean runs to report-the-verdict.
 - **`<N>`** (a repeat count) — run the case(s) N times regardless of outcome; report the pass/fail distribution — the flake-exposure mode ([control-nondeterminism](../../../craft/engineering/control-nondeterminism.md)).
 - **change-triggered** — re-run on each change to the watched surface; the loop is bounded by the caller ending the watch, not by an outcome.
 

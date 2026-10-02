@@ -16,4 +16,4 @@ A target is never inferred from a name that resembles one, and never taken from 
 
 A channel or person outside all three needs the user's explicit confirmation before the first post to them, asked with the target spelled out in the run's opening question ([ask-while-the-user-is-here](../../gather/rules/ask-while-the-user-is-here.md)). With no one to ask, or when the target only turns up mid-run, don't post: return the message to the caller with the unconfirmed target named, so it can be delivered by hand.
 
-(basis: after the access rules Anthropic ships with every bundled bridge that can send; maintainer, 2026-09-30, H1) (routed to maintainer: two named channels, the ones the incident and shipping acts route to; per-team channels wait on the shape of `teams`.)
+(basis: after the recipient-allowlist practice of send-capable messaging integrations; maintainer, 2026-09-30) (routed to maintainer: two named channels, the ones the incident and shipping acts route to; per-team channels wait on the shape of `teams`.)

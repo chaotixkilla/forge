@@ -6,7 +6,7 @@ A caller reads this port to learn what the org wrote down. What it does next tur
 
 ## The six outcomes
 
-- **`ok`** — the read executed against the resolved space and the backend answered in full. **An empty answer is `ok`**: a search that matched nothing, or a document with no children, is a fact about the space, and the port reached the space to learn it. Every `ok` carries the resolved space it queried, so the caller can see *what* was read and not merely that something was. *(Assignment test: the request reached the backend, and the backend's answer is complete.)*
+- **`ok`** — the read executed against the resolved space and the backend answered in full. **An empty answer is `ok`**: a search that matched nothing, or a document with no children, is a fact about the space, and the port reached the space to learn it. Every `ok` carries the source and resolved space it queried, so the caller can see *what* was read and not merely that something was. *(Assignment test: the request reached the backend, and the backend's answer is complete.)*
 - **`unavailable`** — the request never reached an authenticated backend: the capability isn't configured, the service is down or rate-limited, the transport failed, **or the running context cannot dial the configured transport at all.** The retryable/degradable class. *(Assignment test: the request never reached an authenticated backend.)*
 - **`unauthorized`** — the backend was reached and the identity is known, but that identity may not read this target or scope. The caller escalates access; retrying changes nothing. *(Assignment test: reached + authenticated, but forbidden for this target.)*
 - **`target-not-found`** — the reference the request *named* does not exist on the backend. The caller fixes the reference. *(Assignment test: the request named a specific target and that target is absent.)*
@@ -26,6 +26,8 @@ Every run lands in exactly one, by this cascade — **the first "no" wins, and t
 
 Exhaustive because every run answers all six questions; mutually exclusive because the cascade stops at the first "no." A run that "found nothing" never falls out of the set — it reaches step 6 and returns `ok` with an empty result.
 
+**A read across several sources is one run per source.** Each source's read lands in exactly one outcome by the cascade — one source `ok`-empty, another `unavailable`, a third `ok` with results — and there is no composite outcome. Rolling them into one would either report the whole read as failed when most sources answered, or report an absence across sources one of which was never reached.
+
 ## Confusable-pair discriminators
 
 - **`ok`-empty vs `unavailable`** — the space was queried and answered nothing → `ok`; the query never reached the space → `unavailable`. Never let an unreached read return an empty result: an empty `ok` asserts *the space does not hold this*, which is a claim about the org that only a completed read can make.
@@ -37,8 +39,8 @@ Exhaustive because every run answers all six questions; mutually exclusive becau
 
 ## What this taxonomy does not cover
 
-A **malformed invocation** — a read request naming no operation, or a reference the port cannot parse before any backend interaction — is not one of these six. It is rejected up front as the caller error it is, so a caller never reads a self-inflicted argument error as a fact about the backend. Nor is there a `conflict` outcome: the port never writes, so no target state can block a request.
+A **malformed invocation** — a read request naming no operation, a reference the port cannot parse before any backend interaction, a source name no resolved source carries, or a fetch or children request naming no source whose reference no resolved source's provider can claim — is not one of these six. It is rejected up front as the caller error it is, so a caller never reads a self-inflicted argument error as a fact about the backend. Nor is there a `conflict` outcome: the port never writes, so no target state can block a request. And **listing the sources** reads the config, not a backend: it returns the list, never one of these outcomes.
 
 ## Where it binds
 
-Adapters do the mapping: each adapter's **Failure surface** section translates its backend's concrete conditions into exactly these outcomes. The concrete condition→outcome mappings live in the adapter, never in this rule. Step 4 of [SKILL.md](../SKILL.md) returns the outcome to the caller unchanged.
+Adapters do the mapping: each adapter's **Failure surface** section translates its backend's concrete conditions into exactly these outcomes. The concrete condition→outcome mappings live in the adapter, never in this rule. Step 4 of [SKILL.md](../SKILL.md) returns each source's outcome to the caller unchanged.

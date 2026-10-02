@@ -1,9 +1,9 @@
 # artifacts — usage
 
-Take a finished page tree — one main page with ordered subpages of backend-neutral sections — and publish it to the configured artifacts backend via the matching adapter, returning where it landed.
+Take a finished page tree — one main page with ordered subpages of backend-neutral sections — and publish it to the configured home, or to a named audience space, via the matching adapter, returning where it landed.
 
 ## When to use
-- You have a finished artifact — authored content in sections — and need it to live in the team's `tools.artifacts` destination, not just in the session.
+- You have a finished artifact — authored content in sections — and need it to live in the project's artifacts home, or in an audience space for non-engineering readers, not just in the session.
 - Another skill produced durable output (a spec, a plan, a research report, a review write-up) and the natural next move is "put this where the team reads things."
 - You want the placement, page model, and links handled for you: map the tree to whatever the backend calls a page, dispatch to its adapter, hand back the location.
 - You need publishing to be repeatable — re-run in place, cut a new version, or preview before writing — without hand-managing the backend's page ids or file layout.
@@ -11,12 +11,14 @@ Take a finished page tree — one main page with ordered subpages of backend-neu
 
 ## Not for / use instead
 - Sending a message, status update, or notification to people (a channel, a thread, a heads-up) → **communicate**. artifacts writes a document to a store; communicate delivers a message to humans. Publish the artifact, then communicate the link.
-- Wiring the artifacts backend itself — provider, transport, destination, credentials → **init** (specifically `init:artifacts`). artifacts consumes `tools.artifacts`; it does not configure it.
+- Wiring the home or an audience space — provider, transport, destination, credentials → **init** (specifically `init:artifacts`). artifacts consumes `tools.artifacts`; it does not configure it.
 - Opening a review request or landing a change in the codebase → **work**'s developing and shipping acts, or **land**. That's source control and delivery, a different capability than authoring a document artifact.
 - Producing the *content* of the artifact — the spec, plan, or report body → **spec** / **plan** / **deep-research** / **review**. artifacts is the last-mile writer; it moves an already-authored tree, it does not draft one.
 
 ## Examples
-`--to=<target>` — override the destination for this one publish (a backend name, a path, or a page id) instead of the configured default. Use when this artifact belongs somewhere other than the usual home — e.g. `--to=handbook/onboarding` or `--to=<page-id>`.
+`--space=<name>` — publish to the audience space of that name instead of the home — e.g. `--space=company`.
+
+`--to=<target>` — override the destination within the space for this one publish (a path or a page id) instead of its configured destination — e.g. `--to=handbook/onboarding` or `--to=<page-id>`.
 
 `--dest-dir=<path>` — for a file-backed destination, set the base directory the tree is written under, overriding the configured one. E.g. `--dest-dir=docs/specs/2026-q3`.
 

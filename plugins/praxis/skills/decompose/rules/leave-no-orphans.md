@@ -8,7 +8,7 @@ Enumerate the source's elements — the plan's units or the spec's requirements 
 
 - **No orphans (the source → units direction):** every element of the source is delivered by *at least one* unit. An element with no owning unit is dropped work; either a unit is missing, or the element is deliberately out of scope and must be recorded as such (the explicit boundary in [make-units-actionable](../phases/04-make-units-actionable.md)), never silently absent.
 - **No overlaps (the units → source direction):** every element is owned by *at most one* unit. Two units delivering the same outcome is double-ownership — decide which owns it and cut the outcome from the other, or merge them ([unit-size-scale](unit-size-scale.md)). A shared *dependency* is not an overlap (that is an explicit link, [make-dependencies-explicit](make-dependencies-explicit.md)); an overlap is two units both claiming to *produce* the same result.
-- **Together they are a partition:** exactly-one owner per element — exhaustive (no orphan) and mutually exclusive (no overlap). A unit that maps to *no* source element is its own signal: either it is invented scope to cut, or the source was incomplete and that gap goes back to plan/spec.
+- **Together they are a partition:** exactly-one owner per element — exhaustive (no orphan) and mutually exclusive (no overlap). A unit that maps to *no* source element is its own signal: either it is invented scope to cut, or it exposes an element the source omitted — a design gap, judged by the backbone test in [check-coverage-and-handoff](../phases/05-check-coverage-and-handoff.md).
 
 ## Method: prove it, don't eyeball it
 

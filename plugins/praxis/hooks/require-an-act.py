@@ -6,9 +6,10 @@ inside an act. When no act is running (no .claude/praxis-act.json), this denies
 a file edit inside the project, and a git commit, with a message that says how
 to start one: a change with no behavior change and no new interface runs the
 developing act's small-change path (develop, then verify). Edits outside the
-project, inside .claude/, and inside the local documentation directory are
-never blocked. On any error the change goes ahead: a guard that can't read its
-inputs must not stop the user's work.
+project, inside .claude/, and inside a local documentation directory (the
+artifacts home's, or a local audience space's) are never blocked. On any error
+the change goes ahead: a guard that can't read its inputs must not stop the
+user's work.
 """
 import json
 import os
@@ -16,6 +17,8 @@ import re
 import sys
 
 EDIT_TOOLS = {"Edit", "Write", "MultiEdit", "NotebookEdit"}
+# git is praxis's declared ambient substrate (see skills/vcs/usage.md), so matching its commit
+# command here is deliberate: accepted on record, maintainer, 2026-10-01.
 COMMIT = re.compile(r"(^|[;&|]\s*|\s)git(\s+-\S+(\s+\S+)?)*\s+commit\b")
 REASON = (
     "No praxis act is running, so this code change is blocked. Start the work through the praxis "
@@ -24,17 +27,33 @@ REASON = (
 )
 
 
+def is_file_backed(space):
+    """A destination written to the filesystem: the fs transport, or the local provider of older configs."""
+    return str(space.get("transport", "")).strip() == "fs" or str(space.get("provider", "")).strip() == "local"
+
+
 def documentation_dirs(project):
-    """The local backend's documentation directory, which edits may always reach."""
+    """The local documentation directories, which edits may always reach."""
     dirs = [os.path.join(project, "docs", "praxis")]
     try:
         with open(os.path.join(project, ".claude", "praxis.json"), encoding="utf-8") as f:
             artifacts = (json.load(f).get("tools") or {}).get("artifacts") or {}
-        base = (artifacts.get("destinations") or {}).get("default") or ""
-        if str(artifacts.get("provider", "")).strip() == "local" and base:
-            dirs.append(os.path.join(project, base))
     except (OSError, ValueError, AttributeError):
+        artifacts = {}
+    audiences = (artifacts.get("audiences") or []) if isinstance(artifacts, dict) else []
+    try:
+        # An older config keeps the home's destination as destinations.default.
+        home = artifacts.get("destination") or (artifacts.get("destinations") or {}).get("default") or ""
+        if is_file_backed(artifacts) and home:
+            dirs.append(os.path.join(project, home))
+    except (AttributeError, TypeError):
         pass
+    for space in audiences if isinstance(audiences, list) else []:
+        try:
+            if is_file_backed(space) and space.get("destination"):
+                dirs.append(os.path.join(project, space["destination"]))
+        except (AttributeError, TypeError):
+            continue
     return [os.path.realpath(d) for d in dirs]
 
 

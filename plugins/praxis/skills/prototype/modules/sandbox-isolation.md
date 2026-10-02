@@ -11,6 +11,6 @@ The base spike builds and runs in place. This module runs it in a throwaway isol
 
 ## The isolation mechanism
 
-Resolve isolation **locally** by default, and name the capability, never a concrete tool: a scratch workspace or a throwaway local runtime the spike runs inside. If the caller needs *version-controlled* isolation (a discardable branch), that is **wholesale delegation to the `vcs` port** — which owns the `tools.vcs` prerequisite — so prototype declares no `config_requires` in either case; it either isolates locally or hands the branch operation to the doer that owns it.
+Resolve isolation **locally** by default, and name the capability, never a concrete tool: a scratch workspace or a throwaway local runtime the spike runs inside. If the caller needs *version-controlled* isolation, cut a discardable local branch — ambient local version control, no port, since nothing leaves the machine — and delete it at discard. prototype declares no `config_requires` either way.
 
 `(basis: maintainer, 2026-07-09)`

@@ -8,7 +8,7 @@ A change is **done** only when **all five** criteria hold, each by its own pass 
 
 ## The five criteria
 
-- **1 · Complete** — every acceptance criterion of the driving plan/spec (or, absent one, the stated intent) is satisfied, and nothing was silently deferred.
+- **1 · Complete** — every acceptance criterion of the driving plan/spec (or, absent one, the stated intent) is satisfied or explicitly deferred out of this change, and nothing was silently deferred. An explicitly deferred criterion passes this criterion: the change lands, with the deferral named in its hand-off. `(basis: derived from the test below)`
   - *Test:* each criterion maps to a demonstrated behavior in the change; any criterion not met is *explicitly surfaced* as deferred/out-of-scope, never dropped in silence.
 - **2 · Integrated / reachable** — the new code is connected to a real entry point and exercised on a live path; no orphaned unit, no dead code.
   - *Test:* there is an invocation path from an entry point (caller, route, command, event) to the new behavior, and it has been run end-to-end at least once ([prove-the-path-actually-runs](verification/prove-the-path-actually-runs.md)).
@@ -17,7 +17,7 @@ A change is **done** only when **all five** criteria hold, each by its own pass 
 - **4 · Coherent** — the change matches the surrounding conventions, carries no debris, and is focused to the task.
   - *Test:* the phase-5 self-review finds no scope creep ([keep-the-diff-focused](../../../craft/engineering/keep-the-diff-focused.md)), no leftover debris ([leave-no-debris](../../../craft/engineering/leave-no-debris.md)), and no unexplained break from local convention ([match-the-surrounding-code](../../../craft/engineering/match-the-surrounding-code.md)).
 - **5 · Landed-clean** — the working tree is in a clean, committable state, ready to hand off for review and landing; local only.
-  - *Test:* no half-staged or stray work — a local backend's task documentation isn't stray: it stays out of the change ([document](../../document/SKILL.md) keeps it out); the change is committed as a coherent unit (a local, ambient commit — plain git, no backend). No push, PR, or ship: those belong to whoever delivers the change.
+  - *Test:* no half-staged or stray work — the task's documentation inside the working tree isn't stray: it stays out of the change ([document](../../document/SKILL.md) keeps it out); the change is committed as a coherent unit (a local, ambient commit — plain git, no backend). No push, review request, or ship: those belong to whoever delivers the change.
 
 ## The anchors
 
@@ -26,7 +26,7 @@ A change is **done** only when **all five** criteria hold, each by its own pass 
 
 ## When a required check can't be run locally
 
-Criteria 2 and 3 require checks that actually *run* — an entry-point path exercised end-to-end, the full local check green over the change. Sometimes one genuinely can't run locally: a DB-resetting fixture unsafe against shared infra, an entry path needing a backend the local env lacks. That does **not** license claiming done, and it does **not** license silently skipping the check (the recurring failure — a required check left unexecuted and unmentioned). Surface it as a **required field — `{criterion, why-deferred, backstop}`** — naming which criterion is unmet, why it couldn't run locally, and what *will* run it (e.g. CI on the PR). And an unmet binary criterion makes the outcome **checkpointed** or **blocked**, never *landed* ([land-the-change](../phases/06-land-the-change.md)'s partition): a criterion-2 path never run end-to-end is *"not done — checkpointed against the backstop,"* not *"done, deferred."*
+Criteria 2 and 3 require checks that actually *run* — an entry-point path exercised end-to-end, the full local check green over the change. Sometimes one genuinely can't run locally: a DB-resetting fixture unsafe against shared infra, an entry path needing a backend the local env lacks. That does **not** license claiming done, and it does **not** license silently skipping the check (the recurring failure — a required check left unexecuted and unmentioned). Surface it as a **required field — `{criterion, why-deferred, backstop}`** — naming which criterion is unmet, why it couldn't run locally, and what *will* run it (e.g. CI on the review request). And an unmet binary criterion makes the outcome **blocked**, never *landed* ([land-the-change](../phases/06-land-the-change.md)'s partition) — the run can't reach done within develop: a criterion-2 path never run end-to-end is *"not done — blocked on the backstop,"* not *"done, deferred."*
 
 ## Using the bar
 

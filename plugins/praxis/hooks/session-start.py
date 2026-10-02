@@ -25,7 +25,7 @@ GUIDANCE = (
     "questions that produce nothing to review or keep can be answered directly."
 )
 
-# The standing posture for code comments, from output.comments (init's report-style-settings rule),
+# The standing posture for code comments, from output.comments (craft's report-style-settings rule),
 # stated here because most comments are written outside a praxis run.
 COMMENTS = {
     "why-only": "Code comments in this project: write one only where the code cannot carry the meaning itself.",

@@ -1,9 +1,9 @@
-This is the model gather applies to weigh findings from different lanes into one picture — the cross-lane composition the explorer agents deliberately don't each carry, held once, here. (basis: maintainer, 2026-07-03; after anvil's authoritative-sources and community-practices explorer craft and the praxis explorer-family sourcing model)
+This is the model gather applies to weigh findings from different lanes into one picture — the cross-lane composition the explorer agents deliberately don't each carry, held once, here. (basis: maintainer, 2026-07-03; after the authoritative-sources and community-practices explorer craft and the praxis explorer-family sourcing model)
 
 ## The three tiers
 - **Authoritative** — `official-documentation` (the vendor/maintainer contract; authoritative because the owner would publish the correction) and `authoritative-literature` (standards, specs, peer-reviewed results, definitive books; authoritative because the spec *is* the behavior or the result survived scrutiny).
 - **Anecdotal** — `community-practices` (forums, issues, blogs, Q&A; real signal about friction and pitfalls, weighted below authority).
-- **Project-internal ground truth** — `code` (what the code does, anchored file:line), `repository` (why it is that way — history, reverts, intent, anchored to commits/PRs), and `knowledge-base` (human-authored org docs from the configured knowledge backend).
+- **Project-internal ground truth** — `code` (what the code does, anchored file:line), `repository` (why it is that way — history, reverts, intent, anchored to commits/review requests), and `knowledge-base` (human-authored org docs from the configured knowledge sources).
 
 ## The anecdotal grade
 The community-practices lane tags each finding on a defined scale — **opinion** (a stated preference, no consequence), **single-report** (one independent origin, concrete outcome), **corroborated-practice** (two or more independent origins converging). gather weighs by that label. When combining origins across posts or lanes, a report you can't tell apart from an echo of one already counted is one origin echoed: drop a rung ([triangulate-before-trusting](../../../craft/evidence/triangulate-before-trusting.md)). (basis: maintainer, 2026-07-03; after the community-practices explorer's graded scale)

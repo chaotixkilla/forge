@@ -60,7 +60,7 @@ A slice is not done when it compiles or when you believe it works — it is done
 
 ## Recruit the simplicity-hawk, checkpoint, and stop conditions
 
-A slice can also surface a decision that is not yours to close alone — a substitute for behavior a dependency was meant to provide, or a footprint outgrowing the task. Apply the third branch of the decide-or-route test ([orient-in-the-code](01-orient-in-the-code.md)) as it arises, rather than banking it for the final report: its whole value is being asked before the next slice builds on the answer.
+A slice can also surface a decision that is not yours to close alone — a substitute for behavior a dependency was meant to provide, or a footprint outgrowing the task. Apply the third branch of [decide-or-route](../rules/decide-or-route.md) as it arises, rather than banking it for the final report: its whole value is being asked before the next slice builds on the answer.
 
 - **Challenge for accidental complexity.** On a non-trivial slice — one that introduces an abstraction, adds branching, or touches more than a localized one-spot edit — recruit the **simplicity-hawk critic** to attack what isn't pulling its weight — premature abstraction, speculative generality, a structure a simpler one would beat. Without fan-out, apply the lens yourself: before accepting a slice, ask what in it could be deleted or flattened. Fold surviving objections back in before the slice is called green.
 - **Checkpoint at slice boundaries.** With `--checkpoint-commit`, record a commit at each verified-slice boundary — see [checkpoint-commit](../modules/checkpoint-commit.md) (which also carries the commit-granularity fork).

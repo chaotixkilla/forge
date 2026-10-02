@@ -1,6 +1,6 @@
 # notion — artifacts adapter
 
-Implements the **artifacts** capability against Notion, over the Notion MCP. The destination (a parent page or database) is the one the skill resolved (SKILL step 1 — the type's key entry, `destinations.default`, or a user-supplied target; the adapter does not key off the raw type itself); auth from the configured `secret_ref`. The [artifacts](../SKILL.md) skill resolves and maps the tree and dispatches here.
+Implements the **artifacts** capability against Notion, over the Notion MCP. The destination (a parent page or database) is the one the skill resolved (SKILL step 1); auth from that space's `secret_ref`, or over a connection — with several connections to Notion, the one whose workspace holds the destination, found by trying each until it resolves. The [artifacts](../SKILL.md) skill resolves and maps the tree and dispatches here.
 
 ## Publish
 

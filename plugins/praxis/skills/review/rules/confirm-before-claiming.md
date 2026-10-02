@@ -14,7 +14,7 @@ Before you assert a change is *wrong* (not merely suspicious — the confidence 
 - **The path is reachable** — a caller actually reaches this code with that input; a bug behind a condition nothing satisfies is at most speculative.
 - **No guard already handles it** — you checked the lines between the caller and the suspect code for the validation, early-return, or clamp that would make the bug unreachable. The most common false positive is a "missing check" that exists one frame up.
 
-Clear all three and the finding is *confirmed*; clear the first two but not the third's verification and it is *probable*; clear only the pattern and it is *speculative*. The point is not to suppress uncertain findings — rigor decides which to report — but to *label* honestly and never dress a speculation as a certainty.
+Clear all three and the finding is *confirmed*; anything less is graded *probable* or *speculative* by the ladder [calibrate-confidence-to-rigor](calibrate-confidence-to-rigor.md) owns. The point is not to suppress uncertain findings — rigor decides which to report — but to *label* honestly and never dress a speculation as a certainty.
 
 ## When reading cannot settle it, run it
 

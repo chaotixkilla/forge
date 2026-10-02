@@ -6,7 +6,7 @@ Turn a genuinely open question into a verified, cited report: fan out across web
 - The answer isn't in context or the repository, and settling it needs the open web — official docs, standards and papers, and community practice, weighed against each other rather than trusted one at a time.
 - You want claims you can trust: each traced to a source, the load-bearing ones corroborated across independent origins and chased to their primary source, disconfirming evidence actively sought.
 - You want the disagreement represented honestly — where sources conflict, the answer locates the dispute instead of collapsing to one side — and the uncertainty named as plainly as the findings.
-- You want to dial the rigor and spend: a fast light pass, a deep multi-round sweep, a bounded budget, or a wall-clock timebox — and optionally a publishable team-facing report at the end.
+- You want to dial the rigor and spend: a fast light pass, a deep multi-round sweep, a bounded budget, or a wall-clock timebox.
 
 ## Not for / use instead
 - Investigating **this** codebase — how it behaves, why it's this way → **understand** (deep-research reads the open world; it does not trace local code).
@@ -27,4 +27,4 @@ Turn a genuinely open question into a verified, cited report: fan out across web
 - **Confidence is not fluency.** A source is weighed by its basis — method, expertise, independence, currency — not by how confidently or fluently it asserts; a polished blog post does not outweigh a primary standard.
 - **The report carries no machinery.** It holds the findings, sources and confidence for a human reader, never tool calls or praxis process.
 - **`--verify=off` returns an unverified sweep.** It is a fast scan of what the sources say, every claim flagged unverified — useful for orientation, not for a decision that rests on the answer being right.
-- **deep-research needs no configuration of its own.** Web search and source-fetch are ambient; the org-internal knowledge lane is reached through the `gather` port, which routes it to the `knowledge` port (the prerequisite's owner), so it is present only when a knowledge backend is configured and degrades cleanly when it isn't. Each doer owns its prerequisite, so deep-research declares none.
+- **deep-research needs no configuration of its own.** Web search and source-fetch are ambient; the org-internal knowledge lane is reached through the `gather` skill, which routes it to the `knowledge` port (the prerequisite's owner), so it is present only when a knowledge backend is configured and degrades cleanly when it isn't. Each doer owns its prerequisite, so deep-research declares none.

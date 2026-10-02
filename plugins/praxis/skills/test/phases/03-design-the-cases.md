@@ -14,7 +14,7 @@ A case earns its place iff it can fail for a reason no already-kept case fails f
 
 ## Prioritize by risk
 
-Rank the kept cases by [risk-priority](../rules/risk-priority.md) (likelihood × blast-radius, High / Medium / Low) and spend the case budget top-down: every High-risk behavior must be covered, Medium as budget allows, Low only when cheap. That ranking is what [coverage-adequacy](../rules/coverage-adequacy.md) reads when it asks whether "the highest-risk behaviors" are covered.
+Rank the kept cases by [risk-priority](../rules/risk-priority.md) (likelihood × blast-radius, High / Medium / Low) and spend the case budget top-down by its budget rule. That ranking is what [coverage-adequacy](../rules/coverage-adequacy.md) reads when it asks whether "the highest-risk behaviors" are covered.
 
 ## Judge coverage adequacy
 

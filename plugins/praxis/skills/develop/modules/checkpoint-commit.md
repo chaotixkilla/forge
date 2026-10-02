@@ -4,7 +4,7 @@
 
 ## Capability, not tool
 
-The commit is a **local commit** — ambient plain git, needing no configured backend, exactly as develop reads the working tree. It **commits locally only**: no push, no PR, no merge. Each checkpoint message states the slice's intent, written by [commits-tell-the-why](../../../craft/engineering/commits-tell-the-why.md) — whose format resolution decides between the house baseline and a convention the history shows — and each commit honors the repo's policy ([honor-commit-policy](../../../craft/engineering/honor-commit-policy.md)).
+The commit is a **local commit** — ambient plain git, needing no configured backend, exactly as develop reads the working tree. It **commits locally only**: no push, no review request, no merge. Each checkpoint message states the slice's intent, written by [commits-tell-the-why](../../../craft/engineering/commits-tell-the-why.md) — whose format resolution decides between the house baseline and a convention the history shows — and each commit honors the repo's policy ([honor-commit-policy](../../../craft/engineering/honor-commit-policy.md)).
 
 ## The commit-granularity fork — routed, not resolved
 

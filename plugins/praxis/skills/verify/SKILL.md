@@ -1,6 +1,6 @@
 ---
 name: verify
-description: Establish that a change actually works by driving the real running application end-to-end and observing its behavior — stand the app up, exercise each framed flow through the entry point a user actually uses, separate a genuine behavioral defect from environment noise, and return a per-flow verdict with reproductions. Reach for it when the suite is green and the question is whether the thing works; distinct from test (authors and runs the automated suite, never drives the app), from debug (root-causes a failure already known), and from operate (owns live production, not a pre-landing check).
+description: Establish that a change actually works by driving the real running application end-to-end and observing its behavior — stand the app up, exercise each framed flow through the entry point a user actually uses, separate a genuine behavioral defect from environment noise, and return a per-flow verdict with reproductions. Reach for it when the suite is green and the question is whether the thing works; distinct from test (authors and runs the automated suite, never drives the app), from debug (root-causes a failure already known), and from triage and mitigate (live production incidents, not a pre-landing check).
 metadata:
   flags:
     --from-spec=<path>: derive the flows to exercise from a spec's requirements, and report per requirement rather than per flow — a phase input, not a module

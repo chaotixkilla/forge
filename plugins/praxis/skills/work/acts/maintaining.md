@@ -2,15 +2,15 @@
 
 **Entry condition.** The request is to keep existing code healthy: restructure it or clean it up, retire a switch, move a dependency to a new version, deprecate an interface or harden a boundary. Building new behavior goes to the developing act and fixing a defect to the fixing-a-bug act. (basis: maintainer, 2026-09-30)
 
-**Done when** the change step's outcome is committed (with or without follow-ups) with a verified verdict, or an inconclusive one said plainly; the change has passed its own review by [open-the-review-request](../rules/open-the-review-request.md)'s test, and its review request has been approved, read through vcs or, where no host carries it, confirmed by the user; and its review request is open, with its follow-ups filed. A blocked-and-reported outcome isn't done: what would unblock it becomes the task's next step. (basis: derived from the steps' outcomes)
+**Done when** the change step's outcome is committed (with or without follow-ups) with a verified verdict, or an inconclusive one said plainly — for step 3, develop's *landed*; its *blocked* is a blocked-and-reported outcome; the change has passed its own review by [open-the-review-request](../rules/open-the-review-request.md)'s test, and its review request has been approved, read through vcs or, where no host carries it, confirmed by the user; and its review request is open, with its follow-ups filed. A blocked-and-reported outcome isn't done: what would unblock it becomes the task's next step. (basis: derived from the steps' outcomes)
 
 ## Behavior stays put
 
-Maintaining preserves behavior where developing changes it. A refactor proves its behavior unchanged against its baseline; an upgrade proves the checks green again, with every behavior change announced by the publisher and taken on purpose. A deprecation or a hardening changes behavior only as far as the maintenance asks — the warning, the rejected input — and no further. (basis: maintainer, 2026-09-30)
+Maintaining preserves behavior where developing changes it: each step proves its own kind of preservation, and a deprecation or a hardening changes behavior only as far as the maintenance asks — the warning, the rejected input — and no further. (basis: maintainer, 2026-09-30)
 
 ## After approval
 
-Before step 1, give the task a branch: when the work starts on the integration line, cut one from its head, named for the task's key, and run every step on it; work already on a branch of its own stays there, and on resume, a task whose branch exists checks it out instead of cutting another. Nothing the act changes reaches the integration line except through a review request. (basis: derived from open-the-review-request's no-direct-merge)
+Before step 1, [give the task a branch](../rules/give-the-task-a-branch.md).
 
 ## Steps
 
@@ -26,7 +26,7 @@ Before step 1, give the task a branch: when the work starts on the integration l
 | 6 | [security-review](../../security-review/SKILL.md) `--changed` | the change and its blast radius | the request asks for no security pass |
 | 7 | [review](../../review/SKILL.md) `--changed` | the change, and the change step's rationale | never |
 
-Exactly one of steps 1 to 3 runs, chosen by the kind of change the request names. When step 4's verdict is FAIL, step 5's headline is `defective`, or the change doesn't pass step 7, the change goes back to the change step that ran, with that step's whole result as its input, and the steps after it run again; after the second failed pass, the act stops with its last result as the task's next step. A result that settles nothing — step 4 INCONCLUSIVE, step 5 `blocked`, `indeterminate` or `framing-unestablished` — sends nothing back: its gap becomes the task's next step. (routed to maintainer: two passes before stopping.) When the change step ends blocked-and-reported, the act stops there, with the blocker as the task's next step. Step 6 gates delivery: a finding at or above security-review's high floor stops the act before anything is delivered, until it's fixed and the pass re-run or the maintainer lowers the bar. (basis: maintainer, 2026-07-11)
+Exactly one of steps 1 to 3 runs, chosen by the kind of change the request names. When step 4's verdict is FAIL, step 5's headline is `defective`, or the change doesn't pass step 7, the change goes back to the change step that ran, with that step's whole result as its input, and the steps after it run again; after the second failed pass, the act stops with its last result as the task's next step. A result that settles nothing — step 4 INCONCLUSIVE, step 5 `blocked`, `indeterminate` or `framing-unestablished` — sends nothing back: its gap becomes the task's next step. The steps after it still run, and the review request opens with the gap stated in its description; the task isn't done until the gap is settled. Step 5's `no-observable-surface` settles it like a skip, recorded as that, never as `works`. (routed to maintainer: two passes before stopping, since a second failure on the same change says it needs more than another try.) When the change step ends blocked-and-reported — develop's *blocked* included — the act stops there, with the blocker as the task's next step. Step 6 gates delivery: a finding at or above security-review's high floor stops the act before anything is delivered, until it's fixed and the pass re-run or the maintainer lowers the bar. (basis: maintainer, 2026-07-11)
 
 ## Filed
 

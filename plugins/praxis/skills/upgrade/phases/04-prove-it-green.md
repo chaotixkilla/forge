@@ -10,7 +10,7 @@ Show the intended delta and no unintended one (**judgment**, anchored to the pha
 
 ## Run the project's checks
 
-Run the project's existing checks over the working set, and confirm the broader picture where continuous integration is available — delegate the run/build confirmation to the [ci](../../ci/SKILL.md) skill. Without that capability, run the checks locally as the fallback and note that the confirmation is local-only. Scope the run to the working set and its reverse-dependents, not an arbitrary subset.
+Run the project's existing checks locally over the working set. Continuous integration confirms only a ref that carries the change, and this phase has none — the change isn't pushed — so the verdict is local, and hosted confirmation is left to whoever pushes it, through [ci](../../ci/SKILL.md). `(basis: derived from a hosted check seeing only what is pushed)` Scope the run to the working set and its reverse-dependents, not an arbitrary subset.
 
 Apply the always-on security hygiene here too ([distrust-untyped-input-and-secrets](../../../craft/engineering/distrust-untyped-input-and-secrets.md)): an upgrade is a taint event, so confirm no tainted-data path or exposed secret opened at the boundaries the bump reached.
 
@@ -18,12 +18,12 @@ Apply the always-on security hygiene here too ([distrust-untyped-input-and-secre
 
 This phase resolves to exactly one verdict:
 
-- **verified** — the baseline checks are green again, every behavior change is accounted for, and each fixed break is guarded. Proceeds to [commit-and-hand-off](05-commit-and-hand-off.md).
-- **not-verified** — a check fails, or a behavior change appeared that no changelog accounts for. Loop back to [bump-and-fix](03-bump-and-fix.md) to correct it, or escalate the tier and stop and report if it can't be corrected in scope.
-- **inconclusive** — the checks couldn't run at all (no runnable suite and no way to exercise the call sites), or a delegated capability the verdict depends on was unavailable *with no local substitute*. This is **not** a pass: report it distinctly, and carry it to [commit-and-hand-off](05-commit-and-hand-off.md) as a change that needs the missing confirmation before it's trusted.
+- **verified** — every in-scope check ran and is green again, every behavior change is accounted for and taken on purpose, and each fixed break is guarded. Proceeds to [commit-and-hand-off](05-commit-and-hand-off.md).
+- **not-verified** — a check fails; a behavior change appeared that no changelog accounts for; an announced change the call sites took by accident; or a fixed break has no guard. Loop back to [bump-and-fix](03-bump-and-fix.md) to correct it, or escalate the tier and stop and report if it can't be corrected in scope.
+- **inconclusive** — some or all in-scope checks couldn't run (no runnable suite, no way to exercise a call site, a check needing an unavailable service), with nothing failing among those that ran. Every run lands in one, checked in order: anything failing, unaccounted or unguarded → not-verified; else any in-scope check that couldn't run → inconclusive; else verified. A known defect outranks a missing confirmation. `(basis: derived)` This is **not** a pass: report it distinctly, and carry it to [commit-and-hand-off](05-commit-and-hand-off.md) as a change that needs the missing confirmation before it's trusted.
 
 ## Degraded and edge cases
 
-- **CI unavailable** → run locally; the verdict notes local-only confirmation (a *verified* with a stated caveat, when the local run is genuine and complete).
+- **CI unavailable** → no change: the verdict is local either way.
 - **No changelog for part of the span** → the green checks carry the discharge alone; say which span had none, and grade the delta on [change-risk-scale](../../../craft/engineering/change-risk-scale.md) accordingly.
 - **Checks fail** → *not-verified*; back to phase 03.

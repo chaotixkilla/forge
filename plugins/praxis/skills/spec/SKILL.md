@@ -1,16 +1,16 @@
 ---
 name: spec
-description: Turn a fuzzy request into hard, testable, sequenced requirements — attack assumptions, quantify every vague adjective, structure the requirements, and carve scope into prioritized, independently shippable slices, each requirement pass/fail checkable; optionally seeded from a tracker issue or a discussion thread, hardened under a strict gate, and published as a clean team-facing spec.
+description: Turn a fuzzy request into hard, testable, sequenced requirements — attack assumptions, quantify every vague adjective, structure the requirements, and carve scope into prioritized, independently shippable slices, each requirement pass/fail checkable; optionally seeded from a tracker issue or a discussion thread, and hardened under a strict gate.
 metadata:
   flags:
     --from-issue=<ref>: seed the spec from a tracker issue (title, description, acceptance criteria), then interrogate and harden it — activates the ingest-from-issue module
     --from-discussion=<ref>: seed from a discussion thread's decisions, constraints, and open points — activates the ingest-from-discussion module
-    --strict: escalate the always-on testability check from warn to hard block — no requirement ships non-verifiable, no ambiguity unresolved, no assumption unconfirmed — activates the strict-gate module
+    --strict: escalate the always-on testability check from warn to hard block — no requirement ships non-verifiable, no ambiguity unresolved, no assumption unconfirmed, no open question unanswered — activates the strict-gate module
     --first-pass: return the structural skeleton after structuring and pause for steering, gaps marked open — activates the first-pass-draft module
 ---
 Usage & examples — when to reach for this skill, and concrete flag invocations: see [usage.md](usage.md).
 
-Each numbered step's full procedure lives in the linked phase file — read it, then carry out the step. The phases cite the rules/ craft where it applies. spec owns no backend of its own: it delegates evidence-gathering to the `gather` skill and every flag-borne capability (issue/discussion ingest, publish) to a port skill, so it declares no `config_requires`.
+Each numbered step's full procedure lives in the linked phase file — read it, then carry out the step. The phases cite the rules/ craft where it applies. spec owns no backend of its own: it delegates evidence-gathering to the `gather` skill and every flag-borne capability (issue and discussion ingest) to a port skill, so it declares no `config_requires`.
 
 `--strict` raises the testability bar across the whole run from warn to block: see [modules/strict-gate.md](modules/strict-gate.md). `--first-pass` stops after structuring and returns a steer-me skeleton: see [modules/first-pass-draft.md](modules/first-pass-draft.md).
 

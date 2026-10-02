@@ -6,6 +6,6 @@ Activated by `--deep`, referenced from the SKILL.md body (it widens the whole ru
 
 1. **Target certainty rung** — raise the target to *observed*: run the load-bearing paths to witness them, where [read-only-boundary](read-only-boundary.md) allows. The default runs only to settle a claim reading cannot; `--deep` runs the load-bearing paths even when reading already settled them ([03-trace-the-behavior](../phases/03-trace-the-behavior.md), [certainty-scale](../rules/certainty-scale.md)).
 2. **Blast radius** — follow the secondary paths and edge cases the default notes-but-skips: the paths a claim doesn't directly turn on but could under an input the question didn't name, the boundary inputs, the error branches. Widen from "the paths the answer turns on" to "the paths that could change the answer."
-3. **Corroboration** — delegate to gather in its own deep mode (`gather --deep`: wider lane set, more lead-chasing rounds) so the history and ground-truth checks in [corroborate-against-reality](../phases/04-corroborate-against-reality.md) are canvassed rather than sampled.
+3. **Corroboration** — delegate to [gather](../../gather/SKILL.md) in its own deep mode (`gather --deep`: wider lane set, more lead-chasing rounds) so the history and ground-truth checks in [corroborate-against-reality](../phases/04-corroborate-against-reality.md) are canvassed rather than sampled.
 
 `--deep` changes how hard understand digs, never what a claim or the map *means*.

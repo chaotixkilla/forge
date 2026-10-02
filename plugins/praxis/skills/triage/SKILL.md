@@ -4,7 +4,7 @@ description: Decide whether a production signal is a real incident and how bad i
 metadata:
   flags:
     --from-incident=<ref>: seed triage from an existing incident record — its reported symptom, severity, timeline and prior actions — read via the project-management or communication capability (activates from-incident)
-    --from-telemetry=<ref>: seed triage from a telemetry signal (an alert, dashboard, metric or trace) as the entry point, anchoring on the firing signal and its context (activates from-telemetry)
+    --from-telemetry=<ref>: the telemetry signal to anchor on (an alert, dashboard, metric or trace) — an input to confirm-the-signal, not a module
 ---
 Usage & examples — when to reach for this skill, and concrete flag invocations: see [usage.md](usage.md).
 

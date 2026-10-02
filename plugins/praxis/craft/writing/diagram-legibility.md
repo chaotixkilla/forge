@@ -8,7 +8,7 @@ Emit diagrams as **mermaid in a fenced block**: praxis declares no drawing backe
 
 Where the destination cannot render it, do not silently flatten: leave a visible placeholder that names the content and points to its source form, so the reader knows a diagram exists and where to see it.
 
-`(basis: house practice; mermaid for the widest render support among text notations; no drawing backend assumed)`
+`(basis: house practice; mermaid for the widest render support among text notations; no drawing backend assumed; maintainer, 2026-10-01: mermaid accepted on record as the pinned house notation)`
 
 ## Size: one level of abstraction per picture
 

@@ -3,14 +3,14 @@ name: prototype
 description: Reduce uncertainty about a risky assumption or unproven approach by building the smallest throwaway thing that answers one framed question empirically — scout prior art, run the cheapest probe (or race candidate approaches), read the observed result against the question as answered/refuted/still-open, then extract the learnings and discard the code. The de-risking spike to run before committing a design; distinct from understand (reads existing code, builds nothing) and plan/spec (produce durable design, not throwaway experiments).
 metadata:
   flags:
-    --sandbox: run the spike in an isolated throwaway environment (a scratch workspace, or version-controlled isolation delegated to the vcs capability) so it can't touch real state and is trivial to discard wholesale — activates the sandbox-isolation module
+    --sandbox: run the spike in an isolated throwaway environment (a scratch workspace, or a discardable local branch) so it can't touch real state and is trivial to discard wholesale — activates the sandbox-isolation module
     --max-agents=<n>: race up to n candidate approaches to the same question in parallel, then compare them on a common basis and select — activates the parallel-fan-out module
     --prior-art=REF: seed the spike from a named reference (repo, paper, example) — reproduce it to a working baseline, then diverge toward the framed question — activates the anchor-to-prior-art module
     --timebox=<duration>: bound the spike to a fixed effort budget; when it expires, stop and report the best answer reached so far rather than chasing completeness — activates the timeboxed-spike module
 ---
 Usage & examples — when to reach for this skill, and concrete flag invocations: see [usage.md](usage.md).
 
-prototype owns no backend of its own: it is config-less. It resolves `--sandbox` locally (a scratch throwaway environment), and delegates version-controlled isolation to `vcs`, which owns its own prerequisite. So it declares no `config_requires`. It is a leaf: by default it returns the findings to its caller and invokes no downstream skill.
+prototype owns no backend of its own: it is config-less. It resolves `--sandbox` locally — a scratch throwaway environment, or a discardable local branch — so it declares no `config_requires`. It is a leaf: it returns the findings to its caller and invokes no downstream skill.
 
 `--max-agents=<n>` reshapes the middle of the run — pick, build, and compare N candidate approaches instead of one: see [modules/parallel-fan-out.md](modules/parallel-fan-out.md). `--timebox=<duration>` bounds the whole spike effort and gates whether evaluate loops back: see [modules/timeboxed-spike.md](modules/timeboxed-spike.md).
 

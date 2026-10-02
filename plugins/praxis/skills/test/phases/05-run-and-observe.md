@@ -10,7 +10,7 @@ Apply [prove-the-test-can-fail](../../../craft/engineering/prove-the-test-can-fa
 
 ## Classify every red result
 
-Apply [failure-classification](../rules/failure-classification.md): sort each red into **genuine failure / flake / environment noise** by the discriminators (phase, then scope, then determinism), and apply the critical guard — never let a single green rerun auto-resolve a red to "flake." Only a genuine failure feeds a FAIL verdict — and, per [report-the-verdict](06-report-the-verdict.md), only when it is **in-claim** by that phase's scope test (an out-of-claim genuine failure is a real finding surfaced separately, not this change's FAIL). Flakes and environment noise are reported as themselves, and a flake is a defect to root-cause, not noise to retry past ([control-nondeterminism](../../../craft/engineering/control-nondeterminism.md)).
+Apply [failure-classification](../rules/failure-classification.md): sort each red into **environment noise / flake / genuine failure / test defect** by the discriminators (phase, then scope, then determinism, then the contract), and apply the critical guard — never let a single green rerun auto-resolve a red to "flake." Only a genuine failure feeds a FAIL verdict — and, per [report-the-verdict](06-report-the-verdict.md), only when it is **in-claim** by that phase's scope test (an out-of-claim genuine failure is a real finding surfaced separately, not this change's FAIL). Flakes and environment noise are reported as themselves, and a flake is a defect to root-cause, not noise to retry past ([control-nondeterminism](../../../craft/engineering/control-nondeterminism.md)).
 
 ## Under `--until`
 

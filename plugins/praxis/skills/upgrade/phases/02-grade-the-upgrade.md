@@ -10,7 +10,7 @@ Trace outward from the dependency (**judgment** — depth follows the reach you 
 
 ## Pull prior gotchas
 
-Has this dependency been bumped before, and what bit last time? Read the change history and prior reverts around its manifest entry directly (an ambient version-control-history read), and any linked discussion via the [project-mgmt](../../project-mgmt/SKILL.md) skill. When a call site's purpose isn't self-evident, recover it before adapting it ([decode-intent-from-history](../../../craft/engineering/decode-intent-from-history.md)).
+Has this dependency been bumped before, and what bit last time? Read the change history and prior reverts around its manifest entry directly (an ambient version-control-history read), and any linked discussion through the port that holds it: a tracked item through [project-mgmt](../../project-mgmt/SKILL.md)'s *fetch a work-item*, a review request through [vcs](../../vcs/SKILL.md)'s *read a review request*, a chat thread through [communication](../../communication/SKILL.md)'s *read a thread*. When a call site's purpose isn't self-evident, recover it before adapting it ([decode-intent-from-history](../../../craft/engineering/decode-intent-from-history.md)).
 
 ## Stress the map with future-self
 

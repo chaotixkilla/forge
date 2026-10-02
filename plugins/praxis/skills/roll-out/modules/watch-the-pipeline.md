@@ -6,7 +6,7 @@ Base behavior: roll-out promotes and returns the *immediate* result — the prom
 
 ## The delta — stay attached until it settles
 
-- **Await the deploy run.** Instead of returning when the pipeline is *triggered*, block on the [ci](../../ci/SKILL.md) capability's *await a run* operation until the run reaches a terminal verdict within its timeout. A timeout with the run still in flight is reported as *not-yet-settled* (retryable), never silently treated as a pass.
+- **Await the deploy run.** Instead of returning when the pipeline is *triggered*, block on the [ci](../../ci/SKILL.md) capability's *await a run* operation until the run reaches a terminal verdict within the deploy run's own configured timeout — 30 minutes where none is configured (routed to maintainer: 30 minutes as the default, since it covers a typical build-and-deploy and still bounds a hung run). A timeout with the run still in flight comes back **unsettled**, never silently treated as a pass.
 - **Watch the post-ship signals.** After the rollout, read the post-ship signals through the [telemetry](../../telemetry/SKILL.md) capability across the watch window and apply the health verdict pinned in [confirm-healthy](../phases/03-confirm-healthy.md) — don't return "rolled out, healthy" the instant the promotion is accepted; a rollout can be accepted and then degrade.
 - **Return the settled verdict.** Return the outcome — the deploy run's pass/fail and the post-ship health verdict (healthy / needs-rollback / indeterminate) — as the run's result, so the caller acts on what settled, not on what was merely started.
 

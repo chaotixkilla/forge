@@ -3,14 +3,14 @@ name: debug
 description: Find the true root cause of a defect that has already bitten — reproduce it, localize the fault, form and test falsifiable hypotheses, confirm the mechanism rather than a coincidental trigger or downstream symptom, and recommend the fix at the cause with the regression test that would guard it. Reach for it when a specific failure needs root-causing; distinct from review (hunts latent defects in a change), test (confirms intended behavior), and verify (drives the running app to observe it).
 metadata:
   flags:
-    --from-incident=<ref>: seed the investigation from an incident/postmortem record — its symptoms, timeline, affected scope, and responder notes — read via the project-management or communication capability
+    --from-incident=<ref>: seed the investigation from an incident/postmortem record — its symptoms, timeline, affected scope, and responder notes — read via the project-management or communication capability, or a postmortem document via the knowledge capability
     --from-telemetry=<ref>: seed from a telemetry signal (error-aggregate, trace, metric, dashboard) — anchor on the regression's onset and correlated signals, and turn the spike into a reproduction target
     --from-logs=<path|ref>: treat a log file (a local path) or a hosted log stream (a store reference) as the primary evidence to reconstruct the failure from
     --sandbox: run reproduction and experiments in an isolated throwaway environment (branch/worktree/container) so probes, instrumentation, and risky toggles never touch the working tree or shared state
 ---
 Usage & examples — when to reach for this skill, and concrete flag invocations: see [usage.md](usage.md).
 
-debug owns no backend of its own: it delegates telemetry reads to the `telemetry` port, incident reads to the `project-mgmt` / `communication` ports, and recruits explorers directly for its bounded evidence sweep — so it declares no `config_requires`.
+debug owns no backend of its own: it delegates telemetry reads to the `telemetry` port, incident reads to the `project-mgmt` / `communication` ports, postmortem documents to the `knowledge` port, and recruits explorers directly for its bounded evidence sweep — so it declares no `config_requires`.
 
 `--sandbox` routes all reproduction and experiments into an isolated throwaway environment so no probe touches the working tree or shared state: see [modules/sandbox-isolation.md](modules/sandbox-isolation.md).
 

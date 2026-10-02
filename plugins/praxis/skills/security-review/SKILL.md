@@ -7,13 +7,13 @@ metadata:
     --threat-model=<framework>: bias the hunt toward a named threat-modeling framework or adversary, weighting which threats to prioritize
     --standard=<framework>: map the findings onto a named standard/compliance framework's control taxonomy and report coverage against it (activates standard-mapping)
     --severity-min=<level>: drop findings below this severity from the report before delivery
-    --exhaustive: trade speed for completeness — enumerate every entry point and every threat class rather than the high-likelihood subset (asks before starting)
+    --exhaustive: trade speed for completeness — every entry point and every threat class rather than the high-likelihood subset, asking before starting (activates exhaustive)
     --sarif=<path>: emit findings as a machine-readable findings document at the path, in addition to the human report (activates sarif-output)
-    --gate: reduce the run to a pass/fail verdict for CI — fail when a finding meets the configured severity bar (activates gate-decision)
+    --gate: reduce the run to a verdict for CI — fail when a confirmed or probable finding meets the severity floor, pass when none does, inconclusive when the audit didn't complete (activates gate-decision)
 ---
 Usage & examples — when to reach for this skill, and concrete flag invocations: see [usage.md](usage.md).
 
-security-review owns no backend of its own. It reads the subject — and, under `--changed`, the local working-tree diff and its base — **ambiently**, needing no configured backend, exactly as review reads a local diff. (A change *hosted* on a version-control host would be a vcs-capability delegation to the `vcs` skill, which owns `tools.vcs` under doer-owns-prerequisites — but this skill takes no hosted-change flag.) Emitting a findings document (`--sarif`) is a local file write and the gate verdict (`--gate`) is a local exit status. So it declares **no `config_requires`**.
+security-review owns no backend of its own. It reads the subject — and, under `--changed`, the local working-tree diff and its base — **ambiently**, needing no configured backend, exactly as review reads a local diff. (A change *hosted* on a version-control host would be a vcs-capability delegation to the `vcs` skill, which owns `tools.vcs` under doer-owns-prerequisites — but this skill takes no hosted-change flag.) Emitting a findings document (`--sarif`) is a local file write and the gate verdict (`--gate`) is a locally returned status. So it declares **no `config_requires`**.
 
 Each numbered step's full procedure lives in the linked phase file — read it, then carry out the step. The phases cite the rules/ craft where it applies.
 

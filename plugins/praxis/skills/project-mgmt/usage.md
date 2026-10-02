@@ -8,7 +8,7 @@ A tool-layer interface skill: the single place the work-tracking backend is reac
 
 ## Not for / use instead
 - Publishing a spec, plan, or report as a team-facing document → **artifacts** (that is the artifacts port); a tracker item is a unit of work, not a published document.
-- Fetching or posting on a pull request, or setting a merge-gating status → **vcs** (the code-host port); `project_mgmt` fronts the dedicated work-tracking backend. An item that lives as an issue *inside* the version-control host rather than a dedicated tracker isn't reached by either port today: the `vcs` port has no issue operation.
+- Fetching or posting on a review request, or setting a merge-gating status → **vcs** (the code-host port); `project_mgmt` fronts the dedicated work-tracking backend. An item that lives as an issue *inside* the version-control host rather than a dedicated tracker isn't reached by either port today: the `vcs` port has no issue operation.
 - Deciding *what* the work-items should be, how to slice or sequence them → the calling skill's judgment (e.g. **decompose** derives the units and their dependencies, **spec** interrogates a fetched item); this skill only reads or records the items it is handed.
 
 ## Operations (extended as consumers need them)

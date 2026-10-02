@@ -4,20 +4,15 @@ Two of this skill's decisions are silently open unless pinned, and both change *
 
 ## Classifying `--to`
 
-`--to` can name a backend, a path, or a page id, so it is classified before it is applied — in one deterministic order:
-
-1. **If `--to` exactly matches a configured backend name**, it selects that backend; the destination *within* that backend stays the config default (or is set by `--dest-dir`, below).
-2. **Otherwise `--to` names a target within the resolved backend** — a path, page id, or other locator that the **adapter** interprets. The path-vs-id distinction is backend-specific and owned by the adapter, not decided here.
-
-This keeps the skill-level test binary and reproducible ("names a configured backend, or not").
+`--to` names a target within the resolved space — the home, or the audience space `--space` selected ([SKILL.md](../SKILL.md) step 1): a path, page id, or other locator that the **adapter** interprets. The path-vs-id distinction is backend-specific and owned by the adapter, not decided here. Which space is chosen by `--space` alone, never by `--to`'s string, so a location in an audience space can be updated in place (`--space=<name> --to=<its id> --idempotent`). `(basis: maintainer, 2026-10-01)`
 
 ## Override precedence — where the artifact goes
 
 Resolve the destination by this order; the first that applies wins:
 
-1. **`--to` / `--dest-dir` explicit override**, classified as above, overrides the config default for this run.
-2. **The configured destination** — the `tools.artifacts` entry the artifact's type-key names, falling back to `destinations.default` when that entry is empty or the type names no key ([SKILL.md](../SKILL.md) step 1 owns the type→key lookup) — when no override is given.
-3. **Neither resolves → ask, then degrade; never invent.** When no key entry and no `default` resolve and no override is given, ask the user where to publish (SKILL.md step 1); if that can't be answered, report `unavailable` (the destination is unconfigured — or `target-not-found` if the user's answer named a target that then proves absent) ([failure-taxonomy](failure-taxonomy.md)) and let the caller degrade — never invent or guess a destination, and never before any write.
+1. **`--to` / `--dest-dir` explicit override** overrides the space's configured destination for this run.
+2. **The configured destination** — the resolved space's `destination` — when no override is given.
+3. **Neither resolves → ask, then degrade; never invent.** When that `destination` is empty and no override is given, ask the user where to publish (SKILL.md step 1); if that can't be answered, report `unavailable` (the destination is unconfigured — or `target-not-found` if the user's answer named a target that then proves absent) ([failure-taxonomy](failure-taxonomy.md)) and let the caller degrade — never invent or guess a destination, and never before any write.
 
 The `--dest-dir` tie-break keys off the **resolved backend's kind**, not off parsing `--to`'s string:
 
@@ -30,7 +25,7 @@ The `--dest-dir` tie-break keys off the **resolved backend's kind**, not off par
 
 Under `--idempotent`, resolve the identity of the already-published artifact by this order; the first reliable match wins:
 
-1. **An explicit `--to` that the adapter resolves to a concrete existing location** (an id or path that already exists) **is** the identity — update exactly that. (If `--to` only selected a backend, not a concrete location, fall through.)
+1. **An explicit `--to` that the adapter resolves to a concrete existing location** (an id or path that already exists) **is** the identity — update exactly that. (If `--to` names no existing location, fall through.)
 2. **The adapter's durable recorded key** — a written-back / manifest id where the backend supplies durable ids that survive renames; for a file-backed destination the resolved path itself is the durable id.
 3. **A normalized destination path/slug** derived from the artifact's title + type + destination — the stateless fallback where no durable recorded id exists. The **normalization is backend-specific and each adapter declares it**, so two cold runs derive the same key.
 4. **None resolves reliably** (an ambiguous slug matching several, or a required recorded id that is missing) → **fail `conflict`** ([failure-taxonomy](failure-taxonomy.md)). Do **not** mint a duplicate; hand the caller the ambiguity to resolve.

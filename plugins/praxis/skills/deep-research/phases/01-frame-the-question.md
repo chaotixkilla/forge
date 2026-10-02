@@ -8,7 +8,7 @@ Separate the sub-questions from the *assumptions* smuggled into the ask ([separa
 
 ## Draw the open-vs-known line
 
-For each sub-question, decide whether it genuinely needs the open web or is already answerable from the session context or the repository. deep-research is for what in-context and repository knowledge can't settle; a sub-question the context already answers is recorded with that answer and its source, not re-researched. If *nothing* is genuinely open — the whole question is answerable from what you already hold — say so and stop, rather than manufacturing a web run to look thorough.
+For each sub-question, decide whether it genuinely needs the open web or is already answerable from the session context or the repository. deep-research is for what in-context and repository knowledge can't settle; a sub-question the context already answers — from a source that settles it, not one making a claim about itself, such as a project's own README on its performance — is recorded with that answer and its source, not re-researched. `(basis: derived from deep-research's charter: what context can't settle)` If *nothing* is genuinely open — the whole question is answerable from what you already hold — say so and stop, rather than manufacturing a web run to look thorough.
 
 ## Set scope and depth
 

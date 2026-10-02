@@ -1,0 +1,9 @@
+# The attack-class taxonomy
+
+Findings are named against a taxonomy so they are legible and comparable, and the taxonomy the sweep organizes by (and that `--standard` maps onto) has a sourced default and a routed fork. As with the threat-modeling framework in [modeling-the-threats](../phases/02-modeling-the-threats.md), the authorities frame these as **complementary layers of different granularity, not rivals** — a finding pins to a specific CWE weakness, which rolls up into a broad OWASP Top 10 category; ASVS is a different axis (requirements to verify, not a label for a discovered bug). Route by **surrounding convention → house default → maintainer**, non-gating:
+
+- **OWASP Top 10** *(the house default when `--standard` is unset and the project has no taxonomy convention; its current edition)* — ~10 broad, widely-recognized application-risk categories. *Strength:* the recognized baseline; communicates a finding's class to any developer at a glance. *Cost:* coarse — a category, not a precise root cause.
+- **CWE** — the exhaustive weakness dictionary (hundreds of specific types). *Strength:* precise root-cause identification and cross-tool correlation; a finding pins to a CWE ID. *Cost:* granular and large; overkill for coarse communication. Reach for it when a finding needs a precise, correlatable identifier.
+- **ASVS** — a verification-requirements standard with assurance levels (L1/L2/L3). *Strength:* a testable pass/fail security bar. *Cost:* a *different axis* — a requirements checklist to verify against, not a label for a discovered vulnerability. Reach for it, via `--standard`, when the audit's job is to verify coverage against a defined bar rather than enumerate findings.
+
+`(basis: maintainer, 2026-07-10; after OWASP's framing of the Top 10 as its standard awareness document)`

@@ -12,6 +12,6 @@ The base spec starts from the prompt in front of it — a sentence, a paragraph,
 
 ## Prerequisite and degrade
 
-`--from-issue` is a reason spec reaches the project_mgmt capability at all; the base path touches no backend. Following doer-owns-prerequisites, spec **declares no project_mgmt prerequisite** — the capability is owned by its port skill, exactly as review's `--pr` hands `tools.vcs` to the `vcs` port.
+`--from-issue` is a reason spec reaches the project_mgmt capability at all; the base path touches no backend. Following doer-owns-prerequisites, spec **declares no project_mgmt prerequisite** — the capability is owned by its port skill, exactly as review's `--change` hands `tools.vcs` to the `vcs` port.
 
 Fetch the item through the [project-mgmt](../../project-mgmt/SKILL.md) port's *fetch a work-item* operation, which serves whichever tracker the project configured. (basis: maintainer, 2026-07-04) When the port reports any failure (the backend unavailable, the item not found, a retryable error), or the item is an issue inside the version-control host, which neither port fetches today, degrade cleanly: report that the item could not be fetched and fall back to interrogating whatever request content the caller can provide inline — do **not** silently spec a blank page as though no `<ref>` was given, which would answer a different ask than the caller made.

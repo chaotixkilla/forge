@@ -6,13 +6,13 @@ metadata:
     --scope=<pattern>: constrain every read, edit and check to paths matching the glob, and surface needed changes outside it as follow-ups rather than making them silently
     --module=<name>: resolve a named subsystem to its boundary — paths, entrypoints, owners — and work within it, returning its owners with the change
     --changed: derive the working set from the current version-control changes, targeting the change and its verification at exactly what moved
-    --checkpoint-commit: commit at safe, self-contained milestones so progress is recoverable and the change reads as a reviewable sequence
+    --checkpoint-commit: commit locally after each catalogue move that leaves the checks green — activates the checkpoint-commit module
     --require-clean: refuse to start unless the working tree is clean, keeping the diff attributable and unmixed with pre-existing work (activates require-clean)
     --dry-run: plan the change and report it — the located target, its baseline, its risk tier, the blast radius and the intended edit — without mutating the working tree
 ---
 Usage & examples — when to reach for this skill, and concrete flag invocations: see [usage.md](usage.md).
 
-refactor owns no backend of its own. Reading the local working tree — its status, the diff and version-control history — and committing locally are ambient; the hosted pipeline goes through the [ci](../ci/SKILL.md) skill, the doer that owns its prerequisite.
+refactor owns no backend of its own. Reading the local working tree — its status, the diff and version-control history — and committing locally are ambient. The hosted pipeline is confirmed by whoever pushes the change.
 
 Each numbered step's full procedure lives in the linked phase file — read it, then carry out the step. The phases cite the craft where it applies.
 

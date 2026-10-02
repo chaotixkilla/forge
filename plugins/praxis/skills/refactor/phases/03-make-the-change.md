@@ -27,7 +27,7 @@ Stress the edit before verifying it: recruit the [adversary](../../../agents/cri
 
 ## `--checkpoint-commit`
 
-If `--checkpoint-commit` is set, commit at safe, self-contained milestones as the change is built — a **local commit** (ambient plain git, no configured backend), honoring the project's message convention — so progress is recoverable and the change reads as a reviewable sequence. This selects a finer commit *cadence*; the final attributable commit is still written in [commit-and-hand-off](05-commit-and-hand-off.md). Never push unless asked.
+With `--checkpoint-commit`, commit locally after each green move: see [modules/checkpoint-commit.md](../modules/checkpoint-commit.md).
 
 ## `--dry-run`
 

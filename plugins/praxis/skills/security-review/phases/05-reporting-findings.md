@@ -5,7 +5,7 @@ Get the ranked list to where the owner will act on it, in a shape they can read 
 Render the findings in a fixed shape, so two runs are comparable and the owner knows where to look:
 
 - **A scope line** — what was audited: the surface (`--changed` window or the whole subject), the breadth (default subset or `--exhaustive`), the threat-modeling framework and adversary scope, and anything deliberately excluded. This makes the audit's coverage — and its silence — legible.
-- **A verdict line** — the outcome at a glance: a count by severity (e.g. "1 critical, 2 high, 1 low") leading with the highest present, or plainly **"no reachable abuse found under the threat lens"** when the ranked list is empty.
+- **A verdict line** — the outcome at a glance: a count by severity (e.g. "1 critical, 2 high, 1 low") leading with the highest present. When the list is empty, the line says which empty it is: plainly **"no reachable abuse found under the threat lens"** only when nothing cleared the floor; when `--severity-min` withheld every graded finding, **"none at or above <level>; <n> withheld below it, highest <severity>"** — never the clean line.
 - **The findings, ranked**, each as a fixed record — location and path and remediation are mandatory ([confirm-reachability-before-flagging](../rules/confirm-reachability-before-flagging.md), [exploit-then-impact](../rules/exploit-then-impact.md)):
 
   ```
@@ -30,16 +30,10 @@ Put the finished report through [deliver-at-the-readers-register](../../../craft
 The sinks are independent and composable; the report above is always the record, and a flag adds delivery on top of it:
 
 - **`--sarif=<path>`** writes the findings as a machine-readable document at the path, in addition to the report — see [sarif-output](../modules/sarif-output.md). A local file write, no backend.
-- **`--gate`** reduces the run to a pass/fail verdict with an exit status — see [gate-decision](../modules/gate-decision.md). A local exit, no backend.
+- **`--gate`** reduces the run to a returned verdict — pass, fail, or inconclusive — see [gate-decision](../modules/gate-decision.md). A local return, no backend.
 
 They compose without redefining anything: `--sarif` with `--gate` writes the document *and* sets the verdict, both reading the same floored, ranked list this phase produced; neither re-grades. State every sink that fired in the returned record — the report, and for `--sarif`/`--gate` the path written and the verdict set — so the run's outcome is auditable.
 
-## The terminal outcome, when `--gate` is set
+## When `--gate` is set
 
-`--gate` resolves the run to one of **three** outcomes, not two — proven exhaustive and mutually exclusive so no run falls between them:
-
-- **pass** — the audit completed and no finding meets the gate floor.
-- **fail** — the audit completed and at least one finding meets or exceeds the gate floor.
-- **inconclusive** — the audit could **not** complete the surface it was asked to: the subject could not be resolved, because it doesn't exist or can't be read. `--changed` with no derivable base isn't this case: it audits the whole subject instead ([scoping-the-surface](01-scoping-the-surface.md)). An inconclusive run must **not** be reported as pass — a gate that silently passes an audit it never ran is worse than no gate. Signal it distinctly (a non-pass, non-fail status) so the pipeline treats "we didn't check" differently from "we checked and it's clean."
-
-The gate floor and its default are pinned in [gate-decision](../modules/gate-decision.md). Whichever outcome, the human report is still produced as the record.
+The run resolves to pass, fail or inconclusive by [gate-decision](../modules/gate-decision.md); whichever outcome, the human report is still produced as the record.

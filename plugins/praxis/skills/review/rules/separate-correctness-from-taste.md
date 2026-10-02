@@ -13,7 +13,7 @@ The test is one question: **can I name an input where the code is *wrong*?**
 
 If you cannot name the wrong input but strongly suspect one exists, that is not a craft finding — it is a *speculative* correctness finding ([calibrate-confidence-to-rigor](calibrate-confidence-to-rigor.md)); keep it in the correctness pile at low confidence rather than demoting it to taste.
 
-(basis: the review role's own framing, as the harness's code-review skill also splits it)
+(basis: the review role's own framing)
 
 ## Why the passes are separate, not just the labels
 

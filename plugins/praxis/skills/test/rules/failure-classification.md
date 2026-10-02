@@ -2,9 +2,9 @@
 
 [run-and-observe](../phases/05-run-and-observe.md) produces red results, and a red is not a verdict until it is classified — because a flake reported as a genuine failure sends someone chasing a bug that isn't there, and a genuine failure dismissed as a flake ships the bug.
 
-**One term, pinned once, because it is load-bearing for two of the three classes:** *the unchanged revision* means **the current revision under test, held unmodified across reruns** — you re-run the very code you are verifying, changing nothing, to see whether the result is stable. It does **not** mean the pre-change baseline; whether a red reproduces on the *pre-change* code is a different question (it separates a change-caused break from a pre-existing one, used below and in [prove-the-test-can-fail](../../../craft/engineering/prove-the-test-can-fail.md)), not the determinism test.
+**One term, pinned once, because it is load-bearing for the classes below:** *the unchanged revision* means **the current revision under test, held unmodified across reruns** — you re-run the very code you are verifying, changing nothing, to see whether the result is stable. It does **not** mean the pre-change baseline; whether a red reproduces on the *pre-change* code is a different question (it separates a change-caused break from a pre-existing one, used below and in [prove-the-test-can-fail](../../../craft/engineering/prove-the-test-can-fail.md)), not the determinism test.
 
-The three classes, in test order:
+The four classes, in test order — the last two are both deterministic reds, split by the contract test in 4:
 
 ## 1. environment noise — the run's setup failed, not the code
 
@@ -29,6 +29,12 @@ Re-run the *same* test on the *unchanged* revision and config: it produces both 
 Reproduces *deterministically* on the unchanged revision: fails every run, same assertion, stack pointing at production code. This is the only class that can set the verdict to **FAIL** — but classification only establishes that a red is *genuine*; whether it sets FAIL is decided in [report-the-verdict](../phases/06-report-the-verdict.md), which fires FAIL only for an **in-claim** genuine failure (its scope test — which uses the pre-change test below) and surfaces an out-of-claim genuine failure separately.
 
 - *Anchor:* an assertion failure that fires on every run with the same expected-vs-actual — genuine.
+
+## 4. test defect — the test's own expectation is wrong
+
+A deterministic red where the production code behaves to its contract and the authored test expects something else. It is not genuine: it is fixed in the test before the verdict, and never sets FAIL.
+
+- **genuine vs test defect** — *does the code's contract condemn the result, or the test's expectation?* Read the contract the claim rests on — the spec, the documented interface, the callers' use. A red the contract explains is a test defect; a red it condemns is genuine, whether the change broke the code or it was already broken (a pre-existing bug reproduces on the pre-change revision and is still genuine, surfaced out-of-claim by [report-the-verdict](../phases/06-report-the-verdict.md)). When no contract settles it, it is genuine, with the doubt named — a test rewritten to green without grounds hides the bug it found. `(basis: derived from genuine meaning the production code is wrong)`
 
 ## The confusable-pair discriminators
 

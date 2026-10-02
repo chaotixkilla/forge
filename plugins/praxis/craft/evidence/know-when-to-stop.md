@@ -19,4 +19,4 @@ The split is the independent-origin count: two or more independent origins is sa
 
 A budget or round cap can force a stop before saturation. When it does, say so — `stopped at budget, not saturation; <lane> still open` — so the caller knows the picture is bounded, not complete.
 
-(basis: anvil's plugin-explorer stop signal)
+(basis: the explorer fan-out saturation stop signal)

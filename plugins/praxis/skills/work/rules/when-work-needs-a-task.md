@@ -4,9 +4,9 @@ A task is the unit praxis records: it gets documentation, a memory entry and a l
 
 The test is one question: **will anyone — another person, or you in a later session — need to audit, continue or build on this?** If yes, it's a task; if no, answer directly. (basis: maintainer, 2026-09-30.)
 
-- **Task:** reviewing a teammate's pull request; a change that will be merged; a decision someone will later ask about.
+- **Task:** reviewing a teammate's change; a change that will be merged; a decision someone will later ask about.
 - **Not a task:** "what does this function return?"; "which flag turns on X?"; an answer used once and discarded.
 
-When a request is borderline, it's a task if it produces something that lands — a change, a posted review, a decision — and not a task if it only produces an answer.
+When a request is borderline, it's a task if it produces something that lands — a change, a posted review, a decision — and not a task if it only produces an answer. A request whose outcome is a write-up or message for someone else to read never reaches this test: [route-the-work](../phases/01-route-the-work.md) sends it to communicate first. (basis: maintainer, 2026-10-01)
 
 Cited by [route-the-work](../phases/01-route-the-work.md).

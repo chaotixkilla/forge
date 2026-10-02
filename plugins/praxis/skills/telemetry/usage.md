@@ -13,7 +13,7 @@ A tool-layer interface skill: the single place the observability backend is reac
 - Deciding *what the signal means* or *what to do about it* → that is the calling skill's judgment (e.g. **debug** turns a spike into a reproduction target); this skill only carries out the read it is handed.
 
 ## Operations (extended as consumers need them)
-Today it serves the reads `debug` requires; new consumers add their reads to the same interface and adapter rather than forking a new one:
+Today it serves the reads `debug`, `triage`, `mitigate` and `roll-out` require; new consumers add their reads to the same interface and adapter rather than forking a new one:
 `read a signal` — a metric, trace, error-aggregate, or dashboard by reference: its onset/first-seen, frequency or rate, affected scope, correlated signals, and sample traces/exemplars.
 `read a log stream` — a hosted log source by reference within a time or correlation window: its entries in order, plus the error signatures and correlation IDs within them.
 

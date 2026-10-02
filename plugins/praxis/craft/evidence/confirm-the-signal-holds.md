@@ -6,12 +6,12 @@ A change to a running service — a mitigation, a rollout — isn't confirmed wh
 
 The signal is at **baseline** when the user-facing measure — the SLI, the symptom metric, each golden signal of the service the change touched (latency, traffic, errors, saturation) — is back within, or stays within, its range from before the change, or a control's. Where the signal is SLO-based, the burn rate is below threshold on **all** its configured windows, the paired long and short ones, not the instantaneous rate dipping under the paging line once. A single spike that recovers is not a breach; sustained consumption is.
 
-`(basis: Google SRE, "Alerting on SLOs"; SRE Workbook, canarying; Netflix Kayenta)`
+`(basis: Google SRE, "Alerting on SLOs"; SRE Workbook, canarying; automated canary-analysis practice)`
 
 ## How long it must hold, and how often to look
 
-- **The hold** is derived from the signal's own evaluation window — its configured hold-for duration (the soak the signal itself requires before firing), the burn-rate long window, or the recheck count that defines it — so the hold matches what the signal itself considers settled. Where no window can be derived from the signal, a fallback window applies: the one the work pins for its kind of change — how long a fix must hold isn't how long a ship must prove itself — and, where none is pinned, one representative traffic cycle. A signal that defines its own window always overrides a fallback. `(basis: Prometheus for and keep_firing_for; SRE burn-rate windows; Nagios max_check_attempts)`
-- **The reads** come at least once per the signal's refresh interval — its scrape or update cadence. Reading faster than the signal refreshes only re-reads jitter; reading slower can miss a regression mid-watch.
+- **The hold** is derived from the signal's own evaluation window — its configured hold-for duration (the soak the signal itself requires before firing), the burn-rate long window, or the recheck count that defines it — so the hold matches what the signal itself considers settled. Where no window can be derived from the signal, a fallback window applies: the one the work pins for its kind of change — how long a fix must hold isn't how long a ship must prove itself — and, where none is pinned, one representative traffic cycle. A signal that defines its own window always overrides a fallback. `(basis: an alerting rule's own fire-after and clear-after durations; SRE burn-rate windows; a check system's recheck-before-alert count)`
+- **The reads** come at least once per the signal's refresh interval — its collection or update cadence. Reading faster than the signal refreshes only re-reads jitter; reading slower can miss a regression mid-watch.
 
 ## The traps that fake health
 

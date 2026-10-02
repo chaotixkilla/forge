@@ -4,9 +4,9 @@ A merge conflict is two changes that each meant something, colliding on the same
 
 ## The method — reconstruct intent, don't pick a side
 
-- **Read the change that introduced each side, not just the conflicting hunk.** A hunk in isolation doesn't say why it exists; the commit/PR that added it does. Recover each side's *intent* — what behavior it was trying to establish — before touching the markers.
+- **Read the change that introduced each side, not just the conflicting hunk.** A hunk in isolation doesn't say why it exists; the commit/review request that added it does. Recover each side's *intent* — what behavior it was trying to establish — before touching the markers.
 - **Reassemble both intents.** The resolved code should honor what *both* sides meant, unless one supersedes the other (below). Never resolve by deleting a side you didn't understand.
-- **Reject the mechanical shortcuts.** Neither "accept both" nor "accept current/incoming" is a resolution. Use them only when you have *confirmed* that side is genuinely the whole answer.
+- **Reject the mechanical shortcuts.** Neither "accept both" nor "accept one side wholesale" is a resolution. Use them only when you have *confirmed* that side is genuinely the whole answer.
 
 ## The supersede test — when one side wins
 
@@ -18,4 +18,4 @@ The resolved tree is a third artifact neither side ever tested — the same mech
 
 ## The revert-a-merge trap (for the failure path)
 
-When a merge must be undone (a `--on-fail=rollback` on a landed merge, per [failure-policy](../modules/failure-policy.md)), reverting a merge commit is not symmetric: it requires choosing the mainline parent, and once reverted the branch will **not** re-merge cleanly — its commits are treated as already-present and are not reapplied, so re-landing needs a revert-of-the-revert or a rebuilt branch. `(basis: the Linux kernel's "reverting a faulty merge" howto)` Flag this rather than issue a naive re-merge that silently lands nothing.
+land never undoes a landed merge — it runs no check after merging, so [failure-policy](../modules/failure-policy.md)'s `rollback` never reaches one. When a caller undoes one by hand later, reverting a merge commit is not symmetric: it requires choosing the mainline parent, and once reverted the branch will **not** re-merge cleanly — its commits are treated as already-present and are not reapplied, so re-landing needs a revert-of-the-revert or a rebuilt branch. `(basis: git's own "revert a faulty merge" howto)` Flag this rather than issue a naive re-merge that silently lands nothing.

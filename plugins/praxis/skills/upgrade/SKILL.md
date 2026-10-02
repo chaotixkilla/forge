@@ -6,14 +6,14 @@ metadata:
     --scope=<pattern>: constrain every read, edit and check to paths matching the glob, and surface needed changes outside it as follow-ups rather than making them silently
     --module=<name>: resolve a named subsystem to its boundary — paths, entrypoints, owners — and work within it, returning its owners with the change
     --changed: derive the working set from the current version-control changes, targeting the upgrade and its verification at exactly what moved
-    --checkpoint-commit: commit at safe, self-contained milestones — at least one per major taken in sequence — so progress is recoverable
+    --checkpoint-commit: commit locally at each step that leaves the checks green — each major in sequence, each adaptation within one — activates the checkpoint-commit module
     --require-clean: refuse to start unless the working tree is clean, keeping the diff attributable and unmixed with pre-existing work (activates require-clean)
     --changelog: add a user-facing changelog entry for the upgrade, matching the project's existing format (activates changelog-entry)
     --dry-run: plan the upgrade and report it — the versions, consumers, upgrade path, baseline, risk tier and intended bump — without mutating the working tree
 ---
 Usage & examples — when to reach for this skill, and concrete flag invocations: see [usage.md](usage.md).
 
-upgrade owns no backend of its own. Reading the working tree and committing locally are ambient; the publisher's changelogs and migration guides come through the [gather](../gather/SKILL.md) skill, and the hosted pipeline through the [ci](../ci/SKILL.md) skill, each the doer that owns its prerequisite.
+upgrade owns no backend of its own. Reading the working tree and committing locally are ambient; the publisher's changelogs and migration guides come through the [gather](../gather/SKILL.md) skill, the doer that owns its prerequisite. The hosted pipeline is confirmed by whoever pushes the change.
 
 Each numbered step's full procedure lives in the linked phase file — read it, then carry out the step. The phases cite the craft where it applies.
 

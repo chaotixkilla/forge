@@ -16,7 +16,7 @@ A criterion pinned with a concrete input→output pair, plus the counter-example
 
 ## State what is explicitly out of scope
 
-Saying what the spec will not do prevents the later argument. The discriminator for what to state *explicitly* rather than omit silently: **would a reasonable reader assume it is in?** If yes, exclude it out loud; if no one would expect it, silence is fine. "Sharing does not support external, non-account recipients in this version" is worth stating because a reader would assume it might be included; "sharing does not modify the billing system" is not. An out-of-scope line is a decision recorded ([make-the-unsaid-explicit](../rules/make-the-unsaid-explicit.md)), not an admission of a gap.
+Saying what the spec will not do prevents the later argument. The discriminator for what to state *explicitly* rather than omit silently: **would a reasonable reader assume it is in?** If yes, exclude it out loud; if no one would expect it, silence is fine. "Sharing does not support external, non-account recipients in this version" is worth stating because a reader would assume it might be included; "sharing does not modify the billing system" is not. An out-of-scope line is a decision recorded ([make-the-unsaid-explicit](../rules/make-the-unsaid-explicit.md)), not an admission of a gap. When the excluded thing was a real candidate for this work — the external-recipient example is one — it is also carried as a **Won't (this time)** requirement in [sequencing-and-sizing](05-sequencing-and-sizing.md), which isn't built and so isn't held to the testability bar; an out-of-scope line alone is for what nobody proposed but a reader would assume. `(basis: derived from the Won't rung's definition)`
 
 ## Surface assumptions and open questions
 

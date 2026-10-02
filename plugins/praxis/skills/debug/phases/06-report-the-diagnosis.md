@@ -7,7 +7,7 @@ Whatever the outcome, produce the diagnosis record: the **mechanism** (the cause
 Every run lands in exactly one of three outcomes. Walk the two questions in order — they partition the space:
 
 1. **Did you reproduce the failure?** No → **not-reproduced**: report the conditions tried and the evidence that would let someone reproduce it (from [reproduce-and-frame](01-reproduce-and-frame.md)). Stop — no fix is recommended for an unreproduced bug.
-2. **Did you confirm a cause to a defensible rung** (at least *probable* with an observed link)? No → **inconclusive**: report the leading hypothesis and the specific evidence that would confirm or kill it. Yes → **confirmed-diagnosis**: the diagnosis, with its recommended fix (below), is the deliverable. debug never edits the code it diagnoses; making the change is the recipient's.
+2. **Did you confirm a cause to a defensible rung** (at least *probable* with an observed link)? No → **inconclusive**: report the leading hypothesis and the specific evidence that would confirm or kill it. Yes → **confirmed-diagnosis**: the diagnosis, with its recommended fix (below), is the deliverable. A reproduced behavior that turns out to match its contract — the expectation was wrong, not the code — is a confirmed diagnosis too: its mechanism is the contract, and its recommendation is to correct the expectation or its documentation, with no code change. debug never edits the code it diagnoses; making the change is the recipient's.
 
 `(basis: derived by construction)`
 

@@ -26,17 +26,20 @@ not a scoped target, so a scoped run neither backfills nor rewrites it.
 
 A config is **valid** when every slot is *resolved* and the shape matches the template. A slot is resolved in exactly one of two ways:
 
-- **configured** — a provider and transport are set, the capability's per-category fields are filled (or legitimately empty for an optional field), and `secret_ref` is set or empty per the transport.
+- **configured** — a provider and transport are set (for knowledge, on each source), the capability's per-category fields are filled (or legitimately empty for an optional field), and `secret_ref` is set or empty per the transport.
 - **deliberately disabled** — `provider: null`, marking a capability the project doesn't use ([resolve-tools](02-resolve-tools.md)). Valid, and legible to the downstream gate.
 
 A slot is a **defect** when it is neither — specifically:
 
 - it still holds an **un-replaced option-string placeholder** (a value still carrying the template's `provider-a | provider-b | …` menu that init never resolved to one choice), or
-- a **required field is empty** on a configured (non-disabled) slot — its provider or transport is empty, or a *required-when-configured* per-category field is empty (`knowledge.root`, `project_mgmt.project_key`), per the classification in [resolve-tools](02-resolve-tools.md). An *optional-when-configured* field left empty (an `artifacts.destinations` entry) is **not** a defect.
+- a **required field is empty** on a configured (non-disabled) slot — its provider or transport is empty, or a *required-when-configured* per-category field is empty, per the classification in [resolve-tools](02-resolve-tools.md). An *optional-when-configured* field left empty is **not** a defect, or
+- two knowledge sources, or two audience spaces, **share a name**, or a source takes the name `artifacts-home`, which the knowledge port gives the home — a read or a publish that names one could reach either. `(basis: maintainer, 2026-10-01)`
 
 `(basis: maintainer, 2026-07-05)`
 
-The `teams: {}` empty map and an optional per-category field left empty on a configured slot are **resolved, not defects** ([resolve-team](03-resolve-team.md)) — the check must not flag them.
+A slot in an **older shape** — knowledge as a single provider/transport/root, artifacts with a per-type `destinations` map — is **valid**, because the ports read it as its current equivalent. A run that resolves such a slot writes it in the current shape, carrying its values over — the old `root` into the one source, `destinations.default` into `destination` — and reports any per-type entry it drops. `(basis: maintainer, 2026-10-01)`
+
+The `teams: {}` empty map ([resolve-team](03-resolve-team.md)), `audiences: []`, and an optional per-category field left empty on a configured slot are **resolved, not defects** — the check must not flag them. init never persists the template's illustrative source or audience entry.
 
 ## The `output` section is validated by domain, not by slot shape
 
@@ -44,7 +47,7 @@ The `teams: {}` empty map and an optional per-category field left empty on a con
 required-field rule reaches it. Validate it against its keys' value domains instead:
 
 The four keys, the value domain of each, and which value is each one's default are defined in
-[report-style-settings](../rules/report-style-settings.md) — validate a written value against
+[report-style-settings](../../../craft/writing/report-style-settings.md) — validate a written value against
 the domains that rule names.
 
 **Resolved (valid)** — everything the two defect cases below do not name. That includes the section
@@ -56,7 +59,7 @@ examples here as its complement.
 **A defect** in one case: `output` present but **not an object** (a scalar or a list where the section
 belongs). A key set to a value **outside** its domain (`verbosity: "chatty"`, a string where `brief` takes
 a boolean) is *not* a defect: report it with its allowed values, since every consumer applies the documented
-default to a value it doesn't define and never halts on a style setting ([report-style-settings](../rules/report-style-settings.md)). An **unrecognized key** inside `output` is *not* a defect — report it as
+default to a value it doesn't define and never halts on a style setting ([report-style-settings](../../../craft/writing/report-style-settings.md)). An **unrecognized key** inside `output` is *not* a defect — report it as
 ignored and carry it through the write untouched, so a config written by a newer praxis stays usable under an
 older one.
 
@@ -79,7 +82,7 @@ One setting governs work done outside a praxis run: `output.comments`, the stand
 
 The validation pass sweeps for both placeholder kinds (un-replaced option-strings *and* empty required fields) and acts by kind:
 
-- **A defect blocks the write** and is reported as such — do not persist a config that would mislead the gate into thinking an unresolved capability is configured. Report which slot and which field, so the fix is one targeted `--phase` away.
+- **A defect blocks the write** and is reported as such — a roster defect as much as a slot one — so no config persists that would mislead the gate into thinking an unresolved capability is configured, or route to a half-filled member. Report which slot or member and which field, so the fix is one targeted `--phase` away. `(basis: derived from the defect partition above)`
 - **A deliberately-disabled slot passes** — `provider: null` is a resolved decision, written and reported as disabled, not flagged.
 - **A non-object `output` section blocks the write** exactly as a slot defect does, reported with what was found; its fix is an edit to that section, since `output` isn't a `--phase` target. An out-of-domain value is reported, not blocked, and an absent or default-filled `output` passes silently.
 

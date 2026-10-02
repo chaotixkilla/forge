@@ -4,7 +4,7 @@ The artifact is finished and verified ([tighten-and-verify](06-tighten-and-verif
 
 Return the finished artifact in the form [choose-form-and-channel](03-choose-form-and-channel.md) chose, together with:
 
-- **its destination** — the channel or home that phase picked, and why;
+- **its destination** — the channel that phase picked, and for a durable document whether it goes to the home or to an audience space and for which reader, and why;
 - **its audience** — the tier it was pitched to, so a later reader knows who it was written for;
 - **for a durable document**, a short fit-for-channel summary with a place for the link, ready for an announcement once the document is placed;
 - **any follow-up the artifact owes** — a reply to watch for, a decision to record when it lands.

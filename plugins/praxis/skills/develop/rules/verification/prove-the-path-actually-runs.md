@@ -7,7 +7,7 @@ The judgment this rule governs is what counts as evidence that a change works. I
 Trust **observed execution** over compilation, type-checking, or an assertion that never ran. A slice or test proves nothing about the change until the *changed path is seen to actually execute*.
 
 - **Did the new code path run?** Compilation and a clean type-check prove the code is well-formed, not that it does the right thing — they never enter a branch. A test that exists but asserted on an unchanged path is false green: it passed without touching the lines you wrote. The bar is watching the new branch execute and the assertion evaluate against its result.
-- **Can the new test fail?** For a check you just wrote, confirm it can go red before you trust its green — break the code once (or write it against unfixed code) and watch the test fail, then restore. A test never seen red may be asserting nothing, or asserting on the wrong thing; its green is unearned.
+- **Can the new test fail?** For a check you just wrote, confirm it can go red before you trust its green, by the method in [prove-the-test-can-fail](../../../../craft/engineering/prove-the-test-can-fail.md). A test never seen red may be asserting nothing, or asserting on the wrong thing; its green is unearned.
 - **Reason is not observation.** "It must work because the logic is obviously right" is the trap this rule exists to close. Convince yourself by *seeing it run*, not by re-reading the code.
 
 This is the empirical backbone of [verified-slice](../verified-slice.md): "green" there means *exercised*, and this rule is why compilation and an unrun assertion don't qualify.
@@ -16,5 +16,5 @@ This is the empirical backbone of [verified-slice](../verified-slice.md): "green
 
 ## The anchors
 
-- *Good:* you run the loop, watch a log line or debugger confirm the new branch is entered, and see the assertion evaluate against the value the change produced. When you added the test, you first broke the code and watched it go red, so its pass means something.
+- *Good:* you run the loop, watch a log line or debugger confirm the new branch is entered, and see the assertion evaluate against the value the change produced. When you added the test, you first watched it go red — against the pre-change code, or with a deliberately wrong expectation — so its pass means something.
 - *Bad (reject as false-green):* the suite is green and you move on — but the new test set up a case the new branch never handled and asserted on the old path, or the code only compiled and was never run. The green is about code that didn't change; the change itself is unproven.

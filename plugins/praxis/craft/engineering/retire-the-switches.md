@@ -17,4 +17,4 @@ Retiring a switch is a maintenance change:
 
 A switch whose rollout hasn't ended stays, and its owner and date are reported.
 
-(basis: after growthbook's flag lifecycle, which ends in cleanup; rollout planning that gives every toggle a removal owner and date)
+(basis: feature-flag lifecycle practice, in which a flag's lifecycle ends in its cleanup; rollout planning that gives every toggle a removal owner and date)

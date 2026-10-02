@@ -1,6 +1,6 @@
 # local — artifacts adapter
 
-Implements the **artifacts** capability against the local filesystem, writing the page tree as Markdown files under the destination the skill resolved (SKILL step 1 — the type's key entry, `destinations.default`, or a user-supplied target; the adapter does not key off the raw type itself). The [artifacts](../SKILL.md) skill resolves and maps the tree and dispatches here.
+Implements the **artifacts** capability against the local filesystem, writing the page tree as Markdown files under the destination the skill resolved (SKILL step 1). The [artifacts](../SKILL.md) skill resolves and maps the tree and dispatches here.
 
 ## Publish
 

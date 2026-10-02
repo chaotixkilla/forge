@@ -1,6 +1,6 @@
 # Auditing
 
-**Entry condition.** The request is to judge the security posture of a whole system or component: no change under review, no author. A security review of one change goes to the [security-review](../../security-review/SKILL.md) skill directly, with `--changed`, or to the reviewing act. (basis: maintainer, 2026-09-30)
+**Entry condition.** The request is to judge the security posture of a whole system or component: no change under review, no author. A security review of one change goes to the [security-review](../../security-review/SKILL.md) skill directly, with `--changed`, as one step's outcome, whoever wrote the change — the reviewing act runs no security pass. security-review reads the local tree, so a hosted change is first materialized through [vcs](../../vcs/SKILL.md)'s *materialize a change* and reviewed in that copy. (basis: maintainer, 2026-09-30)
 
 **Done when** the audit report is filed and its findings have reached the system's owners. (basis: derived from the steps' outcomes)
 
@@ -20,4 +20,4 @@ Step 1's map files as a section of the task's scratchpad, and step 2's result as
 
 ## Delivered
 
-Step 3's message reaches the system's owners per [deliver-through-the-ports](../rules/deliver-through-the-ports.md), linking the audit report, which is published first. When the request asks for it, each finding at or above high is filed as a work-item through [project-mgmt](../../project-mgmt/SKILL.md), with its severity. (routed to maintainer: findings filed as work-items only when the request asks.)
+Step 3's message reaches the system's owners per [deliver-through-the-ports](../rules/deliver-through-the-ports.md), linking the audit report, which is published first. When the request asks for it, each finding at or above high is filed as a work-item through [project-mgmt](../../project-mgmt/SKILL.md), with its severity. (routed to maintainer: findings filed as work-items only when the request asks, since filing unasked fills a shared tracker with items nobody triaged.)

@@ -6,7 +6,7 @@
 
 ## The code is thrown away
 
-Prototyping keeps its learnings, not its code. The spike runs isolated, and close-out discards it; what carries into a later spec or plan is the findings. When the task goes on to developing, the findings are its input, and its code is written fresh. (basis: maintainer, 2026-09-30)
+Prototyping keeps its learnings, not its code. The spike runs in a throwaway sandbox (prototype's `--sandbox`), and close-out discards it; what carries into a later spec or plan is the findings. When the task goes on to developing, the findings are its input, and its code is written fresh. (basis: maintainer, 2026-09-30)
 
 ## Steps
 

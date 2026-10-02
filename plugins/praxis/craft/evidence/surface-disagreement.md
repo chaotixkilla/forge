@@ -13,4 +13,4 @@ When sources genuinely conflict, the honest answer represents the conflict — i
 4. **Never manufacture the middle.** Two incompatible claims don't average into a true one; if A says "always" and B says "never," the answer is "contested — A holds …, B holds …," not "sometimes."
 5. **A project-reality-vs-norm divergence is always a finding.** When the code or its history disagrees with a spec, the documentation or the literature, surface the divergence and never reconcile it: the caller decides whether the project is wrong or the norm doesn't apply here.
 
-(basis: anvil's authoritative-sources "genuine conflict vs difference in emphasis" test)
+(basis: the authoritative-literature explorer's "genuine conflict vs difference in emphasis" test)

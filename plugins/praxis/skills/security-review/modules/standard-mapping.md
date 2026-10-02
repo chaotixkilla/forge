@@ -6,7 +6,7 @@ The base audit hunts and reports findings against its default taxonomy. This mod
 
 ## The delta
 
-- **Select the taxonomy** the framework names — the fork in [hunting-vulnerabilities](../phases/03-hunting-vulnerabilities.md) (OWASP Top 10 / CWE / ASVS) — and tag each finding with its control id in that framework as it is found. A finding maps to a control by *what weakness it is*, not by name-matching: an authorization gap maps to the framework's access-control control, an injection to its injection control.
+- **Select the taxonomy** the framework names — the fork in [attack-class-taxonomy](../rules/attack-class-taxonomy.md) (OWASP Top 10 / CWE / ASVS) — and tag each finding with its control id in that framework as it is found. A finding maps to a control by *what weakness it is*, not by name-matching: an authorization gap maps to the framework's access-control control, an injection to its injection control.
 - **Report coverage** in the report's coverage section ([reporting-findings](../phases/05-reporting-findings.md)): which of the framework's controls the audit *examined* (a threat on the surface touched them), which findings map to which controls, and which controls were **not examined** (no surface element exercised them) versus examined-and-clean. The distinction matters — an unexamined control is a coverage gap, not a pass.
 
 ## Reproduce the framework's own vocabulary

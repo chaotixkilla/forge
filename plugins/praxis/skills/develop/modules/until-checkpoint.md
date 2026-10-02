@@ -8,7 +8,7 @@
 
 - **`slice:<N|name>`** — stop after the Nth (or named) buildable unit is a verified slice ([verified-slice](../rules/verified-slice.md)). Assignment: the slice is green and no prior slice regressed; the *next* slice has not started. Reports which slices are done and what remains.
 - **`phase:<N|name>`** — stop at the end of the named develop phase (e.g. `phase:3` = after build-in-verified-slices, before integrate-and-wire-up). Assignment: that phase's output is complete; the next phase has not begun. For running or resuming one phase's work in isolation.
-- **`green`** — stop at the **first fully-green state**: the first point at which the full local check (not just a slice loop) passes over everything built so far. Assignment: a whole-change check has passed at least once. For getting to a demonstrable running state and pausing.
+- **`green`** — stop at the **first fully-green state**: the first point at which the full local check (not just a slice loop) passes over everything built so far. Assignment: a whole-change check has passed at least once. It is evaluated after each verified slice — run the full local check then, not only the slice's loop — and the first pass stops the run. `(basis: derived from green needing the whole change checked)` For getting to a demonstrable running state and pausing.
 - **`red`** — stop at the **first red slice**: the first slice that cannot be made green. Assignment: a slice's loop fails and the failure is not resolved by the lines just written. This is the explicit hand-off-to-`debug` stop; the run reports **blocked** with the failing slice and its symptom.
 
 `(basis: maintainer, 2026-07-10)`

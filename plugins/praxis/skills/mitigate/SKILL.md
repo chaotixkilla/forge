@@ -1,6 +1,6 @@
 ---
 name: mitigate
-description: Restore a degraded production service before its cause is understood — choose the fastest safe, reversible mitigation, capture the evidence it would erase, apply it through the path that owns it, and confirm the signal is back at baseline and holding. Returns mitigated, with the mitigation's kind and the signal's hold, or not-mitigated with the recommended action.
+description: Restore a degraded production service before its cause is understood — choose the fastest safe, reversible mitigation, capture the evidence it would erase, apply it through the path that owns it, and confirm the signal is back at baseline and holding. Returns mitigated, with the mitigation's kind and the signal's hold; indeterminate, when the signal can't yet say; or not-mitigated with the recommended action.
 metadata:
   flags:
     --watch: hold the run open and re-read the signal until it stays at baseline for the signal's stability window, instead of reading it once (activates watch-until-stable)

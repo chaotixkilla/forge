@@ -30,7 +30,7 @@ Place every requirement on exactly one of the three dispositions defined in [sou
 Then act on the disposition:
 
 - **In session** — use it.
-- **In a reachable source** — perform a *targeted* read for that requirement at that location. Recruit the **repository** and **code** explorers for what the tree holds and the **knowledge-base** explorer for settled context and prior decisions; or, without fan-out, perform those reads inline yourself before proceeding. A targeted read is aimed at one named requirement; a general sweep of the area is what this phase replaces, and it returns atmosphere rather than the missing fact.
+- **In a reachable source** — perform a *targeted* read for that requirement at that location. Recruit the **repository** and **code** explorers for what the tree holds and the **knowledge-base** explorer, which reads through the [knowledge](../../knowledge/SKILL.md) port, for settled context and prior decisions; or, without fan-out, perform those reads inline yourself before proceeding, the knowledge read still through that port. A targeted read is aimed at one named requirement; a general sweep of the area is what this phase replaces, and it returns atmosphere rather than the missing fact.
 - **Nowhere** — declare it, per the declaration bar in [source-or-declare](../../../craft/writing/source-or-declare.md). Declaring is not a failure of the run.
 
 Sourcing runs until every requirement is either obtained or settled on a disposition. When to stop pursuing a read and mark it blocked instead is the stop bar in that same rule.

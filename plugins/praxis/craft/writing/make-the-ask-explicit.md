@@ -18,4 +18,4 @@ The test: could a reader who skims the artifact once state what they must do and
 
 ## Ask for the next thing, not the whole thing
 
-Where the artifact is a status or a request that will iterate, commit to the *next* concrete step and its time, not a distant end-state you can't guarantee — "I'll have the design up for review by Wednesday," not "this'll be done soon." A near, keepable ask gets acted on; a vague far one gets deferred. `(basis: incident-communication practice, Atlassian and Rootly: the next update time, not a fix ETA)`
+Where the artifact is a status or a request that will iterate, commit to the *next* concrete step and its time, not a distant end-state you can't guarantee — "I'll have the design up for review by Wednesday," not "this'll be done soon." A near, keepable ask gets acted on; a vague far one gets deferred. `(basis: incident-communication practice in published incident-management handbooks: the next update time, not a fix ETA)`

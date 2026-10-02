@@ -23,7 +23,7 @@ Each stage is gated on the prior being *observed* green ([prove-the-path-actuall
 
 **Routing rule (non-gating): surrounding convention → house rule → maintainer.** If the module's existing tests read as specifications for units built in the same commits, follow test-first; if the repo states a testing discipline, follow it; absent both, either is acceptable and the choice is the builder's.
 
-**The shared hygiene rider (not the hinge of the fork):** whichever pole, every check must be *seen to fail once* against broken/unfixed code before its green is trusted — a test never observed red proves little ([prove-the-path-actually-runs](prove-the-path-actually-runs.md)).
+**The shared hygiene rider (not the hinge of the fork):** whichever pole, every check must be *seen to fail once* before its green is trusted, by the methods of [prove-the-test-can-fail](../../../../craft/engineering/prove-the-test-can-fail.md) in their order — a test never observed red proves little ([prove-the-path-actually-runs](prove-the-path-actually-runs.md)).
 
 ## The anchors
 

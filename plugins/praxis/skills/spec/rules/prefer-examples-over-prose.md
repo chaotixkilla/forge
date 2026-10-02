@@ -14,7 +14,7 @@ A positive example shows what must work; it leaves the boundary undefined, becau
 
 An example takes one of three shapes, and the fit is the choice made in [making-it-concrete](../phases/04-making-it-concrete.md)'s acceptance-criteria fork:
 
-- **A scenario (Given/When/Then)** — for a *single behavior with context*: given a state, when an action, then an observable result. One behavior per scenario, stated declaratively rather than drifting into imperative UI steps. `(basis: BDD and Gherkin practice)`
+- **A scenario (Given/When/Then)** — for a *single behavior with context*: given a state, when an action, then an observable result. One behavior per scenario, stated declaratively rather than drifting into imperative UI steps. `(basis: BDD and its Given-When-Then practice)`
 - **An example / decision table** — for *one rule with many discrete input→output cases* (pricing tiers, eligibility matrices, tax bands). Use **key examples per equivalence class**, not every combination — full enumeration explodes and obscures intent. `(basis: Adzic's key examples; decision-table practice)`
 - **A bounded assertion** — for *continuous ranges or quality attributes* that aren't scenario-shaped: a measurable condition stated as a pass/fail assertion.
 

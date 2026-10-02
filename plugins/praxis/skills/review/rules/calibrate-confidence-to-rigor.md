@@ -19,7 +19,7 @@ Discriminators between adjacent levels: **confirmed vs probable** — is *every*
 
 ### Confidence for craft findings
 
-The three levels above are anchored to a *correctness* cause→effect chain — but a craft finding has no failing input to trace ([separate-correctness-from-taste](separate-correctness-from-taste.md): craft is graded by maintainer cost, not by a wrong input). A craft finding still carries a confidence, and still clears the floor like any finding — its confidence measures **how sure you are the craft claim's *premise* holds**, on the same three-level ladder:
+The three levels above are anchored to a *correctness* cause→effect chain — but a craft finding has no failing input to trace ([separate-correctness-from-taste](separate-correctness-from-taste.md): craft is graded by maintainer cost, not by a wrong input). A craft finding still carries a confidence, and still clears the floor like any finding — its confidence measures **how sure you are the craft claim's *premise* holds**, on the same three-level ladder: `(basis: derived from the correctness ladder above)`
 
 - **confirmed** — you verified the premise: you read the existing helper and confirmed it does the same job and is reachable from here (reuse); you confirmed the two blocks are behaviorally identical (duplication); you confirmed the simpler form preserves behavior (simplification).
 - **probable** — the premise is very likely but one link is unverified: you believe an existing helper covers this but did not confirm it handles this case, or that a block duplicates another you did not read line-for-line.
@@ -29,7 +29,7 @@ The discriminator mirrors the correctness ladder: **confirmed vs probable** — 
 
 ## The rigor dial
 
-`--rigor` is praxis's own dial and leaves the model's effort setting alone: a high-rigor review can run at any model effort, and the model's effort never stands in for this dial. (basis: maintainer, 2026-09-30) At low or medium rigor, a change that [scope-the-review](../phases/01-scope-the-review.md) measures as small recruits no explorers. `--rigor` moves four things together — a single dial, not four knobs — and its direction is fixed: **low favors a few high-confidence findings; max broadens coverage and admits uncertain ones.** (basis: the established code-review convention, as the harness's own code-review skill encodes it)
+`--rigor` is praxis's own dial and leaves the model's effort setting alone: a high-rigor review can run at any model effort, and the model's effort never stands in for this dial. (basis: maintainer, 2026-09-30) At low or medium rigor, a change that [scope-the-review](../phases/01-scope-the-review.md) measures as small recruits no explorers. `--rigor` moves four things together — a single dial, not four knobs — and its direction is fixed: **low favors a few high-confidence findings; max broadens coverage and admits uncertain ones.** (basis: the established code-review convention)
 
 `(basis: maintainer, 2026-07-02, for the confidence floors and the low/medium lens split below; `comments` joined the craft lenses on 2026-09-02)`
 

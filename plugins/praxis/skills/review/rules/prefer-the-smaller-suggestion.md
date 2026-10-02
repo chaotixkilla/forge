@@ -4,7 +4,7 @@ When a review finds a problem, it also proposes a fix — and the reviewer's ins
 
 ## The bar: smallest fix that resolves *this* finding
 
-For each finding, propose the change with the smallest blast radius that removes the defect or the craft cost you named — not the change that would make the code ideal. A null-deref is resolved by handling the null, not by introducing an Option type across the module. Duplication is resolved by pointing at the existing helper, not by designing a new abstraction layer. The test: **does the suggestion do more than the finding requires?** If it fixes the named problem *and also* reshapes things the finding didn't mention, it has overreached — cut it back to what the finding needs.
+For each finding, propose the change with the smallest blast radius that removes the defect or the craft cost you named — not the change that would make the code ideal. A null-deref is resolved by handling the null, not by introducing an Option type across the module. Duplication is resolved by pointing at the existing helper, not by designing a new abstraction layer. The test: **does the suggestion do more than the finding requires?** If it fixes the named problem *and also* reshapes things the finding didn't mention, it has overreached — cut it back to what the finding needs. `(basis: derived from the finding's own scope)`
 
 ## Why smaller is not just politeness
 

@@ -18,6 +18,6 @@ Either way, bring the memory entry up to date and hand it to document, which bri
 
 ## Report
 
-Tell the user briefly what the act concluded, what was delivered and where, what was recorded, and what's next, and quote each action an input asked for, for the user to answer. Deliver it at the reader's register ([deliver-at-the-readers-register](../../../craft/writing/deliver-at-the-readers-register.md)) and under the report-style settings ([report-style-settings](../../init/rules/report-style-settings.md)).
+Tell the user briefly what the act concluded, what was delivered and where, what was recorded, and what's next, and quote each action an input asked for, for the user to answer. Deliver it at the reader's register ([deliver-at-the-readers-register](../../../craft/writing/deliver-at-the-readers-register.md)) and under the report-style settings ([report-style-settings](../../../craft/writing/report-style-settings.md)).
 
 Under `--dry-run`, see [dry-run](../modules/dry-run.md).

@@ -22,7 +22,8 @@ A sub-answer may expand from its one line to a short nested list — but only wh
 
 Every non-obvious claim carries its source regardless of flags; provenance is tracked from gathering, not bolted on here. `--cited` governs only the *form*: without it, attribution is inline and readable (`per the X spec, 2024`); with it, every non-obvious claim carries a formal, retrievable citation (a numbered reference with its locator), and a claim that cannot be attributed is dropped or explicitly flagged unsourced rather than stated bare. (basis: maintainer's resolution: provenance is always kept, and `--cited` governs only the rendered form)
 
-## Publishing hands off a clean export
+## Deliver it clean
 
+The report carries the substance and none of the machinery, by the strip list in [clean-export](../../../craft/writing/clean-export.md), and is written at the reader's register ([deliver-at-the-readers-register](../../../craft/writing/deliver-at-the-readers-register.md)), as every terminal report is.
 
 The output is the rendered report — answer, attribution, confidence, and gaps — returned to the caller.

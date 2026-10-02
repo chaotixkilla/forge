@@ -2,13 +2,19 @@
 
 Activated by `--gate`, referenced from [reporting-findings](../phases/05-reporting-findings.md).
 
-The base audit is informational — it delivers findings and the reader decides what to do. This module turns the audit into a *decision*: a pass/fail verdict with a non-zero exit when disqualifying findings remain, so it can stand in a pipeline as a merge barrier. Deletion test: remove it and the audit still reports; the verdict and exit behavior are the added, flag-gated behavior.
+The base audit is informational — it delivers findings and the reader decides what to do. This module turns the audit into a *decision*: a pass/fail verdict the calling pipeline maps to a non-zero exit when disqualifying findings remain, so it can stand as a merge barrier. Deletion test: remove it and the audit still reports; the verdict is the added, flag-gated behavior.
 
 ## The delta
 
 - **Compute the verdict from the floored, ranked list** [assessing-severity](../phases/04-assessing-severity.md) produced against [severity-scale](../rules/severity-scale.md). Gating does not re-judge or re-grade; it thresholds the list that already exists.
-- **Resolve to one of three outcomes** — pass / fail / inconclusive — the partition pinned in [reporting-findings](../phases/05-reporting-findings.md). An audit that could not scope its surface is **inconclusive**, never a silent pass.
-- **Exit accordingly** so a pipeline can block: non-zero on fail. Signal inconclusive distinctly from both pass and fail, so "we could not check" is not read as "clean."
+- **Resolve to one of three outcomes**, by whether the audit completed the surface it was asked to and what it found there:
+  - **pass** — the audit completed and no finding counts against the floor. An empty `--changed` window is a completed audit of nothing changed: pass, with the empty window stated.
+  - **fail** — the audit completed and at least one finding counts against the floor.
+  - **inconclusive** — the audit did not complete: the subject couldn't be resolved or read, or the run stopped before any work (an `--exhaustive` run whose cost question couldn't be asked). `--changed` with no derivable base isn't this case: it audits the whole subject instead ([scoping-the-surface](../phases/01-scoping-the-surface.md)).
+
+  Every run lands in exactly one: it either completed its surface or it didn't, and a completed one either has a counting finding or doesn't. `(basis: derived)`
+- **A finding counts against the floor** when its severity meets the floor and its confidence is confirmed or probable. A speculative finding is reported but never fails the gate, because [assessing-severity](../phases/04-assessing-severity.md) carries it unasserted. `(basis: derived from the speculative rung's definition)`
+- **Return the status** so a pipeline can block on fail, and signal inconclusive distinctly from both pass and fail, so "we could not check" is not read as "clean."
 
 ## The gate floor
 

@@ -5,7 +5,7 @@ metadata:
   flags:
     --changed: scope the run to what the change touched — its window from the merge base with the integration line to the working tree, the branch's commits included — the changed files plus their reverse-dependents, rather than the whole surface; a phase input to framing/mapping, not a separate mode
     --from-spec=<path>: treat a spec file as the source of the claim under test — map each acceptance criterion to a concrete pass/fail check — instead of deriving the claim from the change; a phase input to framing
-    --until=<condition>: loop the verification until a stop condition is met (first failure, green, or a repeat count) instead of a single pass — activates the run-until-signal module
+    --until=<condition>: loop the verification until a stop condition is met (first failure, green, a repeat count, or a change-triggered watch) instead of a single pass — activates the run-until-signal module
     --sandbox: run in a disposable, network/filesystem-isolated local environment with seeded fixtures, so the run is reproducible and side-effect-free — activates the isolated-sandbox module
 ---
 Usage & examples — when to reach for this skill, and concrete flag invocations: see [usage.md](usage.md).

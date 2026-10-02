@@ -24,4 +24,4 @@ Approval covers the run it was given for, including the skills that run calls wi
 
 When nobody can answer (a non-interactive run, or a caller that can't relay the question) and no approval was given, stop cleanly before any work and say which flag needs approval. Never run the flag anyway, and never drop it silently: running without it is the caller's choice. A caller that asks one question before running its steps folds this one into it.
 
-(basis: maintainer, 2026-09-30, H1; after claude-security's fixed-wording cost gate)
+(basis: maintainer, 2026-09-30; after the practice of a fixed-wording blocking cost confirmation before a heavyweight run)

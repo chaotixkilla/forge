@@ -4,7 +4,7 @@ When a publish fails, the caller has to *react* — keep a local copy, retry lat
 
 `(basis: derived from the vcs port's capability-failure principle)`
 
-## The five outcomes
+## The outcomes
 
 Each names the axis it fails on and the reaction it invites:
 
@@ -13,6 +13,9 @@ Each names the axis it fails on and the reaction it invites:
 - **`target-not-found`** — the resolved destination (a parent page, container, path, or a `--to` target id) does not exist on the backend. Caller must fix the destination. *(Assignment test: the target the request named is absent.)*
 - **`unsupported-content`** — the backend cannot faithfully represent something the publish requires: a content block that survives no faithful degradation ([degrade-unsupported-content](degrade-unsupported-content.md)), **or** a requested mode the backend lacks (a `--draft` state, a versioned copy, an idempotent match the backend can't offer). Caller must reshape the content or drop the unsupported mode. *(Assignment test: a capability gap in the backend, not a state or access problem.)*
 - **`conflict`** — the target exists and is reachable, but the write can't proceed as asked without ambiguity or loss: creating where one already exists (no `--idempotent`/`--version`), an idempotent identity that resolves to none or to several ([stable-identity-and-precedence](stable-identity-and-precedence.md)), or a concurrent modification. Caller must choose a mode (update, version, rename). *(Assignment test: the target is there, but the requested write is blocked by its state.)*
+- **`partial`** — the publish or fetch reached the backend and wrote or read part of the tree, then stopped: a later subpage refused, a mid-tree rate limit, a walk cut short. Returned with the locations that landed (or the pages read), in tree order, so the caller can resume or record the tree incomplete; never reported as a success. *(Assignment test: some of the tree landed or was read, not all.)*
+
+Every publish or fetch lands in exactly one outcome, or succeeds, by this cascade — the first "no" wins: reached an authenticated backend? (no → `unavailable`) permitted for this target? (no → `unauthorized`) does the named target exist? (no → `target-not-found`) can the backend represent what's asked? (no → `unsupported-content`) does the target's state allow the write? (no → `conflict`) did the whole tree land or come back? (no → `partial`) — otherwise success. `(basis: derived, mirroring the knowledge port's cascade)`
 
 ## Confusable-pair discriminators
 
@@ -25,7 +28,7 @@ Walk these when two outcomes seem to fit:
 
 ## What this taxonomy does and does not cover
 
-These five classify a **publish outcome** — a failure that arises from the backend or the target once the skill dispatches (or resolves the destination against it): reachability, permission, existence, representability, target-state. A **malformed invocation** — a caller error caught before any backend interaction, such as passing `--idempotent` with `--version` ([stable-identity-and-precedence](stable-identity-and-precedence.md)) — is **not** one of these classes; it is rejected up front and reported as the contradictory flags it is, so a caller never has to read a self-inflicted argument error as a backend outcome.
+These classify a **publish or fetch outcome** — a failure that arises from the backend or the target once the skill dispatches (or resolves the destination against it): reachability, permission, existence, representability, target-state. A **malformed invocation** — a caller error caught before any backend interaction, such as passing `--idempotent` with `--version` ([stable-identity-and-precedence](stable-identity-and-precedence.md)) — is **not** one of these classes; it is rejected up front and reported as the contradictory flags it is, so a caller never has to read a self-inflicted argument error as a backend outcome.
 
 ## Where it binds
 

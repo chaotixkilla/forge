@@ -12,8 +12,8 @@ File a task's documentation as its work happens: each result as the document typ
 - A project-wide knowledge base → none. A task's documentation covers only what the task touched.
 
 ## Examples
-- `document --task=review-pr-230`, handed a review's result — files it as the review record, then updates the task record and the log.
-- `document --task=review-pr-230 --dry-run` — shows each document and where it would land, without writing.
+- `document --task=review-230`, handed a review's result — files it as the review record, then updates the task record and the log.
+- `document --task=review-230 --dry-run` — shows each document and where it would land, without writing.
 
 ## Gotchas
 - It never publishes to a backend directly. Everything goes through artifacts, which owns the artifacts backend's setup.

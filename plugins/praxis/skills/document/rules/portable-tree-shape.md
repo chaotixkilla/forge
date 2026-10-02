@@ -6,7 +6,7 @@ A task's documentation arrives as finished documents — authored content organi
 
 - **Exactly one main page** — the artifact's root: its title, and a landing summary (see below).
 - **Ordered subpages beneath it** — each a top-level section that earns its own page, in the artifact's authored order.
-- **Content as backend-neutral sections** — a page's body is a sequence of neutral blocks: heading, prose, list, table-as-data, code, quote, link/reference. No backend-specific construct enters the neutral tree; that is what lets the map step (step 3 of [SKILL.md](../SKILL.md)) render it onto either a nested-page model or an index-plus-section-files model without rework.
+- **Content as backend-neutral sections** — a page's body is a sequence of neutral blocks: heading, prose, list, table-as-data, code, quote, link/reference. No backend-specific construct enters the neutral tree; that is what lets the [artifacts](../../artifacts/SKILL.md) port's map step (its step 3) render it onto either a nested-page model or an index-plus-section-files model without rework.
 
 ## The landing summary and table of contents — what the main page carries
 

@@ -1,14 +1,14 @@
 # One coherent change per unit
 
-A commit or PR that bundles two unrelated concerns is a unit you can neither cleanly review, cleanly revert, nor cleanly bisect. When the bugfix and the refactor ride in one commit and the bugfix later proves wrong, reverting drags the refactor out with it; when a history-bisection lands on that commit it points at a +800/−300 blob instead of the one line that broke. `(basis: practitioner bisect accounts from the squash-vs-per-commit debate; DORA; derived from review's separate-correctness-from-taste discipline)`
+A commit or review request that bundles two unrelated concerns is a unit you can neither cleanly review, cleanly revert, nor cleanly bisect. When the bugfix and the refactor ride in one commit and the bugfix later proves wrong, reverting drags the refactor out with it; when a history-bisection lands on that commit it points at a +800/−300 blob instead of the one line that broke. `(basis: practitioner bisect accounts from the squash-vs-per-commit debate; DORA; derived from review's separate-correctness-from-taste discipline)`
 
 ## The discriminator — is this one concern?
 
-A unit (a commit, or a PR) is coherent when it passes all three tests; if it fails one, split it:
+A unit (a commit, or a review request) is coherent when it passes all three tests; if it fails one, split it:
 
 - **Revert-independence** — could this unit be reverted on its own without dragging out an unrelated change, and without leaving a half-change behind? If undoing it forces you to also undo something unrelated, two concerns are fused.
 - **One-pass review** — can a reviewer hold the whole unit's intent in one pass and judge it against one question? A unit that makes the reviewer context-switch between "is this refactor safe?" and "is this new behavior correct?" is two units.
-- **No refactor-plus-behavior mixing** — does the unit change behavior *and* restructure code in the same breath? Separate them: a pure refactor (no behavior change) lands as its own unit so that a behavior regression is never hidden inside a diff the reviewer read as "just moving code."
+- **No refactor-plus-behavior mixing** — does the unit change behavior *and* restructure code in the same breath? Then it fails, by [separate-refactor-from-behavior-change](../../../craft/engineering/separate-refactor-from-behavior-change.md).
 
 The tell across all three: **the diff should have one reason to exist.** If the honest description needs an "and" joining two outcomes ("fix the guard *and* rename the module"), it is two units.
 

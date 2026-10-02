@@ -1,7 +1,7 @@
 {
   "name": "praxis",
   "description": "Engineering work as skills: ten acts — developing, fixing a bug, reviewing, shipping, responding to an incident and more — run as steps held to shared engineering, evidence and writing craft.",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "author": {
     "name": "Sergio Salgado",
     "email": "sergiodiassalgado@gmail.com"
@@ -25,14 +25,14 @@
     "knowledge_token": {
       "type": "string",
       "title": "Knowledge-base token (fallback only)",
-      "description": "Leave empty unless the knowledge capability's transport is `api`. Prefer a connected knowledge MCP server (or a local filesystem root), which need no token here.",
+      "description": "Leave empty unless a knowledge source's transport is `api`. Prefer a connected knowledge MCP server (or a local filesystem root), which need no token here.",
       "sensitive": true,
       "required": false
     },
     "artifacts_token": {
       "type": "string",
       "title": "Artifacts token (fallback only)",
-      "description": "Leave empty unless the artifacts capability's transport is `api`. Prefer a connected artifacts MCP server (or a local filesystem root), which need no token here.",
+      "description": "Leave empty unless the artifacts home's or an audience space's transport is `api`. Prefer a connected artifacts MCP server (or a local filesystem root), which need no token here.",
       "sensitive": true,
       "required": false
     },

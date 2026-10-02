@@ -48,7 +48,7 @@ Two cases, one posture: **apply the documented default, and never halt on a styl
 ## What this rule does not decide
 
 It defines what the values mean, not what honoring them looks like. What a brief *contains*, the judgment of
-when a visual is genuinely owed ([when-a-visual-is-owed](../../../craft/writing/when-a-visual-is-owed.md)), how tightly a
-surviving sentence is written ([respect-the-readers-time](../../../craft/writing/respect-the-readers-time.md)), and the comment craft itself
+when a visual is genuinely owed ([when-a-visual-is-owed](when-a-visual-is-owed.md)), how tightly a
+surviving sentence is written ([respect-the-readers-time](respect-the-readers-time.md)), and the comment craft itself
 each stay with their existing owner. A consumer reads its setting here and then applies its own craft; if this
 rule ever seems to prescribe the output, the prescription belongs in the consuming skill instead.

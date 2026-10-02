@@ -14,7 +14,7 @@ Move a dependency to a new version: read what its publisher says changes across 
 
 ## Examples
 `upgrade` — read the path, baseline, grade, bump and fix, prove it green, and commit.
-`--checkpoint-commit` — commit after each major taken in sequence.
+`--checkpoint-commit` — commit at each step that leaves the checks green: each major taken in sequence, and each call-site adaptation within one.
 `--changelog` — add a changelog entry in the project's own format.
 `--dry-run` — report the versions, upgrade path, risk tier and intended bump without changing anything.
 

@@ -30,7 +30,7 @@ Stress the change before verifying it: recruit the [adversary](../../../agents/c
 
 ## `--checkpoint-commit`
 
-If `--checkpoint-commit` is set, commit at safe, self-contained milestones — one per major taken in sequence, at least — a **local commit** (ambient plain git), honoring the project's message convention, so progress is recoverable and the upgrade reads as a reviewable sequence. The final attributable commit is still written in [commit-and-hand-off](05-commit-and-hand-off.md). Never push.
+With `--checkpoint-commit`, commit locally at each green step: see [modules/checkpoint-commit.md](../modules/checkpoint-commit.md).
 
 ## `--dry-run`
 

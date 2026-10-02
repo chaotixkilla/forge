@@ -13,14 +13,14 @@ A tool-layer interface skill: the single place the continuous-integration / deli
 - Deciding *whether* the gate passes, *what* to ship, or *whether* to promote → that is the calling skill's judgment (e.g. **land** runs the gate and decides to merge); this skill only carries out the pipeline operation it is handed.
 
 ## Operations (extended as consumers need them)
-Today it serves the operations `land` and `roll-out` require; new consumers add their operations to the same interface and adapter rather than forking a new one:
+Today it serves the operations `land`, `roll-out` and `mitigate` require; new consumers add their operations to the same interface and adapter rather than forking a new one:
 `run the checks` — trigger the checks for a ref, or read a run's status + pass/fail verdict, by reference.
 `await a run` — block until a run settles within a timeout; return the terminal verdict.
 `promote to an environment` — trigger, or read the state of, a deployment/promotion of a ref to a named environment.
 `fetch a run's logs` — the log output of a run, or of a failed job within it, by reference.
 
 ## Gotchas
-- **It blocks without a configured backend.** `config_requires: tools.ci` with `if_missing: guide via init:ci, else block` — a pipeline port with no pipeline has nothing to do. Callers that have a meaningful reduced path (e.g. integrate falling back to local checks, or reporting that the hosted gate couldn't run) catch the unavailable signal and degrade on *their* side; this skill itself blocks.
+- **It blocks without a configured backend.** `config_requires: tools.ci` with `if_missing: guide via init:ci, else block` — a pipeline port with no pipeline has nothing to do. Callers that have a meaningful reduced path (e.g. land falling back to local checks, or reporting that the hosted gate couldn't run) catch the unavailable signal and degrade on *their* side; this skill itself blocks.
 - **It performs side effects.** Triggering a run and promoting to an environment mutate the backend and can move real deployments. Use `--dry-run` to preview the operation — the resolved run/target — without performing it.
 - **Triggering is not judging.** `ci` returns a run's verdict; it never decides that a failing gate is acceptable or that a promotion should proceed. The caller owns that call — a returned red verdict is reported faithfully, never softened.
 - **It reports failures in capability terms.** The caller hears "the run wasn't found" or "the backend is unavailable," never a provider error code — so the caller's degrade logic never has to learn a provider's vocabulary.

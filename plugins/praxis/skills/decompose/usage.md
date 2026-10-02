@@ -1,23 +1,23 @@
 # decompose — usage
 
-Turn an approved design or plan into an ordered set of independently shippable work units — sized to how your team reviews and integrates, sequenced by dependency and risk, each actionable on its own — then present them for review, record them as tracked work-items, or render them as a checklist.
+Turn an approved design or plan into an ordered set of independently shippable work units — sized to how your team reviews and integrates, sequenced by dependency and risk, each actionable on its own — then return them for review or render them as one ordered checklist. Filing them as tracked work-items is the caller's delivery.
 
 ## When to use
 - A design or plan is approved and you need the work-ready tasks: the ordered, independently-buildable units, each with a clear done-condition, explicit dependencies, and just-enough context for whoever picks it up.
 - You want the units sized to *your* team's rhythm — small enough to review and integrate cleanly, large enough to avoid bookkeeping churn — rather than to an arbitrary hours/points scale.
-- You want the breakdown to land where the work is tracked: presented for review, created as one work-item per unit in your tracker, or rendered as a single ordered checklist.
+- You want the breakdown in a form the work can be tracked from: returned for review, ready to file as one work-item per unit, or rendered as a single ordered checklist.
 - You want a coverage guarantee — that every part of the source is owned by exactly one unit, with nothing dropped and nothing double-owned, and genuinely uncertain work carved out as a timeboxed spike.
 
 ## Not for / use instead
 - Carving the *design* into buildable units and proving it is buildable (walking-skeleton, closed seams, resolved opens) → **plan** (its slice-and-validate closes the design and hands off here). decompose renders those units into work-ready tasks and re-sizes them to your review cadence; it does not re-derive the design or re-open its seams.
 - Carving *requirements* into prioritized, independently-shippable value slices before a design exists → **spec** (its sequencing-and-sizing does value-slicing and MoSCoW priority). decompose works downstream of an approved design.
 - Actually building the units → **develop** (decompose defines the units and their order; develop implements them, and reads a decomposition via `--from-plan`).
-- Recording items in the tracker or reading one back → the **project-mgmt** capability (the port that carries out the create/fetch). decompose decides *what* the units are and hands the create to that capability; it does not talk to a tracker directly.
+- Recording items in the tracker or reading one back → the **project-mgmt** capability, invoked by the caller — the developing act in **work** files the units. decompose decides *what* the units are and never talks to a tracker.
 - Publishing the design or a report as a team-facing document → **artifacts** (a tracked work-item is a unit of work, not a published document).
 
 ## Examples
 `--from-plan=docs/plans/auth.md` — render an approved plan's buildable units into work-ready tasks, re-sized to your team's review/integration cadence and sequenced for execution.
-`--checklist` — emit the units as a single ordered checklist for lightweight tracking, with no tracker configured.
+`--checklist` — render the units as a single ordered checklist for lightweight tracking, with no tracker configured.
 `--from-plan=docs/plans/auth.md` — the common path: take the approved plan and render its work-ready units. The developing act in **work** files them as tracked items.
 
 ## Gotchas

@@ -1,6 +1,6 @@
 # Budget discipline — `--budget=<n>`
 
-Spend at most `n` searches/fetches across the whole run, instead of chasing every sub-question to saturation. Activated from [plan-the-search](../phases/02-plan-the-search.md).
+Spend at most `n` searches/fetches across the whole run — every operation counts, whoever makes it: this context's, recruited explorers', and gather's — instead of chasing every sub-question to saturation. `(basis: derived from a budget bounding the run's whole cost)` Activated from [plan-the-search](../phases/02-plan-the-search.md).
 
 1. **Allocate by importance, spend the load-bearing first.** Divide the budget across sub-questions in proportion to how much the overall answer depends on each; spend down the load-bearing ones before the peripheral, and stop spending on a sub-question once it saturates ([know-when-to-stop](../../../craft/evidence/know-when-to-stop.md)) — reallocate its remainder to the still-open ones.
 2. **Reserve enough to verify the load-bearing claims.** Hold back enough of the budget to verify the run's load-bearing claims at the set level ([verification-level](../rules/verification-level.md) defines that set and level), sized by that set rather than as a fixed fraction of the budget; a run that spends its whole budget gathering and none verifying returns an unverified sweep it did not intend to. When the cap cannot cover both gathering and that verification, degrade and report (point 3) rather than silently skipping verification. (basis: derived from the load-bearing set verification-level defines)

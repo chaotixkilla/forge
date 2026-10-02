@@ -1,6 +1,6 @@
 # Weight by source strength
 
-Every claim deep-research keeps is weighed by how strong the source behind it is. Source strength is a property of *one source*; it is not the same as how sure the claim is (that is the [claim-confidence-scale](claim-confidence-scale.md), which combines strength with corroboration). Weigh by the source's *basis* — its proximity to the origin, its method, its author's expertise, its independence, its currency — never by how confidently or fluently it asserts. This rule is cited from [verify-claims](../phases/04-verify-claims.md) and [synthesize](../phases/05-synthesize.md).
+Every claim deep-research keeps is weighed by how strong the source behind it is. Source strength is a property of *one source*; it is not the same as how sure the claim is (that is the [claim-confidence-scale](claim-confidence-scale.md), which combines strength with corroboration). Weigh by the source's *basis* — its proximity to the origin, its method, its author's expertise, its independence, its currency — never by how confidently or fluently it asserts. This rule is cited from [plan-the-search](../phases/02-plan-the-search.md), [synthesize](../phases/05-synthesize.md) and [claim-confidence-scale](claim-confidence-scale.md).
 
 ## The five tiers
 

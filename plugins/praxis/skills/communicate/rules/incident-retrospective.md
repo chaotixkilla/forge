@@ -12,8 +12,8 @@ Write the analysis per [blameless-framing](../../../craft/writing/blameless-fram
 
 ## Name concrete follow-ups
 
-Turn the analysis into work someone will do, not aspirations. A follow-up earns its place only if it is **concrete** (a specific change, not "improve monitoring"), **owned** (a person or team accountable) and **trackable** (fit to be filed where the team tracks work). The set usually includes the owed durable fix — or, when a rollback that removed the offending change resolved the incident, the forward re-fix and any dead-code cleanup as their own items — new or tuned alerts and guardrails, and runbook updates. Mark each one **gating** (a guardrail whose absence would let this exact incident recur, so it blocks "done") or **advisory** (an improvement worth doing). Filing them is the delivering act's job; the retrospective names them.
+Turn the analysis into work someone will do, not aspirations. A follow-up earns its place only if it is **concrete** (a specific change, not "improve monitoring"), **owned** (a person or team accountable) and **trackable** (fit to be filed where the team tracks work). The set usually includes the owed durable fix — or, when a rollback that removed the offending change resolved the incident, the forward re-fix and any dead-code cleanup as their own items — new or tuned alerts and guardrails, and runbook updates. Mark each one **gating** (a guardrail whose absence would let this exact incident recur, so the incident record stays open until it lands) or **advisory** (an improvement worth doing). Filing them is the delivering act's job; the retrospective names them.
 
-Where the project's runbook has its own retrospective template or severity vocabulary, use it ([match-the-runbook-conventions](../../triage/rules/match-the-runbook-conventions.md)) rather than inventing a format.
+Where the project's runbook has its own retrospective template or severity vocabulary, use it ([match-the-runbook-conventions](../../../craft/engineering/match-the-runbook-conventions.md)) rather than inventing a format.
 
 `(basis: Google SRE, "Postmortem Culture: Learning from Failure")`

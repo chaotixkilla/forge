@@ -10,11 +10,11 @@ Match the result to a type by its membership test: the [task record](../rules/ty
 
 When the act file names the type a result files as, that decides. One result can yield several documents: a review record, and a decision record for each of its decisions that passes that type's test. A result that matches no type isn't filed: tell the caller, naming the result. (basis: maintainer, 2026-09-30, the three kinds of documentation)
 
-A document already filed is updated, not filed again, and a decision keeps the number it was first filed under.
+A document already filed — the same type about the same subject: one unit's review, one decision — is updated, not filed again, and a decision keeps the number it was first filed under. `(basis: derived from one type per page)`
 
 ## Shape it
 
-Shape each document to its type, under [one-type-per-page](../rules/one-type-per-page.md). Every page opens with a line naming its type, the part of the system it covers, its task and its date: `Review record · the invoice export module · review-pr-230 · 2026-10-02`. Three things hold for every type:
+Shape each document to its type, under [one-type-per-page](../rules/one-type-per-page.md). Every page opens with a line naming its type, the part of the system it covers, its task and its date: `Review record · the invoice export module · review-230 · 2026-10-02`. Three things hold for every type:
 
 - **Laid out for a reader who scans.** After that line, a page leads with its conclusion — a review's verdict, a research answer, an incident's impact, the decision ([lead-with-the-takeaway](../../../craft/writing/lead-with-the-takeaway.md)) — and its headings, lists and tables let a reader find their part without reading in order ([structure-for-scanning](../../../craft/writing/structure-for-scanning.md)). A relation the result carries — a flow, a set of states, what depends on what — is drawn as a diagram where [when-a-visual-is-owed](../../../craft/writing/when-a-visual-is-owed.md) says one is owed, to [diagram-legibility](../../../craft/writing/diagram-legibility.md). Laying a result out moves and formats what it carries; it adds no claim.
 - **Every claim keeps its source.** Carry each claim's source through from the result: code at a commit and `file:line`, a document, a test run, a conversation. A claim the result gives no source for is marked `(unsourced)` where it stands, never given one. (basis: maintainer, 2026-09-30)

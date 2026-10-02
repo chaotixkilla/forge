@@ -1,6 +1,6 @@
 # security-review — usage
 
-Audit a change or a subject through a threat lens — scoped to a named adversary — and return substantiated, severity-ranked findings, each traced from adversary-controlled input to the abuse it enables, optionally as a machine-readable findings document or a pass/fail CI gate.
+Audit a change or a subject through a threat lens — scoped to a named adversary — and return substantiated, severity-ranked findings, each traced from adversary-controlled input to the abuse it enables, optionally as a machine-readable findings document or a CI gate.
 
 ## When to use
 - A dedicated threat audit of a change or a component before it ships: authn/authz, injection, secret handling, data exposure across a trust boundary, and supply-chain trust — reasoned from a named adversary, not a generic checklist.
@@ -23,12 +23,12 @@ Audit a change or a subject through a threat lens — scoped to a named adversar
 `security-review --exhaustive` — enumerate every entry point and every threat class rather than the high-likelihood subset; slower, for a high-assurance pass.
 `security-review --severity-min=high` — drop anything below high severity before delivery.
 `security-review --sarif=findings.sarif` — emit findings as a machine-readable document at the path, alongside the human report.
-`security-review --gate --severity-min=high` — run as a pass/fail check that exits non-zero if any high-or-above finding remains; for CI.
+`security-review --gate --severity-min=high` — run as a check that fails when any confirmed or probable high-or-above finding remains, passes when none does, and returns inconclusive when the audit couldn't complete; the calling pipeline maps fail (and inconclusive, if it chooses) to a non-zero exit. For CI.
 
 ## Gotchas
 - **Reachability is the floor, not a nicety.** An unreachable sink is *not a finding* — it is dropped, not down-graded. Every finding names the adversary, what they control, and the traced path from their input to the sink; a weakness with no reachable attacker is at most a note, not a severity-ranked finding.
 - **A hardening nit is not a vulnerability.** security-review reports exploitable defects where a reachable adversary gains something concrete; defense-in-depth suggestions with no reachable abuse are kept separate from the ranked findings, not padded into them.
 - **Silence is a valid result.** A subject whose trust holds returns "no reachable abuse found under the threat lens," explicitly — not a manufactured list.
 - **security-review needs no configuration of its own.** Reading the local subject — and, under `--changed`, the local diff and its base — is ambient, needing no backend, exactly as review reads a local diff. If the subject isn't a version-controlled tree with a derivable base, `--changed` degrades: it audits the whole subject and says it couldn't scope a diff. (A change hosted on a version-control host would delegate to the `vcs` skill, which owns `tools.vcs`; this skill takes no such flag.)
-- **`--sarif` writes a file; `--gate` sets an exit status.** Neither posts anywhere or needs a backend — the document is a local write, the verdict is a local exit code.
+- **`--sarif` writes a file; `--gate` returns a pass, fail, or inconclusive status.** Neither posts anywhere or needs a backend — the document is a local write, the verdict a locally returned status.
 - **The threat-model framework and attack-class taxonomy are dials, not the audit.** With `--threat-model`/`--standard` unset, the audit runs against its default framework and taxonomy; the flags bias and map, they do not gate whether the hunt happens.

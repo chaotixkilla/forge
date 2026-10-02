@@ -4,12 +4,13 @@ Six months out, the chosen approach is visible in the code but the reasoning tha
 
 ## The content contract (pinned)
 
-Every design decision worth recording carries these elements; the assignment test is **present and specific** vs **absent or vague**:
+Every design decision worth recording carries these elements — the three a preserved why owes ([preserve-the-why](../../../craft/writing/preserve-the-why.md)), in a record's structure; the assignment test is **present and specific** vs **absent or vague**:
 
 - **Context and the forces in tension** — the constraints, technical and organizational, that pull the decision in different directions.
 - **The decision, stated actively** — "We will …", in full sentences, not a hedge.
 - **The alternatives seriously considered, each with why it was rejected** — tied to the specific axis or MUST-constraint it lost on (from [choosing-approach](../phases/02-choosing-approach.md)'s scoring). *This is the load-bearing element*: a record with a decision but no weighed-and-rejected options fails the test — it documents a conclusion, not a choice.
 - **Consequences, positive and negative** — what the decision buys and what it costs; a record listing only upsides is incomplete.
+- **The conditions that would reopen it** — what would change the decision, so the team knows when to revisit it.
 - **A status** — proposed / accepted / superseded — so a later reversal is visible rather than silent.
 
 `(basis: ISO/IEC/IEEE 42010:2022; Nygard 2011; MADR 4.0; Fowler's ADR bliki; Zimmermann's Y-statement; Tyree and Akerman 2005)` *Anchor (top):* an entry naming ≥2 considered options with concrete pros/cons and a decision tied to named drivers. *Anchor (bottom):* a bare "we chose X" with no alternatives and no negative consequences.

@@ -6,18 +6,18 @@ Each task keeps one entry in the harness's persistent memory, so a later session
 
 One memory file per task, named `task-<key>`, in the memory's own file format. Its body holds these fields and nothing else, each as a `<field>: <value>` line: the task (its key and title), its status (starting with `open` or `closed`, then what it's waiting on), its act, its next step, its docs (the task record's location), its links (the change and the ticket), the commit it last worked at, and the date it was last updated, as YYYY-MM-DD. (basis: maintainer, 2026-09-30)
 
-    task:    review-pr-230 · invoice export (PROJ-88)
+    task:    review-230 · invoice export (PROJ-88)
     status:  open · delivery pending
     act:     reviewing
-    next:    post the review on pull request 230
+    next:    post the review on review request 230
     docs:    the task record's location
-    links:   ticket PROJ-88 · pull request 230
+    links:   ticket PROJ-88 · review request 230
     at:      3f9c2e1
     updated: 2026-10-02
 
 ## The index line
 
-While the task is open, one line in the memory index points to the entry, its link text prefixed `task:` so it can be told from other memories: `- [task: review-pr-230 · invoice export](task-review-pr-230.md) — open, delivery pending`. Each status change rewrites the line's status text. Close-out removes the line when the task closes, and praxis's session-start hook removes a line idle past the idle period. Only the line goes: the entry file stays, searching memory still finds it, and resuming the task restores the line. Nothing praxis runs removes a line it didn't prefix. (basis: maintainer, 2026-09-30) (routed to maintainer: an idle period of 14 days, long enough to survive a holiday.)
+While the task is open, one line in the memory index points to the entry, its link text prefixed `task:` so it can be told from other memories: `- [task: review-230 · invoice export](task-review-230.md) — open, delivery pending`. Each status change rewrites the line's status text. Close-out removes the line when the task closes, and praxis's session-start hook removes a line idle past the idle period. Only the line goes: the entry file stays, searching memory still finds it, and resuming the task restores the line. Nothing praxis runs removes a line it didn't prefix. (basis: maintainer, 2026-09-30) (routed to maintainer: an idle period of 14 days, long enough to survive a holiday.)
 
 ## A record of what was true, not of what is
 

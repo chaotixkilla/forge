@@ -19,6 +19,8 @@ Certainty answers one question: **how did you come to believe this — did you w
 
 **State vs. behavior at the top rung.** The rungs above grade a claim about what the system *does* (behavior). A claim about an artifact's current *state or contents* — what a config, data file, or manifest *currently holds*, or the current value of a constant read directly — is **observed**: the bytes are the fact, and there is nothing being-consumed to witness. (Reading the catalog's current entries directly is *observed*; claiming what the loader *does* with them is a behavior claim, graded by the rungs above — often only *traced* until you watch it run.) `(basis: maintainer, 2026-07-09; dogfood-surfaced)`
 
+**A claim of absence** — nothing calls X, no retry on this path — is graded on the same rungs by how its search was done, and anchored to that search: *traced* when the search covered every place the thing could be (every caller by the code's own references, every path); *inferred* when it couldn't be exhaustive (dynamic dispatch, reflection, generated code). An absence is never *observed*: there is nothing to watch happen. `(basis: derived from the rungs' tests)`
+
 ## The adjacent-level discriminators
 
 Assign by finding the highest rung whose evidence you actually hold; the boundary tests stop a claim sliding up a rung it didn't earn:
@@ -30,6 +32,8 @@ Assign by finding the highest rung whose evidence you actually hold; the boundar
 When two rungs both seem to fit, the higher wins only if you can name the specific evidence that earns it — the run you did, the lines you read. Absent that, drop a rung.
 
 ## When the system is declarative, not executable
+
+`(basis: derived from the four levels above, by one substitution)`
 Not every system understand maps is executable code — a config, a schema, an IaC manifest, or a skill like this one is declarative, and "run it" and "the path" need a referent. Generalize by one substitution: **the system's behavior is how its interpreter consumes the artifact** — the loader that reads the config, the validator that applies the schema, the harness that loads the skill. The rungs then read:
 - **observed** — you saw the interpreter consume the artifact and produce the effect (ran the config through its loader, validated against the schema, loaded the skill and saw which files actually wired).
 - **traced** — you read the artifact's operative text end to end *and* the consuming rules that apply hold as established ground: either you read the artifact-specific consuming logic, or the rule is a **platform-general** foundational semantic — one that governs every artifact of this kind, relied on the way the executable scale relies on a language's evaluation rules without re-deriving them (you read the skill files, and the harness's "load only referenced slots" rule is a platform general, not a claim about this one skill).

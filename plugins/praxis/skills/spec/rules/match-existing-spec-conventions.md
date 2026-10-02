@@ -16,7 +16,7 @@ The routing is non-gating at every step: the point is to pick *a* convention and
 
 Three choices are genuine forks — more than one format is defensible — so each is pinned to a house default with its live alternatives recorded, resolved by the chain above:
 
-- **Requirement taxonomy** — house default: **functional / non-functional / data / interface-contract** (with functional stated as user stories). Fork: vs. a pure user-story/Gherkin backlog, vs. ADR-style decision records. It goes to the maintainer only when a repo convention contradicts it. `(basis: house convention; after ISO/IEC/IEEE 29148)`
+- **Requirement taxonomy** — house default: **functional / non-functional / data / interface-contract** (with functional stated as user stories). Fork: vs. a pure user-story/Given-When-Then backlog, vs. ADR-style decision records. A repo convention, where one exists, wins over it (step 1). `(basis: house convention; after ISO/IEC/IEEE 29148)`
 - **Priority framework** — house default: **MoSCoW**, its rungs and anchors defined in [sequencing-and-sizing](../phases/05-sequencing-and-sizing.md). Fork: vs. numeric 1–5, vs. Kano. `(basis: house convention; maintainer, 2026-07-04; after DSDM)`
 - **Acceptance-criteria format** — house default: **Given/When/Then**, with example tables for combinatorial rules and bounded assertions for quality attributes ([prefer-examples-over-prose](prefer-examples-over-prose.md) carries the per-case fork). Fork: vs. example-tables-first, vs. flat assertion lists. `(basis: house convention; after BDD practice)`
 

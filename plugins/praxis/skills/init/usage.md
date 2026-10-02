@@ -5,11 +5,11 @@ Detect and write the per-project praxis config — the `tools` map and `team` ro
 ## When to use
 - Bootstrapping praxis in a new project: no `.claude/praxis.json` exists yet and you need one before any config-bearing skill can run.
 - Onboarding a repo whose tooling is discoverable from the environment (the version-control remote, live backend connections) — let inference do the first draft, confirm the rest.
-- Adding or correcting a single section after the fact (a new team member, a switched knowledge backend) — target it with `--phase` instead of rewriting the whole file.
+- Adding or correcting a single section after the fact (a new team member, another knowledge source) — target it with `--phase` instead of rewriting the whole file.
 - Auditing what config *would* be written before committing to it (`--dry-run`).
 
 ## Not for / use instead
-- Changing harness settings, permissions, hooks, or env vars → that is the CLI's own config, not praxis config; this skill only writes `praxis.json`.
+- Changing harness settings, permissions, hooks, or env vars → that is the harness's own config, not praxis config; this skill only writes `praxis.json`.
 - Producing or filing a document into `tools.artifacts` → artifacts. init only records *where* artifacts go; it never writes one.
 - Reading knowledge or prior art out of `tools.knowledge` → understand / deep-research. init only records the connection; it does not fetch through it.
 - Any downstream engineering step (spec, plan, develop, review, …) → those *consume* the config init produces; run init once first, then reach for them.

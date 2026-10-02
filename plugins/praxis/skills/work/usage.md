@@ -23,12 +23,12 @@ Start or resume a piece of engineering work and carry it through its act: the ri
 
 ## Examples
 - `work add rate limiting to the export endpoint (PROJ-88)` — routes to developing: spec, plan, decompose, then each unit built, tested, verified, reviewed and opened for review.
-- `work review pull request 230` — routes to reviewing and runs its two passes.
+- `work review change 230` — routes to reviewing and runs its two passes.
 - `work checkout is failing for EU users` — routes to responding-to-an-incident: triage, mitigate, diagnose, communicate.
-- `work --task=review-pr-230` — resumes that task where it stopped.
+- `work --task=review-230` — resumes that task where it stopped.
 - `work --act=shipping --dry-run` — shows the steps it would propose and what it would record, without running or writing anything.
 
 ## Gotchas
 - work never does a step's work itself: each step runs as its own skill, and document files the results.
 - Every step on an act's checklist is run, skipped under the act's own condition, or skipped by you with a reason. It is never skipped silently.
-- Steps never deliver; acts do. Review requests, posts, published documents and work-items go out at close-out, through the ports.
+- Steps never deliver; acts do, at close-out, and work does for a lone step it runs outside an act. Review requests, posts, published documents and work-items go out through the ports.

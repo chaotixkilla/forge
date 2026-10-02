@@ -14,11 +14,11 @@ Keep the run open, re-reading the signal through the [telemetry](../../telemetry
 ## The verdicts it produces
 
 - Signal holds at baseline through the window → *mitigated*, held through the window.
-- Window elapses with the signal unsettled or too thin to judge → *mitigated*, not yet settled, never rounded up to held; the watch is handed off with the last observed state and what would settle it.
+- Window elapses with the signal unsettled or too thin to judge → *indeterminate*, never rounded up to mitigated; the watch is handed off with the last observed state and what would settle it.
 - Signal regresses during the watch → *not-mitigated*: the mitigation didn't hold, and the result says so.
 
 ## Relation to the harness loop
 
-`--watch` stays **attached** and polls within the run — it does not reimplement scheduling; this module only defines *what stable means* and *how long to hold*. Prerequisite: the re-reads go through the telemetry port (doer-owns-prerequisites; mitigate declares none); if telemetry becomes unavailable mid-watch, the standard's unreadable case applies: the last observed state, reported as not yet settled.
+`--watch` stays **attached** and polls within the run — it does not reimplement scheduling; this module only defines *what stable means* and *how long to hold*. Prerequisite: the re-reads go through the telemetry port (doer-owns-prerequisites; mitigate declares none); if telemetry becomes unavailable mid-watch, the standard's unreadable case applies: *indeterminate*, with the last observed state.
 
 While watching, decide and record instead of asking ([ask-while-the-user-is-here](../../gather/rules/ask-while-the-user-is-here.md)).

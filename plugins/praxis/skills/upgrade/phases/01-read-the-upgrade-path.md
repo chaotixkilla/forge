@@ -17,7 +17,7 @@ A needed change *outside* the resolved set is never made silently — it's surfa
 
 ## Locate the dependency and who uses it
 
-- **The versions.** The dependency, its currently resolved version (from the lockfile, not the manifest's range), and the target. The request names the target; without one, take the newest release the project's posture allows ([dependency-upgrade-posture](../rules/dependency-upgrade-posture.md)).
+- **The versions.** The dependency, its currently resolved version (from the lockfile, not the manifest's range), and the target. The request names the target; without one, take the newest release within the current major that the cooldown in [dependency-upgrade-posture](../rules/dependency-upgrade-posture.md) allows, and name a newer major as a follow-up rather than taking it. `(basis: derived from the posture's manual review for a major)`
 - **Its consumers.** Your own call sites, where a behavioral delta would land, and anything else that resolves the same copy — the reach [change-risk-scale](../../../craft/engineering/change-risk-scale.md) grades a dependency upgrade on.
 
 Read enough of the call sites to know the conventions any adaptation will have to match ([match-the-surrounding-code](../../../craft/engineering/match-the-surrounding-code.md)).
@@ -28,7 +28,7 @@ Read the changelogs, release notes and migration guides for every version betwee
 
 ## Capture the green baseline — the verification anchor
 
-**Checkpoint:** record the checks that pass now, before changing anything, so the upgrade's effect is a *delta* against a known-good baseline, not a guess. Prefer the project's own suite; where it has none for the call sites, capture representative current outputs by exercising them through their callers. Record the baseline explicitly; it is an input to [prove-it-green](04-prove-it-green.md)'s "done" test, not a throwaway.
+**Checkpoint:** record the checks that pass now, before changing anything, so the upgrade's effect is a *delta* against a known-good baseline, not a guess. Prefer the project's own suite; where it has none for the call sites, capture representative current outputs by exercising them through their callers: the distinct input shapes the call sites actually pass, plus the obvious edges (empty, boundary). `(basis: derived, matching refactor's baseline floor)` Record the baseline explicitly; it is an input to [prove-it-green](04-prove-it-green.md)'s "done" test, not a throwaway.
 
 ## `--dry-run`
 

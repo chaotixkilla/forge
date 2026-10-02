@@ -1,10 +1,10 @@
 # claude-docs — knowledge adapter
 
-Implements the **knowledge** capability against Claude Docs, over the Claude Docs connector (a claude.ai connector, so it exists only where the user has it connected). The space starts from `tools.knowledge.root`, a doc whose tabs and links lead to the rest of the owner's docs; the connector authenticates through the user's claude.ai connection, so the adapter needs no `secret_ref`, and its transport is `mcp`. The [knowledge](../SKILL.md) skill takes the caller's read and dispatches here. A doc holds tabs and each tab one prose body, so a doc reads as a document whose tabs are its sections.
+Implements the **knowledge** capability against Claude Docs, over the Claude Docs connector (a claude.ai connector, so it exists only where the user has it connected). The space starts from the resolved source's `root`, a doc whose tabs and links lead to the rest of the owner's docs; the connector authenticates through the user's claude.ai connection, so the adapter needs no `secret_ref`, and its transport is `mcp`. The [knowledge](../SKILL.md) skill takes the caller's read and dispatches here. A doc holds tabs and each tab one prose body, so a doc reads as a document whose tabs are its sections.
 
 ## Search the space
 
-1. Query the owner's docs for the caller's query through the connector's search. A scope the caller names (a doc) narrows the read to that doc's tabs.
+1. Query the owner's docs for the caller's query through the connector's search. The owner's docs are one space: a search reaches all of them, and the root only anchors a walk, so one claude-docs source covers them — say so with the results, as an unconfined search. A scope the caller names (a doc) narrows the read to that doc's tabs.
 2. Return **ranked references only** — each a doc's id and link with its title and any snippet the search surfaces. Fetching every hit is this port's most expensive mistake.
 3. Bound the result set by the page size the search exposes. When the backend cuts it short, that is `partial`.
 

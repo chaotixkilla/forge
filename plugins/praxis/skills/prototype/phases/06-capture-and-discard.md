@@ -29,4 +29,4 @@ Make a deliberate disposition of the spike code; do not leave it lying around to
 
 State which disposition was taken. An unstated disposition is how a throwaway quietly becomes permanent.
 
-The output of this phase — and of prototype: the findings blob (returned or published) and a disposed spike.
+The output of this phase — and of prototype: the findings blob, returned, and a disposed spike.

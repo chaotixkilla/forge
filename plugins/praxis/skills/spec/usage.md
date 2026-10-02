@@ -19,7 +19,7 @@ Turn a fuzzy request into hard, testable, sequenced requirements — the contrac
 `--from-issue=<ref>` — seed the spec from a tracker issue (title, description, acceptance criteria) instead of a blank page; you still interrogate and harden it.
 `--from-discussion=<ref>` — seed from a discussion thread, lifting the decisions and constraints already argued out so you don't re-litigate them.
 `--strict` — hold a high bar: every requirement must be pass/fail checkable, every vague adjective quantified; rejects "should be fast" until it's a number.
-`--first-pass` — return the structural skeleton after the first phase and pause for steering, so you correct scope before investing in detail.
+`--first-pass` — return the structural skeleton after structuring and pause for steering, so you correct scope before investing in detail.
 `--from-issue=<ref> --strict` — harden an inherited issue into a rigorous, checkable spec.
 `--from-discussion=<ref> --first-pass` — turn a thread into a skeleton, confirm the shape, then flesh out.
 

@@ -4,13 +4,13 @@ A usable hypothesis states a specific mechanism *and predicts an observation tha
 
 `(basis: Zeller, Why Programs Fail; Popper's falsifiability criterion)`
 
-Where several mechanisms fit the evidence, hold them as a ranked set of candidates rather than committing to the first — and prefer the experiment that discriminates *between* candidates, killing the most theories per run.
+Where several mechanisms fit the evidence, hold them as a set of candidates ranked by how much of the evidence each explains, ties broken by which is cheaper to disprove `(basis: derived from the strongest hypothesis being the one that explains the most observations)`, rather than committing to the first — and prefer the experiment that discriminates *between* candidates, killing the most theories per run.
 
 ## Run the cheapest disproving experiment
 
 For each hypothesis, design the experiment that could disprove it for the least effort, and prefer disproof to confirmation ([guard-against-confirmation](../../../craft/evidence/guard-against-confirmation.md)). Two disciplines govern the experiment:
 
-- **Change one thing at a time** ([change-one-thing-at-a-time](../../../craft/evidence/change-one-thing-at-a-time.md)) — vary a single factor so the observed change has exactly one possible cause, and revert each probe before the next. On an intermittent bug, "one run" is not an experiment: repeat trials per change, on the statistical reproduction's harness ([reproduce-before-fixing](../rules/reproduce-before-fixing.md)), until the result is statistically meaningful.
+- **Change one thing at a time** ([change-one-thing-at-a-time](../../../craft/evidence/change-one-thing-at-a-time.md)) — vary a single factor so the observed change has exactly one possible cause, and revert each probe before the next. On an intermittent bug, "one run" is not an experiment: repeat trials per change, on the statistical reproduction's harness ([reproduce-before-fixing](../rules/reproduce-before-fixing.md)), until the result is meaningful: at least as many trials as the baseline would need to show the failure three times at its measured rate (a 10% failure, 30 trials), and zero failures in that many counts as gone. `(basis: the rule of three for a zero-event bound)`
 - **Make the invisible observable** ([make-the-invisible-observable](../rules/make-the-invisible-observable.md)) — where the deciding state is unseen, instrument the boundary and read the value crossing it rather than reasoning about what it "must" be. Believe the instrument over the model ([observation-over-inference](../../../craft/evidence/observation-over-inference.md)).
 
 Record each experiment and its result as it runs, so the elimination is auditable and you do not re-run a test you already have the answer to. A hypothesis whose disproving experiment *fails to disprove it* is strengthened, not proven — it advances toward confirmation, where the controlled toggle settles it.

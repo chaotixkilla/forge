@@ -6,4 +6,4 @@ Promoting a claim on one source's say-so is how a result inherits that source's 
 2. **Independence grades down when unsure.** Two origins corroborate only when neither draws on the other. When you can't establish that a second origin is first-hand rather than an echo of one already counted, treat it as the same origin and don't let it raise confidence: an unverified second origin is not corroboration. (basis: WP:INDEPENDENT; OSINT source grading)
 3. **Corroboration strengthens within a tier; it never crosses one.** Any number of independent weak sources agreeing remains weak evidence, below a single strong source on the same claim — anecdotes don't add up to authority. Corroboration raises confidence *within* a source-strength tier and never promotes a claim across one.
 
-(basis: maintainer, 2026-07-03; after the community-practices explorer's graded scale and anvil's count-origins-not-posts craft)
+(basis: maintainer, 2026-07-03; after the community-practices explorer's graded scale and its count-origins-not-posts step)

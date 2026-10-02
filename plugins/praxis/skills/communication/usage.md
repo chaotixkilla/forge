@@ -8,7 +8,7 @@ A tool-layer interface skill: the single place the conversation backend is reach
 
 ## Not for / use instead
 - Publishing a spec, plan, report, or decision record as a **team-facing document** → **artifacts** (the artifacts/docs port). This is the settled artifacts-vs-communication line: artifacts writes durable, audience-facing *documents* to a docs backend; communication reads and posts *messages and threads* on a conversation backend. Posting a link to — or a summary of — a published document into a channel is a communication `post`; producing the document itself is artifacts.
-- Fetching or posting on a pull request, or setting a merge-gating status → **vcs** (the code-host port). Creating or updating tracked work-items → **project-mgmt** (the work-tracking port). `communication` fronts the conversation backend, not the code host or the tracker.
+- Fetching or posting on a review request, or setting a merge-gating status → **vcs** (the code-host port). Creating or updating tracked work-items → **project-mgmt** (the work-tracking port). `communication` fronts the conversation backend, not the code host or the tracker.
 - Deciding *what* to post, *to whom*, or *whether* to send at all → the calling skill's judgment (e.g. **communicate** routes and pitches the message at the right altitude and audience; the incident act in **work** decides an incident warrants a status update); this skill only carries out the messaging operation it is handed.
 
 ## Operations (extended as consumers need them)

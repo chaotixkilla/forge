@@ -148,7 +148,7 @@ can't:
 
 ```
 /praxis:init      # configure your project's backends (once)
-/praxis:work      # start or resume work — "build PROJ-88", "review PR 230", "the checkout API is down"
+/praxis:work      # start or resume work — "build PROJ-88", "review change 230", "the checkout API is down"
 /praxis:review    # run one step on its own — here, a review of your own change
 ```
 
@@ -161,6 +161,11 @@ praxis prefers backends that store **no credential**:
 - **A local filesystem root** — for knowledge and artifacts, no auth; the artifacts default.
 - **`api` (last resort)** — the only transport needing a token; it goes into Claude Code's secure
   per-user store, never into the committed project config.
+
+Knowledge can come from several sources at once — an older platform you never migrated off, a
+company-wide space beside engineering's — and praxis reads them all. praxis writes to one **artifacts
+home** by default. Configure an **audience space** for non-engineering readers and praxis writes
+there only when you ask for something for one: "write this up for the PM".
 
 ## License
 

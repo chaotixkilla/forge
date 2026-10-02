@@ -10,7 +10,7 @@ Document what **crosses the boundary** — the contract of a public function, ty
 - **State what the signature can't.** The things a caller needs and cannot see from names and types: **inputs** (accepted ranges, what counts as valid), **outputs** (units, what's returned when there's nothing to return — [null-and-empty-handling](null-and-empty-handling.md)), **invariants** it assumes and preserves, **failure modes** (what it raises/returns on bad input, and whose job validation is), and **side effects** (what it mutates, writes, or calls).
 - **Describe the abstraction, not the implementation.** The doc says *what the function promises and requires* — not *how* it computes it. Documenting the algorithm couples the contract to the body, so the doc breaks every time the implementation is refactored without the promise changing. Keep it to the *why* and the *what-it-guarantees*, never the mechanics ([comment-the-why-not-the-what](comment-the-why-not-the-what.md)).
 
-(basis: Ousterhout, *A Philosophy of Software Design*; the docstring/javadoc convention)
+(basis: Ousterhout, *A Philosophy of Software Design*; the doc-comment convention)
 
 ## The anchors
 
