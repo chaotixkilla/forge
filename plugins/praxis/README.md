@@ -140,15 +140,15 @@ can't:
   be read as a marker, and a marker file an older praxis left, and trims closed or idle tasks from
   Claude's memory index.
 - **Before a code change**, it blocks file edits and commits inside the project while this session
-  runs no act, or while its act's proposal waits on the user's answer, and says how to start one: a
+  runs no act, or while its act's proposal is unsettled, and says how to start one: a
   trivial change runs the developing act's small-change path.
 - **After `work` or a step skill runs**, while this session has no act it states the session's id
   and, after a step, adds a note to offer filing the step's result into a task. When this session's
   marker exists but can't be read, a notice says so in place of that offer. When a step skill of this
-  session's act runs before the act's proposal is answered, a note says no step runs before the answer.
+  session's act runs before the act's proposal is answered, a note says no step runs before it's settled.
 - **At the end of a turn**, three checks block once: in a running act, a step left without an honest
   outcome (skipped without a reason, passed over, still pending though its result waits unfiled, or
-  given an outcome before the proposal was answered); a step whose skill ran while it's still
+  given an outcome before the proposal was settled); a step whose skill ran while it's still
   recorded pending; and what an ended step hands the record, or the record of where a delivery went,
   neither filed in the task's documentation nor, after a failed filing, written as its own file in
   `.claude/praxis/unfiled/<task>/` with the failure recorded; and, in or out of an act, a praxis

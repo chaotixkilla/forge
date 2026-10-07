@@ -9,8 +9,8 @@ leaves a record. After work, and after a step, it states this session's id, unde
 which an act writes its marker, so the act can write one when session start stated
 none. When the marker file exists but can't be read as one, the note says so instead
 of the offer. When this session's act marker records no answer to the act's proposal
-and the skill is one of its steps, the note says no step runs before the user
-answers it. It never blocks; on any error, and when the event names no usable
+and the skill is one of its steps, the note says no step runs before it's
+settled. It never blocks; on any error, and when the event names no usable
 session id, it stays silent.
 """
 import json
@@ -30,8 +30,8 @@ UNREADABLE = ("This session's act marker, .claude/praxis/acts/{0}.json, exists b
               "it again, or remove it.")
 SESSION_ID = "This session's id is {0}: an act run in it keeps its marker at .claude/praxis/acts/{0}.json."
 UNANSWERED = ("This session's act for {0} has no answer to its proposal recorded, and {1} is one of its steps: "
-              "no step runs before the user answers the proposal. Put the proposal to the user, and record the "
-              "answer in the marker's answered before running any step.")
+              "no step runs before the proposal is settled. Show the act's steps, asking only when run-the-act's list "
+              "calls for it (a rework always asks), and record when in the marker's answered before running any step.")
 
 
 def plugin_name():

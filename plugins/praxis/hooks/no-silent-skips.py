@@ -7,7 +7,7 @@ over without an honest outcome: a step still pending while a later step has run,
 step still pending whose result waits in the task's unfiled directory (it has ended,
 so it must not run again), an outcome that isn't one of the three, a skip with no
 reason recorded, or a step given an outcome while the marker records no answer to
-the act's proposal (steps run only once the user has answered it). Other sessions'
+the act's proposal (steps run only once it is settled). Other sessions'
 markers are never read. It blocks once per turn: when the harness is already
 continuing because of a stop hook, the turn ends. On any error, an unreadable marker
 or an event with no usable session id included, the turn ends too.
@@ -50,8 +50,8 @@ def problems(project, task, steps, answered):
     found = []
     if last_done >= 0 and not answered:
         found.append("steps have outcomes, but the marker records no answer to the act's proposal: steps run "
-                     "only after the user answers it, so put the proposal to the user and record the answer "
-                     "in the marker's answered")
+                     "only once it's settled, so show the act's steps, asking only when run-the-act's list calls for it "
+                     "(a rework always asks), and record when in the marker's answered")
     for i, step in enumerate(steps):
         name = step.get("step") or f"step {i + 1}"
         outcome = step.get("outcome", "pending")
@@ -84,9 +84,9 @@ def main():
                      str(marker.get("answered") or "").strip())
     if found:
         reason = ("The running act's checklist has steps without an honest outcome:\n- " + "\n- ".join(found)
-                  + "\nOnce the proposal's answer is recorded, run each step, record the outcome its waiting "
+                  + "\nRun each step, record the outcome its waiting "
                   "result gives it, or record why it was skipped: the condition the act file names, or the "
-                  "user's own reason. No step runs before the answer, and none is skipped silently.")
+                  "user's own reason. None is skipped silently.")
         json.dump({"decision": "block", "reason": reason}, sys.stdout)
 
 

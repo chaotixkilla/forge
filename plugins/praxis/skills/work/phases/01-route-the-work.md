@@ -19,7 +19,7 @@ Match the request against each act's entry condition, stated at the top of its a
 - [auditing](../acts/auditing.md)
 - [learning](../acts/learning.md)
 
-`--act=<name>` replaces the match; a name with no act file is an error — say which acts exist and stop. When it's unclear whether the request fits an act, take the act: the proposal in [run-the-act](03-run-the-act.md) shows the user what it would run before anything does. When two acts fit, ask the user which, now. (routed to maintainer: both defaults, since the proposal shown before anything runs makes taking an act cheap to undo, while a wrong guess between two acts isn't.)
+`--act=<name>` replaces the match; a name with no act file is an error — say which acts exist and stop. When it's unclear whether the request fits an act, take the act: the proposal in [run-the-act](03-run-the-act.md) then asks before anything runs. When two acts fit, ask the user which, now. (routed to maintainer: both defaults, since the proposal shown before anything runs makes taking an act cheap to undo, while a wrong guess between two acts isn't.)
 
 ## When no act fits
 
