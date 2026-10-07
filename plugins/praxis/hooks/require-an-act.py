@@ -2,11 +2,13 @@
 """praxis PreToolUse hook: require an act.
 
 In a project set up for praxis (it has .claude/praxis.json), code changes happen
-inside an act. When this session runs no act (it has no readable marker at
-.claude/praxis/acts/<session-id>.json, per work's keep-the-act-marker rule), this
-denies a file edit inside the project, and a git commit, with a message that says
-how to start one: a change with no behavior change and no new interface runs the
-developing act's small-change path (develop, then verify). Another session's
+inside an act whose proposal the user has answered. When this session runs no act
+(it has no readable marker at .claude/praxis/acts/<session-id>.json, per work's
+keep-the-act-marker rule), this denies a file edit inside the project, and a git
+commit, with a message that says how to start one: a change with no behavior
+change and no new interface runs the developing act's small-change path (develop,
+then verify). When the marker records no answer to the act's proposal yet, it
+denies them with a message that the proposal waits on the user. Another session's
 marker never unlocks this one. Edits outside the project, inside .claude/, and
 inside a local documentation directory (the artifacts home's, or a local audience
 space's) are never blocked. On any error, and when the event names no usable
@@ -49,6 +51,11 @@ def read_marker(path):
 def denial(project, session):
     """The deny message: how to start an act, and what this session and others have on disk."""
     own = os.path.join(acts_dir(project), session + ".json")
+    marker = read_marker(own)
+    if marker:
+        return (f"This session's act for {str(marker['task']).strip()} has no answer to its proposal recorded, "
+                "so this code change is blocked: no step runs and no code changes until the user answers the "
+                "act's proposal and the marker's answered records when.")
     parts = [REASON, f"This session's id is {session}: an act running in it keeps its marker at "
                      f".claude/praxis/acts/{session}.json."]
     if os.path.exists(own):
@@ -122,7 +129,8 @@ def main():
     session = str(event.get("session_id") or "")
     if not SESSION.match(session):
         return
-    if read_marker(os.path.join(acts_dir(project), session + ".json")):
+    marker = read_marker(os.path.join(acts_dir(project), session + ".json"))
+    if marker and str(marker.get("answered") or "").strip():
         return
     tool = event.get("tool_name")
     payload = event.get("tool_input") or {}

@@ -6,3 +6,5 @@ Adds a diagram of the traced structure or flow to the map. Deletion test: remove
 
 ## Choosing the diagram kind
 The kind is not a default: it's chosen by the axis the framed question's answer turns on, by [when-a-visual-is-owed](../../../craft/writing/when-a-visual-is-owed.md)'s *Which diagram* — structure, data-flow (the [follow-the-data](../../../craft/engineering/follow-the-data.md) lens made visual), sequence or state — and drawn to [diagram-legibility](../../../craft/writing/diagram-legibility.md). Only claims already in the map, at their certainty grades, appear in the diagram.
+
+When [when-a-visual-is-owed](../../../craft/writing/when-a-visual-is-owed.md) says no diagram is owed for what the trace found, draw none and say so in the map, in one line, so a flag an act passes never forces a picture of a single fact. (basis: derived — the flag asks for a diagram where one is owed)

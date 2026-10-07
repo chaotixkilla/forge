@@ -1,11 +1,15 @@
 # Task log
 
-One flat page with one line per task, newest update first, for people who don't use praxis. It mirrors the task memory entries and holds nothing they don't. A task's later rounds keep its one line, which shows the latest.
+One page listing this user's tasks for people who don't use praxis, in three sections, newest first within each. It mirrors the task memory entries and holds nothing they don't. A task's later rounds keep its one row, which shows the latest.
 
-## The line
+## Sections
 
-`<date updated> · <key> — <title> · round <n> · <status> · next: <next step> · <link to the task record>`
+In this order, each a table; a section with no tasks says so in a line.
 
-For example: `2026-10-02 · review-230 — review the invoice export change · round 2 · open, delivery pending · next: post the review on review request 231 · task record`.
+1. **Open** — every open task updated within the idle period ([keep-the-task-memory-entry](../../../work/rules/keep-the-task-memory-entry.md)): `updated · task · round · waiting on · next`.
+2. **Idle** — every open task with no update for the idle period or longer, in the same columns.
+3. **Closed** — every closed task, under a heading per month of its last update, newest month first: `closed · task · rounds · outcome`.
 
-No index and no categories, now or later: the page's only order is by date. (basis: maintainer, 2026-09-30; one line per task across its rounds, maintainer, 2026-10-02)
+Each cell comes from the task's entry: the dates from its `updated`; the task as its key and title, linked to the task record's location; the round as the latest round's number and kind; what it's waiting on, and its outcome, as the status text after `open` or `closed`, or `closed` where there is none; the next step as the entry's; the rounds as their count.
+
+The log is one page whatever its sections, never carved into subpages ([portable-tree-shape](../portable-tree-shape.md)). (basis: maintainer, 2026-10-07)

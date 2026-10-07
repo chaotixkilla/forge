@@ -4,7 +4,7 @@ The task's working record: an account of how the claims its conclusions rest on 
 
 ## Membership
 
-A result is a working note when a later result in the same task builds on it and it isn't itself delivered to anyone. A conclusion — a verdict, a decision, a finding delivered to someone — belongs to its own type. (basis: maintainer, 2026-09-30)
+A result is a working note when a later result in the same task builds on it and it isn't itself delivered to anyone. A conclusion — a verdict, a decision, a finding delivered to someone — belongs to its own type. (basis: maintainer, 2026-09-30) Two sections of a round of an act that authors a change are the exception, kept here under their fixed headings so the round's record can link them: `Review comments and their dispositions`, from the round's proposal, and `Record check`, the record check's verdict, with `Record check before the round closed` for the one made at its close. (basis: maintainer, 2026-10-07)
 
 ## Shape
 

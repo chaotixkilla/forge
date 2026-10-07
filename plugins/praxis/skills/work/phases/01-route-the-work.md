@@ -2,7 +2,7 @@
 
 First, the outcome. When what the request asks for *is* a write-up or a message for someone other than the asker to read — a summary, a status update, a decision record, an explanation pitched to a named reader — it is communicate's outcome: run it as one step's outcome (below), with no task. Any other request goes through the task test and the acts, and a summary it posts is its act's delivery at close-out — so "summarize how the export job works for Ana" is a write-up, while "research how teams version APIs and post a summary" is research. `(basis: maintainer, 2026-10-01)`
 
-Then apply [when-work-needs-a-task](../rules/when-work-needs-a-task.md). If it doesn't need one, answer the request directly and stop: no task, no act, nothing written. With `--task=<key>`, skip this section and the next: the task exists, and its memory entry names its act ([open-the-task](02-open-the-task.md)).
+Then apply [when-work-needs-a-task](../rules/when-work-needs-a-task.md). If it doesn't need one, answer the request directly and stop: no task, no act, nothing written. With `--task=<key>`, skip this section and the next: the task exists, and its memory entry names its act; or the act its open round's line names, a ship round's being shipping, or, for a rework after peer review it opens, the act open-the-task's Rounds gives it; or shipping, when the request is to ship a change its act authored and the task has closed, an open round being taken under its own act first; or, for other work on a closed task of an act that authors a change, the act Which act? below matches. A request to file a finding about an existing task goes to [open-the-task](02-open-the-task.md)'s route for a finding.
 
 ## Which act?
 

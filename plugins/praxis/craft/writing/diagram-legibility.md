@@ -4,11 +4,11 @@ A diagram that is correct and unreadable has failed, and it fails invisibly — 
 
 ## Notation
 
-Emit diagrams as **mermaid in a fenced block**: praxis declares no drawing backend, so a diagram stays inline text and brings no config prerequisite with it. It is a house default rather than a law — a team with a drawing backend may reasonably swap it — but it is pinned so that two runs do not produce two notations for the same artifact.
+Emit diagrams in **mermaid**: in a published document as a diagram block whose source is mermaid; anywhere else as a fenced mermaid block. A diagram stays text, so it brings no config prerequisite with it. It is a house default rather than a law — a team with a drawing backend may swap it, and a swapped notation travels as code, never as the diagram block — but it is pinned so that two runs do not produce two notations for the same artifact.
 
-Where the destination cannot render it, do not silently flatten: leave a visible placeholder that names the content and points to its source form, so the reader knows a diagram exists and where to see it.
+A diagram carries a one-line caption above it, stating the relation it shows, and its elision line below it ([elision](#elision-is-declared-never-silent)). `(basis: derived — a reader meets the relation before the picture, as a chart's caption carries its claim)` Outside a published document, where the destination cannot draw it, do not silently flatten: keep the source visible as code under that caption, saying it is a diagram's source.
 
-`(basis: house practice; mermaid for the widest render support among text notations; no drawing backend assumed; maintainer, 2026-10-01: mermaid accepted on record as the pinned house notation)`
+`(basis: house practice; mermaid for the widest render support among text notations; maintainer, 2026-10-01: mermaid accepted on record as the pinned house notation; maintainer, 2026-10-07: every shipped documentation backend draws mermaid natively, checked on one and per their documentation for the rest, as each adapter's content support surface records)`
 
 ## Size: one level of abstraction per picture
 

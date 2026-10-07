@@ -7,7 +7,7 @@ metadata:
     --symbol=<name>: seed the investigation from a named symbol — start at its definition and fan out through its references (a seeding mode, applied in frame-the-question)
     --from-code=<glob|symbol>: bottom-up — start from given code locations and reconstruct intent and behavior outward, rather than from a question (a seeding mode, applied in frame-the-question)
     --read-only: hard guarantee of zero mutations — pure static observation, no runs, edits, or state changes to the system under study (activates the read-only-boundary module)
-    --diagram: emit a diagram of the traced structure or flow (control/data/sequence) as part of the map (activates the render-diagram module)
+    --diagram: emit a diagram of the traced structure or flow (structure, data-flow, sequence or state) as part of the map (activates the render-diagram module)
 ---
 Usage & examples — when to reach for this skill, and concrete flag invocations: see [usage.md](usage.md).
 

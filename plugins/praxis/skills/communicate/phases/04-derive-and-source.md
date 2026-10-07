@@ -37,7 +37,7 @@ Sourcing runs until every requirement is either obtained or settled on a disposi
 
 ## Decide which requirements are visual, and source those too
 
-Test each requirement for visual shape, and route it to a table, a chart, a diagram of a named kind, or prose, using [when-a-visual-is-owed](../../../craft/writing/when-a-visual-is-owed.md) — the shape test, the table/chart/diagram fork, the kind selection, and the fallback a chart takes when no charting capability is present all live there.
+Test each requirement for visual shape, and route it to a table, a chart, a diagram of a named kind, or prose, using [when-a-visual-is-owed](../../../craft/writing/when-a-visual-is-owed.md) — the shape test, the table/chart/diagram fork, the kind selection, and the form a chart takes by where it's read all live there.
 
 Where the rule selects a diagram, the kind determines **which read** its content must come from; that rule's per-kind sourcing table names it. A diagram is not exempt from the dispositions in [source-or-declare](../../../craft/writing/source-or-declare.md): an unreadable relation is a blocked requirement, declared rather than sketched from memory. Render to the bars in [diagram-legibility](../../../craft/writing/diagram-legibility.md).
 

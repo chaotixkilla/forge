@@ -31,7 +31,7 @@ Before step 1, [give the task a branch](../rules/give-the-task-a-branch.md).
 
 | # | step | inputs | skipped by the act when |
 |---|---|---|---|
-| 1 | [debug](../../debug/SKILL.md), with `--from-incident`, `--from-telemetry` or `--from-logs` when the request carries one | the symptom, and its reproduction or seed | the request carries a cause already shown `observed`, with its evidence |
+| 1 | [debug](../../debug/SKILL.md), with `--from-incident`, `--from-telemetry` or `--from-logs` when the request carries one | the symptom, and its reproduction or seed | the request carries a cause already shown `observed`, with its evidence, or the round is a rework after peer review |
 | 2 | [develop](../../develop/SKILL.md) | step 1's mechanism and its recommended fix: the altitude, and the change | step 1's diagnosis doesn't hold with its cause `observed` — except one that holds below `observed` in a task responding to an incident, fixed provisionally (above) — or the fix needs design (above) |
 | 3 | [test](../../test/SKILL.md) `--changed` | the guard step 1 names, which must fail without the fix and pass with it, and the original reproduction, re-run | never |
 | 4 | [verify](../../verify/SKILL.md) | the flows the defect reaches | the defect reaches no flow a user or an external caller runs |
@@ -39,13 +39,15 @@ Before step 1, [give the task a branch](../rules/give-the-task-a-branch.md).
 
 When the act ends at step 1 — one of the four cases above, or a fix that needs design — no later step runs. When step 2 ends blocked — develop couldn't land the fix — the act stops, with the blocker as the task's next step. When step 3's result or step 4's headline is `fails`, or the fix doesn't pass step 5 — a finding stands that would fail review's gate at its default floor, or an acceptance `fails`, by [open-the-review-request](../rules/open-the-review-request.md)'s test — the fix goes back to step 2 with that step's whole result as its input, and steps 3 to 5 run again; after the second failed pass, the act stops with its last result as the task's next step. A result that settles nothing — `unsettled` from step 3 or 4, test's `not checked`, verify's `not checked` for any reason but *no reachable surface*, such as *reach untraced*, or an acceptance step 5 leaves `unsettled` or `not checked` — sends nothing back: its gap becomes the task's next step. The steps after it still run, and the review request opens with the gap stated in its description; the task isn't done until the gap is settled. (routed to maintainer: two passes before stopping, since a second failure on the same fix says it needs more than another try.)
 
+In a rework after peer review ([open-the-task](../phases/02-open-the-task.md)), step 2's input is the comments its proposal settled as addressed, and step 1's diagnosis and guard are the latest round's that ran step 1. A follow-ups round runs the act from step 1 on its request. (basis: maintainer, 2026-10-07)
+
 ## Filed
 
-Step 1's diagnosis — the mechanism, its certainty, the blast radius and the reproduction — and steps 2 to 4's results file as sections of the task's scratchpad, and step 5's result as the review record. (basis: derived from the document types' membership tests)
+Step 1's diagnosis — the mechanism, its certainty, the blast radius and the reproduction — and steps 2 to 5's results file as sections of the round's scratchpad. The round's [round record](../../document/rules/types/round-record.md), when its membership admits one, is filed as the round closes, its Self-review linking step 5's section. (basis: derived from the document types' membership tests)
 
 ## Delivered
 
-- **The review request.** Open it per [open-the-review-request](../rules/open-the-review-request.md).
+- **The review request.** Open it per [open-the-review-request](../rules/open-the-review-request.md). In a rework after peer review, deliver onto it as that rule's After a rework round says.
 - **The work-item the bug traces to.** Update it through [project-mgmt](../../project-mgmt/SKILL.md) to show the fix is in review.
 
 In a task that is responding to an incident, the change ships next as a hotfix, through the shipping act.

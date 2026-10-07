@@ -4,4 +4,4 @@ The design a task builds against: the chosen approach and the alternatives it wa
 
 ## Membership
 
-The plan step's result. Each choice the plan makes that would be costly to reverse also files as its own [decision record](decision-record.md), which the plan links rather than repeats. (basis: maintainer, 2026-09-30)
+The plan step's result. Each choice the plan makes that would be costly to reverse also files as its own [decision record](decision-record.md), which the plan links rather than repeats. (basis: maintainer, 2026-09-30) A later round that changes the plan, its rollout included, files its own plan, restated whole. (basis: maintainer, 2026-10-07)

@@ -34,6 +34,8 @@ There is a standing tension in incident work between stopping the bleeding first
 
 Put the finished report through [deliver-at-the-readers-register](../../../craft/writing/deliver-at-the-readers-register.md) before delivering it, applying its honesty floor item by item from the rule, not from memory.
 
+**And a visual where prose would carry it worse:** the cause-to-symptom chain and the blast radius are relations; show it rather than describe it, per `output.diagrams` ([report-style-settings](../../../craft/writing/report-style-settings.md)) and [when-a-visual-is-owed](../../../craft/writing/when-a-visual-is-owed.md), which decides whether one is owed, drawn from the reads and experiments the diagnosis rests on. `(basis: maintainer, 2026-10-07)`
+
 ## Boundary
 
 debug diagnoses and recommends the fix; it doesn't make the change, confirm broad end-to-end health, or absorb feature-sized work. The diagnosis it returns is what the change, its guarding test and any wider confirmation are built from.

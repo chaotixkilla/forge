@@ -4,8 +4,19 @@ An act that changed code delivers the change for review; it doesn't merge it. A 
 
 ## Open it
 
-- **Through the vcs capability.** Push the branch if it isn't pushed yet, and open a review request against the change's integration line through the [vcs](../../vcs/SKILL.md) port, which resolves to whichever provider is configured. Nothing merges: the merge is a human's call on the request, and shipping is a later act.
-- **One coherent concern per request.** A request that bundles unrelated changes is split, not opened as one.
+- **Through the vcs capability.** Push the branch if it isn't pushed yet, and open a review request against the change's integration line, or, in a stack, as below, through the [vcs](../../vcs/SKILL.md) port, which resolves to whichever provider is configured. Nothing merges: the merge is a human's call on the request, and shipping is a later act.
+- **One coherent concern per request.** A request that bundles unrelated changes is split, not opened as one. How a change's own units divide among requests is below.
+
+## How many requests
+
+A change built in units goes out as one review request or as a stack of them, by what its units change and how much. (basis: maintainer, 2026-10-07) The units fill requests in build order. Once a unit passes its review step, the request it joined ends there when either of these holds, and otherwise the next unit joins it:
+
+- **The next unit is another surface.** The area the plan says it changes has owners other than this request's, resolved as reviewers are (below), or the latest plan's rollout lands or rolls it out in a step of its own, as a migration the code needs in place first is. A side whose owners can't be resolved never makes the next unit another surface, having no reviewers to split for. (basis: derived — a request is read by its owners and lands as one step)
+- **The request is full.** Its diff from its base, counted as additions plus deletions, leaving out lockfiles and files the repository marks generated or vendored, has reached the size the team reviews as one change, when the request or the repository's contributing guide states one in changed lines, else 400. (routed to maintainer: 400 lines, about where reviews are reported to stop finding defects as a change grows, after Cohen 2006; a number where [unit-size-scale](../../decompose/rules/unit-size-scale.md) sizes units by its qualitative bar alone, since every unit already passes that bar and only a size can say two of them are too much for one review.)
+
+A request that says how to divide the change, as one request or one per unit, is followed instead.
+
+**A stack.** Each request after the first opens against the branch of the request before it, on a branch of its own ([give-the-task-a-branch](give-the-task-a-branch.md)), so its diff holds its own units alone. Each request's description covers the units it carries and links the task's current state for the rest, as a follow-ups round's does; a later one's also names the requests it builds on and says it lands after them and why the change splits there. A rework after peer review that rebuilds a unit below others then merges that request's branch into the branch above it, and that one into the next, in order, pushing each and never rewriting one. The units above run their test step again on their own branch; one that fails, or whose code a merge conflict touches, goes back to its build step as in the build. Every request whose branch the rework moved is delivered onto, below, so each stays reviewed on the head it will land at, on every host. (basis: maintainer, 2026-10-07) A follow-ups round on a task with a request still open stacks its own request on the topmost open one.
 
 ## When a change has passed review
 
@@ -13,7 +24,18 @@ A change passes its review step when no finding stands that would fail review's 
 
 ## Write the description from the task's documentation
 
-The description belongs to the request and is addressed to people who never open praxis, so it carries the work and none of the machinery that produced it ([clean-export](../../../craft/writing/clean-export.md)). Write it from the task's documentation, not from the diff: what the change does and why, the decisions it makes with the reasons that decided them ([preserve-the-why](../../../craft/writing/preserve-the-why.md)), how it was verified, and what a reviewer should check. Link the task's documentation for the rest, at the location [document](../../document/SKILL.md) returns for it, where the reviewer can open it, and never paste it whole. When the home is a file backend inside the repository, commit the documentation first, in its own commit on the task's branch, so the link resolves for the reviewer. (basis: maintainer, 2026-09-30)
+The description belongs to the request and is addressed to people who never open praxis, so it carries the work and none of the machinery that produced it ([clean-export](../../../craft/writing/clean-export.md)). Write it from the task record's current state, not from the diff: what the change does and why, the decisions it makes with the reasons that decided them ([preserve-the-why](../../../craft/writing/preserve-the-why.md)), how it was verified, and what a reviewer should check. A round writes it again for each request it delivers onto and updates it in place through the vcs port; it is never edited by hand. A follow-ups round on a fresh branch describes the follow-up's change and links the task's current state for the rest. (basis: maintainer, 2026-10-07) Link the task's documentation for the rest, at the location [document](../../document/SKILL.md) returns for it, where the reviewer can open it, and never paste it whole. When the home is a file backend inside the repository, commit the documentation first, in its own commit on the task's branch, in a stack the base-most of the requests the round opens or delivers onto, so the link resolves for the reviewer. (basis: maintainer, 2026-09-30)
+
+## After a rework round
+
+A rework after peer review first pushes each branch it changed through the vcs port, then delivers onto each review request already open whose branch it moved or whose comments it answers, each of these as its own channel ([deliver-through-the-ports](deliver-through-the-ports.md)):
+
+- **A reply on each inline comment's thread**, its channel's target the comment it answers, with the disposition the round's proposal settled for it, as its scratchpad section on the proposal records: addressed, pointing to the changes the comment on what changed links; declined, with the reason; or deferred, with where it went.
+- **One comment on what changed since the last review**: the vcs port's compare link for that request, from where [close-out](../phases/04-close-out.md)'s File the peer review starts it, to the head; a link to this round's line in the task record, its record following at its close; the disposition of each request a review's summary made, which has no thread to reply in; and, on a request the round moved only by merging the rework below into it, that this is all it took. It restates nothing the replies and the diff already show.
+- **The description**, updated as above.
+- **Review requested again** from each reviewer whose latest review requested changes, or whose comments the round answered. `(routed to maintainer: reviewers who approved aren't asked again, sparing them a request for a change they already passed.)` On a request whose branch the round moved by merging the rework below into it, or by a rework opened on land's outcome, from each reviewer whose review an earlier round filed. (basis: maintainer, 2026-10-07)
+
+(basis: maintainer, 2026-10-07)
 
 ## Link the originating work, and route it to reviewers
 

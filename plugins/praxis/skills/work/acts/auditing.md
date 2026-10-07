@@ -6,11 +6,11 @@
 
 ## Steps
 
-(basis: maintainer, 2026-09-30)
+(basis: maintainer, 2026-09-30; understand's diagram, maintainer, 2026-10-07)
 
 | # | step | inputs | skipped by the act when |
 |---|---|---|---|
-| 1 | [understand](../../understand/SKILL.md) | the system or component the request names | never |
+| 1 | [understand](../../understand/SKILL.md) `--diagram` | the system or component the request names | never |
 | 2 | [security-review](../../security-review/SKILL.md), with `--exhaustive` when the request asks for it | the subject, and step 1's map | never |
 | 3 | [communicate](../../communicate/SKILL.md) | step 2's findings and posture, for the system's owners | never |
 

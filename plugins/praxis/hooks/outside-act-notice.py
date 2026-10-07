@@ -1,16 +1,17 @@
 #!/usr/bin/env python3
 """praxis PostToolUse hook: outside-act notice.
 
-In a project set up for praxis, when a praxis skill is invoked and this session
-runs no act (it has no readable marker at .claude/praxis/acts/<session-id>.json:
-a JSON object naming its task, the test the edit guard uses), adds a note for the
-model. After a step skill, the note offers to file the step's result into a
-task, an open one or a new one, so the work leaves a record. After work, and
-after a step, it states this session's id, under which an act writes its marker,
-so the act can write one when session start stated none. When the marker file
-exists but can't be read as one, the note says so instead of the offer. It never
-blocks; on any error, and when the event names no usable session id, it stays
-silent.
+In a project set up for praxis, when a praxis skill is invoked and this session runs
+no act (it has no readable marker at .claude/praxis/acts/<session-id>.json: a JSON
+object naming its task), adds a note for the model. After a step skill, the note
+offers to file the step's result into a task, an open one or a new one, so the work
+leaves a record. After work, and after a step, it states this session's id, under
+which an act writes its marker, so the act can write one when session start stated
+none. When the marker file exists but can't be read as one, the note says so instead
+of the offer. When this session's act marker records no answer to the act's proposal
+and the skill is one of its steps, the note says no step runs before the user
+answers it. It never blocks; on any error, and when the event names no usable
+session id, it stays silent.
 """
 import json
 import os
@@ -28,6 +29,9 @@ UNREADABLE = ("This session's act marker, .claude/praxis/acts/{0}.json, exists b
               "so no act counts as running in this session. Resume its task with work --task=<key> to write "
               "it again, or remove it.")
 SESSION_ID = "This session's id is {0}: an act run in it keeps its marker at .claude/praxis/acts/{0}.json."
+UNANSWERED = ("This session's act for {0} has no answer to its proposal recorded, and {1} is one of its steps: "
+              "no step runs before the user answers the proposal. Put the proposal to the user, and record the "
+              "answer in the marker's answered before running any step.")
 
 
 def plugin_name():
@@ -61,13 +65,20 @@ def main():
     if not SESSION.match(session):
         return
     marker = os.path.join(project, ".claude", "praxis", "acts", session + ".json")
-    if read_marker(marker):
-        return
     skill = str((event.get("tool_input") or {}).get("skill") or "")
     prefix = plugin_name() + ":"
     if not skill.startswith(prefix):
         return
     name = skill[len(prefix):]
+    running = read_marker(marker)
+    if running:
+        steps = running.get("steps") if isinstance(running.get("steps"), list) else []
+        mine = any(str(s.get("step") or "").split(":", 1)[-1] == name for s in steps if isinstance(s, dict))
+        if mine and not str(running.get("answered") or "").strip():
+            note = UNANSWERED.format(str(running["task"]).strip(), plugin_name() + ":" + name)
+            json.dump({"hookSpecificOutput": {"hookEventName": "PostToolUse", "additionalContext": note}},
+                      sys.stdout)
+        return
     step = name not in NOT_STEPS and os.path.isdir(os.path.join(ROOT, "skills", name))
     if name != "work" and not step:
         return

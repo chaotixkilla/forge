@@ -13,6 +13,8 @@ Fail either and the requirement is prose. Both must hold: three services in a ch
 
 `(basis: house cap, by analogy from Cowan's ~4-chunk working-memory limit)`
 
+**A changed relation is owed one by default.** A result that changes a flow, a state set, a data shape or a structure, a structure being the containment and dependency between components that *Which diagram* names, owes a diagram of the change: the before and after when the reader must compare them to act, as in judging the change, migrating to it or rolling it back, else the after alone. Clause 2's size bar and the short-walk anchor below don't apply to it; legibility and the two overrides still do, and a setting of `never` still wins. `(basis: maintainer, 2026-10-07)` `(routed to maintainer: before and after when the reader acts on the difference, matching the reader-action fork above.)`
+
 ## The form fork
 
 Three shapes, three forms — and the three are exactly the content shapes clause 1 of the shape test admits, so every requirement that reaches this fork lands on one of them, and a requirement that fits none never passed the test and stays prose:
@@ -59,16 +61,14 @@ A diagram is a claim about the system, and it is sourced under the same discipli
 
 A chart still owes what any requirement owes — the claim it supports, its axes and units, and the number of observations behind it.
 
-**The rendering craft is deliberately out of scope**: encoding choice, palette, and accessibility are a developed discipline, and whether praxis carries its own copy or defers to a charting capability is an unsettled dependency question for the maintainer rather than something this rule should decide by writing one answer down.
-
-What is *not* left open is the fallback, because a cold run needs one: absent a charting capability, **emit the underlying figures as a table** carrying the claim, the axes' labels and units, and the n. A table of real numbers is honest and readable; an improvised chart is neither. Where a charting capability is present, hand it the same four things and let it render.
+**The rendering belongs to whatever draws it**: a documentation backend that draws charts natively is the charting capability, and praxis carries no rendering craft of its own (encoding choice, palette, accessibility). Output published as a document hands the chart over as a chart block carrying those three and its rows, and the backend draws it or shows its figures table. Output read where it's produced, such as a report in the conversation, **emits the underlying figures as a table** carrying the same three. A table of real numbers is honest and readable; an improvised chart is neither. `(basis: maintainer, 2026-10-07)`
 
 ## Two overrides, applied after the fork
 
 These run **last**, on a requirement that already passed the shape test and been assigned a form. Either one firing sends it to **prose**, regardless of what the test and the fork concluded — they are overrides, not a recap of the test, and they are the only two things that reverse a form already assigned:
 
 - **The reader never acts on the relation.** It exists, it is real, and nothing the reader does depends on holding it. Interesting structure is not owed structure.
-- **The visual would restate adjacent prose.** One home per requirement: either the picture carries it and the prose points at it, or the prose carries it and there is no picture. Two homes drift, and the reader reads both to find they said the same thing.
+- **The visual would restate adjacent prose.** One home per requirement: either the picture carries it and the prose points at it, or the prose carries it and there is no picture. Two homes drift, and the reader reads both to find they said the same thing. Rows that hold each claim with its evidence aren't that prose, unless the rows themselves state the connections: a diagram of how the claims connect sits beside them as the relation's home. `(basis: maintainer, 2026-10-07)`
 
 For contrast, and so the two are not confused: a **single fact**, or a **linear walk of four steps or fewer**, never reaches this point at all — both fail the shape test's clauses above, and a short ordered walk is carried better by a numbered list than by any picture. Those are calibration anchors for the test, not overrides of it.
 

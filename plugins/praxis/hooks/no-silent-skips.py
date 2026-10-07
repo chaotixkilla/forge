@@ -2,14 +2,15 @@
 """praxis Stop hook: no silent skips.
 
 While this session runs an act (its marker, .claude/praxis/acts/<session-id>.json,
-is a JSON object naming its task, the test the edit guard uses), blocks the end of
-a turn when a step was passed over without an honest outcome: a step still
-pending while a later step has run, a step still pending whose result waits in
-the task's unfiled directory (it has ended, so it must not run again), an outcome that
-isn't one of the three, or a skip with no reason recorded. Other sessions'
-markers are never read. It blocks once per turn: when the harness is already continuing
-because of a stop hook, the turn ends. On any error, an unreadable marker or an
-event with no usable session id included, the turn ends too.
+is a JSON object naming its task), blocks the end of a turn when a step was passed
+over without an honest outcome: a step still pending while a later step has run, a
+step still pending whose result waits in the task's unfiled directory (it has ended,
+so it must not run again), an outcome that isn't one of the three, a skip with no
+reason recorded, or a step given an outcome while the marker records no answer to
+the act's proposal (steps run only once the user has answered it). Other sessions'
+markers are never read. It blocks once per turn: when the harness is already
+continuing because of a stop hook, the turn ends. On any error, an unreadable marker
+or an event with no usable session id included, the turn ends too.
 """
 import json
 import os
@@ -44,9 +45,13 @@ def waiting(project, task, name):
     return ""
 
 
-def problems(project, task, steps):
+def problems(project, task, steps, answered):
     last_done = max((i for i, s in enumerate(steps) if s.get("outcome", "pending") != "pending"), default=-1)
     found = []
+    if last_done >= 0 and not answered:
+        found.append("steps have outcomes, but the marker records no answer to the act's proposal: steps run "
+                     "only after the user answers it, so put the proposal to the user and record the answer "
+                     "in the marker's answered")
     for i, step in enumerate(steps):
         name = step.get("step") or f"step {i + 1}"
         outcome = step.get("outcome", "pending")
@@ -54,7 +59,8 @@ def problems(project, task, steps):
             found.append(f"{name}: '{outcome}' isn't an outcome (ran, skipped-by-act or skipped-by-user)")
         elif outcome == "pending" and (copy := waiting(project, task, step.get("step") or "")):
             found.append(f"{name} has its result waiting at {copy}, so it has ended: record it as ran, or as "
-                         "the skip that file records, with that path as its unfiled, rather than running it again")
+                         "the skip that file records, with that path as its unfiled and its failure that it waits from an "
+                         "earlier session, rather than running it again")
         elif outcome == "pending" and i < last_done:
             found.append(f"{name} has no outcome, but a later step has run")
         elif outcome.startswith("skipped") and not str(step.get("reason") or "").strip():
@@ -74,12 +80,13 @@ def main():
     if not marker:
         return
     steps = marker.get("steps")
-    found = problems(project, str(marker["task"]).strip(), steps if isinstance(steps, list) else [])
+    found = problems(project, str(marker["task"]).strip(), steps if isinstance(steps, list) else [],
+                     str(marker.get("answered") or "").strip())
     if found:
         reason = ("The running act's checklist has steps without an honest outcome:\n- " + "\n- ".join(found)
-                  + "\nRun each one, record the outcome its waiting result gives it, or record why it was "
-                  "skipped: the condition the act file names, or the user's own reason. A step is never "
-                  "skipped silently.")
+                  + "\nOnce the proposal's answer is recorded, run each step, record the outcome its waiting "
+                  "result gives it, or record why it was skipped: the condition the act file names, or the "
+                  "user's own reason. No step runs before the answer, and none is skipped silently.")
         json.dump({"decision": "block", "reason": reason}, sys.stdout)
 
 

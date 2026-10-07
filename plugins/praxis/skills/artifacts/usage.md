@@ -37,7 +37,7 @@ Take a finished page tree — one main page with ordered subpages of backend-neu
 
 ## Gotchas
 - `config_requires: tools.artifacts` — if the backend isn't configured, the skill guides you through `init:artifacts` and otherwise blocks. It will not silently pick or invent a destination.
-- The input is a *page tree* its caller already shaped (document shapes a task's documentation into one). Loose content is returned as unsupported, never carved here.
+- The input is a *page tree* its caller already shaped (document shapes a task's documentation into one). Loose content is rejected up front as the caller's defect, never carved here.
 - How the tree maps depends on the backend's page model (nested pages vs. an index plus section files); the concrete calls live in `adapters/<backend>`, not in the procedure.
 - `--idempotent` and `--version` pull opposite directions: idempotent updates one canonical location, version fans out a new copy each run. Pick per artifact — a living doc wants idempotent, an audit trail wants version. Neither together makes sense.
 - `--draft` publishes; it does not gate. The artifact is written (in draft state) and its location returned — it is not held back pending approval, just marked not-yet-final.

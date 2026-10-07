@@ -26,6 +26,8 @@ Order the findings so the owner acts in priority order: **severity descending, c
 
 Put the finished report through [deliver-at-the-readers-register](../../../craft/writing/deliver-at-the-readers-register.md) before delivering it, applying its honesty floor item by item from the rule, not from memory.
 
+**And a visual where prose would carry it worse:** the trust boundaries the change crosses and the reachable paths from its entry points to the assets worth protecting are relations; show it rather than describe it, per `output.diagrams` ([report-style-settings](../../../craft/writing/report-style-settings.md)) and [when-a-visual-is-owed](../../../craft/writing/when-a-visual-is-owed.md), which decides whether one is owed, drawn from the surface map. `(basis: maintainer, 2026-10-07)`
+
 ## The alternate and additional sinks
 
 The sinks are independent and composable; the report above is always the record, and a flag adds delivery on top of it:

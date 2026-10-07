@@ -19,11 +19,11 @@ Record the copy's path in the act marker's `copy` ([keep-the-act-marker](../rule
 
 ## Steps
 
-(basis: maintainer, 2026-09-30)
+(basis: maintainer, 2026-09-30; understand's diagram, maintainer, 2026-10-07)
 
 | # | step | inputs | skipped by the act when |
 |---|---|---|---|
-| 1 | [understand](../../understand/SKILL.md) `--from-code=<the files the change touches>` | the change's diff, and the files it touches as they stood at its base, with their history up to it | never |
+| 1 | [understand](../../understand/SKILL.md) `--diagram --from-code=<the files the change touches>` | the change's diff, and the files it touches as they stood at its base, with their history up to it | never |
 | 2 | [gather](../../gather/SKILL.md) `--explorers=official-documentation`, adding `authoritative-literature` when step 1's map lists a published standard the change implements (a format, a protocol, a code list) | the question: what is the published contract of each external contract step 1's map lists for the changed lines or the diff's additions, at the version the project pins, or, where it pins none, the version the environment runs (say which)? | step 1's map lists no external contract for the changed lines or the diff's additions |
 | 3 | [test](../../test/SKILL.md) | the claims step 1's map carries as *inferred* or *unverified*, that step 2's evidence doesn't settle, about the behavior a changed line's correctness depends on — each with the behavior expected of it: the intent's, else the code's documented contract, else its behavior at the base — as claims added to the change's own behaviors; and that the change is under review, not being built, so test commits nothing | steps 1 and 2 leave no such claim |
 | 4 | [review](../../review/SKILL.md) `--hold-rationale`, with `--change=<the change>` for a hosted change, or its default window in the copy for a local branch | the intent, and the results of steps 1 to 3 | never |

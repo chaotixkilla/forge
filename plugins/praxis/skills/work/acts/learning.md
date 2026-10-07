@@ -6,11 +6,11 @@
 
 ## Steps
 
-(basis: maintainer, 2026-09-30)
+(basis: maintainer, 2026-09-30; understand's diagram, maintainer, 2026-10-07)
 
 | # | step | inputs | skipped by the act when |
 |---|---|---|---|
-| 1 | [understand](../../understand/SKILL.md) | the part the request names, and the question about it | never |
+| 1 | [understand](../../understand/SKILL.md) `--diagram` | the part the request names, and the question about it | never |
 | 2 | [gather](../../gather/SKILL.md) `--explorers=official-documentation`, adding `authoritative-literature` when step 1 names a standard | the libraries, frameworks and standards step 1's map says the part relies on | step 1's map names none |
 
 ## Filed

@@ -33,7 +33,7 @@ When two blockers apply to one channel, **held outranks degraded-return**: a mis
 
 ## Never deliver twice
 
-A port that returns a delivered reference guarantees it even when a follow-on step, such as fetching a permalink, failed. Never re-post or re-publish to recover missing metadata, or the reader gets the message twice.
+A port that returns a delivered reference guarantees it even when a follow-on step, such as fetching a permalink, failed. Never re-post or re-publish to recover missing metadata, or the reader gets the message twice. A channel is delivered once per round: a later round's channels are its own, never repeats of an earlier round's. (basis: derived from a round's delivery being its own)
 
 ## Report what landed where
 

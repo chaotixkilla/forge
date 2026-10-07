@@ -20,10 +20,16 @@ Today it serves the operations review, land and work's acts require; new consume
 `set a status` — a pass/fail check on a change's head, for merge protection to read.
 `push a branch` — publish a local branch to the remote.
 `open a review request` — a review request from a head branch onto a base, with its title, description and reviewers; returns its reference.
-`read a review request` — its state (open, merged, closed), its approval, and the review feedback on it, summary and inline, each with the commit it was posted on.
+`update a review request's description` — by reference, with the new description.
+`change a review request's base` — by reference, onto another branch, as when the request it was stacked on has merged.
+`read a review request` — its state (open, merged, closed), its approval, and the review feedback on it, summary and inline, each review summary, inline comment and comment outside any review with its id, link, author and text; summaries in the order posted, with their stance and commit; an inline comment's anchor, commit, thread and whether it's resolved; and the account the port posts as.
+`reply in a review thread` — text onto the thread of the inline comment whose id the read returned.
+`post a comment` — text on a review request, outside any review.
+`request review again` — from named reviewers on an open review request.
+`compare two commits` — a link to the diff from one commit to another.
 `read what a review request builds on` — the references of the open requests it builds on, nearest first, and nothing of their rationale.
 `read a landing constraint` — whether a target branch requires an approved review or passing checks before a merge.
-`merge` — an approved review request, or a branch, by the team's strategy.
+`merge` — an approved review request, or a branch, by the team's strategy, carrying the caller's message for the commit it makes.
 
 ## Gotchas
 - **It blocks without a configured backend.** `config_requires: tools.vcs` with `if_missing: guide via init:vcs, else block` — a host port with no host has nothing to do. Callers that have a meaningful local fallback (e.g. review returning a local report) catch the unavailable signal and degrade on *their* side; this skill itself blocks.

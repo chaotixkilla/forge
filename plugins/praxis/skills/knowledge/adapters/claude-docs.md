@@ -9,7 +9,7 @@ Fetch and children. **Search is unsupported**, scoped or not: the connector has 
 ## Fetch a document
 
 1. Fetch by reference: a doc's id, or its link, whose trailing id is the doc's. Read every tab's body, in the doc's tab order, as the document's sections, each under its tab's name.
-2. A body links another doc by its link or by a doc mention. Keep each in the returned content as a link carrying the doc's id, so a caller can fetch it to walk on. A link of the doc-link form may be another artifact type, which the read refuses (failure surface).
+2. A body links another doc by its link or by a doc mention. Keep each in the returned content as a link carrying the doc's id, so a caller can fetch it to walk on. A mention of another tab of the same doc is kept as a link to the section, in the returned document, named after that tab. A link of the doc-link form may be another artifact type, which the read refuses (failure surface).
 3. Carry the provenance the connector exposes — the title, the doc id as the durable reference, and the author, created and last-edited times where the read returns them — into the port's provenance floor ([SKILL.md](../SKILL.md)). A field this connector doesn't return comes back *not-exposed*.
 
 ## List a document's children

@@ -17,9 +17,11 @@ Then decide by two facts: the target's constraint, and the repo's **collaboratio
 
 `--commit` ([commit-only](../modules/commit-only.md)) never reaches this phase: it ended the run at *committed-only* in [prepare-the-increment](02-prepare-the-increment.md).
 
+The merge carries its message to the vcs port's merge, for the commit a merge commit or a squash makes: the caller's `--message` when given and the increment made no commit from it, else one written to the same format as the increment's commits ([prepare-the-increment](02-prepare-the-increment.md)), carrying the why ([commits-tell-the-why](../../../craft/engineering/commits-tell-the-why.md)) of one coherent concern ([one-coherent-change-per-unit](../rules/one-coherent-change-per-unit.md)). A rebase makes no such commit, so the why stays in the commits it replays. (basis: derived — under a squash, the squash commit's message is the only one the target keeps)
+
 ## Never land on red
 
-Re-affirm the gate at the moment of merging: merge only on green ([green-before-land](../rules/green-before-land.md)). If the target moved since the gate ran, the gate is stale — re-reconcile and re-gate before merging ([integrate-against-current-target](../rules/integrate-against-current-target.md)). The merge carries the why-and-shape message ([commits-tell-the-why](../../../craft/engineering/commits-tell-the-why.md)), scoped to one coherent concern ([one-coherent-change-per-unit](../rules/one-coherent-change-per-unit.md)).
+Re-affirm the gate at the moment of merging: merge only on green ([green-before-land](../rules/green-before-land.md)). If the target moved since the gate ran, the gate is stale — re-reconcile and re-gate before merging ([integrate-against-current-target](../rules/integrate-against-current-target.md)).
 
 ## The run's terminal outcomes — the partition
 

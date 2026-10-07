@@ -65,4 +65,6 @@ The finished spec is the assembly of what the phases produced, and its *content*
 
 Put the finished spec through [deliver-at-the-readers-register](../../../craft/writing/deliver-at-the-readers-register.md) before delivering it, applying its honesty floor item by item from the rule, not from memory. This deliverable sits on the **reference** side of that rule's fork; classify it there rather than taking the guidance default. What it binds is wording and how much detail each part carries — **not** the document's section order or which sections exist, which stay with the repo's own convention ([match-existing-spec-conventions](../rules/match-existing-spec-conventions.md)).
 
+**And a visual where prose would carry it worse:** a state set, the logical data model and the slices' dependencies are relations; show it rather than describe it, per `output.diagrams` ([report-style-settings](../../../craft/writing/report-style-settings.md)) and [when-a-visual-is-owed](../../../craft/writing/when-a-visual-is-owed.md), which decides whether one is owed, drawn from the requirements, never from an implementation. `(basis: maintainer, 2026-10-07)`
+
 
