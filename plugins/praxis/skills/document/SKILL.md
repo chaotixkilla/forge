@@ -1,6 +1,6 @@
 ---
 name: document
-description: File a task's documentation — each result it's handed, as the document type it belongs to — the task record, a work record such as the spec, the plan or a review record, a decision record, or system documentation of the part the task touched — plus the task log — on the configured artifacts backend. Called by the work orchestrator as an act runs; for a message or update pitched to people, use communicate.
+description: File a task's documentation — each result it's handed, as the document type it belongs to — the task record, which is the task's front page, the task history, a work record such as the spec, the plan or a review record, a decision record, or system documentation of the part the task touched — plus the task log — on the configured artifacts backend. Called by the work orchestrator as an act runs; for a message or update pitched to people, use communicate.
 metadata:
   flags:
     --task=<key>: the task whose documentation receives the result (a phase input, not a behavior module)

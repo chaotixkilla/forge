@@ -1,6 +1,6 @@
 # artifacts — usage
 
-Take a finished page tree — one main page with ordered subpages of backend-neutral sections — and publish it to the configured home, or to a named audience space, via the matching adapter, returning where it landed; read a published tree back by that location; or retire one a newer document supersedes.
+Take a finished page tree — one main page with ordered subpages, which may group subpages of their own, of backend-neutral sections — and publish it to the configured home, or to a named audience space, via the matching adapter, returning where it landed; read a published tree back by that location; or retire one a newer document supersedes.
 
 ## When to use
 - You have a finished artifact — authored content in sections — and need it to live in the project's artifacts home, or in an audience space for non-engineering readers, not just in the session.

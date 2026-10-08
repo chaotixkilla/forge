@@ -4,8 +4,8 @@ Implements the **artifacts** capability against Notion, over the Notion MCP. The
 
 ## Publish
 
-1. Create the main page under the configured parent (a page, or a row if the parent is a database).
-2. Create each subpage as a child of the main page, in tree order — the parent must exist before its children, so create it first.
+1. Create the main page under the configured parent (a page, or a row if the parent is a database), titled with the tree's title.
+2. Create each subpage as a child of its parent, in tree order: the main page, or the group page that holds it — a parent must exist before its children, so create it first.
 3. Map each page's neutral sections to Notion blocks (the block kinds below); record the created page id for each page (see identity). A page mention needs its target to exist, so a page whose body mentions one created after it gets that body once every page of the tree exists.
 4. Return the created page URLs, main page first, with the main page's reach (below).
 
@@ -15,7 +15,7 @@ Implements the **artifacts** capability against Notion, over the Notion MCP. The
 
 ## Fetch
 
-Fetch the main page by its id or link, then its child pages in the parent's order, each as a subpage with its content. Fetch inverts the surface: words followed by a mention of a page of the same tree come back as an in-tree reference with those words, a bare mention with the page's title as its words, a mention followed by `›` and words as a reference to the section those words begin with, the longest of that page's headings they start with, and a mermaid code block as a diagram, with a caption only when a one-line caption sits directly above it. A chart this backend showed as its figures table comes back as that table, since the table doesn't say it was a chart. A reference the integration may not read is `unauthorized`; one Notion reports genuinely absent is `target-not-found`.
+Fetch the main page by its id or link, then its child pages in the parent's order, each as a subpage with its content, and a subpage's own child pages as the pages it groups. Fetch inverts the surface: words followed by a mention of a page of the same tree come back as an in-tree reference with those words, a bare mention with the page's title as its words, a mention followed by `›` and words as a reference to the section those words begin with, the longest of that page's headings they start with, and a mermaid code block as a diagram, with a caption only when a one-line caption sits directly above it. A chart this backend showed as its figures table comes back as that table, since the table doesn't say it was a chart. A reference the integration may not read is `unauthorized`; one Notion reports genuinely absent is `target-not-found`.
 
 ## Capability matrix
 
@@ -23,7 +23,7 @@ What this backend can honor for the write-mode flags — the skill reads this to
 
 - **`--draft`** — *conditional*: Notion has no first-class page draft/unlisted state. If the destination is a database with a status property, set it to a draft value; if a drafts parent page is configured, create under it. If neither is configured, report `unsupported-content` ([failure-taxonomy](../rules/failure-taxonomy.md)) rather than silently publishing a live page.
 - **`--version`** — *supported*: create a new `v<n>` child page alongside the prior one, where `<n>` is one greater than the highest existing `v<k>` at the resolved identity (`v1` if none) — the same reproducible, clock-free scheme the local adapter uses, so the label is consistent across backends.
-- **`--idempotent`** — *supported*: match by the recorded page id (below) and update that page's blocks in place. A subpage matches the child page at the location it was handed with, or else the main page's child of the same title, and is renamed in place when its title changed; its id is the one mentions of it use.
+- **`--idempotent`** — *supported*: match by the recorded page id (below) and update that page's blocks in place. A subpage matches the child page at the location it was handed with, or else the page of the same title beneath the main page, a group page's children included, and is renamed in place when its title changed, and moved under its new parent page when the tree now groups it elsewhere; its id is the one mentions of it use.
 
 ## Retire
 
@@ -45,4 +45,4 @@ Map Notion/MCP errors to the capability outcomes in [failure-taxonomy](../rules/
 
 ## Call-time discovery
 
-Notion's MCP surface shifts (tool names, block schemas, database property shapes), so name the operation and its purpose here and resolve the exact parameters when you call: confirm the current page-create and block-append tools, the inline page-mention shape and the page-title update, the block shapes for tables/code/callouts, the database-vs-page parent distinction, how a page's location shows private versus shared, and whether a page can be archived, against the live MCP schema at call time.
+Notion's MCP surface shifts (tool names, block schemas, database property shapes), so name the operation and its purpose here and resolve the exact parameters when you call: confirm the current page-create, page-move and block-append tools (a surface that can't move a page leaves it under its old parent and reports it as an advisory, never re-creating it), the inline page-mention shape and the page-title update, the block shapes for tables/code/callouts, the database-vs-page parent distinction, how a page's location shows private versus shared, and whether a page can be archived, against the live MCP schema at call time.

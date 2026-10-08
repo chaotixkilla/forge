@@ -58,7 +58,8 @@ act delivers. A task survives sessions: `work --task=<key>` picks it up where it
 | auditing | judge the security posture of a whole system or component |
 | learning | understand an unfamiliar part of the system and leave documentation of it |
 
-Each task keeps dated documentation, one content type per page: the task record, the work records its
+Each task keeps dated documentation, one content type per page: the task record, a front page whose
+fixed sections say what the work means and where it stands; a task history; the work records its
 steps produced (spec, plan, review record, incident record, …), a decision record for each decision
 that can't be walked back, and system documentation of the part it touched — explanation, reference,
 how-to and concept pages. It's filed on your configured artifacts backend, or locally under

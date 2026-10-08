@@ -5,7 +5,7 @@ Implements the **artifacts** capability against the local filesystem, writing th
 ## Publish
 
 1. Ensure the destination directory exists (create it and any missing parents).
-2. Write the main page as `index.md` at the destination root; write each subpage as `NN-<slug>.md` alongside it, where `NN` is a two-digit position in tree order (`01`, `02`, …) and `<slug>` is the normalized title (below). Each file opens with its page's title as its first heading.
+2. Write the main page as `index.md` at the destination root, its first heading the tree's title; write each subpage as `NN-<slug>.md` alongside it, where `NN` is a two-digit position in tree order (`01`, `02`, …) and `<slug>` is the normalized title (below). A subpage that groups pages is a directory `NN-<slug>/` instead, holding its own page as `index.md` and the pages it groups as `NN-<slug>.md`, numbered from `01` within it. Each file opens with its page's title as its first heading.
 3. Render each page's neutral sections to Markdown (the block kinds below).
 4. Return the directory and the written file paths, main page first, with reach `local-only`.
 
@@ -13,15 +13,15 @@ Implements the **artifacts** capability against the local filesystem, writing th
 
 ## Fetch
 
-Read `index.md` at the location and each `NN-<slug>.md` beside it, in `NN` order, as the main page and its subpages. Each file's first heading is its page's title; a file that doesn't open with a level-1 heading, written before titles were, takes its title from its footer's type and the round the footer names (round 1 where it names none), or with no footer from its file name's slug, adding its `NN` where two would still repeat, and keeps every heading in its body. Fetch inverts the surface: a relative link to one of those files comes back as an in-tree reference to its page with the link's text as its words, its `#<anchor>` matched against that page's headings as the section, and a fenced `mermaid` block as a diagram, with a caption only when a one-line caption sits directly above it. A chart shown as its figures table comes back as that table, since the table doesn't say it was a chart. A location with no `index.md` is `target-not-found`.
+Read `index.md` at the location and each `NN-<slug>.md` beside it, in `NN` order, as the main page and its subpages, a `NN-<slug>/` directory as the subpage its `index.md` holds, grouping the files inside it. Each file's first heading is its page's title; a file that doesn't open with a level-1 heading, written before titles were, takes its title from its footer's type and the round the footer names (round 1 where it names none), or with no footer from its file name's slug, adding its `NN` where two would still repeat, and keeps every heading in its body. Fetch inverts the surface: a relative link to one of those files comes back as an in-tree reference to its page with the link's text as its words, its `#<anchor>` matched against that page's headings as the section, and a fenced `mermaid` block as a diagram, with a caption only when a one-line caption sits directly above it. A chart shown as its figures table comes back as that table, since the table doesn't say it was a chart. A location with no `index.md` is `target-not-found`.
 
 ## Retire
 
-A location with no `index.md` is `target-not-found`. Otherwise remove the tree at it: its `index.md` and `NN-<slug>.md` files, then the directory, now empty. When the directory holds anything else (a `v<n>/` or `drafts/` subdirectory, a file this adapter didn't write), remove nothing and fail `conflict`, naming those entries, since the directory can't go without them. `(basis: derived from the conflict class: the write can't proceed as asked without loss)` A versioned copy is retired by its own location first. What retiring leaves behind: nothing on disk. Where the files were committed, the repository's history keeps them, and the removal is a working-tree change for the caller's next commit.
+A location with no `index.md` is `target-not-found`. Otherwise remove the tree at it: its `index.md` and `NN-<slug>.md` files and its `NN-<slug>/` group directories with what this adapter wrote in them, then the directory, now empty. When the directory holds anything else (a `v<n>/` or `drafts/` subdirectory, a file this adapter didn't write), remove nothing and fail `conflict`, naming those entries, since the directory can't go without them. `(basis: derived from the conflict class: the write can't proceed as asked without loss)` A versioned copy is retired by its own location first. What retiring leaves behind: nothing on disk. Where the files were committed, the repository's history keeps them, and the removal is a working-tree change for the caller's next commit.
 
 ## Filename normalization
 
-Deterministic so the resolved path is a stable identity across cold runs: the `<slug>` is the title lowercased, ASCII-folded (transliterate accented/non-ASCII letters to their nearest ASCII form — `é`→`e`, `ü`→`u` — and drop any character with no ASCII fold), then every run of characters outside `[a-z0-9]` collapsed to a single hyphen and leading/trailing hyphens trimmed (e.g. `"API Design (v2)"` → `api-design-v2`; `"Café Menu"` → `cafe-menu`). The main page is always `index.md`; subpages are always `NN-<slug>.md` in tree order.
+Deterministic so the resolved path is a stable identity across cold runs: the `<slug>` is the title lowercased, ASCII-folded (transliterate accented/non-ASCII letters to their nearest ASCII form — `é`→`e`, `ü`→`u` — and drop any character with no ASCII fold), then every run of characters outside `[a-z0-9]` collapsed to a single hyphen and leading/trailing hyphens trimmed (e.g. `"API Design (v2)"` → `api-design-v2`; `"Café Menu"` → `cafe-menu`). The main page is always `index.md`; subpages are always `NN-<slug>.md` in tree order, or `NN-<slug>/` for one that groups pages.
 
 ## Capability matrix
 
@@ -29,7 +29,7 @@ What this backend can honor for the write-mode flags — the skill reads this to
 
 - **`--draft`** — *supported* via location: write the tree under a `drafts/` subdirectory of the destination, keeping it out of the published set until promoted. (A directory, not a per-file state — `drafts/` is the pinned placement, not a `.draft` suffix.)
 - **`--version`** — *supported*: write the tree into a `v<n>/` subdirectory alongside prior versions, where `<n>` is one greater than the highest existing `v<k>/` at the resolved identity (`v1` if none). Reproducible and monotonic — no clock dependence.
-- **`--idempotent`** — *supported*: the resolved destination directory path is the identity (below); re-publishing to the same path overwrites its files in place. A page's file isn't its identity here: each page is written at the `NN-<slug>.md` its position and title now give, and a location handed with a page only names its earlier file, which is removed when the name differs.
+- **`--idempotent`** — *supported*: the resolved destination directory path is the identity (below); re-publishing to the same path overwrites its files in place. A page's file isn't its identity here: each page is written at the `NN-<slug>.md` its position and title now give, and a location handed with a page only names its earlier file, which is removed when the name or the group it sits in differs.
 
 ## Identity key
 

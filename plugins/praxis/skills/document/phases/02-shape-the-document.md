@@ -2,7 +2,7 @@ A result arrives in the shape its step produced; this phase decides its document
 
 ## Which type
 
-Match the result to a type by its membership test: the [task record](../rules/types/task-record.md) for the task's state — what it is, what's been done (a skipped step's outcome and reason included), what's next — or one of these:
+Match the result to a type by its membership test: the [task record](../rules/types/task-record.md) for where the task stands now, in its family's sections; the [task history](../rules/types/task-history.md) for what the task was asked and what each round did (a skipped step's outcome and reason included); or one of these:
 
 - **work records** — the [spec](../rules/types/spec.md), the [plan](../rules/types/plan.md), the [traceability](../rules/types/traceability.md) table, the [scratchpad](../rules/types/scratchpad.md), the [review record](../rules/types/review-record.md), the [round record](../rules/types/round-record.md), [ship notes](../rules/types/ship-notes.md), an [incident record](../rules/types/incident-record.md), a [research report](../rules/types/research-report.md), [spike findings](../rules/types/spike-findings.md), an [audit report](../rules/types/audit-report.md);
 - **decision records** — a [decision record](../rules/types/decision-record.md);
@@ -10,7 +10,7 @@ Match the result to a type by its membership test: the [task record](../rules/ty
 
 When the act file names the type a result files as, that decides. One result can yield several documents: a review record, and a decision record for each of its decisions that passes that type's test. A result that matches no type isn't filed: tell the caller, naming the result. (basis: maintainer, 2026-09-30, the three kinds of documentation)
 
-A document the current round already filed — the same type about the same subject: one unit's review, one decision — is updated, not filed again. `(basis: derived from one type per page)` One an earlier round filed stays as it stands, and the current round files its own ([pages-belong-to-their-task](../rules/pages-belong-to-their-task.md)), but for a decision record a ship round sets to accepted, updated in place.
+A document the current round already filed — the same type about the same subject: one unit's review, one decision — is updated, not filed again. `(basis: derived from one type per page)` One an earlier round filed stays as it stands, and the current round files its own, but for the task history, one page per task, which takes each round's section ([pages-belong-to-their-task](../rules/pages-belong-to-their-task.md)), but for a decision record a ship round sets to accepted, updated in place.
 
 Restate the task record's current state ([task-record](../rules/types/task-record.md)) on every filing; choosing among the claims results already carry adds none. (basis: maintainer, 2026-10-07)
 
