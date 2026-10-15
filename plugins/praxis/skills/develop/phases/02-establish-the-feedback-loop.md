@@ -2,6 +2,8 @@
 
 Before building the change, stand up — first, as its own step — the tightest loop that gives a true pass/fail signal on it. A build without a fast loop degrades predictably: changes accumulate unverified, the first run surfaces a tangle of failures at once, and localizing any one of them costs more than the loop would have.
 
+Whatever this skill runs of the project's tooling runs in the task's workspace ([run-code-in-the-task-workspace](../../../craft/engineering/run-code-in-the-task-workspace.md)).
+
 ## Find the tightest loop that actually exercises the change
 
 The loop is whatever runs the change's behavior and returns a clear verdict fastest. Reach in this order, stopping at the tightest that genuinely exercises the code you're about to write:

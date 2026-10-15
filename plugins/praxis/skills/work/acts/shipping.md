@@ -8,6 +8,10 @@
 
 Hand roll-out the landing type land assigned. When the task came to shipping from responding to an incident, the landing type is hotfix whatever land read off the diff, since the incident is why the change exists. (basis: derived from make-rollout-reversible's hotfix floor)
 
+## Before the steps
+
+Give the task its worktree back as [give-the-task-a-branch](../rules/give-the-task-a-branch.md) says for a ship round, and enter it; a shipping task that isn't a ship round gets a worktree on the branch it ships, through [workspace](../../workspace/SKILL.md). (basis: maintainer, 2026-10-14)
+
 ## Steps
 
 (basis: maintainer, 2026-09-30)

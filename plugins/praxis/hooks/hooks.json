@@ -1,5 +1,5 @@
 {
-  "description": "praxis: session guidance and task-memory upkeep; no code changes while this session runs no act or its act's proposal is unanswered; end-of-turn checks on a running act, and on any praxis skill run without its procedure read through; after work or a praxis step skill with no act running, this session's id, plus an offer to file a step's result, or a notice when this session's marker can't be read; a note when a step skill runs before this session's act's proposal is answered",
+  "description": "praxis: session guidance and task-memory upkeep, with the open tasks other sessions run, praxis state an older version left in worktrees moved to the main checkout, and an offer to tidy what finished or idle tasks left; no code changes while this session runs no act or its act's proposal is unanswered; end-of-turn checks on a running act, and on any praxis skill run without its procedure read through; after work or a praxis step skill with no act running, this session's id, plus an offer to file a step's result, or a notice when this session's marker can't be read; a note when a step skill runs before this session's act's proposal is answered",
   "hooks": {
     "SessionStart": [
       {

@@ -13,10 +13,15 @@ A short message that *is* the announcement, with nothing to link, posts directly
 A delivery that links the task's documentation, such as a review summary, a review request's description or an announcement, goes by the reach the [artifacts](../../artifacts/SKILL.md) port returned for that location, which an act keeps in its marker's `docs` with the port's share line:
 
 - **`open`** — link it.
-- **`private-until-shared`** — before delivering, give the user the port's share line and ask them to share it. Link it once they say it's shared; otherwise treat it as `local-only`.
-- **`local-only`** — say instead that the full record is kept locally by the person delivering it, with no path or link. A documentation directory inside the repository is the exception, once [open-the-review-request](open-the-review-request.md) has committed it on the change's branch: link it there.
+- **`private-until-shared`** — share it, then link it. Before the first delivery in the task that links it, ask once who should get access, and take the recommended answer when no one can answer: `(basis: maintainer, 2026-10-13)`
+  - the people on the change (recommended): its author when that isn't the user, its requested reviewers and the author of each review on it, as [vcs](../../vcs/SKILL.md)'s *read a review request* returns them, or, for a request this delivery opens, the reviewers [open-the-review-request](open-the-review-request.md) picks for it;
+  - people the user names;
+  - the organization.
 
-A reach the marker records came from the port, and holds in any session that reads it, after a takeover too. A reach not known, because the marker records none for the location, is read as `private-until-shared`: ask the user whether its readers can open it, and link it only on a yes. (basis: maintainer, 2026-10-02; the unknown case derived from the artifacts port reading an undecidable reach the same way)
+  Record the answer, the default included, in the memory entry's `shared` ([keep-the-task-memory-entry](keep-the-task-memory-entry.md)), so no later round or session asks again. At each delivery, share through [artifacts](../../artifacts/SKILL.md)' *share a document* with whoever the answer now covers, a reviewer added since included: each version-control login matched to the team member whose `handles.vcs` it is, and shared with as that member. The share is part of the delivery that links the document, never a channel of its own, and never holds it. When it doesn't share with everyone — any outcome but success, or a login with no member or no `handles.artifacts` — show the user the document's link, the port's share line and everyone this share didn't add, and link it anyway, with one line in the post saying access may need to be asked of the person delivering it, by name.
+- **`local-only`** — say instead that the full record is kept locally by the person delivering it, with no path or link. A file-backed documentation home is never linked: it stays on the user's machine and is never committed.
+
+A reach the marker records came from the port, and holds in any session that reads it, after a takeover too. A reach not known, because the marker records none for the location, is read as `private-until-shared`. (basis: maintainer, 2026-10-02; the unknown case derived from the artifacts port reading an undecidable reach the same way)
 
 ## Publish where the document is meant to go
 

@@ -14,7 +14,7 @@ A tool-layer interface skill: the single place the version-control host is reach
 ## Operations (extended as consumers need them)
 Today it serves the operations review, land and work's acts require; new consumers add their operations to the same interface and adapter rather than forking a new one:
 `fetch a change` — a review request's diff + description, by reference; or, with the description held back, its diff, base and head commits, head branch, author and size alone.
-`materialize a change` — a review request's current head, checked out into an isolated working copy; returns its path.
+`fetch a change's head` — a review request's current head commit, brought into the local repository; returns it. The worktree a review reads in is the [workspace](../workspace/SKILL.md) skill's to make.
 `post a review summary` — one summary onto a change, with its stance: comment-only, approve or request changes, on the commit it reviewed when the caller names one.
 `post inline feedback` — findings anchored to exact file:line on a change's diff, with the same stance and commit.
 `set a status` — a pass/fail check on a change's head, for merge protection to read.

@@ -5,6 +5,9 @@ metadata:
   flags:
     --task=<key>: resume the named task instead of working out which task the request belongs to (a phase input, not a behavior module)
     --act=<name>: run the named act instead of routing the work to one (a phase input, not a behavior module)
+    --attach: take side work into the task it serves without asking (a phase input, not a behavior module)
+    --separate: open side work as a separate task linked to the one it came from, without asking (a phase input, not a behavior module)
+    --tidy: run no act; offer to clear what finished or idle tasks left — worktrees, environments, unused shared images and caches — activates the tidy module
     --dry-run: show the act, the steps it would propose and what would be recorded, without running a step or writing anything — activates the dry-run module
 ---
 Usage & examples — when to reach for this skill, and concrete flag invocations: see [usage.md](usage.md).
@@ -12,6 +15,8 @@ Usage & examples — when to reach for this skill, and concrete flag invocations
 Each numbered step's full procedure lives in the linked phase file — read it, then carry out the step. The phases cite the rules/ craft where it applies. work owns no backend of its own: it delivers through the ports and hands results to [document](../document/SKILL.md), each the doer that owns its own prerequisite, so it declares no `config_requires`.
 
 `--dry-run` changes the whole run — every phase computes, none writes: see [modules/dry-run.md](modules/dry-run.md).
+
+`--tidy` replaces the run — no act, only clearing what finished or idle tasks left, each piece offered first: see [modules/tidy.md](modules/tidy.md).
 
 1. Route the work: decide whether it needs a task at all, and which act it is  — see [phases/01-route-the-work.md](phases/01-route-the-work.md)
 2. Open the task: find or create it, re-read its intent, and record which act is running  — see [phases/02-open-the-task.md](phases/02-open-the-task.md)

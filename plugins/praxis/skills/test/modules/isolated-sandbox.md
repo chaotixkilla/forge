@@ -2,7 +2,7 @@
 
 Activated by `--sandbox`, referenced from [set-up-the-harness](../phases/04-set-up-the-harness.md).
 
-The base run uses the ambient environment. This module runs the suite in a disposable, network/filesystem-isolated **local** environment with seeded fixtures, so the result is reproducible and side-effect-free regardless of the host machine. Deletion test: without the flag, [set-up-the-harness](../phases/04-set-up-the-harness.md) provisions the ambient environment; the isolation is added behavior. It is resolved **locally** — a scratch environment test provisions itself — and declares no backend; this is the same config-less local resolution the plugin's other `--sandbox` skills use, not a delegated CI or containerization capability.
+The base run uses the ambient environment. This module runs the suite in a disposable, network/filesystem-isolated **local** environment with seeded fixtures, so the result is reproducible and side-effect-free regardless of the host machine. Deletion test: without the flag, [set-up-the-harness](../phases/04-set-up-the-harness.md) provisions the ambient environment; the isolation is added behavior. It is resolved **locally** — a scratch environment test provisions itself — and declares no backend; this is the same config-less local resolution the plugin's other `--sandbox` skills use, not a delegated CI capability. Where a task has a workspace outside host mode, the sandbox runs and keeps its data in it, a reset being a fresh namespace from the [workspace](../../workspace/SKILL.md); blocking outbound traffic and a throwaway file tree stay this module's job, and a host-mode workspace isolates nothing.
 
 ## The delta
 

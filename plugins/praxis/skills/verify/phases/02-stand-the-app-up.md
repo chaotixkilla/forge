@@ -1,5 +1,7 @@
 The most common way this skill produces a false result is a startup that reports success — no errors, a readiness message, a process that stays alive — while nothing a user could touch is actually being served; every flow driven after that is driven against an assumption.
 
+Whatever this skill runs of the project's tooling runs in the task's workspace ([run-code-in-the-task-workspace](../../../craft/engineering/run-code-in-the-task-workspace.md)).
+
 ## Stand the instance up by the project's own start path
 
 Find how this project runs *itself* — the start command it declares, the initialization it documents, the configuration it expects — and use that, rather than a remembered answer from a project of the same shape; how an application starts is exactly the kind of fact that moves under you between runs. Never hand-roll a launcher or reach past the start path into an internal entry, because the wiring, configuration loading, and startup ordering that a hand-rolled launch skips are where the failures this skill exists to catch actually live.

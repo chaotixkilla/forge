@@ -10,7 +10,7 @@ Show the intended delta and no unintended one (**judgment**, anchored to the pha
 
 ## Run the project's checks
 
-Run the project's existing checks locally over the working set. Continuous integration confirms only a ref that carries the change, and this phase has none — the change isn't pushed — so the verdict is local, and hosted confirmation is left to whoever pushes it, through [ci](../../ci/SKILL.md). `(basis: derived from a hosted check seeing only what is pushed)` Scope the run to the working set and its reverse-dependents, not an arbitrary subset.
+Run the project's existing checks locally, in the task's workspace ([run-code-in-the-task-workspace](../../../craft/engineering/run-code-in-the-task-workspace.md)), over the working set. Continuous integration confirms only a ref that carries the change, and this phase has none — the change isn't pushed — so the verdict is local, and hosted confirmation is left to whoever pushes it, through [ci](../../ci/SKILL.md). `(basis: derived from a hosted check seeing only what is pushed)` Scope the run to the working set and its reverse-dependents, not an arbitrary subset.
 
 Apply the always-on security hygiene here too ([distrust-untyped-input-and-secrets](../../../craft/engineering/distrust-untyped-input-and-secrets.md)): an upgrade is a taint event, so confirm no tainted-data path or exposed secret opened at the boundaries the bump reached.
 

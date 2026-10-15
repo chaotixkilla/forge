@@ -1,6 +1,6 @@
 # Route secrets to userConfig
 
-A token written into `praxis.json` is a token committed to the repository — the one outcome init must never produce. The config file is shared, version-controlled project state; a credential belongs in per-user, keychain-backed storage the repo never sees.
+A token written into `praxis.json` sits in a file inside the repository's working tree, where a forced add, a missing ignore rule or a config git already tracks commits it — the outcome init must never risk. Keeping the config out of version control ([write-and-validate](../phases/04-write-and-validate.md)) lowers that risk without removing it, so a credential belongs in per-user, keychain-backed storage the repo never sees.
 
 ## The file holds a reference, never the value
 

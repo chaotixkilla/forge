@@ -1,5 +1,7 @@
 The designed cases run correctly only in a harness that makes them deterministic and isolated. The load-bearing decision here is what is *real* versus *stubbed* at each seam.
 
+Whatever this skill runs of the project's tooling runs in the task's workspace ([run-code-in-the-task-workspace](../../../craft/engineering/run-code-in-the-task-workspace.md)).
+
 ## Decide real vs stubbed at each boundary
 
 Apply [mock-at-the-boundary](../../../craft/engineering/mock-at-the-boundary.md): keep the unit under test and its in-process collaborators **real**; substitute a double only at a true external / unmanaged seam (a third-party API, message bus, clock, filesystem, or other nondeterministic external dependency); use a real or containerized instance for a *managed* dependency such as your own datastore; wrap an un-owned library in an owned adapter and cover the adapter with one real integration test. The classicist default, and the internal / managed / unmanaged / owned discriminators that decide each seam, live in the rule; *which* specific seams are external for this change is the per-context call the rule deliberately leaves open.

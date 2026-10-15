@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """praxis Stop hook: context-sync check.
 
-While this session runs an act (its marker, .claude/praxis/acts/<session-id>.json,
-is a JSON object naming its task), blocks the end of a turn when work isn't in the
+While this session runs an act (its marker in the repository's main checkout,
+.claude/praxis/acts/<session-id>.json, is a JSON object naming its task), blocks the end of a turn when work isn't in the
 task's documentation: a step ended (ran or skipped) but what it hands the record was
 neither filed nor written to the task's unfiled directory; a step's skill was
 invoked after the act's proposal was answered (the marker's answered, against the
@@ -11,7 +11,7 @@ result reached only the conversation; or close-out delivered something but the
 record of where it went was neither filed nor written there. An unfiled entry counts
 only when it names its own file, as work's keep-the-act-marker rule names it, that
 file exists, and the entry records the failure that put it there: <row>-<skill>.md
-in .claude/praxis/unfiled/<task>/ for a step keyed "<row>:<skill>", and delivery.md
+in the main checkout's .claude/praxis/unfiled/<task>/ for a step keyed "<row>:<skill>", and delivery.md
 there for the delivery. Other sessions' markers are never read. Work that isn't in
 the documentation is work the next session can't see. It blocks once per turn: when
 the harness is already continuing because of a stop hook, the turn ends. On any
@@ -21,12 +21,37 @@ ends too; an unreadable transcript skips only the transcript check.
 import json
 import os
 import re
+import subprocess
 import sys
 from datetime import datetime, timezone
 
 SESSION = re.compile(r"^[A-Za-z0-9_-]+$")
 ROOT = os.environ.get("CLAUDE_PLUGIN_ROOT") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+
+def state_root(start):
+    """Where praxis keeps this project's config and act markers (init's write-and-validate): the parent
+    of the repository's git folder when that is named .git, so every worktree shares them. start itself
+    outside a repository, when git's folder has another name (as a bare repository's, a submodule's or a
+    separate git dir's usually does), or when only start holds a config, as an older praxis set up in a
+    subfolder. None when git doesn't answer within five seconds (a healthy one answers in milliseconds),
+    so the caller stays silent rather than read the wrong place."""
+    try:
+        done = subprocess.run(["git", "-C", start, "rev-parse", "--git-common-dir"],
+                              capture_output=True, text=True, timeout=5)
+    except subprocess.TimeoutExpired:
+        return None
+    except (OSError, subprocess.SubprocessError):
+        return start
+    common = done.stdout.strip()
+    if done.returncode or not common or "\n" in common:
+        return start
+    common = os.path.normpath(os.path.join(start, common))
+    root, config = os.path.dirname(common), os.path.join(".claude", "praxis.json")
+    if os.path.basename(common) != ".git" or (not os.path.isfile(os.path.join(root, config))
+                                              and os.path.isfile(os.path.join(start, config))):
+        return start
+    return root
 
 def read_marker(path):
     """The marker at path when it is a JSON object naming its task, else None."""
@@ -134,7 +159,7 @@ def unrecorded_runs(steps, counts):
 
 def unsynced(project, marker):
     task = str(marker["task"]).strip()
-    folder = f".claude/praxis/unfiled/{task}/"
+    folder = os.path.join(project, ".claude", "praxis", "unfiled", task) + os.sep
     found = []
     steps = marker.get("steps")
     for i, step in enumerate(steps if isinstance(steps, list) else []):
@@ -171,7 +196,10 @@ def main():
     session = str(event.get("session_id") or "")
     if not SESSION.match(session):
         return
-    project = os.environ.get("CLAUDE_PROJECT_DIR") or event.get("cwd") or os.getcwd()
+    root = state_root(os.environ.get("CLAUDE_PROJECT_DIR") or event.get("cwd") or os.getcwd())
+    if root is None:
+        return
+    project = os.path.realpath(root)
     marker = read_marker(os.path.join(project, ".claude", "praxis", "acts", session + ".json"))
     if not marker:
         return

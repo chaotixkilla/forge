@@ -2,7 +2,7 @@
 
 Activated by `--sandbox`, referenced from [stand-the-app-up](../phases/02-stand-the-app-up.md).
 
-The base run stands the instance up in the ambient environment. This module stands it up inside a disposable, isolated one, so a driven flow cannot reach real state — the posture for exactly the flows worth being careful with, the ones that charge, send, delete, or write somewhere a person will later read. It is resolved **locally** — verify provisions its own throwaway environment — and declares no backend; this is the same config-less local resolution the plugin's other `--sandbox` skills use, not a delegated remote-environment capability.
+The base run stands the instance up in the ambient environment. This module stands it up inside a disposable, isolated one, so a driven flow cannot reach real state — the posture for exactly the flows worth being careful with, the ones that charge, send, delete, or write somewhere a person will later read. It is resolved **locally** — verify provisions its own throwaway environment — and declares no backend; this is the same config-less local resolution the plugin's other `--sandbox` skills use, not a delegated remote-environment capability. Where a task has a workspace outside host mode, the sandbox runs and keeps its data in it, a reset being a fresh namespace from the [workspace](../../workspace/SKILL.md); blocking outbound traffic and a throwaway file tree stay this module's job, and a host-mode workspace isolates nothing.
 
 ## The delta
 

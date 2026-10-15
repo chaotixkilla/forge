@@ -1,4 +1,4 @@
-A result arrives in the shape its step produced; this phase decides its document type and shapes it to that type, adding nothing the result doesn't carry. It shapes results only: pieces an earlier filing already shaped, handed over again, skip it.
+A result arrives in the shape its step produced; this phase decides its document type and shapes it to that type, adding nothing the result doesn't carry. A kit piece close-out hands over isn't typed: it goes where the [documentation-kit](../../../craft/writing/documentation-kit.md) places it. It shapes results only: pieces an earlier filing already shaped, handed over again, skip it.
 
 ## Which type
 

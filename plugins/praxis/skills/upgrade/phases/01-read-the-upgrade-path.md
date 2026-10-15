@@ -1,5 +1,7 @@
 An upgrade that starts without reading what changed in the dependency is a guess: the publisher's record of what moved is the one source that knows, and a model's memory of the library is exactly where an upgrade goes wrong silently. This phase pins down what moves, from which version to which, who uses it, and what the publisher says changes across that span, and captures how the project's checks stand now — the baseline [prove-it-green](04-prove-it-green.md) diffs against.
 
+Whatever this skill runs of the project's tooling runs in the task's workspace ([run-code-in-the-task-workspace](../../../craft/engineering/run-code-in-the-task-workspace.md)).
+
 ## Gate: honor `--require-clean` before anything else
 
 If `--require-clean` is set, run its precondition gate as the very first action — see [require-clean](../modules/require-clean.md). Do not read code for editing until it passes; a dirty tree that fails the gate stops the run here.

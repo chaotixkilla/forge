@@ -1,5 +1,7 @@
 Build the probe chosen in [pick-the-cheapest-probe](03-pick-the-cheapest-probe.md). The goal is a clear observation of the framed unknown, not a working feature, so every instinct honed on production code (handle the errors, name things well, factor out the duplication, cover the edge cases) is a cost here, not a virtue.
 
+Whatever this skill runs of the project's tooling runs in the task's workspace ([run-code-in-the-task-workspace](../../../craft/engineering/run-code-in-the-task-workspace.md)).
+
 ## Build only the path to the signal
 
 - **Stub everything that isn't the unknown** ([change-one-thing-at-a-time](../../../craft/evidence/change-one-thing-at-a-time.md)) — hardcode inputs, fake dependencies, skip config and setup the question doesn't turn on. The one thing you never stub is the framed unknown itself.

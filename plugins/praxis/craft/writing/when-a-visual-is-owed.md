@@ -13,7 +13,7 @@ Fail either and the requirement is prose. Both must hold: three services in a ch
 
 `(basis: house cap, by analogy from Cowan's ~4-chunk working-memory limit)`
 
-**A changed relation is owed one by default.** A result that changes a flow, a state set, a data shape or a structure, a structure being the containment and dependency between components that *Which diagram* names, owes a diagram of the change: the before and after when the reader must compare them to act, as in judging the change, migrating to it or rolling it back, else the after alone. Clause 2's size bar and the short-walk anchor below don't apply to it; legibility and the two overrides still do, and a setting of `never` still wins. `(basis: maintainer, 2026-10-07)` `(routed to maintainer: before and after when the reader acts on the difference, matching the reader-action fork above.)`
+**A changed relation is owed one by default.** A result that changes a flow, a state set, a data shape or a structure, a structure being the containment and dependency between components that *Which diagram* names, owes a diagram of the change: the before and after when the reader must compare them to act, as in judging the change, migrating to it or rolling it back, else the after alone, its changes marked. Clause 2's size bar and the short-walk anchor below don't apply to it; legibility and the two overrides still do, and a setting of `never` still wins. `(basis: maintainer, 2026-10-07)` `(routed to maintainer: before and after when the reader acts on the difference, matching the reader-action fork above.)`
 
 ## The form fork
 
@@ -37,6 +37,11 @@ The kind follows the axis the relation runs on:
 - **Structure** — containment, dependency, or composition; what contains or calls what.
 - **Data-flow** — how a value is shaped, validated, or transformed as it crosses boundaries.
 - **State** — discrete states and the transitions between them, with their triggers. A state machine drawn as structure loses the triggers, which are the content.
+- **Flow** — steps and decisions in order, with where a path loops back.
+- **Data model** — entities, their fields and the relations between them, with cardinality.
+- **Timeline** — what happened or will happen, placed to scale in time.
+
+A kind of change owes its kit's visuals on top of these: [documentation-kit](documentation-kit.md) names them and the sources they come from, and the overrides below don't drop them.
 
 When a requirement spans axes, **draw the one it most turns on and note the others in prose** rather than crowding one picture with all of them.
 
@@ -54,6 +59,9 @@ A diagram is a claim about the system, and it is sourced under the same discipli
 | structure | the real dependency or containment graph, as imported or wired — not the intended architecture |
 | data-flow | the actual points where the value changes shape, including the ones that discard information |
 | state | the enumerated states and the conditions that really fire each transition |
+| flow | the control path the code actually takes, each decision at its real condition |
+| data model | the schema as the migrations or the database define it — not the models' intent |
+| timeline | the timestamps the records hold — not the order they are remembered in |
 
 **A diagram drawn from an impression of the system is the invented sentence in visual form** — more authoritative-looking than prose and just as unsourced. Where the read cannot be performed, the diagram is blocked and is declared, not sketched from memory.
 

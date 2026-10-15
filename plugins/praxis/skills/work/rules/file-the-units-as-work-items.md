@@ -21,6 +21,6 @@ Three label classes could ride on a work-item; each is pinned so a bare label ne
 
 ## Prerequisite and degrade
 
-Filing goes through the [project-mgmt](../../project-mgmt/SKILL.md) port, which owns `tools.project_mgmt`. When it reports the backend unavailable, **degrade rather than block**: file the units as an ordered checklist in the task's plan instead, and say plainly that the tracker couldn't be reached. Never silently drop the decomposition. `(basis: maintainer, 2026-07-10; per the project-mgmt skill's usage)`
+Filing goes through the [project-mgmt](../../project-mgmt/SKILL.md) port, which owns `tools.project_mgmt`. When it reports the backend unavailable, or the operation unsupported, **degrade rather than block**: file the units as an ordered checklist in the task's plan instead, and say plainly that the tracker couldn't be reached. Never silently drop the decomposition. `(basis: maintainer, 2026-07-10; per the project-mgmt skill's usage)`
 
 The port reports a per-unit outcome — created, with anything it couldn't yet set flagged against the item, or not created, with a cause the caller can act on ([project-mgmt](../../project-mgmt/SKILL.md)) — so surface each to the caller, to complete or retry a partial filing, never re-create it wholesale.

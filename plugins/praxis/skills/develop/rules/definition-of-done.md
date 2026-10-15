@@ -17,7 +17,7 @@ A change is **done** only when **all five** criteria hold, each by its own pass 
 - **4 · Coherent** — the change matches the surrounding conventions, carries no debris, and is focused to the task.
   - *Test:* the phase-5 self-review finds no scope creep ([keep-the-diff-focused](../../../craft/engineering/keep-the-diff-focused.md)), no leftover debris ([leave-no-debris](../../../craft/engineering/leave-no-debris.md)), and no unexplained break from local convention ([match-the-surrounding-code](../../../craft/engineering/match-the-surrounding-code.md)).
 - **5 · Landed-clean** — the working tree is in a clean, committable state, ready to hand off for review and landing; local only.
-  - *Test:* no half-staged or stray work — the task's documentation inside the working tree isn't stray: it stays out of the change ([document](../../document/SKILL.md) keeps it out); the change is committed as a coherent unit (a local, ambient commit — plain git, no backend). No push, review request, or ship: those belong to whoever delivers the change.
+  - *Test:* no half-staged or stray work — the task's documentation inside the working tree isn't stray: it stays out of the change ([document](../../document/SKILL.md) keeps it out); nor are praxis's own state, `.claude/praxis.json` and `.claude/praxis/` at any depth, and the repository's other worktrees nested in the tree, which are never staged, committed or removed `(basis: maintainer, 2026-10-14)`; the change is committed as a coherent unit (a local, ambient commit — plain git, no backend). No push, review request, or ship: those belong to whoever delivers the change.
 
 ## The anchors
 

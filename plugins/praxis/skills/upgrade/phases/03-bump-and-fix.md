@@ -2,6 +2,7 @@
 
 The tier from [grade-the-upgrade](02-grade-the-upgrade.md) forces the shape of the change — a **rule**, not a judgment ([change-risk-scale](../../../craft/engineering/change-risk-scale.md)):
 
+
 - **contained** → bump it directly.
 - **bounded** → a bump whose consumers need *no* code adaptation, where the only edit is the manifest and lockfile line, is already atomic: the bump itself *is* the same-diff update and needs no runtime guard. One whose call sites must adapt updates every call site in that same diff when they're all enumerable and under your control, or stages the new path behind a guard otherwise (a guard installed here owes its removal, [retire-the-switches](../../../craft/engineering/retire-the-switches.md)).
 - **exposed** → require a migration path: take the breaking change deliberately, with the transition [preserve-the-contract](../../../craft/engineering/preserve-the-contract.md) prescribes. A bump that moves a separately-deploying co-importer with no in-scope way to migrate it is blocked and reported, not forced.

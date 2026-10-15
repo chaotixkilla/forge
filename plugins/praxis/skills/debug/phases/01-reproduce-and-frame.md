@@ -1,5 +1,7 @@
 Before touching any code or forming any theory, state exactly *what is wrong* and pin it to a way to *make it happen on demand*.
 
+Whatever this skill runs of the project's tooling runs in the task's workspace ([run-code-in-the-task-workspace](../../../craft/engineering/run-code-in-the-task-workspace.md)).
+
 ## Frame the expected-vs-actual gap precisely
 
 State, concretely: on what input or in what state, what the system *should* do, and what it *actually* does — down to the specific value, error, or observable difference. "The export is wrong" becomes "exporting a list of 100 rows writes a file with 99 — the last row is dropped." That precise gap is the target the whole session aims at, and the assertion the fix will have to satisfy.
@@ -8,7 +10,7 @@ When a `--from-*` seed is in play, frame from it: the [from-incident](../modules
 
 ## Build a reproduction, and preserve the evidence first
 
-Construct the smallest reliable trigger for the framed failure ([reproduce-before-fixing](../rules/reproduce-before-fixing.md)). Before you start poking — especially for a rare or production-only failure that your poking might destroy — capture the failing state, inputs, stack, and environment ([preserve-the-evidence](../../../craft/evidence/preserve-the-evidence.md)), so a failure you reproduce once is not lost to your own experiments. "Minimal" means reduced to the smallest input or step-sequence that *still triggers the failure* — cut what doesn't change the outcome — because a small trigger is a small space to reason about in the localize loop and often names the cause by what it retains.
+Construct the smallest reliable trigger for the framed failure ([reproduce-before-fixing](../rules/reproduce-before-fixing.md)). Before you start poking — especially for a rare or production-only failure that your poking might destroy — capture the failing state, inputs, stack, and environment ([preserve-the-evidence](../../../craft/evidence/preserve-the-evidence.md)), with a trace where the stack emits one, stripped of credentials and personal data, as the kit's observed failure ([documentation-kit](../../../craft/writing/documentation-kit.md)), so a failure you reproduce once is not lost to your own experiments. "Minimal" means reduced to the smallest input or step-sequence that *still triggers the failure* — cut what doesn't change the outcome — because a small trigger is a small space to reason about in the localize loop and often names the cause by what it retains.
 
 ## Classify the reproduction — and gate on it
 

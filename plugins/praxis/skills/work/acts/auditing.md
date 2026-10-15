@@ -1,8 +1,12 @@
 # Auditing
 
-**Entry condition.** The request is to judge the security posture of a whole system or component: no change under review, no author. A security review of one change goes to the [security-review](../../security-review/SKILL.md) skill directly, with `--changed`, as one step's outcome, whoever wrote the change — the reviewing act runs no security pass. security-review reads the local tree, so a hosted change is first materialized through [vcs](../../vcs/SKILL.md)'s *materialize a change* and reviewed in that copy. (basis: maintainer, 2026-09-30)
+**Entry condition.** The request is to judge the security posture of a whole system or component: no change under review, no author. A security review of one change goes to the [security-review](../../security-review/SKILL.md) skill directly, with `--changed`, as one step's outcome, whoever wrote the change — the reviewing act runs no security pass. security-review reads the local tree, so for a hosted change, fetch its head through [vcs](../../vcs/SKILL.md), run security-review in a detached worktree [workspace](../../workspace/SKILL.md) makes at it, keyed `security-<number>`, and remove it after. (basis: maintainer, 2026-10-14) (basis: maintainer, 2026-09-30)
 
 **Done when** the audit report is filed and its findings have reached the system's owners. (basis: derived from the steps' outcomes)
+
+## Before the steps
+
+Give the task a detached worktree at the integration line's remote-tracking head, after a fetch, through [workspace](../../workspace/SKILL.md), enter it, and record its path and that commit in the act marker's `worktree` and `made_at`, so the audit reads and runs the system as it stands without touching the user's checkout. (basis: maintainer, 2026-10-14)
 
 ## Steps
 

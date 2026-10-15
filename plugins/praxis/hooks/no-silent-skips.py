@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """praxis Stop hook: no silent skips.
 
-While this session runs an act (its marker, .claude/praxis/acts/<session-id>.json,
-is a JSON object naming its task), blocks the end of a turn when a step was passed
+While this session runs an act (its marker in the repository's main checkout,
+.claude/praxis/acts/<session-id>.json, is a JSON object naming its task), blocks the end of a turn when a step was passed
 over without an honest outcome: a step still pending while a later step has run, a
 step still pending whose result waits in the task's unfiled directory (it has ended,
 so it must not run again), an outcome that isn't one of the three, a skip with no
@@ -15,12 +15,37 @@ or an event with no usable session id included, the turn ends too.
 import json
 import os
 import re
+import subprocess
 import sys
 
 # The outcomes of the skip-only-with-a-reason rule, plus the state before a step runs.
 OUTCOMES = {"pending", "ran", "skipped-by-act", "skipped-by-user"}
 SESSION = re.compile(r"^[A-Za-z0-9_-]+$")
 
+
+def state_root(start):
+    """Where praxis keeps this project's config and act markers (init's write-and-validate): the parent
+    of the repository's git folder when that is named .git, so every worktree shares them. start itself
+    outside a repository, when git's folder has another name (as a bare repository's, a submodule's or a
+    separate git dir's usually does), or when only start holds a config, as an older praxis set up in a
+    subfolder. None when git doesn't answer within five seconds (a healthy one answers in milliseconds),
+    so the caller stays silent rather than read the wrong place."""
+    try:
+        done = subprocess.run(["git", "-C", start, "rev-parse", "--git-common-dir"],
+                              capture_output=True, text=True, timeout=5)
+    except subprocess.TimeoutExpired:
+        return None
+    except (OSError, subprocess.SubprocessError):
+        return start
+    common = done.stdout.strip()
+    if done.returncode or not common or "\n" in common:
+        return start
+    common = os.path.normpath(os.path.join(start, common))
+    root, config = os.path.dirname(common), os.path.join(".claude", "praxis.json")
+    if os.path.basename(common) != ".git" or (not os.path.isfile(os.path.join(root, config))
+                                              and os.path.isfile(os.path.join(start, config))):
+        return start
+    return root
 
 def read_marker(path):
     """The marker at path when it is a JSON object naming its task, else None."""
@@ -58,9 +83,9 @@ def problems(project, task, steps, answered):
         if outcome not in OUTCOMES:
             found.append(f"{name}: '{outcome}' isn't an outcome (ran, skipped-by-act or skipped-by-user)")
         elif outcome == "pending" and (copy := waiting(project, task, step.get("step") or "")):
-            found.append(f"{name} has its result waiting at {copy}, so it has ended: record it as ran, or as "
-                         "the skip that file records, with that path as its unfiled and its failure that it waits from an "
-                         "earlier session, rather than running it again")
+            found.append(f"{name} has its result waiting at {os.path.join(project, copy)}, so it has ended: record "
+                         f"it as ran, or as the skip that file records, with {copy} as its unfiled and its failure that "
+                         "it waits from an earlier session, rather than running it again")
         elif outcome == "pending" and i < last_done:
             found.append(f"{name} has no outcome, but a later step has run")
         elif outcome.startswith("skipped") and not str(step.get("reason") or "").strip():
@@ -75,7 +100,10 @@ def main():
     session = str(event.get("session_id") or "")
     if not SESSION.match(session):
         return
-    project = os.environ.get("CLAUDE_PROJECT_DIR") or event.get("cwd") or os.getcwd()
+    root = state_root(os.environ.get("CLAUDE_PROJECT_DIR") or event.get("cwd") or os.getcwd())
+    if root is None:
+        return
+    project = os.path.realpath(root)
     marker = read_marker(os.path.join(project, ".claude", "praxis", "acts", session + ".json"))
     if not marker:
         return

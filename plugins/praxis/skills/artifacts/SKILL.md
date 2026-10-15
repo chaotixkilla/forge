@@ -1,6 +1,6 @@
 ---
 name: artifacts
-description: Publish a finished page tree — one main page with ordered subpages, which may group subpages of their own, of backend-neutral sections — to the configured home, or to a named audience space, via the matching adapter and return where it landed, read a published tree back by that location, or retire a superseded one. A tool-layer interface skill, called by other skills.
+description: Publish a finished page tree — one main page with ordered subpages, which may group subpages of their own, of backend-neutral sections — to the configured home, or to a named audience space, via the matching adapter and return where it landed, read a published tree back by that location, share it with people or the organization, or retire a superseded one. A tool-layer interface skill, called by other skills.
 metadata:
   flags:
     --space=<name>: publish to, fetch from, or retire in the named audience space instead of the home
@@ -23,7 +23,7 @@ A thin port over the artifacts backend: it names the capability, and the configu
 1. Resolve the target. Read `tools.artifacts`: its own provider, transport, `secret_ref` and `destination` are the **home**, where praxis publishes by default, and `audiences` lists named **audience spaces**, each with its own provider, transport, `secret_ref` and `destination`. `--space=<name>` selects the audience space of that name, and without it the space is the home; a name no space carries is rejected up front. An older config's per-type `destinations` map is read for its `default` entry alone, as the home's `destination` `(basis: maintainer, 2026-10-01)`, and only when `destination` is empty `(basis: derived — the current key outranks the older one, as the edit guard reads them)`. Note an advisory for each config entry read this way or ignored: the `destinations` map (its `default` read as the destination, or ignored under a set one, and each type entry ignored by name), and any key outside the current shape — `provider`, `transport`, `secret_ref`, `destination`, `task_log` and `audiences` on the slot; `name`, `provider`, `transport`, `secret_ref`, `destination` and `for` on a space. Each names the entry and points to `init:artifacts` to rewrite the slot. `(basis: maintainer, 2026-10-02)` Then resolve the destination within the space by the precedence in [stable-identity-and-precedence](rules/stable-identity-and-precedence.md) — unless the space's adapter declares that it places artifacts without one, which skips the lookup and the ask below. If the destination is empty **and** no override was given, do **not** invent or silently pick a destination — **ask the user where in that space to publish** this artifact (name it and the space) and use their answer as a one-shot `--to` for this publish. When the run calling this publish asks nothing after its start ([ask-while-the-user-is-here](../gather/rules/ask-while-the-user-is-here.md)), don't ask: report `unavailable`, as [stable-identity-and-precedence](rules/stable-identity-and-precedence.md) says, and let the caller degrade. Reject a contradictory invocation (e.g. `--idempotent` with `--version`) up front.
 2. Take the page tree the caller shaped, and check it is portable: a title for the tree, the main page's own unless the caller gives another, one main page with ordered subpages, any of which may group ordered subpages of its own, one level and no deeper `(basis: maintainer, 2026-10-08)`, titles unique within the tree, and content as backend-neutral sections. Loose content, or a tree whose titles repeat, is rejected up front, naming what isn't a tree or the repeated titles, as a contradictory invocation is: the caller's defect, not a backend outcome ([failure-taxonomy](rules/failure-taxonomy.md)), and never a tree carved here. `(basis: derived — a reference finds its page by title)`
 3. Map the tree to the backend's page model (nested pages, or an index plus section files), rendering each block as the adapter's content support surface declares it; where a block cannot be represented, degrade it by [degrade-unsupported-content](rules/degrade-unsupported-content.md) rather than dropping or erroring silently. Resolve every [in-tree reference](#in-tree-references) to its target page, and section, within the tree; one whose target isn't there degrades.
-4. Dispatch to the adapter for the resolved space's provider, handing it that space's transport and `secret_ref` and the destination resolved in step 1 — the adapter does not re-derive it: the concrete backend calls live in adapters/&lt;backend&gt;. A provider with no adapter there is `unavailable`. Create parents before children, in tree order. It hands the adapter each page's location, when the caller gave one, beside the page's neutral content. The adapter writes each in-tree reference as the backend's link to the target step 3 resolved, as it creates or matches that page.
+4. Dispatch to the adapter for the resolved space's provider, handing it that space's transport and `secret_ref` and the destination resolved in step 1 — the adapter does not re-derive it: the concrete backend calls live in adapters/&lt;backend&gt;. With no adapter for the provider, or the space's `adapter` set to `learned`, dispatch through the user's learned map instead ([dispatch-through-a-learned-map](../learn-adapter/rules/dispatch-through-a-learned-map.md)), which [learn-adapter](../learn-adapter/SKILL.md) writes at first contact. Create parents before children, in tree order. It hands the adapter each page's location, when the caller gave one, beside the page's neutral content. The adapter writes each in-tree reference as the backend's link to the target step 3 resolved, as it creates or matches that page.
 5. Return the published location to the caller — links/paths to the main page and every subpage, in tree order, a group's subpages right after it, with the main page's [reach](#reach), plus any advisories that accompany a successful publish (an older-config entry from step 1, which comes back with a failure too, an ignored `--dest-dir`, a degraded block, an in-tree reference that didn't resolve) — or a capability-level failure the caller can react to, from [failure-taxonomy](rules/failure-taxonomy.md), never a raw provider error.
 
 ## In-tree references
@@ -48,6 +48,29 @@ Every publish, a partial one included, returns one reach, for its main location,
 - **`local-only`** — a path on the publisher's machine, which no one else can open however it is shared.
 
 Each adapter states which reach its backend yields and how it tells. One that can't tell `open` from `private-until-shared` reports `private-until-shared`, since a false `open` hands readers a dead link and a false `private-until-shared` costs the user one question. `(basis: derived from that cost asymmetry)`
+
+## Guarantees
+
+What every adapter, and every learned map, keeps; an operation that can't be shown to keep one is `unsupported`:
+
+- **Publish is faithful**: the tree as handed, adding nothing of its own; every block is rendered by the content support surface or degraded visibly, never dropped.
+- **An idempotent publish updates in place** by the document's identity, and never mints a duplicate; with the identity unresolvable, `conflict`.
+- **A fetch changes nothing.**
+- **Retire removes only the location handed.**
+- **Reach is reported honestly**: what can't be told is `private-until-shared`.
+- **Share never widens** past the people or scope asked.
+
+A learned map stands in for what the port reads from an adapter, as the map records it, else these defaults: a content support surface of heading, prose, list, table, code, quote and link, other blocks degraded; reach `private-until-shared`; draft, version and share `unsupported-content`; a retire's permission unchecked. An operation it can't perform answers `unsupported-content`. `(basis: derived — each default is the reading that can't mislead)`
+
+## Share a document
+
+Given a document's main-page location, its space, and who should get access — people, or the organization — give them access through that space's adapter, which shares as its **Share** section says. `(basis: maintainer, 2026-10-13)`
+
+- **People** are team members, each by their `handles.artifacts` ([init](../init/SKILL.md)'s team), or people the user named by the identity they gave.
+- **The organization** is the workspace or domain the publishing account belongs to, as the backend defines it.
+- Access is to view, unless the caller asks for comment; it never widens past what was asked.
+
+Return who now has access, or an outcome from [failure-taxonomy](rules/failure-taxonomy.md). Some people not added — no identity, or unknown to the backend — is `partial`, each named with why. A backend that can't share, and a `local-only` location, is `unsupported-content`, with the adapter's share line for doing it by hand. Under `--dry-run`, return who would get access, sharing nothing.
 
 ## Retire a superseded document
 

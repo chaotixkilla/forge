@@ -1,6 +1,6 @@
 ## Write to the project config, preserving shape and version
 
-Emit the config to `${CLAUDE_PROJECT_DIR}/.claude/praxis.json`, in the template's shape, carrying the `version` through unchanged. A full `init` run builds from the template shape filled with this run's resolved values.
+Emit the config — on a re-run, the existing config with the resolved slots over it ([detect-environment](01-detect-environment.md)'s review) — with `praxis_version` set to the installed praxis's version from `${CLAUDE_PLUGIN_ROOT}/.claude-plugin/plugin.json`, to `.claude/praxis.json` in the repository's main checkout, even when init runs from a worktree, since praxis reads its state there for every worktree. The main checkout is the parent of the folder `git rev-parse --git-common-dir` prints, read relative to where git ran, when that folder is named `.git`. Outside a repository, and when git's folder has another name (as a bare repository's, a submodule's or a separate git dir's usually does), it is the session's project folder, which is where praxis's hooks look too. Every `.claude/praxis.json` this skill names is that file. `(basis: maintainer, 2026-10-14)` One exception: when the main checkout has no config and the session's project folder holds one, as an older praxis set up in a subfolder, that file is the existing config. Read it there, write the result to the main checkout, and tell the user the old file can be removed; the hooks read it only until the main checkout has one. `(basis: derived from the hooks' same fallback)` Write it in the template's shape, carrying the `version` through unchanged. A full `init` run builds from the template shape filled with this run's resolved values, carrying every workspace service and recipe a run has proven unchanged.
 
 **The `output` section is carried, not resolved.** `output` tells consuming skills how to shape their
 reports; it is not a capability slot — no provider, no transport, no credential — and nothing in the
@@ -21,7 +21,7 @@ not a scoped target, so a scoped run neither backfills nor rewrites it.
 `(basis: derived from the scoped-merge rule's read-modify-write discipline)`
 
 **A key init doesn't recognize is carried and reported, never dropped.** A key is unrecognized when it is in
-neither the template's shape nor an older shape the ports read (below). Any write over an existing file, full
+neither the template's shape nor an older shape the ports read (below); a workspace service's or recipe's keys are the ones the workspace port's slot section names. A slot's, a knowledge source's or an audience space's `adapter` is recognized, as [resolve-tools](02-resolve-tools.md) allows it; a value other than `learned` is reported as an advisory, and the built adapter governs. Any write over an existing file, full
 or scoped, carries each one into the written file unchanged and in the same place: at the top level, in
 `tools`, in a slot, in `output`, or in a knowledge source, audience space or roster member the run keeps
 (matched by `name`, or by `id` for a member). An entry that leaves the config, removed or renamed, takes its
@@ -35,13 +35,13 @@ stays usable under this one. `(basis: maintainer, 2026-10-02)`
 
 A config is **valid** when every slot is *resolved* and the shape matches the template. A slot is resolved in exactly one of two ways:
 
-- **configured** — a provider and transport are set (for knowledge, on each source), the capability's per-category fields are filled (or legitimately empty for an optional field), and `secret_ref` is set or empty per the transport.
+- **configured** — a provider and transport are set (for knowledge, on each source; for workspace, `files` and `commands`, with provider, transport and setup only under `commands: container`), the capability's per-category fields are filled (or legitimately empty for an optional field), and `secret_ref` is set or empty per the transport.
 - **deliberately disabled** — `provider: null`, marking a capability the project doesn't use ([resolve-tools](02-resolve-tools.md)). Valid, and legible to the downstream gate.
 
 A slot is a **defect** when it is neither — specifically:
 
 - it still holds an **un-replaced option-string placeholder** (a value still carrying the template's `provider-a | provider-b | …` menu that init never resolved to one choice), or
-- a **required field is empty** on a configured (non-disabled) slot — its provider or transport is empty, or a *required-when-configured* per-category field is empty, per the classification in [resolve-tools](02-resolve-tools.md). An *optional-when-configured* field left empty is **not** a defect, or
+- a **required field is empty** on a configured (non-disabled) slot — its provider or transport is empty (for workspace, only under `commands: container`), or a *required-when-configured* per-category field is empty, per the classification in [resolve-tools](02-resolve-tools.md). An *optional-when-configured* field left empty is **not** a defect, or
 - two knowledge sources, or two audience spaces, **share a name**, or a source takes the name `artifacts-home`, which the knowledge port gives the home — a read or a publish that names one could reach either. `(basis: maintainer, 2026-10-01)`
 
 `(basis: maintainer, 2026-07-05)`
@@ -82,16 +82,32 @@ reported like any other (above).
 
 `(basis: derived from how the roster is read: opportunistically, never gated on)`
 
+## Keep praxis's state out of version control
+
+The config and `.claude/praxis/` are the developer's own, never the project's: praxis is one developer's tool, and a teammate may not use it. A full run checks this after a successful write; when a defect blocks the write, a dry run's included, it reports the check not run. A scoped run doesn't, since it is usually a port's gate calling mid-task and its scope is one slot ([single-phase](../modules/single-phase.md)), and neither does a run outside a repository. `(basis: derived from those scopes)`
+
+git is praxis's declared local version-control substrate, so these steps name its commands. `(basis: maintainer, 2026-10-01, reaffirmed 2026-10-15)`
+
+1. From the main checkout, ask git whether it ignores the config and a path inside `.claude/praxis/` (`git check-ignore` on `.claude/praxis.json` and `.claude/praxis/acts/check.json`; a folder that doesn't exist yet still matches its rule), and whether it tracks the config (`git ls-files --error-unmatch .claude/praxis.json`). When git can't answer there, as when that folder isn't a work tree, report the check not run and why.
+2. A tracked config stays tracked under any ignore rule, so it gets no offer: say it is tracked, and that taking it out of the index (`git rm --cached .claude/praxis.json`) is the user's to run, since it deletes the file for everyone who pulls. Never run it. `(basis: derived — an ignore rule can't untrack a file, and removing it from the index is a change to the shared repository)`
+3. For each path neither ignored nor tracked, ask to add its rule, `**/.claude/praxis.json` or `**/.claude/praxis/`, to the user's global git ignore file: `core.excludesFile` when set, else `$XDG_CONFIG_HOME/git/ignore`, else `~/.config/git/ignore`. Name only the missing rules, append only those, create the file when absent, and never edit the project's `.gitignore`. A decline, or no answer, leaves everything as it is; the next full run asks again, since nothing records a decline. `(basis: maintainer, 2026-10-14, after how the harness keeps its own local settings file out of version control)`
+
+A file-backed docs home inside the repository but outside `.claude/praxis/`, as an older praxis set by default, is flagged too: task documentation is never versioned, so offer it here, once, whether the setup review listed it or not: on a yes, set the home to the default in this same write and copy its files there once the write lands, leaving the repository's copies for the user to remove in a commit of their own, since removing versioned files is theirs to decide. `(basis: maintainer, 2026-10-14)`
+
+Under `--degrade` the check still runs, nothing is offered and the global file is never written, since it is the user's own config. `(basis: derived from --degrade asking nothing)` Under `--dry-run` nothing is written either, and the report says which rules would be offered and to which file; with both flags, none would be.
+
 ## The standing postures reach every session without the project's instruction files
 
 One setting governs work done outside a praxis run: `output.comments`, the standing posture for code comments, since most comments are written during ordinary editing. praxis's session-start guidance reads that posture from the config and states it in every session of the project, so init adds nothing to the project's instruction files and never offers to. `(basis: maintainer, 2026-09-30)` Removing stale praxis lines from them (next section) is a cleanup, not a way to carry a posture: it only takes text out, and only on the user's yes. `(basis: maintainer, 2026-10-02)`
 
 ## Offer to remove the stale instruction lines
 
-When [detect-environment](01-detect-environment.md) staged stale instruction lines, list them grouped by file, each with its line number, its text and its class. A line goes whole, except that where it also carries text no class reaches, only the smallest whole clause or list item that carries the stale name or direction goes, shown in the list as the line before and after. An earlier init's block goes with its markers. What init does with the list turns on whether `.claude/praxis.json` existed when the run started, because once it exists praxis's edit guard refuses edits to project files outside `.claude/` while no act runs, and init runs none. `(basis: maintainer, 2026-10-02)`
+When [detect-environment](01-detect-environment.md) staged stale instruction lines, list them grouped by file, each with its line number, its text and its class. A line goes whole, except that where it also carries text no class reaches, only the smallest whole clause or list item that carries the stale name or direction goes, shown in the list as the line before and after. An earlier init's block goes with its markers. What init does with the list turns on whether `.claude/praxis.json` existed when the run started, because once it exists praxis's edit guard refuses edits to project files outside the checkout's own `.claude/` while no act runs, and init runs none. `(basis: maintainer, 2026-10-02)`
 
 - **First run (no config yet).** Before writing the config, ask once whether to remove them; the user may take all, none or some. Edit only on a yes, and only what was taken. Nothing else in the file changes, and no file is deleted. A decline, or no answer, leaves the files as they are.
-- **Re-run (the config exists).** For a file outside `.claude/`, attempt no edit: hand the user its listed lines to remove themselves. A file inside `.claude/` is offered and edited as on a first run.
+- **Re-run (the config exists).** For a file outside the checkout's own `.claude/`, attempt no edit: hand the user its listed lines to remove themselves. A file inside it is offered and edited as on a first run.
+- **Memory lines**, on either run, are offered and edited as on a first run, since the memory folder sits outside every checkout; removing a memory note removes its index line and its file together.
+- **A line that sets up by hand what a capability now covers** is offered remove, keep or fold on either run, after the write lands, and dropped when its capability ended disabled or, for a container command, with `commands: host`. A fold writes the config field first; the line is then removed, from memory directly, or, in a project file outside the checkout's own `.claude/`, handed to the user to remove.
 
 ## Flag by kind — block on a defect, pass a disable
 
@@ -101,4 +117,4 @@ The validation pass sweeps for both placeholder kinds (un-replaced option-string
 - **A deliberately-disabled slot passes** — `provider: null` is a resolved decision, written and reported as disabled, not flagged.
 - **A non-object `output` section blocks the write** exactly as a slot defect does, reported with what was found; its fix is an edit to that section, since `output` isn't a `--phase` target. An out-of-domain value is reported, not blocked, and an absent or default-filled `output` passes silently.
 
-Under `--degrade`, slots the run could not resolve without the user are written disabled (`provider: null`), so a headless run produces a *valid* config — narrower, never defective ([degrade-gracefully](../modules/degrade-gracefully.md)). Under `--dry-run`, run the full resolution and validation and render the would-be file with its validity verdict, but write nothing and trigger no secret side effect ([dry-run](../modules/dry-run.md)). Close the phase by reporting what was written (or would be), which slots are configured, which are disabled, any defect that blocked the write, the unrecognized keys carried, and the stale instruction lines removed, declined, left to the user, or only listed.
+Under `--degrade`, slots the run could not resolve without the user are written disabled (`provider: null`), so a headless run produces a *valid* config — narrower, never defective ([degrade-gracefully](../modules/degrade-gracefully.md)). Under `--dry-run`, run the full resolution and validation and render the would-be file with its validity verdict, but write nothing and trigger no secret side effect ([dry-run](../modules/dry-run.md)). Close the phase by reporting what was written (or would be), which slots are configured, which are disabled, any defect that blocked the write, the unrecognized keys carried, the stale instruction lines removed, declined, left to the user, or only listed, the workspace values left `unproven` and why, and the ignore check's outcome: rules added, declined or missing and not offered, already ignored, the config tracked, or not checked and why. Name the config's full path, and that praxis keeps the project's state beside it, since a session that started before the config existed has had no other word of it.

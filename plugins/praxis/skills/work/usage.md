@@ -28,6 +28,8 @@ Start or resume a piece of engineering work and carry it through its act: the ri
 - `work --task=review-230` — resumes that task where it stopped.
 - `work review change 230` again, after that review closed — reviews the change's new head as the task's next round, in the same documentation and log line.
 - `work --act=shipping --dry-run` — shows the steps it would propose and what it would record, without running or writing anything.
+- `work --attach how does the host decide when to call a connector's tools?` — during an open review, researches the question as part of the review's current round instead of asking whether to.
+- `work --tidy` — lists the worktrees, environments and shared images and caches that finished or idle tasks left, and clears the ones you pick; session start suggests it when it sees some.
 
 ## Gotchas
 - work never does a step's work itself: each step runs as its own skill, and document files the results.

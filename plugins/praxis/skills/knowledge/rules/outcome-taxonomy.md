@@ -18,7 +18,7 @@ A caller reads this port to learn what the org wrote down. What it does next tur
 
 Every run lands in exactly one, by this cascade — **the first "no" wins, and the order is the precedence**:
 
-1. Can this source perform the read, by its adapter's **Supported reads**? **No → `unsupported`**. A provider with no adapter has no such section to answer from: its source goes to step 2 and lands `unavailable`, never `unsupported`. `(basis: derived — unsupported is what an adapter declares its backend can't do, and an absent adapter declares nothing)`
+1. Can this source perform the read, by its adapter's **Supported reads**, or by its learned map's mapped reads? **No → `unsupported`**. A provider with neither an adapter nor a map that can be made goes to step 2 and lands `unavailable`. `(basis: derived — unsupported is what an adapter or a map declares its backend can't do; an absent one declares nothing)`
 2. Did the request reach an authenticated backend? **No → `unavailable`**
 3. Was the read permitted for this target or scope? **No → `unauthorized`**
 4. If the request named a specific target, does it exist? **No → `target-not-found`**

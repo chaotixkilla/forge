@@ -1,5 +1,7 @@
 A refactor restructures code and leaves its behavior exactly as it was. When the job is retiring a feature flag or toggle, [retire-the-switches](../../../craft/engineering/retire-the-switches.md) gives its steps: removing a switch that has held one value for its whole exposure changes no behavior, so it is a refactor.
 
+Whatever this skill runs of the project's tooling runs in the task's workspace ([run-code-in-the-task-workspace](../../../craft/engineering/run-code-in-the-task-workspace.md)).
+
 Anchor the request to the real code and its current behavior before editing anything: a change described as "split the billing module" or "clean up the auth helper" points at code you haven't located and behavior you haven't observed. The phase ends with two things in hand: the exact code that owns the behavior, and a reproduced baseline of how it behaves *now*, the anchor [prove-it-unchanged](04-prove-it-unchanged.md) diffs against.
 
 ## Gate: honor `--require-clean` before anything else

@@ -1,5 +1,6 @@
 {
   "version": 1,
+  "praxis_version": "",
   "tools": {
     "vcs":           { "provider": "github | gitlab | bitbucket", "transport": "cli | mcp | api", "secret_ref": "" },
     "ci":            { "provider": "github-actions | gitlab-ci | …", "transport": "cli | mcp | api", "secret_ref": "" },
@@ -12,7 +13,11 @@
                        ] },
     "project_mgmt":  { "provider": "jira | linear | notion | …", "transport": "mcp | api", "secret_ref": "", "project_key": "" },
     "communication": { "provider": "slack | teams", "transport": "mcp | api", "secret_ref": "", "channels": { "default": "", "incident": "" } },
-    "telemetry":     { "provider": "datadog | sentry | grafana | newrelic | …", "transport": "mcp | api", "secret_ref": "" }
+    "telemetry":     { "provider": "datadog | sentry | grafana | newrelic | …", "transport": "mcp | api", "secret_ref": "" },
+    "workspace":     { "files": "worktree | in-place", "commands": "container | host", "provider": "docker | …", "transport": "cli",
+                       "setup": { "kind": "dev-stack | dev-environment | container-build", "definition": [], "context": "", "lockfiles": [],
+                                  "target": "", "project": "", "network": "" },
+                       "env_files": [], "services": {}, "recipes": {} }
   },
   "output": {
     "brief":     true,
@@ -23,6 +28,6 @@
   "me": "",
   "teams": {},
   "team": [
-    { "id": "", "name": "", "role": "", "owns": [], "reviewer": false, "timezone": "", "handles": { "vcs": "", "communication": "", "project_mgmt": "" } }
+    { "id": "", "name": "", "role": "", "owns": [], "reviewer": false, "timezone": "", "handles": { "vcs": "", "communication": "", "project_mgmt": "", "artifacts": "" } }
   ]
 }

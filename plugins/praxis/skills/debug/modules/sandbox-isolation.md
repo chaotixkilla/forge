@@ -6,7 +6,7 @@ Deletion test: remove it and debug still runs against the working tree; sandboxi
 
 ## The delta
 
-Route all side-effecting work — reproduction, instrumentation, risky toggles — into an isolated throwaway environment (a branch, a worktree, or a container) instead of the working tree or shared services. This is local isolation only; it needs no external capability. It matters most for debugging that must *mutate to observe*: adding instrumentation ([make-the-invisible-observable](../rules/make-the-invisible-observable.md)), toggling suspected causes ([change-one-thing-at-a-time](../../../craft/evidence/change-one-thing-at-a-time.md)), or probing against a scratch copy of state, none of which should ever touch the real tree.
+Route all side-effecting work — reproduction, instrumentation, risky toggles — into an isolated throwaway environment (a branch, a worktree, or a container) instead of the working tree or shared services. This is local isolation only; it needs no external capability. Where a task has a workspace outside host mode, the sandbox runs and keeps its data in it, a reset being a fresh namespace from the [workspace](../../workspace/SKILL.md); blocking outbound traffic and a throwaway file tree stay this module's job, and a host-mode workspace isolates nothing. It matters most for debugging that must *mutate to observe*: adding instrumentation ([make-the-invisible-observable](../rules/make-the-invisible-observable.md)), toggling suspected causes ([change-one-thing-at-a-time](../../../craft/evidence/change-one-thing-at-a-time.md)), or probing against a scratch copy of state, none of which should ever touch the real tree.
 
 ## What escapes the sandbox
 

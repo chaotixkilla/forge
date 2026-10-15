@@ -29,6 +29,8 @@ artifact stores) through a layer of **ports**, so the process stays identical wh
 /plugin install praxis@forge
 ```
 
+praxis works in git repositories: git is its local version-control layer, used directly rather than through a port.
+
 Then configure your project once:
 
 ```
@@ -62,8 +64,8 @@ Each task keeps dated documentation, one content type per page: the task record,
 fixed sections say what the work means and where it stands; a task history; the work records its
 steps produced (spec, plan, review record, incident record, …), a decision record for each decision
 that can't be walked back, and system documentation of the part it touched — explanation, reference,
-how-to and concept pages. It's filed on your configured artifacts backend, or locally under
-`docs/praxis/` by default.
+how-to and concept pages. It's filed on your configured artifacts backend, or locally under `.claude/praxis/docs/` in the
+main checkout by default, never versioned in the repository.
 
 ## Steps
 

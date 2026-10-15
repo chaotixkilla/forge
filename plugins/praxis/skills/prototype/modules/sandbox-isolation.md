@@ -11,6 +11,6 @@ The base spike builds and runs in place. This module runs it in a throwaway isol
 
 ## The isolation mechanism
 
-Resolve isolation **locally** by default, and name the capability, never a concrete tool: a scratch workspace or a throwaway local runtime the spike runs inside. If the caller needs *version-controlled* isolation, cut a discardable local branch — ambient local version control, no port, since nothing leaves the machine — and delete it at discard. prototype declares no `config_requires` either way.
+Resolve isolation **locally** by default, and name the capability, never a concrete tool: a scratch workspace or a throwaway local runtime the spike runs inside. Where a task has a workspace outside host mode, the sandbox runs and keeps its data in it, a reset being a fresh namespace from the [workspace](../../workspace/SKILL.md); blocking outbound traffic and a throwaway file tree stay this module's job, and a host-mode workspace isolates nothing. If the caller needs *version-controlled* isolation, cut a discardable local branch — ambient local version control, no port, since nothing leaves the machine — and delete it at discard. prototype declares no `config_requires` either way.
 
 `(basis: maintainer, 2026-07-09)`

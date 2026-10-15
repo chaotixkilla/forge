@@ -6,7 +6,7 @@ Execute the designed cases through the project's configured runner (discovered i
 
 ## Prove a new test can fail before trusting its green
 
-Apply [prove-the-test-can-fail](../../../craft/engineering/prove-the-test-can-fail.md): a new or changed test is confirmed to redden against the broken or un-fixed behavior before its green is trusted as evidence. For a test guarding a fix, this is the fail-before / pass-after check.
+Keep a new or changed test's run without the change and its run with it as the kit's evidence that it failed, then passed ([documentation-kit](../../../craft/writing/documentation-kit.md)). Apply [prove-the-test-can-fail](../../../craft/engineering/prove-the-test-can-fail.md): a new or changed test is confirmed to redden against the broken or un-fixed behavior before its green is trusted as evidence. For a test guarding a fix, this is the fail-before / pass-after check.
 
 ## Classify every red result
 
