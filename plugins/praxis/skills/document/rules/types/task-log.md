@@ -10,6 +10,6 @@ In this order, each a table; a section with no tasks says so in a line.
 2. **Idle** — every open task with no update for the idle period or longer, in the same columns.
 3. **Closed** — every closed task, under a heading per month of its last update, newest month first: `closed · task · rounds · outcome`.
 
-Each cell comes from the task's entry: the dates from its `updated`; the task as its key and title, linked to the task record's location; the round as the latest round's number and kind; what it's waiting on, and its outcome, as the status text after `open` or `closed`, or `closed` where there is none; the next step as the entry's; the rounds as their count.
+Each cell comes from the task's entry: the dates from its `updated`; the task as its key and title, linked to the task record's location; the round as the latest round's number, `<n>.<m>` after a revision, and its kind; what it's waiting on, and its outcome, as the status text after `open` or `closed`, or `closed` where there is none; the next step as the entry's; the rounds as their count.
 
 The log is one page whatever its sections, never carved into subpages ([portable-tree-shape](../portable-tree-shape.md)). (basis: maintainer, 2026-10-07)

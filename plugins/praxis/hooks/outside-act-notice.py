@@ -32,7 +32,7 @@ UNREADABLE = ("This session's act marker, {0}, exists but can't be read as a mar
 SESSION_ID = "This session's id is {0}: an act run in it keeps its marker at {1}."
 UNANSWERED = ("This session's act for {0} has no answer to its proposal recorded, and {1} is one of its steps: "
               "no step runs before the proposal is settled. Show the act's steps, asking only when run-the-act's list "
-              "calls for it (a rework always asks), and record when in the marker's answered before running any step.")
+              "calls for it (a rework always asks; a revision of one doesn't), and record when in the marker's answered before running any step.")
 
 
 def state_root(start):

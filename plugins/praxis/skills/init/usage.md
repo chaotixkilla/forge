@@ -22,7 +22,10 @@ Detect and write the per-project praxis config — the `tools` map and `team` ro
 `--guide` — walk the user through every section even where inference would have answered; use when you want to review/override inferred defaults rather than accept them.
 `--degrade` — fill only what is inferable and disable the rest (writing `provider: null`, which the downstream gate reads as deliberately-unconfigured); use in non-interactive/automated runs where prompting the user is impossible. Produces a valid but narrower config, never one full of placeholders.
 `--dry-run` — compute the full config and show it, but write nothing; pair with `--guide` to preview an interactive result or with `--degrade` to see how much a headless run could fill.
+
 `--phase=team --dry-run` — preview just the roster section without touching the file.
+
+`--check` — run no setup: check, leaving nothing behind, that praxis can read its config, find its state folders and commit here unattended, and end with one JSON line a program can parse.
 
 ## Gotchas
 - Secrets never land in the file. Any tool needing a token gets a `secret_ref` pointer; the actual value goes in the harness userConfig. If you find yourself pasting a token into `praxis.json`, stop.

@@ -25,6 +25,10 @@ Every run lands in exactly one: each question is asked only once the ones before
 
 The severity sets how firm the confirmation must be: a SEV1 or SEV2 resolution warrants the full held-at-baseline window mitigate derives from the signal before it's declared; a SEV3 resolves once the signal has held for half of it, which step 2 is given as its hold (routed to maintainer: half the window for SEV3, since a SEV3's bounded impact makes the shorter confirmation an acceptable risk). Root-cause understanding isn't a gate on resolution; it's tracked as a follow-up. A team's runbook may require the cause found and recurrence prevented before resolution; where it does, honor it, and the incident stays open until that follow-up lands. `(basis: maintainer, 2026-07-11; after Atlassian's Incident Management Handbook, PagerDuty's incident-response guide and ITIL; the root-cause camp after Google SRE, "Managing Incidents", and incident.io's incident guide)`
 
+## Before the proposal
+
+The brief waits until step 2 has ended, and is then built for steps 3 and 4, filed with step 2's filing as the round's `Brief` section, the proposal's defaults with it. Its open choices stay assumptions, since the proposal has passed. A durable fix run in the incident's task adds its act's Before the proposal lines to this brief, without recruiting the curator, kept under the heading `Brief — <act>` in the same file and section, written and filed with that act's first step's filing, and its proposal asks as any act's does. (basis: derived — an incident is mitigated before anything else)
+
 ## Steps
 
 (basis: maintainer, 2026-09-30)

@@ -20,7 +20,7 @@ A value an earlier call returns is shown as `<from call n>`. A value longer than
 
 Only a fully successful run marks it `write succeeded on <date>`. After that it never asks again for that operation. A failed or partial run keeps the mark, and the next use asks again. `(basis: maintainer, 2026-10-13)`
 
-This question may come in the middle of an act. It is a named exception to [ask-while-the-user-is-here](../../gather/rules/ask-while-the-user-is-here.md)'s rule that a called skill asks nothing, because nothing else can make the write safe. A run with no one present — background, scheduled or headless — refuses the write instead. It answers the port's unsupported outcome, with "first use needs the user's confirmation", and the caller treats it as it treats an unsupported operation.
+This question may come in the middle of an act. It is a named exception to [ask-while-the-user-is-here](../../gather/rules/ask-while-the-user-is-here.md)'s rule that a called skill asks nothing, because nothing else can make the write safe. A run where no one can answer at once ([ask-while-the-user-is-here](../../gather/rules/ask-while-the-user-is-here.md)'s named exceptions) refuses the write instead. It answers the port's unsupported outcome, with "first use needs the user's confirmation", and the caller treats it as it treats an unsupported operation.
 
 ## While using it
 

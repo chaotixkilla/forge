@@ -31,6 +31,26 @@ The model is an **applicability fork keyed on the release model**, not a better/
 
 Integration *frequency* is not a fork: follow the team's branch model, but where the team is choosing, bias toward short-lived branches and frequent integration — across models, the evidence correlates ≤3 active branches, merging to trunk at least daily, and branch lifetimes under a day with higher delivery performance. `(basis: Driessen's Git Flow scope note; DORA, "Trunk-based development"; Fowler)`
 
+## Updating a branch against its target
+
+Bringing a branch to its target's head is a third choice, apart from the land strategy. (basis: maintainer, 2026-10-19)
+
+- **The convention.** What the repository's instruction files or contribution guide say about updating a branch decides it. History isn't read for it, since a rebased branch and one never updated look alike there. (basis: maintainer, 2026-10-20)
+- **With no convention, it depends on who updates the branch.**
+  - land's own reconcile merges the target into a pushed branch, and rebases one never pushed.
+  - work's update of a review request's branch, in a revision or a rework, **rebases** it, keeping it free of merge commits. (basis: maintainer, 2026-10-20 — rebase where praxis updates a review request; land keeps merging, since its gate runs between the update and the push)
+  - A stated rebase convention makes land rebase a pushed branch too, as the bullets below say.
+- **The golden rule caps every rebase.** This test is what "others may have based work on" means here.
+  - A branch is rebased only when every commit the rebase rewrites is the task's own: on the branch past the target, authored by the configured git identity, and, in work, not among the commits any of the task's `outside:` results record.
+  - A pushed branch is rebased only when the remote's head for it is in its local history. That head is read from the remote itself, never from a remote-tracking ref.
+  - A pushed branch whose route can't push with a lease is merged into. A route can lease when its adapter's push names one, or when a learned map was shown to keep the lease.
+  - Any other branch is merged into.
+- **Every merge into a pushed branch** whose remote holds commits it lacks takes the remote's head first, then the target.
+- **Pushing it back.** A rebased branch that was pushed goes back right after the update, before anything else runs or is committed on it, with the vcs lease on the remote head read before the rebase. A refused lease means someone pushed meanwhile. The branch then goes back to its head before the rebase, losing nothing, and is merged into instead: the remote's head, then the target. It is pushed plainly, at once. In work, the commits that arrived are recorded as outside, not as the round's. In a revision, open-the-task's reconciliation runs again, and the running revision's number moves past the outside revision, as Another's commits says. In a rework, they are an `outside:` result of the round, unnumbered and not checked by praxis.
+- **A stack** is rebased only when the golden rule allows every branch in it, else every branch in it is merged into. It goes base-most first, each branch rebased and pushed before the next. Each branch above replays only its own commits, from the old head of the branch below, onto the updated one. A refused lease at one branch merges it, and every branch above it, as above, leaving the ones below as pushed. Propagating a rebuilt unit upward stays a merge, as the review request rule says.
+- **After a rebase,** a compare link from a commit the rebase removed from the head's history is noted unavailable, naming the new head by its full commit id. A rebase whose result is the entry's `at` or an ancestor of it is praxis's. A commit it rewrote is counted as the one it copies when its message and author match, in order, its change allowed to differ by the conflict's resolution. A copy made outside praxis also needs its change to match.
+- **Saying which.** The run states the method, and which of these settled it.
+
 ## Detecting the repo's convention (so step 1 of the routing rule is runnable)
 
 Read the repository's history and configuration to infer what it already does:

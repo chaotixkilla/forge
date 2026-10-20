@@ -142,9 +142,11 @@ def invoked_since(transcript, answered, plugin):
     return counts
 
 
-def unrecorded_runs(steps, counts):
+def unrecorded_runs(steps, counts, revision_from=""):
     """A step whose skill was invoked more times since the act began than its steps have outcomes,
     while one of its steps is still pending: the earliest such pending step, per skill."""
+    if revision_from:  # a revision counts only its own steps, not the round's earlier outcomes
+        steps = steps[next((i for i, s in enumerate(steps) if s.get("step") == revision_from), 0):]
     found = []
     for skill, invoked in counts.items():
         mine = [s for s in steps if str(s.get("step") or "").split(":", 1)[-1] == skill]
@@ -209,7 +211,8 @@ def main():
     transcript = event.get("transcript_path") or ""
     if isinstance(steps, list) and answered and os.path.isfile(transcript):
         try:
-            found += unrecorded_runs(steps, invoked_since(transcript, answered, plugin_name()))
+            found += unrecorded_runs(steps, invoked_since(transcript, answered, plugin_name()),
+                                    str(marker.get("revision_from") or "").strip())
         except Exception:
             pass
     if found:

@@ -22,5 +22,5 @@ Ports call this skill on their own at first contact, so you rarely need to run i
 ## Gotchas
 
 - **The first write through each operation asks.** A learned operation that changes something shows exactly what it will send and asks you once; after it succeeds it doesn't ask again. A run with no one to answer refuses it.
-- **`unsupported` is a safeguard.** An operation answers it when the tool can't be shown to keep one of the port's guarantees, such as never force-pushing. Wait for a dedicated adapter, or use the operation by hand.
+- **`unsupported` is a safeguard.** An operation answers it when the tool can't be shown to keep one of the port's guarantees, such as never force-pushing unconditionally. Wait for a dedicated adapter, or use the operation by hand.
 - **Maps are per user.** They live in your plugin data folder, not the repository, and go away when the plugin is uninstalled; they're relearned at the next call.

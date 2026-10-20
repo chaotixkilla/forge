@@ -10,7 +10,7 @@ A request is side work for a task when it would run a step skill — understand,
 - **What it isn't.**
   - An answer drawn from what the task has already read: it is a finding, which [run-the-act](../phases/03-run-the-act.md)'s rules for findings file.
   - The task's next step.
-  - Work its rounds cover: a rework, a ship round, or follow-ups. Those are work that changes the code or reviews a new head. Research, a probe or an explanation that changes neither is side work, however it bears on the outcome. `(basis: derived from the field case, where research was misfiled as new rounds)`
+  - Work its rounds cover: a rework, a revision, a pending item, a ship round, or follow-ups. Those are work that changes the code or reviews a new head. Research, a probe or an explanation that changes neither is side work, however it bears on the outcome. `(basis: derived from the field case, where research was misfiled as new rounds; the revision, maintainer, 2026-10-19)`
 
 Under `--task`, the check runs the same way.
 
@@ -20,7 +20,7 @@ While this session runs the task's act, side work is part of that task. It runs 
 
 ## With no act running: ask once
 
-When no act runs for the task in this session — it waits between rounds, or it is closed — ask one question with three answers, the recommended one first:
+When no act runs for the task in this session — it waits between rounds, or it is closed — ask one question with three answers, put as [ask-while-the-user-is-here](../../gather/rules/ask-while-the-user-is-here.md) says. Its default is the recommended answer below; its cautious side is the linked separate task:
 
 - **Attach it to the task.**
   - For an open task, recommended when the work serves a decision the task still has open: a question its spec, plan or review hasn't settled, or a claim a step's result leaves unsettled.
@@ -28,7 +28,7 @@ When no act runs for the task in this session — it waits between rounds, or it
 - **A separate task, linked** — recommended otherwise. It routes on as new work. Opening it writes `related` in its own entry and in the task's: the other's key and why they were linked ([keep-the-task-memory-entry](keep-the-task-memory-entry.md)). A closed task's front page shows the link from its next filing.
 - **A separate task** — routes on as new work, with no link.
 
-An answer that picks none takes the recommended one. `--attach` and `--separate` answer before it is asked; `--separate` takes the linked form, since a link costs nothing. A run that can't ask ([ask-while-the-user-is-here](../../gather/rules/ask-while-the-user-is-here.md)) takes the linked separate task and says so: a move (below) can fold that in later, while nothing undoes an attachment. `(basis: derived)`
+`--attach` and `--separate` answer before it is asked; `--separate` takes the linked form, since a link costs nothing. A run that can't ask ([ask-while-the-user-is-here](../../gather/rules/ask-while-the-user-is-here.md)) takes the linked separate task and says so: a move (below) can fold that in later, while nothing undoes an attachment. `(basis: derived)`
 
 ## Attached work
 

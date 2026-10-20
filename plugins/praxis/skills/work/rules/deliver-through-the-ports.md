@@ -13,7 +13,7 @@ A short message that *is* the announcement, with nothing to link, posts directly
 A delivery that links the task's documentation, such as a review summary, a review request's description or an announcement, goes by the reach the [artifacts](../../artifacts/SKILL.md) port returned for that location, which an act keeps in its marker's `docs` with the port's share line:
 
 - **`open`** — link it.
-- **`private-until-shared`** — share it, then link it. Before the first delivery in the task that links it, ask once who should get access, and take the recommended answer when no one can answer: `(basis: maintainer, 2026-10-13)`
+- **`private-until-shared`** — share it, then link it. Before the first delivery in the task that links it, ask once who should get access, put as [ask-while-the-user-is-here](../../gather/rules/ask-while-the-user-is-here.md) says; the recommended answer, the narrowest grant offered, is its cautious side. `(basis: maintainer, 2026-10-13)`
   - the people on the change (recommended): its author when that isn't the user, its requested reviewers and the author of each review on it, as [vcs](../../vcs/SKILL.md)'s *read a review request* returns them, or, for a request this delivery opens, the reviewers [open-the-review-request](open-the-review-request.md) picks for it;
   - people the user names;
   - the organization.
@@ -38,7 +38,7 @@ When two blockers apply to one channel, **held outranks degraded-return**: a mis
 
 ## Never deliver twice
 
-A port that returns a delivered reference guarantees it even when a follow-on step, such as fetching a permalink, failed. Never re-post or re-publish to recover missing metadata, or the reader gets the message twice. A channel is delivered once per round: a later round's channels are its own, never repeats of an earlier round's. (basis: derived from a round's delivery being its own)
+A port that returns a delivered reference guarantees it even when a follow-on step, such as fetching a permalink, failed. Never re-post or re-publish to recover missing metadata, or the reader gets the message twice. A channel is delivered once per round, or per revision within it: a later round's channels are its own, never repeats of an earlier round's. (basis: derived from a round's delivery being its own)
 
 ## Report what landed where
 

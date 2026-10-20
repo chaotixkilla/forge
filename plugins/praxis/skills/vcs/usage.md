@@ -18,11 +18,11 @@ Today it serves the operations review, land and work's acts require; new consume
 `post a review summary` — one summary onto a change, with its stance: comment-only, approve or request changes, on the commit it reviewed when the caller names one.
 `post inline feedback` — findings anchored to exact file:line on a change's diff, with the same stance and commit.
 `set a status` — a pass/fail check on a change's head, for merge protection to read.
-`push a branch` — publish a local branch to the remote.
+`push a branch` — publish a local branch to the remote; with a lease, replace it with a rebased one only while the remote still holds the head named.
 `open a review request` — a review request from a head branch onto a base, with its title, description and reviewers; returns its reference.
 `update a review request's description` — by reference, with the new description.
 `change a review request's base` — by reference, onto another branch, as when the request it was stacked on has merged.
-`read a review request` — its state (open, merged, closed), its approval, and the review feedback on it, summary and inline, each review summary, inline comment and comment outside any review with its id, link, author and text; summaries in the order posted, with their stance and commit; an inline comment's anchor, commit, thread and whether it's resolved; and the account the port posts as.
+`read a review request` — its head commit, its state (open, merged, closed) and who merged or closed it, with a merge's commit, its approval, and the review feedback on it, summary and inline, each review summary, inline comment and comment outside any review with its id, link, author and text; summaries in the order posted, with their stance and commit; an inline comment's anchor, commit, thread and whether it's resolved; and the account the port posts as.
 `reply in a review thread` — text onto the thread of the inline comment whose id the read returned.
 `post a comment` — text on a review request, outside any review.
 `request review again` — from named reviewers on an open review request.

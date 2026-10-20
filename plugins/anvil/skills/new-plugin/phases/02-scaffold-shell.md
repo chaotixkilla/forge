@@ -7,8 +7,9 @@ The shell branches on the config posture from phase 1. The common shell is the s
 Create the manifest and the structural skeleton that make the plugin a loadable plugin:
 
 - **`.claude-plugin/plugin.json`** — the manifest: name (matching `--name`), a one-line description naming the domain the plugin owns, an initial version, and author. The initial version is `0.1.0` — semver's initial-development release, whose leading zero declares the compatibility promise still weak; `release` is what later moves it toward a published, stable version. Don't reach for a manifest field the plugin doesn't yet use; the manifest, like everything else, accretes on demand.
-- **The slot folders** — `skills/`, `agents/`, and `hooks/`. Create the folders so the structure is visible and the next phase has somewhere to land each scaffolded skill, but leave `agents/` and `hooks/` empty: they're populated only when a skill actually recruits an agent or binds a hook. An empty earned-later folder is correct; a folder pre-filled with speculative agents is premature scaffolding the skeptic would cut.
+- **The slot folders** — `skills/`, `agents/`, and `hooks/`. Create the folders so the structure is visible and the next phase has somewhere to land each scaffolded skill, but leave `agents/` empty, and `hooks/` holding only the developer-mode hook below; otherwise they're populated only when a skill actually recruits an agent or binds a hook. An empty earned-later folder is correct; a folder pre-filled with speculative agents is premature scaffolding the skeptic would cut.
 - **A README** — what the plugin is (the one-domain purpose from phase 1, including what it deliberately won't do) and how to load it. This is the human entry point; keep it to the durable shape of the plugin, not a changelog.
+- **The feedback loop** — `hooks/developer-mode.py`, its entry in `hooks/hooks.json`, and the feedback standard it names, as [seed-the-feedback-loop](../rules/seed-the-feedback-loop.md) says.
 
 ## Config-bearing only — add the config machinery
 
@@ -29,4 +30,4 @@ If `--unpublished` is set, mark the plugin in-development so it stays out of the
 
 ## Under `--dry-run`, write nothing
 
-`--dry-run` produces the exact scaffold plan — every file and folder that *would* be created, the manifest fields, the README, and (only if config-bearing) the schema and config-setup skill — and writes none of it. A dry run is a faithful preview the maintainer can review before the tree is touched, never a half-applied scaffold.
+`--dry-run` produces the exact scaffold plan — every file and folder that *would* be created, the manifest fields, the README, the developer-mode hook, its `hooks/hooks.json` entry and the feedback standard, and (only if config-bearing) the schema and config-setup skill — and writes none of it. A dry run is a faithful preview the maintainer can review before the tree is touched, never a half-applied scaffold.

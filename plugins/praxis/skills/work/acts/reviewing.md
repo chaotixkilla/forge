@@ -6,7 +6,11 @@
 
 ## Rationale last
 
-The author's rationale reaches only step 5 ([form-your-own-view-first](../../../craft/evidence/form-your-own-view-first.md)). Until then, every step, and every explorer a step recruits, reads the change's history only at or before its base, and reads no review-request or issue threads and no author notes. (basis: maintainer, 2026-09-30)
+The author's rationale reaches only step 5 ([form-your-own-view-first](../../../craft/evidence/form-your-own-view-first.md)). Until then, every step, and every explorer a step recruits, reads the change's history only at or before its base, and reads no review-request or issue threads and no author notes. (basis: maintainer, 2026-09-30) Nor does it read this task's own earlier records: its task record, its rounds' review records and scratchpads. From round 2 on, and after a fold, when earlier rounds' pages are in this context, steps 1 to 4 run isolated: each in its own recruited agent, one at a time, handed only the inputs this act names, the brief, the worktree's path and this section's read limits, which bind every explorer it recruits, its result coming back here to be recorded as any step's is. A step that can't recruit from there takes its skill's path without fan-out, and the report says so. Without fan-out at all, they run inline, and the report says earlier rounds were in context. (basis: maintainer, 2026-10-20)
+
+## Before the proposal
+
+The brief's kinds and risk tier are read from the files the change touches, never from its description, title or its author's notes. It adds the evidence the kit owes for those kinds, for the review to look for. The curator is handed the files the change touches, as Before the steps fetched them, and reads no history past the change's base. It is handed no keys whose records it reads, its area search leaves out every task record that links this change and this task's own, and the brief takes no line from an earlier round's record, so no claim made about this change reaches steps 1 to 4 through it. The brief carries no open choices: the design choices the intent leaves open are things the review looks for. (basis: maintainer, 2026-10-19)
 
 ## Before the steps
 
@@ -37,7 +41,7 @@ The results of steps 1 to 4 file as sections of the round's scratchpad; step 4's
 
 ## Delivered
 
-For a hosted change, close-out posts step 5's review on the change through vcs, with a stance, on the commit the round reviewed, the entry's `at`: its brief and findings as the review summary, linking the task's documentation by [deliver-through-the-ports](../rules/deliver-through-the-ports.md), and each open question inline at its `file:line`, folding any anchor the host rejects into the summary. Closed questions and the marks of what the rationale changed stay in the review record.
+For a hosted change, close-out posts step 5's review on the change through vcs, with a stance, on the commit the round reviewed, the entry's `at`: the review's own brief and findings as the review summary, linking the task's documentation by [deliver-through-the-ports](../rules/deliver-through-the-ports.md), and each open question inline at its `file:line`, folding any anchor the host rejects into the summary. Closed questions and the marks of what the rationale changed stay in the review record.
 
 Close-out proposes the stance from step 5's result, its Fitness one result per acceptance ([results-and-certainty](../../../craft/evidence/results-and-certainty.md)), and the reviewer confirms or changes it in close-out's question; with no answer, it's comment-only. (basis: maintainer, 2026-10-02)
 

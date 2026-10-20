@@ -21,6 +21,10 @@ Step 1 ends the act in four cases, each with its next step:
 
 When step 1's recommended fix needs design work — a new abstraction, an interface or contract change that ripples across call sites, a cross-cutting refactor — the act stops after step 1 and the task continues as developing, with the diagnosis as the spec's input. (basis: maintainer, 2026-07-10)
 
+## Before the proposal
+
+The brief adds how to reproduce the defect, as the intent gives it, or that it gives no way; the behavior as it is, as it should be, and what must stay unchanged; the surface the symptom shows on; and earlier fixes in the same area, as traps, from the curator's search of the area, or from what an incident's brief already carries when it runs as an incident's durable fix. An earlier fix's finding about the code enters the brief as that task's claim, marked to check, so step 1 diagnoses before reading it. Its kinds and risk tier wait for step 1's diagnosis: until then the proposal's risk line reads "graded after diagnosis", and both are graded from the fix step 1 recommends, written into the brief with step 1's filing. A choice whose readings depend on the diagnosis, such as whether to correct data already stored wrong, stays an assumption for step 2 to settle, never a question in the proposal. (basis: maintainer, 2026-10-20)
+
 ## After approval
 
 Before step 1, [give the task a branch](../rules/give-the-task-a-branch.md).
@@ -31,7 +35,7 @@ Before step 1, [give the task a branch](../rules/give-the-task-a-branch.md).
 
 | # | step | inputs | skipped by the act when |
 |---|---|---|---|
-| 1 | [debug](../../debug/SKILL.md), with `--from-incident`, `--from-telemetry` or `--from-logs` when the request carries one | the symptom, and its reproduction or seed | the request carries a cause already shown `observed`, with its evidence, or the round is a rework after peer review |
+| 1 | [debug](../../debug/SKILL.md), with `--from-incident`, `--from-telemetry` or `--from-logs` when the request carries one | the symptom, and its reproduction or seed | the request carries a cause already shown `observed`, with its evidence, or the round is a rework after peer review, unless a pending item it addresses says the diagnosis or its guard is wrong |
 | 2 | [develop](../../develop/SKILL.md) | step 1's mechanism and its recommended fix: the altitude, and the change | step 1's diagnosis doesn't hold with its cause `observed` — except one that holds below `observed` in a task responding to an incident, fixed provisionally (above) — or the fix needs design (above) |
 | 3 | [test](../../test/SKILL.md) `--changed` | the guard step 1 names, which must fail without the fix and pass with it, and the original reproduction, re-run | never |
 | 4 | [verify](../../verify/SKILL.md) | the flows the defect reaches | the defect reaches no flow a user or an external caller runs |
@@ -39,7 +43,7 @@ Before step 1, [give the task a branch](../rules/give-the-task-a-branch.md).
 
 When the act ends at step 1 — one of the four cases above, or a fix that needs design — no later step runs. When step 2 ends blocked — develop couldn't land the fix — the act stops, with the blocker as the task's next step. When step 3's result or step 4's headline is `fails`, or the fix doesn't pass step 5 — a finding stands that would fail review's gate at its default floor, or an acceptance `fails`, by [open-the-review-request](../rules/open-the-review-request.md)'s test — the fix goes back to step 2 with that step's whole result as its input, and steps 3 to 5 run again; after the second failed pass, the act stops with its last result as the task's next step, unless research before the stop earns it one more pass ([help-build-the-mental-model](../rules/help-build-the-mental-model.md)). A result that settles nothing — `unsettled` from step 3 or 4, test's `not checked`, verify's `not checked` for any reason but *no reachable surface*, such as *reach untraced*, or an acceptance step 5 leaves `unsettled` or `not checked` — sends nothing back: its gap becomes the task's next step. The steps after it still run, and the review request opens with the gap stated in its description; the task isn't done until the gap is settled. (routed to maintainer: two passes before stopping, since a second failure on the same fix says it needs more than another try.)
 
-In a rework after peer review ([open-the-task](../phases/02-open-the-task.md)), step 2's input is the comments its proposal settled as addressed, and step 1's diagnosis and guard are the latest round's that ran step 1. A follow-ups round runs the act from step 1 on its request. (basis: maintainer, 2026-10-07)
+In a rework after peer review ([open-the-task](../phases/02-open-the-task.md)), step 2's input is the comments its proposal settled as addressed, and step 1's diagnosis and guard are the latest round's that ran step 1. A follow-ups round runs the act from step 1 on its request. (basis: maintainer, 2026-10-07) A revision ([open-the-task](../phases/02-open-the-task.md)) starts at step 2, a change to a requirement beside its inputs. In a rework that a pending item opened, saying the diagnosis or its guard is wrong, step 1 takes that item beside its inputs, and step 2 takes the new diagnosis beside the addressed items. (basis: maintainer, 2026-10-19)
 
 ## Filed
 
@@ -47,7 +51,7 @@ Step 1's diagnosis — the mechanism, its certainty, the blast radius and the re
 
 ## Delivered
 
-- **The review request.** Open it per [open-the-review-request](../rules/open-the-review-request.md). In a rework after peer review, deliver onto it as that rule's After a rework round says.
+- **The review request.** Open it per [open-the-review-request](../rules/open-the-review-request.md). In a rework after peer review, deliver onto it as that rule's After a rework round says, and in a revision as its After a revision says.
 - **The work-item the bug traces to.** Update it through [project-mgmt](../../project-mgmt/SKILL.md) to show the fix is in review.
 
 In a task that is responding to an incident, the change ships next as a hotfix, through the shipping act.

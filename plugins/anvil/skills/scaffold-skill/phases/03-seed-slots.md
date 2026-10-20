@@ -20,6 +20,10 @@ This wiring applies only when the skill has phases. If it does, the numbered lin
 
 The inverse is *not* a defect. A thin skill has no phase files, so its numbered spine lines carry the short procedure inline and point at nothing — nothing is stranded, because there is nothing to strand. A spine step with no phase link is a fault only when a phase file exists that it should have pointed at; for a phase-less skill, an inline, link-free procedure is the correct and complete form. Rules and modules get *no* spine line either way — they are not loaded by the spine but registered where they're cited or activated (see [choosing-slots](../rules/choosing-slots.md), and the wiring section below).
 
+## Cite the feedback standard where the run ends
+
+Seed the citation of the plugin's feedback standard where [seed-the-feedback-loop](../../new-plugin/rules/seed-the-feedback-loop.md) places it. The standard is the one named by a hook of the plugin's that turns developer mode on, or by the one new-plugin is laying in this run. A plugin whose skills already cite it in their own way keeps that way, citing it only where its siblings do. A plugin with no such hook was born before the loop: seed nothing, and say in the hand-off that the loop is retrofitted through add-component: the hook, then the standard as craft, whose wiring cites it from each skill.
+
 ## Wire the modules and rules — where the reference lives, and when
 
 Phases are not the only slot files that must be reachable: the same loads-only-what's-referenced rule governs `rules/` and `modules/`, and their wiring differs from the spine's in both *place* and *time*.

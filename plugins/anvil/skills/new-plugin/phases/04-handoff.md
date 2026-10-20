@@ -2,7 +2,7 @@ The plugin now exists and has a seeded pool, but it is deliberately *not done* �
 
 ## Report the new tree as a whole
 
-Report the complete change set, not a fragment: the manifest, the slot folders, the README, every skill scaffolded into the pool, and — if the plugin is config-bearing — the config schema and the config-setup skill. The maintainer reviews the birth as one unit, so a partial list is worse than none. Anchor the report to the created paths under `plugins/<name>/` so the maintainer can walk the tree directly.
+Report the complete change set, not a fragment: the manifest, the slot folders, the README, the developer-mode hook with its switch's name and the feedback standard, every skill scaffolded into the pool, and — if the plugin is config-bearing — the config schema and the config-setup skill. The maintainer reviews the birth as one unit, so a partial list is worse than none. Anchor the report to the created paths under `plugins/<name>/` so the maintainer can walk the tree directly.
 
 ## State plainly that it is NOT in the catalog
 

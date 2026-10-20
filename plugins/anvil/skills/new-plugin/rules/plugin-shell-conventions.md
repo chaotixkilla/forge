@@ -2,18 +2,20 @@ A plugin's shell is the minimum that makes it a loadable, well-formed plugin —
 
 ## What every plugin needs at birth
 
-Three things, and only three, are non-negotiable for a plugin to exist:
+Four things, and only four, are non-negotiable for a plugin to exist:
 
 - **A manifest** — the plugin can't be loaded without one. It names the plugin, describes the domain it owns, carries the initial version `0.1.0` (semver's initial-development release — the leading zero *is* the honest compatibility statement at birth), and names the author. It starts pre-stable because birth is not publication; the version moves only when `release` says so.
 - **A `skills/` folder** — a plugin with no skills does nothing. It may be empty for a heartbeat during scaffolding, but the pool is what the plugin *is*, so the folder is structural from the start.
 - **A README** — the human entry point: what the plugin is, the one domain it owns and what it won't, and how to load it. Keep it to the plugin's durable shape, never a changelog (history lives in version control, not in docs).
+
+- **The feedback loop** — the developer-mode hook and the feedback standard it names, so every plugin's maintainer can turn on feedback on the plugin itself ([seed-the-feedback-loop](seed-the-feedback-loop.md)).
 
 That's the whole floor. Everything else is added when a concrete need arrives.
 
 ## What to leave empty until earned
 
 - **`agents/`** — create the folder so the structure is visible, but leave it empty. An explorer or critic is added only when a skill actually recruits it; an agent no skill references is orphaned cruft the contract audit flags. Don't pre-stock agents you imagine the plugin will want.
-- **`hooks/`** — same: the folder can exist, but a hook file is inert until a skill binds it to a lifecycle event, so don't seed hooks speculatively.
+- **`hooks/`** — same: the folder can exist, but a hook file is inert until a skill binds it to a lifecycle event, so don't seed hooks speculatively. The developer-mode hook above is the one every plugin is born with.
 - **A config schema and config-setup skill** — added *only* for a config-bearing plugin (see below). For a config-less plugin these don't exist at all — not as empty stubs, not "to be safe."
 
 The principle is uniform: an empty earned-later folder is correct and cheap; a folder pre-filled with speculative content is premature scaffolding that costs the plugin clarity now and an audit finding later. Empty is a feature.

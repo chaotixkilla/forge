@@ -70,13 +70,17 @@ def waiting(project, task, name):
     return ""
 
 
-def problems(project, task, steps, answered):
+def problems(project, task, steps, answered, revision_from=""):
     last_done = max((i for i, s in enumerate(steps) if s.get("outcome", "pending") != "pending"), default=-1)
+    # A revision restarts the marker from its start step, keeping the round's earlier outcomes:
+    # only an outcome from that step on means a step ran before its proposal was settled.
+    start = next((i for i, s in enumerate(steps) if s.get("step") == revision_from), 0) if revision_from else 0
+    ran_unsettled = any(s.get("outcome", "pending") != "pending" for s in steps[start:])
     found = []
-    if last_done >= 0 and not answered:
+    if ran_unsettled and not answered:
         found.append("steps have outcomes, but the marker records no answer to the act's proposal: steps run "
                      "only once it's settled, so show the act's steps, asking only when run-the-act's list calls for it "
-                     "(a rework always asks), and record when in the marker's answered")
+                     "(a rework always asks; a revision of one doesn't), and record when in the marker's answered")
     for i, step in enumerate(steps):
         name = step.get("step") or f"step {i + 1}"
         outcome = step.get("outcome", "pending")
@@ -109,7 +113,7 @@ def main():
         return
     steps = marker.get("steps")
     found = problems(project, str(marker["task"]).strip(), steps if isinstance(steps, list) else [],
-                     str(marker.get("answered") or "").strip())
+                     str(marker.get("answered") or "").strip(), str(marker.get("revision_from") or "").strip())
     if found:
         reason = ("The running act's checklist has steps without an honest outcome:\n- " + "\n- ".join(found)
                   + "\nRun each step, record the outcome its waiting "

@@ -13,7 +13,7 @@ A tool-layer interface skill: the single place the work-tracking backend is reac
 
 ## Operations (extended as consumers need them)
 Today it serves the operations `spec` (`--from-issue`) and work's acts (filing units and follow-ups, updating the item a change traces to) require; new consumers add their operations to the same interface and adapter rather than forking a new one:
-`fetch a work-item` — a tracked item by reference: its title, description, acceptance criteria, labels, and status. (`spec --from-issue` seeds a spec from it.)
+`fetch a work-item` — a tracked item by reference: its title, description, acceptance criteria, labels, and status, and the item it sits under, such as its epic, where the backend holds one. (`spec --from-issue` seeds a spec from it.)
 `create work-items` — turn an ordered set of units into tracked items carrying their dependencies and sequence. (the developing act files decompose's units this way, and the incident and maintaining acts their follow-ups.)
 
 `update a work-item` — by reference, set its status or fields, or add a comment. (work's acts update the item a change traces to when they deliver it.)

@@ -4,6 +4,10 @@
 
 **Done when** the research report is filed with its answer, the answer's support ([results-and-certainty](../../../craft/evidence/results-and-certainty.md)), evidence and open questions, and delivered where the request asked. (basis: derived from the step's outcome)
 
+## Before the proposal
+
+The brief adds the question's scope, and what earlier tasks' research already settled about it, each as that task's claim. (basis: maintainer, 2026-10-19)
+
 ## Steps
 
 (basis: maintainer, 2026-09-30)

@@ -52,7 +52,7 @@ The placement test is the step-or-craft test: would this standard change if a di
 
 A step cites a craft file the way it cites its own rules, by a relative link from the phase or rule that applies it. That link is the only way the file loads. So a craft file stands alone: it may name a related standard, but applying it never takes opening another craft file. The library carries no index, since nothing would load one: a step cites the standards it applies, one by one.
 
-A library is earned, like any slot. Seed `craft/` when two or more skills apply the same standard, and not before. A standard only one skill applies stays in that skill's `rules/` until a second skill needs it. `(basis: maintainer, 2026-09-30, the step-or-craft test)`
+A library is earned, like any slot. Seed `craft/` when two or more skills apply the same standard, and not before. A standard only one skill applies stays in that skill's `rules/` until a second skill needs it. `(basis: maintainer, 2026-09-30, the step-or-craft test)` One standard is born in the library: the feedback standard, which every skill a user can invoke cites ([seed-the-feedback-loop](../../new-plugin/rules/seed-the-feedback-loop.md)). `(basis: maintainer, 2026-10-20)`
 
 ## The three confusions worth naming
 

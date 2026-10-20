@@ -20,8 +20,10 @@ hand-edited setting. A scoped run leaves the section exactly as it found it, **a
 not a scoped target, so a scoped run neither backfills nor rewrites it.
 `(basis: derived from the scoped-merge rule's read-modify-write discipline)`
 
+**A top-level `developer` key is carried silently**, never offered, asked about or reported: it is a maintainer's switch ([feedback-on-praxis](../../work/rules/feedback-on-praxis.md)). (basis: maintainer, 2026-10-20)
+
 **A key init doesn't recognize is carried and reported, never dropped.** A key is unrecognized when it is in
-neither the template's shape nor an older shape the ports read (below); a workspace service's or recipe's keys are the ones the workspace port's slot section names. A slot's, a knowledge source's or an audience space's `adapter` is recognized, as [resolve-tools](02-resolve-tools.md) allows it; a value other than `learned` is reported as an advisory, and the built adapter governs. Any write over an existing file, full
+neither the template's shape nor an older shape the ports read (below), nor the top-level `developer` (above); a workspace service's or recipe's keys are the ones the workspace port's slot section names. A slot's, a knowledge source's or an audience space's `adapter` is recognized, as [resolve-tools](02-resolve-tools.md) allows it; a value other than `learned` is reported as an advisory, and the built adapter governs. Any write over an existing file, full
 or scoped, carries each one into the written file unchanged and in the same place: at the top level, in
 `tools`, in a slot, in `output`, or in a knowledge source, audience space or roster member the run keeps
 (matched by `name`, or by `id` for a member). An entry that leaves the config, removed or renamed, takes its
