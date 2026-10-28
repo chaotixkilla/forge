@@ -154,7 +154,8 @@ can't:
   given an outcome before the proposal was settled); a step whose skill ran while it's still
   recorded pending; and what an ended step hands the record, or the record of where a delivery went,
   neither filed in the task's documentation nor, after a failed filing, written as its own file in
-  `.claude/praxis/unfiled/<task>/` with the failure recorded; and, in or out of an act, a praxis
+  `.claude/praxis/unfiled/<task>/` with the failure recorded, a step still waiting on its own
+  agents or on a filing in flight excepted; and, in or out of an act, a praxis
   skill run this turn without its procedure read through to its final phase.
 
 ## Quick start
@@ -180,32 +181,8 @@ company-wide space beside engineering's — and praxis reads them all. praxis wr
 home** by default. Configure an **audience space** for non-engineering readers and praxis writes
 there only when you ask for something for one: "write this up for the PM".
 
-## Running praxis unattended
-
-A program can run praxis with no one at the keyboard, such as a scheduler, a dashboard or a hands-off host. Three things make that work.
-
-**Say who can answer.** Set `PRAXIS_ATTENDANCE` in the session's environment:
-
-- `present`: someone answers in the conversation;
-- `inbox`: questions are answered later, and each act asks one question in all;
-- `nobody`: no question can be asked. Then `PRAXIS_UNANSWERED` decides what a question does:
-  - `stop` (default): it stops the run, and the question is reported;
-  - `defaults`: each question takes its marked default.
-
-Without `PRAXIS_ATTENDANCE`, praxis behaves as in an interactive session. Even under `defaults`, three things stop a run: another session's act on the task, a costly run asked for on its own, and a review comment a rework would decline or defer. To answer a reported question, run the task again where someone can answer, under `present` or `inbox`.
-
-**Pre-grant what praxis touches.** Allow these in the session's permission settings, so routine work never waits on a prompt:
-
-- reading the plugin's own folder;
-- writing and editing under the repository's `.claude/praxis/`, in Claude Code's memory folder for the repository, and in the plugin's data folder;
-- editing inside `.claude/worktrees/`, where tasks get their worktrees;
-- git, for commits, pushes and worktrees, and the tools each configured port uses;
-- the shell commands the project's checks run, sandboxed;
-- web access, as your policy allows.
-
-**Read the outcome.** Every run that reaches a task ends by writing `.claude/praxis/outcomes/<session-id>.json` in the repository's main checkout. It holds the task, its status and next step, how the run ended, what was delivered and held, and any question that stopped it, with its default. A dry run writes none.
-
-Before running praxis in a repository, run `init --check`. It changes nothing, and confirms that praxis can read its config, find its state folders and commit there without a prompt, signing included. It ends with one JSON line to parse. It doesn't test the session's permissions or reach any backend.
+To confirm a repository is set up, run `init --check`. It changes nothing, and checks that praxis
+can read its config, find its state folders and commit there without a prompt, signing included.
 
 ## License
 

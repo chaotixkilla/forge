@@ -22,6 +22,6 @@ Approval covers the run it was given for, including the skills that run calls wi
 
 ## No one to ask
 
-When nobody can answer ([ask-while-the-user-is-here](ask-while-the-user-is-here.md)), whatever the posture for unanswered questions, and no approval was given, a run that asks this question on its own stops cleanly before any work and says which flag needs approval. Never run the flag anyway, and never drop it silently: running without it is the caller's choice. A caller that asks one question, before its steps or mid-run as side work does, folds this one into it, its default running the step without the flag.
+When nobody can answer ([ask-while-the-user-is-here](ask-while-the-user-is-here.md)) and no approval was given, a run that asks this question on its own stops cleanly before any work and says which flag needs approval. Never run the flag anyway, and never drop it silently: running without it is the caller's choice. A caller that asks one question, before its steps or mid-run as side work does, folds this one into it, its default running the step without the flag.
 
 (basis: maintainer, 2026-09-30; after the practice of a fixed-wording blocking cost confirmation before a heavyweight run)

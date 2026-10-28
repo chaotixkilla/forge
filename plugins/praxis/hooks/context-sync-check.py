@@ -8,7 +8,9 @@ neither filed nor written to the task's unfiled directory; a step's skill was
 invoked after the act's proposal was answered (the marker's answered, against the
 transcript's timestamps) while the marker still holds that step pending, so its
 result reached only the conversation; or close-out delivered something but the
-record of where it went was neither filed nor written there. An unfiled entry counts
+record of where it went was neither filed nor written there. A step or delivery whose
+marker entry's waiting is "agents" (its recruited explorers or critics are still out) or
+"filing" (its filing is in flight) is still working, and none of these checks it. An unfiled entry counts
 only when it names its own file, as work's keep-the-act-marker rule names it, that
 file exists, and the entry records the failure that put it there: <row>-<skill>.md
 in the main checkout's .claude/praxis/unfiled/<task>/ for a step keyed "<row>:<skill>", and delivery.md
@@ -142,6 +144,11 @@ def invoked_since(transcript, answered, plugin):
     return counts
 
 
+def waiting(entry):
+    """True while the entry says it waits on its own agents or an in-flight filing (keep-the-act-marker)."""
+    return str(entry.get("waiting") or "").strip() in ("agents", "filing")
+
+
 def unrecorded_runs(steps, counts, revision_from=""):
     """A step whose skill was invoked more times since the act began than its steps have outcomes,
     while one of its steps is still pending: the earliest such pending step, per skill."""
@@ -152,7 +159,7 @@ def unrecorded_runs(steps, counts, revision_from=""):
         mine = [s for s in steps if str(s.get("step") or "").split(":", 1)[-1] == skill]
         ended = sum(1 for s in mine if s.get("outcome", "pending") != "pending")
         pending = [s for s in mine if s.get("outcome", "pending") == "pending"]
-        if pending and invoked > ended:
+        if pending and invoked > ended and not waiting(pending[0]):
             found.append(f"{pending[0].get('step')}: its skill ran in this act, but the marker still holds it "
                          "pending, so its result reached only the conversation: record how it ended and hand "
                          "it to document now")
@@ -165,7 +172,8 @@ def unsynced(project, marker):
     found = []
     steps = marker.get("steps")
     for i, step in enumerate(steps if isinstance(steps, list) else []):
-        if step.get("outcome", "pending") == "pending" or recorded(project, task, step.get("step"), step):
+        if (step.get("outcome", "pending") == "pending" or waiting(step)
+                or recorded(project, task, step.get("step"), step)):
             continue
         name = step.get("step") or f"step {i + 1}"
         if str(step.get("unfiled") or "").strip() and not str(step.get("failure") or "").strip():
@@ -178,7 +186,7 @@ def unsynced(project, marker):
         else:
             found.append(f"{name}: what it hands the record is neither filed nor written to {folder}")
     delivery = marker.get("delivery") or {}
-    if delivery.get("channels") and not recorded(project, task, "delivery", delivery):
+    if delivery.get("channels") and not waiting(delivery) and not recorded(project, task, "delivery", delivery):
         if str(delivery.get("unfiled") or "").strip() and not str(delivery.get("failure") or "").strip():
             found.append(f"the delivery: its record was written to {folder} without a failed filing "
                          "recorded; attempt the filing")

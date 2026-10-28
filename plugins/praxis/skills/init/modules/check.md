@@ -1,6 +1,6 @@
 # --check: a preflight that leaves nothing behind
 
-`--check` replaces the run. It answers one question for a program about to run praxis here unattended: can praxis read its config, find its state folders and commit, without stopping for a person? It asks nothing, changes no setting and leaves nothing behind. It doesn't test the session's permission settings, whether a secret resolves or whether a backend is reachable. (basis: maintainer, 2026-10-20)
+`--check` replaces the run. It answers one question about this repository: is praxis set up so it can read its config, find its state folders and commit, without stopping on any of them? It asks nothing, changes no setting and leaves nothing behind. It doesn't test the session's permission settings, whether a secret resolves or whether a backend is reachable. (basis: maintainer, 2026-10-20)
 
 ## The checks
 
@@ -16,10 +16,6 @@ Run each, in this order, and give each one result: `pass`, `fail`, or `warn` for
 
 ## The report
 
-One line per check, with its result and, for `fail` and `warn`, what fixes it. The last line is one JSON line a program can parse:
-
-    {"praxis_check": "pass", "checks": {"config": "pass", "version": "warn", "slots": "pass", "identity": "pass", "signing": "pass", "state": "pass", "ignored": "pass"}}
-
-`praxis_check` is `fail` when any check failed, else `warn` when any warned, else `pass`.
+One line per check, with its result and, for `fail` and `warn`, what fixes it, then the overall result: `fail` when any check failed, else `warn` when any warned, else `pass`.
 
 `--check` takes no other flag. Combined with one, it runs alone, saying so in its first line.

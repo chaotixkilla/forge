@@ -7,7 +7,7 @@ metadata:
     --guide: walk the user through configuring, explaining options and re-confirming even inferred values
     --degrade: fill only what is inferable and disable the rest, running with no user prompts
     --dry-run: show the config that would be written, without writing it
-    --check: run no setup; check, leaving nothing behind, that praxis can read its config, find its state folders and commit here unattended, ending with one line a program can parse — activates the check module
+    --check: run no setup; check, leaving nothing behind, that praxis can read its config, find its state folders and commit here — activates the check module
 ---
 Usage & examples — when to reach for this skill, and concrete flag invocations: see [usage.md](usage.md).
 

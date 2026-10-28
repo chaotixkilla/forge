@@ -21,7 +21,7 @@ A resumed task, found either way, may have an act marker from another session: o
 
 When this session's own marker holds a different task's act, that act stopped without its close-out: offer the same two choices for it before the new act opens. (basis: derived from one marker per session)
 
-A run that can't ask ([ask-while-the-user-is-here](../../gather/rules/ask-while-the-user-is-here.md)), whatever the posture for unanswered questions, leaves either marker untouched, opens or resumes no act, and reports the marker with both choices for the user's next run. (basis: derived — closing ends someone's act and taking over can lock a live session's edits, so neither happens without the user)
+A run that can't ask ([ask-while-the-user-is-here](../../gather/rules/ask-while-the-user-is-here.md)) leaves either marker untouched, opens or resumes no act, and reports the marker with both choices for the user's next run. (basis: derived — closing ends someone's act and taking over can lock a live session's edits, so neither happens without the user)
 
 ## Reconcile what happened outside praxis
 

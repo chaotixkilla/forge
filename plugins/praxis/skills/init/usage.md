@@ -25,7 +25,7 @@ Detect and write the per-project praxis config — the `tools` map and `team` ro
 
 `--phase=team --dry-run` — preview just the roster section without touching the file.
 
-`--check` — run no setup: check, leaving nothing behind, that praxis can read its config, find its state folders and commit here unattended, and end with one JSON line a program can parse.
+`--check` — run no setup: check, leaving nothing behind, that praxis can read its config, find its state folders and commit here.
 
 ## Gotchas
 - Secrets never land in the file. Any tool needing a token gets a `secret_ref` pointer; the actual value goes in the harness userConfig. If you find yourself pasting a token into `praxis.json`, stop.

@@ -13,9 +13,7 @@ markers and unfiled results an older praxis left inside a worktree, idle past th
 into the main checkout, removing the emptied folders and saying what it moved and what it left; and,
 when finished or idle tasks left worktrees or environments behind, has the session offer work --tidy.
 And when the installed praxis's version differs from the one init last ran under, it says so once per version.
-With "developer": true in the config, it says developer mode is on. When a host sets PRAXIS_ATTENDANCE (present, inbox or nobody) and, under nobody, PRAXIS_UNANSWERED (stop or
-defaults), it says who can answer this session's questions; with neither set it says nothing, and the session
-judges as it always has. It reads only git and praxis's own files, never a container runtime. It never blocks: on any error it exits 0, and the session
+With "developer": true in the config, it says developer mode is on. It reads only git and praxis's own files, never a container runtime. It never blocks: on any error it exits 0, and the session
 starts as it would without praxis; a failed memory trim only skips the trim.
 """
 import datetime
@@ -101,36 +99,6 @@ def postures(cwd):
     return (COMMENTS["why-only"] + f" output.comments in {os.path.join(cwd, '.claude', 'praxis.json')} is {json.dumps(value)}, which "
             "isn't one of why-only or match-codebase, so the default, why-only, applies. Tell the user, so "
             "they can correct it.")
-
-
-# Who can answer, as a host declares it. What each value means is gather's ask-while-the-user-is-here
-# rule's alone; the line names the value and points there, so the two never drift apart.
-ATTENDANCE = ("present", "inbox", "nobody")
-UNANSWERED = ("stop", "defaults")
-RULE = os.path.join("skills", "gather", "rules", "ask-while-the-user-is-here.md")
-
-
-def attendance():
-    """The host's attendance signal as one context line, or "" with none set. A value the rule doesn't
-    define is reported and treated as no signal, so the session behaves as without one."""
-    value = (os.environ.get("PRAXIS_ATTENDANCE") or "").strip()
-    if not value:
-        return ""
-    if value not in ATTENDANCE:
-        return (f" PRAXIS_ATTENDANCE is {json.dumps(value)}, which isn't one of present, inbox or nobody, so no "
-                "attendance signal applies. Tell the user, so they can correct it.")
-    root = os.environ.get("CLAUDE_PLUGIN_ROOT") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    rule = os.path.join(root, RULE)
-    line = f" Attendance, set by the host: {value}"
-    note = ""
-    if value == "nobody":
-        posture = (os.environ.get("PRAXIS_UNANSWERED") or "").strip() or "stop"
-        if posture not in UNANSWERED:
-            note = (f" PRAXIS_UNANSWERED is {json.dumps(posture)}, which isn't one of stop or defaults, so stop "
-                    "applies. Tell the user, so they can correct it.")
-            posture = "stop"
-        line += f", unanswered questions: {posture}"
-    return line + f". Before asking anything, read {rule} for what this means." + note
 
 
 def developer(cwd):
@@ -464,10 +432,6 @@ def main():
         pass
     context = GUIDANCE + " " + postures(project) + (f" praxis keeps this project's config and state in {project}: read .claude/praxis.json, "
                                                     "act markers, briefs and unfiled results there, whichever worktree this session runs in.")
-    try:
-        context += attendance()
-    except Exception:
-        pass
     try:
         context += developer(project)
     except Exception:

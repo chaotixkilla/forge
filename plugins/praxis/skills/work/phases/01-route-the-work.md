@@ -19,6 +19,8 @@ Code-changing work on the change of a task in play whose round waits on its peer
 - [auditing](../acts/auditing.md)
 - [learning](../acts/learning.md)
 
+A request that names a review request is matched from what names it and its metadata alone — title, author, base, head and size, fetched through [vcs](../../vcs/SKILL.md) with the description held back as the reviewing act's Before the steps fetches it, never its description, commits' messages or discussion; when vcs can't hold it back, route from the request's own words alone — since the reviewing act holds the author's rationale back from its first steps ([reviewing](../acts/reviewing.md), Rationale last) and what routing reads stays in context. A ticket the request points at is read for its own fields as the request's intent, whoever wrote them; a discussion thread is left unread here, for the act to read where its procedure does. (basis: field findings, 2026-10-28 — a description read while routing reached every blind step)
+
 `--act=<name>` replaces the match; a name with no act file is an error — say which acts exist and stop. When it's unclear whether the request fits an act, take the act: the proposal in [run-the-act](03-run-the-act.md) then asks before anything runs. When two acts fit, ask the user which, now. (routed to maintainer: both defaults, since the proposal shown before anything runs makes taking an act cheap to undo, while a wrong guess between two acts isn't.)
 
 ## When no act fits

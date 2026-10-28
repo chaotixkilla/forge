@@ -16,8 +16,6 @@ Each numbered step's full procedure lives in the linked phase file — read it, 
 
 `--dry-run` changes the whole run — every phase computes, none writes: see [modules/dry-run.md](modules/dry-run.md).
 
-Every run that reaches a task ends by writing its outcome: see [rules/write-the-outcome.md](rules/write-the-outcome.md).
-
 `--tidy` replaces the run — no act, only clearing what finished or idle tasks left, each piece offered first: see [modules/tidy.md](modules/tidy.md).
 
 1. Route the work: decide whether it needs a task at all, and which act it is  — see [phases/01-route-the-work.md](phases/01-route-the-work.md)
