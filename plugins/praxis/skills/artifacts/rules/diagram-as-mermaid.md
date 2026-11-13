@@ -10,7 +10,7 @@ A diagram block carries its form and its elements, never a notation ([portable-t
 - `Elided:` — the elision line;
 - `Source:` — the provenance.
 
-**The first line of the source** is `%% form: <form>`.
+**The first line of the source** is `%% form: <form>`. Right after the type line come `accTitle: <caption>` and `accDescr: <elision line, else the caption>`, so a screen reader names the drawing; sequence and gantt included. A description of more than one line is written `accDescr { … }`.
 
 **Ids** are written `n_` followed by the element's id with hyphens made underscores, so no id collides with a mermaid keyword such as `end`.
 
@@ -61,6 +61,7 @@ Fetch reads a mermaid block by the same table, in reverse, into a diagram block:
 - **The form** comes from the `%% form:` line. Without one — an older block — a `graph` or a `flowchart` in any direction is `structure`, and any other type is the form its row names.
 - **Ids** lose their `n_` and have their underscores turned back into hyphens, a doubled one into the `--` that joins an edge's ends. An edge, transition, message or relation carries the id [portable-tree-shape](../../document/rules/portable-tree-shape.md) derives for it, so it is derived again, never invented; a `[*]` is the `initial` or `final` node its position gives, in its group.
 - **Marks** come back from classes, label suffixes, an entity's `mark` row, and a sequence rect's colour; the rect's mark note is not an element.
+- **`accTitle` and `accDescr`** are skipped: the caption and finding come from the lines around the block.
 - **The rest** — elements, marks, groups, the caption above, and the `Marks:`, `Elided:` and `Source:` lines below — comes back as written.
 
 A block someone edited by hand into something the table doesn't produce comes back as a diagram with what it could read. A block it can't read at all comes back as code, saying it is a diagram's source.

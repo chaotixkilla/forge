@@ -27,6 +27,7 @@ Today it serves the operations review, land and work's acts require; new consume
 `post a comment` — text on a review request, outside any review.
 `request review again` — from named reviewers on an open review request.
 `compare two commits` — a link to the diff from one commit to another.
+`link a file at a commit` — a link to a file, or lines in it, as it stood at a commit.
 `read what a review request builds on` — the references of the open requests it builds on, nearest first, and nothing of their rationale.
 `read a landing constraint` — whether a target branch requires an approved review or passing checks before a merge.
 `merge` — an approved review request, or a branch, by the team's strategy, carrying the caller's message for the commit it makes.

@@ -44,7 +44,7 @@ When step 2 leaves the incident ongoing, the status update says so and step 3 st
 
 ## Filed
 
-While the incident is live, each step's result is appended to the task's scratchpad as the incident's timeline notes. Step 4's retrospective files as the incident record, with a decision record for each one-way-door decision the response made, such as an irreversible mitigation. (basis: derived from the document types' membership tests)
+While the incident is live, each step's result is appended to the task's scratchpad as the incident's timeline notes. Step 4's retrospective files as the incident record, with a decision record for each decision the response made that earns one ([decision-record](../../document/rules/types/decision-record.md)), such as an irreversible mitigation. (basis: derived from the document types' membership tests)
 
 ## Delivered
 

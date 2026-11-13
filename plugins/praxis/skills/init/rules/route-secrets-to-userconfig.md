@@ -23,10 +23,11 @@ Not every configured slot needs a credential, and asking for one where none is u
   The discriminator: **does the connector's auth flow through the harness (managed/OAuth — whether or not connected yet), or does it need a static credential praxis hands it?** Only the latter sets `secret_ref`; a not-yet-connected harness-managed connector is an *authorize-it-in-the-harness* instruction, never a token.
 - **`cli`** — reuses an already-authenticated command-line tool's ambient session; praxis supplies no token. Leave `secret_ref` empty.
 - **`fs`** — a local filesystem path; no authentication. Leave `secret_ref` empty.
+- **`harness`** — a tool the harness itself provides, reaching the backend with the user's own signed-in account; no authentication of praxis's own. Leave `secret_ref` empty.
 
 `(basis: derived from the transport semantics)`
 
-**Prefer the transports that store nothing — `api` is the last resort.** Three of the four transports make praxis hold *no* credential: an already-authorized `mcp` connector (the harness holds the auth), an authenticated `cli` (ambient session), a local `fs` path (no auth). Only `api` forces a stored token. So `api` is the **last-resort** transport — chosen only when no MCP connector and no authenticated CLI is available for the provider — and [resolve-tools](../phases/02-resolve-tools.md) proposes it last, signalling that picking it means entering a token into userConfig. A slot reachable by an already-connected MCP server or an authenticated CLI *should* use that: it is lower-friction for the user and leaves praxis holding no secret at all.
+**Prefer the transports that store nothing — `api` is the last resort.** Four of the five transports make praxis hold *no* credential: an already-authorized `mcp` connector (the harness holds the auth), an authenticated `cli` (ambient session), a local `fs` path (no auth), a `harness` tool (the user's own signed-in account). Only `api` forces a stored token. So `api` is the **last-resort** transport — chosen only when no harness tool, no MCP connector and no authenticated CLI is available for the provider — and [resolve-tools](../phases/02-resolve-tools.md) proposes it last, signalling that picking it means entering a token into userConfig. A slot reachable by an already-connected MCP server or an authenticated CLI *should* use that: it is lower-friction for the user and leaves praxis holding no secret at all.
 
 ## The instruction init hands the user
 

@@ -37,7 +37,7 @@ Step 3's cases are removed from the worktree before step 4, so the windows of st
 
 ## Filed
 
-The results of steps 1 to 4 file as sections of the round's scratchpad; step 4's files with no decision records. Step 5's result files as the round's review record, with a decision record for each of its decisions that is a one-way door, and close-out's delivery updates the review record with where each part went. (basis: derived from the document types' membership tests)
+The results of steps 1 to 4 file as sections of the round's scratchpad; step 4's files with no decision records. Step 5's result files as the round's review record, with a decision record for each of its decisions that earns one ([decision-record](../../document/rules/types/decision-record.md)), and close-out's delivery updates the review record with where each part went. (basis: derived from the document types' membership tests)
 
 ## Delivered
 

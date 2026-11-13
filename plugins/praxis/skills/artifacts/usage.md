@@ -17,7 +17,7 @@ Take a finished page tree — one main page with ordered subpages, which may gro
 - Producing the *content* of the artifact — the spec, plan, or report body → **spec** / **plan** / **deep-research** / **review**. artifacts is the last-mile writer; it moves an already-authored tree, it does not draft one.
 
 ## Examples
-`--space=<name>` — publish to, fetch from, or retire in the audience space of that name instead of the home — e.g. `--space=company`.
+`--space=<name>` — publish to, fetch from, read feedback from, or retire in the audience space of that name instead of the home — e.g. `--space=company`.
 
 `--to=<target>` — override the destination within the space for this one publish (a path or a page id) instead of its configured destination — e.g. `--to=handbook/onboarding` or `--to=<page-id>`.
 
@@ -30,6 +30,8 @@ Take a finished page tree — one main page with ordered subpages, which may gro
 `--idempotent` — re-publish in place: update the existing pages rather than minting a duplicate. The right default for a living document you republish repeatedly; without it, a second run can create a parallel copy.
 
 `--dry-run` — show exactly what would be published (target, page mapping, paths/links), or what a retire would remove and leave behind, without writing anything. Cheap safety check before a real publish, especially with `--to`/`--dest-dir` overrides.
+
+`--restricted` — have the adapter restrict access to this publish so it may carry restricted content, such as threats with an unfixed exploit path; where it lands still comes from `--space` and `--to`. Without it, an item store holding restricted content is rejected before anything is written.
 
 `--to=<page-id> --idempotent` — common combination: pin to a known page and update it in place, so the same artifact keeps one canonical, evolving home.
 

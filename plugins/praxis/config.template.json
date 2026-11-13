@@ -7,9 +7,9 @@
     "knowledge":     { "sources": [
                        { "name": "", "provider": "notion | confluence | claude-docs | local", "transport": "mcp | api | fs", "secret_ref": "", "root": "", "note": "" }
                      ] },
-    "artifacts":     { "provider": "notion | confluence | claude-docs | local", "transport": "mcp | api | fs", "secret_ref": "", "destination": "", "task_log": true,
+    "artifacts":     { "provider": "notion | confluence | claude-docs | claude-artifacts | local", "transport": "mcp | api | fs | harness", "secret_ref": "", "destination": "", "task_log": true,
                        "audiences": [
-                         { "name": "", "provider": "notion | confluence | claude-docs | local", "transport": "mcp | api | fs", "secret_ref": "", "destination": "", "for": "" }
+                         { "name": "", "provider": "notion | confluence | claude-docs | claude-artifacts | local", "transport": "mcp | api | fs | harness", "secret_ref": "", "destination": "", "for": "" }
                        ] },
     "project_mgmt":  { "provider": "jira | linear | notion | …", "transport": "mcp | api", "secret_ref": "", "project_key": "" },
     "communication": { "provider": "slack | teams", "transport": "mcp | api", "secret_ref": "", "channels": { "default": "", "incident": "" } },

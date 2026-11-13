@@ -6,6 +6,8 @@
 - A page links to another page rather than repeating what that page says, but for a task record's current state and Iterations ([task-record](types/task-record.md)). A link to a page of the same task's documentation is an in-tree reference that resolves ([portable-tree-shape](portable-tree-shape.md)); a page of another task's is linked by its location. (basis: maintainer, 2026-10-07; the other task's pages, derived from their being in another tree)
 - No page covers the whole system: a task documents only what it touched.
 
-## The split test
+## Sharing and splitting a page
 
-A page has started a second topic when describing one of its sections would take another type's name (a format reference inside an explanation; a decision's full context and consequences inside a review record), or when a reader looking for that section wouldn't think to open this page. Split it: the new content becomes a page of its own type, and the old page links to it. A review's brief, with its one-line decisions, is delivered content and isn't split. (basis: maintainer, 2026-09-30; Diátaxis, Procida)
+A type with its own page gets one. A type that joins another's page fills the section its type file names there, so a task's decision records can stand on its spec's page. A page holding several types closes with one footer, its types joined by ` + ` in the order they appear: `Spec + Decision record · …`. A document filed again is matched by type and subject, wherever it stands.
+
+A page has grown past its types when a section holds content no type on the page declares: a threat analysis inside a design page, a decision's full context inside a review record. Split it. The content goes to its own type's page, which the plan then owes, as any added document, and the old page links to it. Content no type declares stays where it is, with an advisory naming it. A review record's brief, with its one-line decisions, is that type's own section and isn't split. (basis: maintainer, 2026-11-11, reconciling Diátaxis's one kind per page with types that share a page)

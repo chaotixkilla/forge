@@ -11,13 +11,36 @@ Implements the **artifacts** capability against the local filesystem, writing th
 
 **Content support surface.** This adapter renders these neutral block kinds natively: heading, prose, list, table (Markdown table), code (fenced), quote (blockquote), link/reference (an in-tree reference is its words as the text of a relative link to its page's file, with `#<anchor>` for a section; the anchor is the heading lowercased, with characters other than letters, digits, spaces and hyphens dropped and spaces turned to hyphens, as common Markdown hosts build it, and `-1`, `-2` added for a repeated heading), diagram (a fenced `mermaid` block, which common Markdown hosts draw, written by [diagram-as-mermaid](../rules/diagram-as-mermaid.md) for every form, with its caption above and its elision and provenance lines below), and image (the file copied into `assets/<the page file's path from the location's root, without .md>/`, such as `assets/03-round-2/index/`, then a relative Markdown image with its alt text, its caption under it; an idempotent publish removes the assets of pages the tree no longer has, and of images a page no longer shows). A chart isn't on it. A kind not on it degrades by [degrade-unsupported-content](../rules/degrade-unsupported-content.md).
 
+## Item store
+
+The store is written as `items.json` beside `index.md`, so a draft or a versioned copy carries its own. It is pretty-printed as UTF-8, unescaped, with a two-space indent and a trailing newline, keeping the store's own key order, so a republish that changes nothing leaves the file byte-identical.
+
+## View surface
+
+| Presentation | Level | Rendering |
+|---|---|---|
+| `table`, `list`, `cards`, `matrix` | `table` | A Markdown table under its caption, as an italic line: the script's `--markdown` output, written as it is |
+| `graph`, `chain`, `timeline` | `native` | The port's diagram block, drawn by [diagram-as-mermaid](../rules/diagram-as-mermaid.md) |
+
+The static table form follows a `native` rendering inside a `<details>` block whose summary is `Table form`.
+
+Each view's region is wrapped in `<!-- view <page> <position> -->` and `<!-- /view -->`, with the closing marker after any `</details>`. `<page>` is the page file's path from the location's root without `.md`, such as `index` or `03-round-2/index`.
+
+## Restricted
+
+Honored only when the destination lies outside any version-controlled working tree, or is ignored by the one it lies in. Anywhere else, the next commit would carry the files to others, so answer `unsupported-content` before writing, naming the repository. Whether a folder is synced or shared by other means is invisible to the filesystem. The share line says so: *only you can open these files unless the folder is synced or shared*. (basis: derived)
+
+## Feedback
+
+Files carry neither comments nor approvals.
+
 ## Fetch
 
-Read `index.md` at the location and each `NN-<slug>.md` beside it, skipping `assets/`, in `NN` order, as the main page and its subpages, a `NN-<slug>/` directory as the subpage its `index.md` holds, grouping the files inside it. Each file's first heading is its page's title; a file that doesn't open with a level-1 heading, written before titles were, takes its title from its footer's type and the round the footer names (round 1 where it names none), or with no footer from its file name's slug, adding its `NN` where two would still repeat, and keeps every heading in its body. Fetch inverts the surface: a relative link to one of those files comes back as an in-tree reference to its page with the link's text as its words, its `#<anchor>` matched against that page's headings as the section, a fenced `mermaid` block as a diagram by [diagram-as-mermaid](../rules/diagram-as-mermaid.md), with a caption only when a one-line caption sits directly above it, and a relative image as an image block. A chart shown as its figures table comes back as that table, since the table doesn't say it was a chart. A location with no `index.md` is `target-not-found`.
+Read `index.md` at the location and each `NN-<slug>.md` beside it, skipping `assets/`, in `NN` order, as the main page and its subpages, a `NN-<slug>/` directory as the subpage its `index.md` holds, grouping the files inside it. Each file's first heading is its page's title; a file that doesn't open with a level-1 heading, written before titles were, takes its title from its footer's type and the round the footer names (round 1 where it names none), or with no footer from its file name's slug, adding its `NN` where two would still repeat, and keeps every heading in its body. Fetch inverts the surface: a relative link to one of those files comes back as an in-tree reference to its page with the link's text as its words, its `#<anchor>` matched against that page's headings as the section, a fenced `mermaid` block as a diagram by [diagram-as-mermaid](../rules/diagram-as-mermaid.md), with a caption only when a one-line caption sits directly above it, and a relative image as an image block. A chart shown as its figures table comes back as that table, since the table doesn't say it was a chart. `items.json` beside `index.md` comes back as the item store. Each `<!-- view … -->` region comes back as the view block the store's `views` holds for its page and position. A location with no `index.md` is `target-not-found`.
 
 ## Retire
 
-A location with no `index.md` is `target-not-found`. Otherwise remove the tree at it: its `index.md` and `NN-<slug>.md` files and its `NN-<slug>/` group directories and its `assets/` folder with what this adapter wrote in them, then the directory, now empty. When the directory holds anything else (a `v<n>/` or `drafts/` subdirectory, a file this adapter didn't write), remove nothing and fail `conflict`, naming those entries, since the directory can't go without them. `(basis: derived from the conflict class: the write can't proceed as asked without loss)` A versioned copy is retired by its own location first. What retiring leaves behind: nothing on disk. Where an older praxis committed the files, the repository's history keeps them, and removing them from it is the user's call.
+A location with no `index.md` is `target-not-found`. Otherwise remove the tree at it: its `index.md`, `items.json` and `NN-<slug>.md` files, its `NN-<slug>/` group directories and its `assets/` folder with what this adapter wrote in them, then the directory, now empty. When the directory holds anything else (a `v<n>/` or `drafts/` subdirectory, a file this adapter didn't write), remove nothing and fail `conflict`, naming those entries, since the directory can't go without them. `(basis: derived from the conflict class: the write can't proceed as asked without loss)` A versioned copy is retired by its own location first. What retiring leaves behind: nothing on disk. Where an older praxis committed the files, the repository's history keeps them, and removing them from it is the user's call.
 
 ## Filename normalization
 

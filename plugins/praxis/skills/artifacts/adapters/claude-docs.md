@@ -22,9 +22,33 @@ Implements the **artifacts** capability against Claude Docs, over the Claude Doc
 
 **Reach.** Every doc is `private-until-shared`. Its share line: the owner opens **Share** at the top of the doc and adds people by name, to view, comment or edit. No connector operation shares a doc or shows who has access, so a doc shared after an earlier publish still reports `private-until-shared`: the adapter can't see that it was.
 
+## Item store
+
+The store is uploaded as a file named `items.json`, recorded on the doc and shown in no tab, through the same upload as an image (`topic.uploads`). An idempotent publish uploads the new one first, then drops the doc's earlier `items.json`. If two remain, Fetch takes the later upload.
+
+## View surface
+
+| Presentation | Level | Rendering |
+|---|---|---|
+| `table`, `list`, `cards`, `matrix` | `table` | A pipe table under its caption |
+| `graph`, `chain`, `timeline` | `native` | A caption line, then the port's diagram block drawn as a drawing widget is. The module opens with `const view = {page, position}` and carries no `block` constant. |
+
+The static table form follows a `native` rendering directly, under the line `Table form`. The chart guidance's rule against a table repeating plotted figures doesn't apply to views.
+
+A doc carries no hidden mark for a `table`-level view, so its region is found by its caption. Fetch walks each tab in order and finds each of the page's regions by the caption test in [item-store-and-views](../rules/item-store-and-views.md).
+
+## Restricted
+
+A doc's sharing is invisible to the connector (Reach), so `--restricted` is honored only when this publish births the doc. A publish into an existing doc answers `unsupported-content`, and a restricted document is renewed with `--version`, which births a new doc.
+
+## Feedback
+
+- **Comments:** each thread, with the port's fields, read through the connector's comment guidance (`topic.comments`), with its tab as its page.
+- **Approvals:** not read. A doc has no approval record.
+
 ## Fetch
 
-Read the doc by its id or link: the first tab is the main page and each further tab a subpage, in the doc's tab order, a sub-tab as a page its parent tab's page groups, each with its body and its tab id as its location. Fetch inverts the surface. Words followed by a mention of another tab of the doc come back as an in-tree reference to that tab's page with those words, a bare mention with the page's title as its words, and a mention followed by `›` and words as a reference to the section those words begin with, the longest of that page's headings they start with. A link to a heading in the same tab comes back as a reference to that section. A drawing widget comes back as the diagram block its module's `block` constant holds, with the `Marks:`, `Elided:` and `Source:` lines after it read as part of it, never as prose; a widget without one comes back as an image of its screenshot. A `mermaid` block comes back as a diagram by [diagram-as-mermaid](../rules/diagram-as-mermaid.md), with a caption only when a one-line caption sits directly above it. An uploaded image comes back as an image block, its file the blob it cites; an in-place update counts it changed only when its alt text, caption or provenance changed, since the same provenance is the same capture, and an unchanged one keeps its blob. A chart widget comes back as a chart block: its claim and number of observations from the embed's caption, the x axis's label and unit and the series' unit from the axis titles, the series' labels from the legend, its rows from the widget's data. A chart or diagram the connector refused and that was shown degraded comes back as the table or the code it was shown as. A doc the connector refuses with an access error, where absence and no access look the same, is `unauthorized`.
+Read the doc by its id or link: the first tab is the main page and each further tab a subpage, in the doc's tab order, a sub-tab as a page its parent tab's page groups, each with its body and its tab id as its location. Fetch inverts the surface. Words followed by a mention of another tab of the doc come back as an in-tree reference to that tab's page with those words, a bare mention with the page's title as its words, and a mention followed by `›` and words as a reference to the section those words begin with, the longest of that page's headings they start with. A link to a heading in the same tab comes back as a reference to that section. A drawing widget comes back as the diagram block its module's `block` constant holds, with the `Marks:`, `Elided:` and `Source:` lines after it read as part of it, never as prose; a widget without one comes back as an image of its screenshot. A `mermaid` block comes back as a diagram by [diagram-as-mermaid](../rules/diagram-as-mermaid.md), with a caption only when a one-line caption sits directly above it. An uploaded image comes back as an image block, its file the blob it cites; an in-place update counts it changed only when its alt text, caption or provenance changed, since the same provenance is the same capture, and an unchanged one keeps its blob. A chart widget comes back as a chart block: its claim and number of observations from the embed's caption, the x axis's label and unit and the series' unit from the axis titles, the series' labels from the legend, its rows from the widget's data. A chart or diagram the connector refused and that was shown degraded comes back as the table or the code it was shown as. The doc's `items.json` upload comes back as the item store. A drawing widget whose module holds a `view` constant comes back as that view's block, before any diagram reading applies. With it go the caption line above it and everything after it through the last row of its `Table form` table. Each `table`-level region found by its caption comes back as the view block the store's `views` holds for it. A doc the connector refuses with an access error, where absence and no access look the same, is `unauthorized`.
 
 ## Share
 
@@ -59,3 +83,4 @@ Map connector outcomes to the capability outcomes in [failure-taxonomy](../rules
 ## Call-time discovery
 
 The connector's surface shifts, so this file names each operation and its purpose, and the exact call shapes are resolved when you call. Before the first docs call of a run, read the connector's own guide (`guide` with `topic.index`). Before adding, renaming, nesting, moving or mentioning tabs, read `topic.tabs`. A surface that can't nest or move a tab leaves the page at the top level and reports it as an advisory, never re-creating the tab. Before placing a chart, read `topic.charts`; a diagram, `topic.diagram`; an image or a recording, `topic.uploads`. Before setting where the tabs show, or sharing, read `topic.tabs` and `topic.sharing`. Before changing content in place or linking a heading, read `topic.editing`. Resolve the doc-level delete's shape against the live operation before retiring. Each topic prints the member and op shapes this adapter relies on.
+- **Item store.** Check that the upload guidance (`topic.uploads`) records a file on a doc without showing it in a tab, lists a doc's recorded files with their names and upload times, and drops one. Without all three, the doc can't hold a store: a publish carrying one answers `unsupported-content`. "The later upload" is the later upload time the listing gives.

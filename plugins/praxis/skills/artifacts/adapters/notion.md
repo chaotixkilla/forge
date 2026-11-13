@@ -13,9 +13,33 @@ Implements the **artifacts** capability against Notion, over the Notion MCP. The
 
 **Reach.** A page takes its access from its parent, so the tree's reach is the main page's. Read the main page's location from the page fetch after publishing: under the publisher's private pages → `private-until-shared`; under a teamspace, or under a page shared with other members → `open`; a location the fetch doesn't settle → `private-until-shared`. Sharing goes by hand. The share line: the owner opens **Share** on the main page and invites people or a teamspace, and its subpages follow.
 
+## Item store
+
+The store is uploaded through Notion's file upload as `items.json`, attached as a file block that is the last block of the main page, under a divider. On an idempotent publish the divider and file block are removed and appended again after the page's content, with the new file.
+
+## View surface
+
+| Presentation | Level | Rendering |
+|---|---|---|
+| `table`, `list`, `cards`, `matrix` | `table` | A table block under its caption, as a paragraph |
+| `graph`, `chain`, `timeline` | `native` | The view's caption paragraph, then the port's diagram block as a mermaid code block by [diagram-as-mermaid](../rules/diagram-as-mermaid.md) |
+
+The static table form follows a `native` rendering inside a toggle block titled `Table form`.
+
+A page carries no hidden mark, so a view's region is found by its caption paragraph. Fetch finds each of the page's regions by the caption test in [item-store-and-views](../rules/item-store-and-views.md).
+
+## Restricted
+
+Before writing, read the sharing of the parent the destination names, and, on a republish, of the main page itself. Either one in a teamspace or shared with others, or one whose sharing the read doesn't settle, answers `unsupported-content`, naming it. A main page under the publisher's private pages, shared with no one, is published as usual.
+
+## Feedback
+
+- **Comments:** each discussion on any page of the tree, with the port's fields, read through Notion's comments.
+- **Approvals:** not read. A page has no approval record. (basis: derived — page verification marks a page as trusted, not a version as approved)
+
 ## Fetch
 
-Fetch the main page by its id or link, then its child pages in the parent's order, each as a subpage with its content, and a subpage's own child pages as the pages it groups. Fetch inverts the surface: words followed by a mention of a page of the same tree come back as an in-tree reference with those words, a bare mention with the page's title as its words, a mention followed by `›` and words as a reference to the section those words begin with, the longest of that page's headings they start with, a mermaid code block as a diagram by [diagram-as-mermaid](../rules/diagram-as-mermaid.md), with a caption only when a one-line caption sits directly above it, and an image block as an image. A chart this backend showed as its figures table comes back as that table, since the table doesn't say it was a chart. A reference the integration may not read is `unauthorized`; one Notion reports genuinely absent is `target-not-found`.
+Fetch the main page by its id or link, then its child pages in the parent's order, each as a subpage with its content, and a subpage's own child pages as the pages it groups. Fetch inverts the surface: words followed by a mention of a page of the same tree come back as an in-tree reference with those words, a bare mention with the page's title as its words, a mention followed by `›` and words as a reference to the section those words begin with, the longest of that page's headings they start with, a mermaid code block as a diagram by [diagram-as-mermaid](../rules/diagram-as-mermaid.md), with a caption only when a one-line caption sits directly above it, and an image block as an image. A chart this backend showed as its figures table comes back as that table, since the table doesn't say it was a chart. The main page's `items.json` file block, and the divider above it, come back as the item store, never as content. Regions are found before any other reading applies. Each region found by its caption comes back as the view block the store's `views` holds for it. A reference the integration may not read is `unauthorized`; one Notion reports genuinely absent is `target-not-found`.
 
 ## Share
 

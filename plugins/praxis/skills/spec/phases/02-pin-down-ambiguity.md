@@ -1,4 +1,4 @@
-Convert the fuzz interrogation exposed into hard constraints a build can be held to. Every vague adjective, every "it depends," every unstated boundary is an ambiguity that will otherwise resurface downstream as a bug where the build guessed the answer you never wrote.
+Convert the fuzz interrogation exposed into hard constraints a build can be held to. Every vague adjective, every "it depends," every unstated boundary is an ambiguity that will otherwise resurface downstream as a bug where the build guessed the answer you never wrote. With the request interrogated on its own, read the intent's sources by [mine-the-sources](../../../craft/evidence/mine-the-sources.md) before pinning anything: a decision they took settles its ambiguity, and a dispute they left becomes a question.
 
 ## Quantify every vague adjective
 

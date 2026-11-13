@@ -6,6 +6,7 @@ A task's documentation arrives as finished documents — authored content organi
 
 - **Exactly one main page** — the artifact's root: its title, and a landing summary (see below). The tree carries a title of its own, the main page's unless the caller gives another, which names the whole document where the backend names documents apart from their pages. (basis: maintainer, 2026-10-08)
 - **Ordered subpages beneath it** — each a top-level section that earns its own page, in the artifact's authored order. A task's documentation adds one level, and only by grouping: a subpage that groups the task's other pages holds them as ordered subpages of its own, as [publish-and-link](../phases/03-publish-and-link.md) places them, and nothing nests deeper. (basis: maintainer, 2026-10-08)
+- **A page head**, optional on any page: `label`, `kicker`, `headline`, `badge`, `lead` and `part` (`now`, `plan` or `records`), as [reader-tabs](reader-tabs.md) sets them. A backend with no place for them uses the label as the page's title, renders the headline as its first heading and the lead as its first paragraph, and drops the kicker, badge and part; one that renders no instruments shows the hosted types' views instead.
 - **Content as backend-neutral sections** — a page's body is a sequence of neutral blocks: heading, prose, list, table-as-data, code, quote, link/reference, diagram (below), image (below), and chart (its claim; its x axis with label and unit; one or more series, each with a label and all in one unit, figures in another unit taking a chart of their own; the number of observations; and rows keyed by x). A link to another page of the same tree, or to a section of one, is an [in-tree reference](../../artifacts/SKILL.md#in-tree-references), never the page's name in plain text. Titles are unique within the tree, since a reference finds its page by title. `(basis: maintainer, 2026-10-07; the series and rows keyed by x, derived from a chart's figures table)`
 - **A diagram block** names its form and its elements, never a notation, so each destination draws it its own best way ([diagram-as-mermaid](../../artifacts/rules/diagram-as-mermaid.md) where that is mermaid). `(basis: maintainer, 2026-10-14)` It holds:
   - its caption, the finding it shows, and its elision line, placed as [diagram-legibility](../../../craft/writing/diagram-legibility.md) says;
@@ -17,6 +18,26 @@ A task's documentation arrives as finished documents — authored content organi
     - a timeline — `rows` (id, label, start, end, span or milestone), placed by ISO dates, or by offsets in seconds from a zero its caption states; steps with an order and no times are a flow, not a timeline; a row the change moved is two rows, its base marked removed and its head marked added, so the base still shows;
   - a `mark` on any element — added, changed or removed — when it shows a change, against the change's base: the merge base with the integration line, or a reviewed request's base. One marked diagram is the before and after when the change is local to it; two blocks, before and after, when the reader compares whole shapes;
   - its provenance: generated (the project's own tool and command, and the commits it ran at), observed (what was run or captured, where and when) or drawn (the claims its elements rest on). It names the project's tools, never the harness's or praxis's.
+- **A view block** shows items from the caller's item store ([items-and-agreements](items-and-agreements.md)). It holds:
+  - its caption, the claim it supports;
+  - `of`: the item kinds it selects, and a filter: conditions on fields, states, sensitivity and links, every one of which must hold;
+  - `subject`, when a condition is `page subject`: the subject its page was filed for, as the type's Membership names it;
+  - `as`: its presentation, one of `table`, `list`, `cards`, `matrix`, `graph`, `chain` or `timeline`;
+  - what it shows, by presentation:
+    - columns for `table`, `list` and `cards`, each one of:
+      - an item field or live field, or the item's body;
+      - a link (a kind, or its derived reverse), or a path of two links, showing the targets' ids and titles, or one named field of them, optionally only the targets of named kinds;
+      - the covering agreement's decider, consulted, informed, date or link;
+      - the item's state with its reason;
+      - the latest verification's outcome, date, environment, commit or evidence;
+    - a row kind, a column kind, the link or two-link path each cell shows, and the marker an empty cell shows, such as `none`, and any live fields of the row's item as columns after its title, for `matrix`;
+    - the link kinds that form its edges for `graph`;
+    - a starting item and the link, or sequence of links, it follows for `chain`;
+    - the start and end fields for `timeline`;
+  - an optional sort (keys in order, each ascending or descending, empty first or last) and grouping (one field, or one link's target);
+  - for any column, the marker an empty cell shows, such as `none`.
+
+  Its rows are resolved by the artifacts port at publish ([item-store-and-views](../../artifacts/rules/item-store-and-views.md)), never written into the block. (basis: maintainer, 2026-11-11, pages are views over items)
 - **An image block** is a file the task made — a screenshot, a recording, a generated picture — with its alt text, its caption and its provenance.
 
 No backend-specific construct enters the neutral tree; that is what lets the [artifacts](../../artifacts/SKILL.md) port's map step (its step 3) render it onto either a nested-page model or an index-plus-section-files model without rework.

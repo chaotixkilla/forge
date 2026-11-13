@@ -173,6 +173,7 @@ praxis prefers backends that store **no credential**:
 - **A connected MCP server** (e.g. GitHub or Slack) — rides your existing authorization, stores nothing.
 - **An authenticated CLI** on your machine — reuses the ambient session, no stored token.
 - **A local filesystem root** — for knowledge and artifacts, no auth; the artifacts default.
+- **A tool the harness provides** — for artifacts published as claude.ai pages, through your own signed-in account; no stored token.
 - **`api` (last resort)** — the only transport needing a token; it goes into Claude Code's secure
   per-user store, never into the committed project config.
 

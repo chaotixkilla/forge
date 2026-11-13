@@ -29,6 +29,14 @@ Three shapes, three forms — and the three are exactly the content shapes claus
 
 `(basis: derived from the reader-action frame: an artifact serves what its reader does next)`
 
+## Which view of items
+
+When the content is items in a task's store, the same fork picks a view's presentation:
+- **One path** a reader follows: a `chain`, at any size. **The whole structure:** a `graph` up to 20 nodes, a `matrix` above 20, since crossing edges stop being traceable. (basis: Ghoniem, Fekete & Castagliola 2004)
+- **Coverage and gaps**, such as requirements against tests: a `matrix`, its empty cells the gaps; then one `chain` for each item the page's question names, and none otherwise.
+- **No risk heat map** without the values or ranges behind each cell, and ordinal scores are never multiplied or averaged into one. (basis: Cox 2008, "What's wrong with risk matrices?")
+- **Status never by colour alone.** Every state, mark or rating is also a word.
+
 ## Which diagram
 
 The kind follows the axis the relation runs on:

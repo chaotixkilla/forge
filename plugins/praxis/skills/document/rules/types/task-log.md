@@ -1,6 +1,16 @@
 # Task log
 
-One page listing this user's tasks for people who don't use praxis, in three sections, newest first within each. It mirrors the task memory entries and holds nothing they don't. A task's later rounds keep its one row, which shows the latest.
+One page listing this user's tasks for people who don't use praxis, in three sections, newest first within each.
+
+Plumbing.
+
+## Page
+
+`own page`, outside any task's tree. (basis: maintainer, 2026-11-11)
+
+## Membership
+
+It mirrors the task memory entries and holds nothing they don't. A task's later rounds keep its one row, which shows the latest.
 
 ## Sections
 
