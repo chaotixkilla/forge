@@ -878,7 +878,7 @@ def map_data(m):
         return best[n]
     ends = [n for n in nodes if nodes[n].get("kind") == "gate"] or list(nodes)
     crit = max((longest(n) for n in ends), key=lambda c: c[0], default=(0, []))[1]
-    can = [n for n in open_ if all(p not in open_ for p in preds.get(n, []))]
+    can = [n for n in nodes if n in open_ and all(p not in open_ for p in preds.get(n, []))]  # filed order, so a render is repeatable
     out = []
     for n, i in nodes.items():
         f = i.get("fields") or {}
