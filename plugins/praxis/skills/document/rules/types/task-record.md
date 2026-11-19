@@ -36,6 +36,16 @@ The record links to the task's other pages, which [publish-and-link](../../phase
 - Its owner is the task's owner, as the task history names it. Its agreement is `none`: a front page is restated, never agreed.
 - Live field: `requests`, list of text, `vcs: each review request the page describes, with its state and its head`.
 
+**Reach `RCH`.** One thing a fixed bug's cause reaches beyond its own site, from the blast radius of the diagnosis the round fixes, its own step's or one the request or an incident brought, for a task whose act or a round's act is fixing a bug. Titled by the name the code or system gives it: a function, a route, a table. (basis: maintainer, 2026-11-19, how far a bug reaches, drawn from the diagnosis)
+- Fields:
+  - `ring`: enum `caller`, `entry point`, `data`, `input`. An entry point is filed as one even when it also calls the faulty code directly; an input is a related input that shares the flaw.
+  - `who may call`: enum, for an entry point, by who can obtain the credential it checks: `public` when it checks none; `signed in` when anyone can get one by signing up; `partner` when it is issued to named outside parties; `internal` when only the organization's own services or staff hold one; `admin` when only administrators do.
+  - `tested`: enum `yes`, `no`, `unknown`, for an entry point: whether a test, the fix's guard included, runs the faulty code through that entry point, read once the fix is written.
+  - `count`: text, for data: how much is still wrong, with its unit, such as `412 rows`, or `not counted`.
+- Granularity: one caller, entry point, store or input.
+- Change regime: `living`, filed again as the fix and any repair proceed.
+- Agreement: `none`.
+
 ## Sections
 
 Under its title, the page opens with a pin line: the family's name and what the page describes. A change names the head commit of each review request it describes and says the page is out of date once a head moves: `The change, as of 60f9a60, the head of review request 3468. If its head is newer, this page is out of date.` Before a request opens it names its branch's head, and before the task has a branch, the time of the filing. An audit names the commit it read; an incident and a question, the time of the latest filing, and a question adds whether the task is open and its next step, since it has no Status. Then come the family's sections in order, each present even when empty, but for What was wrong, which only a change that fixes a bug has, and What changed since you last looked? and What does each review request carry?, present only when their conditions hold; an empty section says so in a line. (basis: maintainer, 2026-10-08)
@@ -60,7 +70,7 @@ A day with none of these has no entry. The list holds the five latest entries; e
 **A change** then has:
 
 1. **What changes and why** — first each outcome someone using the product meets, by the test of who bears it in review's brief ([deliver-findings](../../../review/phases/06-deliver-findings.md)): before → after, who is affected and what stays the same, each led by one bold sentence. Then each change another developer meets, each led by one bold sentence and followed by why it was done that way. A change no user can observe says so.
-2. **What was wrong** — when the task's act or any of its rounds' acts is fixing a bug, and for a review when its brief states the defect the change fixes, and when a task's results state a defect its change fixes, whatever its act: the symptom as it was seen, and its cause, at the commit and line it was found at.
+2. **What was wrong** — when the task's act or any of its rounds' acts is fixing a bug, and for a review when its brief states the defect the change fixes, and when a task's results state a defect its change fixes, whatever its act: the symptom as it was seen, and its cause, at the commit and line it was found at. Then the reach list, when the task files reach items.
 3. **How it works** — the mechanism behind the outcomes above, drawn where [when-a-visual-is-owed](../../../../craft/writing/when-a-visual-is-owed.md) owes a diagram, each with its caption above it saying what to read from it, standing here rather than linked from a working page.
 4. **Depends on** — what has to be in place before the change works and lands: other review requests and the order they land in, migrations, settings, services, data, and changes other teams make.
 5. **Verification** — the Verification view below, one row per requirement or acceptance criterion: its result on [results-and-certainty](../../../../craft/evidence/results-and-certainty.md)'s scale and the evidence, each at the commit it ran at. Where the task files no requirement, the rows stand as prose in the same shape. A result short of `holds` says what would settle it. Then, when the spec has slices, the Slices view.
@@ -130,6 +140,7 @@ Shipping a change built outside this task fills what its own results carry, Stat
 - **Decisions waiting**, in a change's Open, an incident's Follow-ups, a question's Still open and an audit's Not covered: `list` of every `Q` and `DEC` (home: [decision-register](decision-register.md)) in `open`, `lean` or `proposed`, grouped by decider, so one with no decider falls under the port's `(none)`, and sorted by decide-by, earliest first: id, title, tier, decide-by and what it `blocks`. Their kinds count as declared wherever a page shows them, the spec's included. (basis: maintainer, 2026-11-11, what needs whom, ranked)
 - **Work waiting**, after it: `table` of every `RISK`, `ASM`, `ISS` and `DEP` (home: [raid-log](raid-log.md)) whose `status` is `open`, and every `ACT` (home: [incident-record](incident-record.md)) in `open` or `proposed`: title, kind and decide-by, grouped by owner and sorted by decide-by, earliest first. A kind no owed type declares is left out, and the view with it when none is left; Open then says in a line that no risk log or incident is kept.
 - **The pages awaiting agreement**, after the views: a list the page writes, one line per page with items in `proposed` that the views above don't show, the page as an in-tree reference and how many of its items await its approval, which the task's owner seeks. Those items are never listed one by one: a page's content waits on its approval, not on a person per item. (basis: benchmark, 2026-11-12, every proposed item listed as waiting buried the decisions)
+- **Reach list** (What was wrong): `list` of every `RCH` grouped by ring: who may call, tested, count.
 
 ## Minimum form
 

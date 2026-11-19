@@ -12,7 +12,7 @@ Each rollout pattern fits a different scope and pays a different cost, so select
 
 ## Keep it compatible during the transition
 
-State what must keep working mid-rollout: the dual-version window a parallel change opens, the contract the old callers still rely on until they migrate, the backfill that runs while both shapes coexist. Name the point at which the old path is safe to remove.
+State what must keep working mid-rollout: the dual-version window a parallel change opens, the contract the old callers still rely on until they migrate, the backfill that runs while both shapes coexist. Name the point at which the old path is safe to remove. For each surface the change touches, state how it deploys, by which pipeline, from which branch and when, as the repository's pipeline definitions show it, one they don't show being an assumption, with how it will be checked, since a surface that deploys on its own path can force splitting the delivery. (basis: field findings, 2026-11-19 — a dashboard deploying from another branch surfaced only in review)
 
 ## Define testing and observability
 

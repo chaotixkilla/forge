@@ -145,8 +145,9 @@ def invoked_since(transcript, answered, plugin):
 
 
 def waiting(entry):
-    """True while the entry says it waits on its own agents or an in-flight filing (keep-the-act-marker)."""
-    return str(entry.get("waiting") or "").strip() in ("agents", "filing")
+    """True while the entry says it waits on its own agents, an in-flight filing, or another session's message
+    (keep-the-act-marker)."""
+    return str(entry.get("waiting") or "").strip() in ("agents", "filing", "messages")
 
 
 def unrecorded_runs(steps, counts, revision_from=""):
@@ -157,9 +158,10 @@ def unrecorded_runs(steps, counts, revision_from=""):
     found = []
     for skill, invoked in counts.items():
         mine = [s for s in steps if str(s.get("step") or "").split(":", 1)[-1] == skill]
-        ended = sum(1 for s in mine if s.get("outcome", "pending") != "pending")
+        ended = sum(1 for s in mine if s.get("outcome") == "ran")  # a skipped step never invoked its skill
         pending = [s for s in mine if s.get("outcome", "pending") == "pending"]
-        if pending and invoked > ended and not waiting(pending[0]):
+        # A pending step waits only on its agents: a filing follows its recorded outcome.
+        if pending and invoked > ended and str(pending[0].get("waiting") or "").strip() != "agents":
             found.append(f"{pending[0].get('step')}: its skill ran in this act, but the marker still holds it "
                          "pending, so its result reached only the conversation: record how it ended and hand "
                          "it to document now")
@@ -167,6 +169,8 @@ def unrecorded_runs(steps, counts, revision_from=""):
 
 
 def unsynced(project, marker):
+    if str(marker.get("worker_of") or "").strip():
+        return []  # a coordinated round's worker files nothing: its coordinator files each result it reports
     task = str(marker["task"]).strip()
     folder = os.path.join(project, ".claude", "praxis", "unfiled", task) + os.sep
     found = []
@@ -225,9 +229,11 @@ def main():
             pass
     if found:
         reason = ("This act's work isn't all in the task's documentation:\n- " + "\n- ".join(found)
-                  + "\nHand each to document. Only when its filing fails, write what document hands back to "
-                  "the task's unfiled directory and record that path, with the failure, in the marker, so "
-                  "the next session can file it.")
+                  + "\nHand each to document. One whose outcome is recorded and whose filing is already "
+                  "handed to an agent or queued behind another is recorded by setting its waiting to "
+                  "filing in the marker. Only when "
+                  "its filing fails, write what document hands back to the task's unfiled directory and "
+                  "record that path, with the failure, in the marker, so the next session can file it.")
         json.dump({"decision": "block", "reason": reason}, sys.stdout)
 
 

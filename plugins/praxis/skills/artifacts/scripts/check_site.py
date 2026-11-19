@@ -7,15 +7,18 @@ Reads every page render_site.py wrote and reports:
 - a page without its embedded tree entry (`praxis-page`), which a fetch could not read back;
 - raw data or a placeholder in a reader's text, a section that renders nothing, and a link to an anchor its page lacks;
 - a step code heading two gates, or cited with no gate or slice carrying it, and a question and a decision stating one thing unlinked;
-- a reader tab (part now or plan, the main page aside) without its headline strip;
+- a reader tab (part now or plan, the main page aside) whose instrument doesn't lead with its conclusion;
 - a relative link to a page or file the site doesn't hold;
 - a section a tab's design neither shows nor names as filed-only;
 - a source named by an id (a tracker key not of this store's prefixes, a review request, a playbook) with no link and not marked (no link),
   and one the site links or names with no title saying what it is;
   documents and threads named in words, and a source's ids sharing this store's prefixes, are not seen and are the run's to link;
 - an item the store holds that no page shows, by its id or its full title, outside scripts.
+- as advice, never a finding: on a reader tab, the words it writes itself (its headline, lead and instrument headlines)
+  denser than the reader-tabs rule advises: a headline's words, a sentence's words, and the item codes one sentence names.
 
-Prints {"findings": [...]} with {"page", "check", "detail"} each, and exits 1 when there is any.
+Prints {"findings": [...], "advice": [...]} with {"page", "check", "detail"} each, and exits 1 when there is any finding;
+advice never fails the check.
 """
 import json
 import os
@@ -26,6 +29,51 @@ NOT_SHOWN_ALONE = {"overview"}
 LEAK = re.compile(r"\{'\w+':|\{\"\w+\":|\bundefined\b|\[object \w+\]|\bNaN\b|\bTODO\b|\bFIXME\b|lorem ipsum")  # read into the main page's lead, never listed
 # A mention that reads as an outside source: a tracker key not of this store's prefixes, a review request number, a playbook.
 OUTSIDE = re.compile(r"(?<![\w#/-])(?:[A-Z]{2,}(?:-[A-Z]+)?-\d+|PR #\d+|#\d{3,}|[Rr]eview request \d+|[Pp]laybooks? \d+)(?![\w-])")
+
+
+# --- reader words: ws3 ---
+# The words a reader tab writes itself, against the reader-tabs rule's "The words on a tab": advice for the writer, never
+# a failure. The numbers are the ones render_site.py's reader-cut block keeps, read from there so they live in one place.
+def _bars():
+    src = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "render_site.py"), encoding="utf-8").read()
+    return {k: int(re.search(r"^" + k + r" = (\d+)", src, re.M).group(1)) for k in ("HEADLINE_WORDS", "SENTENCE_WORDS", "SENTENCE_CODES")}
+
+
+CODE = re.compile(r"\b[A-Z]{1,5}-\d+\b")
+
+
+def _plain(markup):
+    """Text with each code shown as an abbreviation kept as one token, so a sentence's codes can be counted."""
+    import html as _html
+    markup = re.sub(r"<abbr\b[^>]*>(.*?)</abbr>", lambda mm: " \u27e6" + re.sub(r"<[^>]+>", "", mm.group(1)) + "\u27e7 ", markup, flags=re.S)
+    return re.sub(r"\s+", " ", _html.unescape(re.sub(r"<[^>]+>", " ", markup))).strip()
+
+
+def words_findings(html):
+    bars, out = _bars(), []
+    hero = re.search(r'<section class="hero">(.*?)</section>', html, re.S)
+    if not hero:
+        return out
+    h1 = re.search(r"<h1>(.*?)</h1>", hero.group(1), re.S)
+    parts = [h1.group(1)] if h1 else []
+    parts += re.findall(r'<p class="lead">(.*?)</p>', hero.group(1), re.S)
+    rows = re.findall(r'<(?:p class="conclusion[^"]*"|li class="ins[^"]*")><b>[^<]*</b><span>(.*?)</span>(?:<span class="muted small">(.*?)</span>)?', html, re.S)
+    insights = [claim for claim, _ in rows]
+    parts += [detail for _, detail in rows if detail] + insights
+    heads = ([h1.group(1)] if h1 else []) + insights
+    for h in heads:
+        n = len(_plain(h).split())
+        if n > bars["HEADLINE_WORDS"]:
+            out.append(("headline", f"{n} words, over the {bars['HEADLINE_WORDS']} advised: lead with the claim, detail after it: '{_plain(h)[:60]}…'"))
+    for part in parts:
+        for s in re.split(r"(?<=[.!?])\s+(?=[A-Z0-9\u27e6])", _plain(part)):
+            n, codes = len(s.split()), len(re.findall("\u27e6", s)) + len(CODE.findall(re.sub("\u27e6.*?\u27e7", "", s)))
+            if n > bars["SENTENCE_WORDS"]:
+                out.append(("sentence", f"{n} words, over the {bars['SENTENCE_WORDS']} advised: '{s[:70]}…'"))
+            if codes > bars["SENTENCE_CODES"]:
+                out.append(("codes", f"{codes} item codes in one sentence, over the {bars['SENTENCE_CODES']} advised: '{s[:70]}…'"))
+    return out
+# --- end reader words: ws3 ---
 
 
 def main(argv):
@@ -39,7 +87,7 @@ def main(argv):
             if f.endswith(".html"):
                 path = os.path.relpath(os.path.join(root, f), out).replace(os.sep, "/")
                 pages[path] = open(os.path.join(root, f), encoding="utf-8").read()
-    findings = []
+    findings, advice = [], []
     own = {i["id"].split("-")[0] for i in store.get("items", []) if "-" in i.get("id", "")} | {"AGR"}
 
     def find(page, check, detail):
@@ -52,8 +100,10 @@ def main(argv):
             continue
         entry = json.loads(m.group(1).replace("<\\/", "</"))
         has_instrument = any("instrument" in b for sec in entry.get("sections", []) for b in sec.get("blocks", []))
-        if has_instrument and path != "index.html" and 'class="insights"' not in html:
-            find(path, "headlines", "a reader tab without its headline strip")
+        if has_instrument and path != "index.html" and 'class="insights"' not in html and 'class="conclusion' not in html:
+            find(path, "headlines", "a reader tab whose instrument does not lead with its conclusion")
+        if has_instrument and not path.startswith("records/"):
+            advice.extend({"page": path, "check": check, "detail": detail} for check, detail in words_findings(html))
         main = re.sub(r"<header\b.*?</header>|<script\b.*?</script>", "", html, flags=re.S)
         for ref in sorted(set(re.findall(r'<(?:a class="ext"|span class="src")(?![^>]*title=)[^>]*>([^<]+)<', main)))[:20]:
             find(path, "untitled", f"'{ref}' names a source without saying what it is: give its refs entry a title")
@@ -113,8 +163,9 @@ def main(argv):
             find("(site)", "code reused", f"{c} heads {len(xs)} {k}s ({' '.join(xs)}); a step code names one step")
     codes = {c for _, c in coded}
     if codes:
-        letters = "".join(sorted({c[0] for c in codes}))
-        cited = set(re.findall(r"(?<![\w-])([" + letters + r"]\d{1,2})(?![\w-])", re.sub(r"<[^>]+>", " ", text)))
+        # Only letter-led codes can be told from prose; a digit-led one ("3a") would match every number in the text.
+        letters = "".join(sorted({c[0] for c in codes if c[0].isalpha()}))
+        cited = set(re.findall(r"(?<![\w-])([" + letters + r"]\d{1,2})(?![\w-])", re.sub(r"<[^>]+>", " ", text))) if letters else set()
         for c in sorted(cited - codes)[:10]:
             find("(site)", "dangling code", f"{c} is cited but no gate or slice carries it")
     # one fact in two items: a question and a decision about the same thing, neither linked to the other
@@ -127,7 +178,7 @@ def main(argv):
             linked = any(l.get("to") in (q["id"], d["id"]) for l in q.get("links", []) + d.get("links", []))
             if a and b and len(a & b) / min(len(a), len(b)) >= 0.6 and not linked:
                 find("(site)", "same fact twice", f"{q['id']} and {d['id']} state the same thing unlinked: one item, or a link saying which settles which")
-    print(json.dumps({"findings": findings}, indent=2, ensure_ascii=False))
+    print(json.dumps({"findings": findings, "advice": advice}, indent=2, ensure_ascii=False))
     return 1 if findings else 0
 
 

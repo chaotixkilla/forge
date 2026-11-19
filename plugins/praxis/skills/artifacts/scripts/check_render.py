@@ -64,7 +64,7 @@ PROBE = r"""
     }
   });
   [].forEach.call(document.querySelectorAll("main .trace-graph, main .map, main [id$='-graph']"), function (e) {
-    if (e.getBoundingClientRect().height < 20) out.push(["empty picture", "'" + (e.id || e.className) + "' draws nothing"]);
+    if (!e.closest("[hidden]") && e.getBoundingClientRect().height < 20) out.push(["empty picture", "'" + (e.id || e.className) + "' draws nothing"]);
   });
   return JSON.stringify(out);
 })()

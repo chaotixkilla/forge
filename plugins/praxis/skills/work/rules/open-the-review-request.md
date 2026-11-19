@@ -4,7 +4,7 @@ An act that changed code delivers the change for review; it doesn't merge it. A 
 
 ## Open it
 
-- **Through the vcs capability.** Push the branch if it isn't pushed yet, and open a review request against the change's integration line, or, in a stack, as below, through the [vcs](../../vcs/SKILL.md) port, which resolves to whichever provider is configured. Nothing merges: the merge is a human's call on the request, and shipping is a later act.
+- **Through the vcs capability.** Once close-out's record check has run on the description ([close-out](../phases/04-close-out.md)), push the branch if it isn't pushed yet, and open a review request against the change's integration line, or, in a stack, as below, through the [vcs](../../vcs/SKILL.md) port, which resolves to whichever provider is configured. Nothing merges: the merge is a human's call on the request, and shipping is a later act.
 - **One coherent concern per request.** A request that bundles unrelated changes is split, not opened as one. How a change's own units divide among requests is below.
 
 ## How many requests
@@ -32,7 +32,7 @@ A rework after peer review first pushes each branch it changed through the vcs p
 
 - **A reply on each inline comment's thread**, its channel's target the comment it answers, with the disposition the round's proposal settled for it, as its scratchpad section on the proposal records: addressed, pointing to the changes the comment on what changed links; declined, with the reason; or deferred, with where it went.
 - **One comment on what changed since the last review**: the vcs port's compare link for that request, from where [close-out](../phases/04-close-out.md)'s File the peer review starts it, to the head; a link to the task record, naming this round's Iterations entry, its record following at its close; the disposition of each request a review's summary made, which has no thread to reply in; and, on a request the round moved only by merging the rework below into it, that this is all it took. It restates nothing the replies and the diff already show.
-- **The description**, updated as above.
+- **The description**, updated as above, each line that counts the change, such as the commits a revert takes or the steps that verify it, recounted against the branch as it now stands, from the request's own base.
 - **Review requested again** from each reviewer whose latest review requested changes, or whose comments the round answered. `(routed to maintainer: reviewers who approved aren't asked again, sparing them a request for a change they already passed.)` The exception: a reviewer who approved is asked again when the round changed what that request does or is for: behavior its description or acceptance names, an interface, its scope, or a test the act's done-condition or the description names, such as a fix's guard. Any other fix leaves the approval standing, such as a check's configuration, formatting, a test-only fix or a typo, though a change to text the description or acceptance names changes what it is for. A reviewer whose approval the host dropped on push is asked again. (basis: maintainer, 2026-10-19) On a request whose branch the round moved by merging the rework below into it, or by a rework opened on land's outcome, from each reviewer whose review an earlier round filed. (basis: maintainer, 2026-10-07)
 
 (basis: maintainer, 2026-10-07)

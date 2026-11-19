@@ -47,7 +47,7 @@ In a rework after peer review ([open-the-task](../phases/02-open-the-task.md)), 
 
 ## Filed
 
-Step 1's diagnosis — the mechanism, its certainty, the blast radius and the reproduction — and steps 2 to 5's results file as sections of the round's scratchpad. The round's [round record](../../document/rules/types/round-record.md), when its membership admits one, is filed as the round closes, its Self-review linking step 5's section. (basis: derived from the document types' membership tests)
+Step 1's diagnosis — the mechanism, its certainty, the blast radius and the reproduction — and steps 2 to 5's results file as sections of the round's scratchpad; the blast radius of the diagnosis the round fixes, step 1's or the one the request carried, also files as reach items on the task record, filed again once the fix's guard exists (basis: maintainer, 2026-11-19). The round's [round record](../../document/rules/types/round-record.md), when its membership admits one, is filed as the round closes, its Self-review linking step 5's section. (basis: derived from the document types' membership tests)
 
 ## Delivered
 

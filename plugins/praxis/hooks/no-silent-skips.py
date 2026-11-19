@@ -71,7 +71,10 @@ def waiting(project, task, name):
 
 
 def problems(project, task, steps, answered, revision_from=""):
-    last_done = max((i for i, s in enumerate(steps) if s.get("outcome", "pending") != "pending"), default=-1)
+    # A user's drop may be recorded before its turn, so it doesn't show an earlier pending step was
+    # passed over; every other outcome is written at its turn (field findings, 2026-11-19).
+    last_done = max((i for i, s in enumerate(steps)
+                     if s.get("outcome", "pending") not in ("pending", "skipped-by-user")), default=-1)
     # A revision restarts the marker from its start step, keeping the round's earlier outcomes:
     # only an outcome from that step on means a step ran before its proposal was settled.
     start = next((i for i, s in enumerate(steps) if s.get("step") == revision_from), 0) if revision_from else 0

@@ -29,7 +29,10 @@ COMMIT = re.compile(r"(^|[;&|]\s*|\s)git(\s+-\S+(\s+\S+)?)*\s+commit\b")
 REASON = (
     "No praxis act is running in this session, so this code change is blocked. Start the work through "
     "the praxis work skill: it routes the change to its act. A change with no behavior change and no new "
-    "interface runs the developing act's small-change path, develop then verify."
+    "interface runs the developing act's small-change path, develop then verify. Work on a task whose "
+    "act has just ended, such as a follow-up fix or a hotfix, opens through the work skill too, which "
+    "routes it to that task's next round or a revision of it: open it before the change, and before recruiting an agent to "
+    "make it."
 )
 SESSION = re.compile(r"^[A-Za-z0-9_-]+$")
 

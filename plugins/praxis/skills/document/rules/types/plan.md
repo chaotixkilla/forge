@@ -41,7 +41,7 @@ Shows `ASM` (home: [raid-log](raid-log.md)) for the riskiest assumption. When th
 - *Computed:*
   - every `UNIT` has a distinct `order`, and none is `blocked-by` a unit with a higher one;
   - every `UNIT` is `blocked-by` only `UNIT` items;
-  - when a spec is owed, every `UNIT` `serves` a `REQ`;
+  - when a spec is owed, every `UNIT` `serves` a `REQ`, but a baseline unit, which `serves` the `MET` it measures;
   - an `IFC` with `scope` `external` has evidence linking the vendor's contract, or `rests-on` an `ASM`.
 - *Judgment:*
   - one alternative named, as a strawman, beside the chosen one;

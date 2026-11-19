@@ -37,8 +37,9 @@ Both also carry:
 
 **Decision `DEC`.** One choice the work makes, stated actively. Its body holds the context: the problem and the forces in tension, stated neutrally.
 - Fields, beyond the tier's, `decider` and `lean`:
-  - `options`: list of text. Each option weighed, with its pros and cons.
+  - `options`: list of text. Each option weighed, `<its name> — <its pros and cons>`, the name a few words with no ` — ` in it.
   - `chosen`: text. "We will …", naming one of the options.
+  - `scores`: list of text. For a decision weighed on plan's approach scale ([choosing-approach](../../../plan/phases/02-choosing-approach.md)), one line per option, by its name in `options`, the spaces around each ` — ` and ` · ` kept: `<option> — fit <strong|partial|poor> · cost <low|moderate|high> · reversibility <two-way|partial|one-way> · blast <contained|bounded|wide> · operability <turnkey|standard|demanding>`, or `<option> — fails <the MUST it fails>`. Empty for a decision not weighed on the scale. (basis: maintainer, 2026-11-19, why the approach won, read off the page)
   - `gains` and `costs`: list of text. What the decision buys and what it costs. (basis: Nygard 2011, all consequences, not just the positive)
   - `confirmation`: text. How anyone can check that the work follows it: a test, a fitness function or a review, naming the `TEST` id when it is one. (basis: MADR 4.0, Confirmation)
   - `revisit when`: text. What would reopen it.

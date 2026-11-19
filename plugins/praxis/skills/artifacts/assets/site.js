@@ -195,13 +195,19 @@ document.addEventListener("click", function (e) { document.querySelectorAll("det
   d.nodes.forEach(function (n) { byId[n.id] = n; });
   d.edges.forEach(function (e) { (preds[e[1]] = preds[e[1]] || []).push(e[0]); (succs[e[0]] = succs[e[0]] || []).push(e[1]); });
   d.crit.forEach(function (n) { critSet[n] = 1; });
-  var state = { mode: "all", owner: "", done: true, asks: true, sel: null };
+  var views = host.closest(".views");
+  var state = { mode: "all", owner: "", done: true, asks: true, sel: null, layout: (views && views.dataset.layout) || "lanes" };
+  if (views) views.addEventListener("praxis:view", function (e) { if (e.detail.layout) { state.layout = e.detail.layout; draw(); } });
   var ownerSel = document.getElementById("map-owner");
   if (ownerSel) {
     var owners = {}; d.nodes.forEach(function (n) { if (n.owner) owners[n.owner] = 1; });
     Object.keys(owners).sort().forEach(function (o) { var op = document.createElement("option"); op.value = o; op.textContent = o; ownerSel.appendChild(op); });
   }
-  function visible(n) { return (state.done || !n.done) && (state.asks || n.kind !== "ask"); }
+  // Time travel, when set, says whether an item was filed yet and whether it was done on its day; else today's state holds.
+  d.nodes.forEach(function (n) { n.doneToday = n.done; });
+  function asOf() { d.nodes.forEach(function (n) { n.done = window.praxisDoneAt ? window.praxisDoneAt(n.id, n.doneToday) : n.doneToday; }); }
+  document.addEventListener("praxis:travel", function () { draw(); });
+  function visible(n) { return (!window.praxisFiledAt || window.praxisFiledAt(n.id)) && (state.done || !n.done) && (state.asks || n.kind !== "ask"); }
   function wrap(s, n) {
     var w = s.split(/\s+/), lines = [""], i = 0;
     w.forEach(function (x) { if ((lines[i] + " " + x).trim().length > n && lines[i]) { if (i === 1) { lines[1] += "…"; i = 2; return; } lines[++i] = x; } else if (i < 2) lines[i] = (lines[i] + " " + x).trim(); });
@@ -211,11 +217,87 @@ document.addEventListener("click", function (e) { document.querySelectorAll("det
   function stateWord(n) { return n.done ? "done" : n.can ? "can start now" : n.kind === "ask" ? (n.state === "proposed" ? "proposed" : "open") : "waiting on other steps"; }
   var svg, els = {}, links = [];
   function draw() {
+    asOf();
     host.innerHTML = ""; els = {}; links = [];
     var shown = d.nodes.filter(visible), maxL = 0, pos = {};
     var LANES = [["ask", "Decisions and outside dependencies"], ["step", "Work"], ["gate", "Gates"]];
     var laneOf = function (n) { return n.kind === "dep" ? "ask" : n.kind; };
     shown.forEach(function (n) { maxL = Math.max(maxL, n.layer); });
+    var halos = [];
+    if (state.layout === "web") {
+    // The web: each gate a hub in opening order, what feeds it clustered around it in rings, the threads between
+    // clusters left visible. An item belongs to the first gate it reaches downstream; one reaching none is its own cluster.
+    var order = [], seenG = {};
+    function placeG(g) { if (seenG[g.id]) return; var p = byId[g.when]; if (p && p.kind === "gate" && visible(p)) placeG(p); seenG[g.id] = 1; order.push(g); }
+    shown.filter(function (n) { return n.kind === "gate"; }).forEach(placeG);
+    function homeOf(id) {
+      var q = [id], seen = {}; seen[id] = 1;
+      while (q.length) { var x = q.shift(), ss = succs[x] || [];
+        for (var i = 0; i < ss.length; i++) { var y = ss[i]; if (seen[y]) continue; seen[y] = 1; if (byId[y] && byId[y].kind === "gate" && visible(byId[y])) return y; q.push(y); } }
+      return null;
+    }
+    var groups = {}, loose = [];
+    order.forEach(function (g) { groups[g.id] = []; });
+    shown.forEach(function (n) { if (n.kind === "gate") return; var h = homeOf(n.id); if (h && groups[h]) groups[h].push(n); else loose.push(n); });
+    var hubs = order.map(function (g) { return { g: g, items: groups[g.id] }; });
+    if (loose.length) hubs.push({ g: null, items: loose });
+    // Rings fill outward, each holding as many items as its length gives about 120px of label room.
+    var R0 = 92, ringGap = 66, maxN = 1;
+    hubs.forEach(function (h) { maxN = Math.max(maxN, h.items.length); });
+    function cap(ring) { return Math.max(4, Math.floor(2 * Math.PI * (R0 + ring * ringGap) / 120)); }
+    function ringsFor(k) { var r = 0, left = k; while (left > cap(r)) { left -= cap(r); r++; } return r + 1; }
+    function radiusFor(k) { return R0 + (ringsFor(k) - 1) * ringGap; }
+    var avail = Math.max((host.clientWidth || 1100) - 2, 640), cellH = 2 * radiusFor(maxN) + 110;
+    var cols = Math.max(1, Math.min(hubs.length, Math.floor(avail / (2 * radiusFor(maxN) + 80)))), cellW = avail / cols, H = 0;
+    pos = {}; laneBox = []; halos = [];
+    hubs.forEach(function (h, i) {
+      var r = radiusFor(h.items.length), col = i % cols, row = Math.floor(i / cols);
+      var cx = cellW * col + cellW / 2, cy = 46 + radiusFor(maxN) + row * cellH + (col % 2 ? 26 : 0);
+      if (h.g) pos[h.g.id] = { x: cx, y: cy };
+      h.items.sort(function (a, b) { return (critSet[b.id] ? 1 : 0) - (critSet[a.id] ? 1 : 0) || (a.done ? 1 : 0) - (b.done ? 1 : 0); });
+      var ring = 0, start = 0;
+      h.items.forEach(function (n, k) {
+        if (k - start >= cap(ring)) { start = k; ring++; }
+        var inRing = Math.min(cap(ring), h.items.length - start), rr = R0 + ring * ringGap;
+        var ang = -Math.PI / 2 + (k - start) * 2 * Math.PI / inRing + ring * .35;
+        pos[n.id] = { x: cx + rr * Math.cos(ang), y: cy + rr * Math.sin(ang) };
+      });
+      halos.push({ x: cx, y: cy, r: r + 38, g: h.g });
+      H = Math.max(H, cy + r + 70);
+    });
+    var W = avail, maxL = 0;
+    } else if (state.layout === "gates") {
+    var maxR = 6; shown.forEach(function (n) { if (!n.done) maxR = Math.max(maxR, Math.min(17, 6 + Math.sqrt(n.down || 0) * 2.4)); });
+    var colW = 124, rowH = Math.max(66, Math.round(2 * maxR + 50)), laneGap = 10, labelW = 26, x0 = labelW + 36, laneBox = [];
+    // Gates in opening order: a gate that opens on another follows it.
+    var order = [], seenG = {};
+    function placeG(g) { if (seenG[g.id]) return; var p = byId[g.when]; if (p && p.kind === "gate" && visible(p)) placeG(p); seenG[g.id] = 1; order.push(g); }
+    shown.filter(function (n) { return n.kind === "gate"; }).forEach(placeG);
+    var rank = function (n) { return (critSet[n.id] ? 0 : 2) + (n.done ? 1 : 0); };
+    var groups = order.map(function (g) {
+      return { g: g, asks: (preds[g.id] || []).map(function (i) { return byId[i]; })
+        .filter(function (n) { return n && n.kind !== "gate" && visible(n); }).sort(function (a, b) { return rank(a) - rank(b); }) };
+    });
+    var placed = {}; groups.forEach(function (G) { G.asks.forEach(function (n) { placed[n.id] = 1; }); });
+    var loose = shown.filter(function (n) { return n.kind !== "gate" && !placed[n.id]; });
+    if (loose.length) groups.push({ g: null, asks: loose });
+    var avail = Math.max((host.clientWidth || 1100) - 2 - x0 - 24, 560), rowsN = 1, cols;
+    function widthFor(r) { return groups.reduce(function (s, G) { return s + Math.max(1, Math.ceil(G.asks.length / r)) * colW; }, 0) + (groups.length - 1) * 18; }
+    while (rowsN < 8 && widthFor(rowsN) > avail) rowsN++;
+    var askTop = 26, laneH = Math.max(rowsN * rowH + 14, 300), gateY = askTop + laneH + laneGap + 30, xCur = x0, pos = {};
+    groups.forEach(function (G) {
+      cols = Math.max(1, Math.ceil(G.asks.length / rowsN));
+      G.asks.forEach(function (n, i) {
+        var below = i + cols < G.asks.length, cx = xCur + (i % cols) * colW + colW / 2;
+        pos[n.id] = { x: cx, y: askTop + 20 + Math.floor(i / cols) * rowH, gx: below ? cx + colW / 2 - 4 : 0, yb: askTop + laneH - 10 };
+      });
+      if (G.g) pos[G.g.id] = { x: xCur + cols * colW / 2, y: gateY };
+      xCur += cols * colW + 18;
+    });
+    if (shown.some(function (n) { return n.kind !== "gate"; })) laneBox.push({ name: "Decisions and outside dependencies", y: askTop - 6, h: laneH });
+    laneBox.push({ name: "Gates", y: gateY - 30, h: 84 });
+    var W = Math.max(host.clientWidth - 2, xCur + 12), H = gateY + 62;
+    } else {
     var colX = [], acc = 0;
     for (var cl = 0; cl <= maxL; cl++) {
       var inCol = shown.filter(function (n) { return n.layer === cl; });
@@ -237,6 +319,7 @@ document.addEventListener("click", function (e) { document.querySelectorAll("det
       y0 += rows * rowH + 14 + laneGap;
     });
     var W = Math.max(host.clientWidth - 2, labelW + 44 + acc + 30), H = y0;
+    }
     svg = document.createElementNS(NS, "svg");
     svg.setAttribute("viewBox", "0 0 " + W + " " + H); svg.setAttribute("width", W); svg.setAttribute("height", H);
     svg.setAttribute("role", "img"); svg.setAttribute("aria-label", "What waits on what");
@@ -250,11 +333,21 @@ document.addEventListener("click", function (e) { document.querySelectorAll("det
       el("rect", { x: 0, y: b.y - 4, width: W, height: b.h, class: "lane" + (i % 2 ? " alt" : "") });
       var t = el("text", { x: 12, y: b.y + b.h / 2, class: "lanelabel", transform: "rotate(-90 12 " + (b.y + b.h / 2) + ")", "text-anchor": "middle" }); t.textContent = b.name;
     });
-    for (var c = 0; c <= maxL; c++) { var t = el("text", { x: labelW + 44 + colX[c], y: 14, class: "colhead", "text-anchor": "middle" }); t.textContent = String(c + 1); }
+    if (state.layout === "lanes") { for (var c = 0; c <= maxL; c++) { var t = el("text", { x: labelW + 44 + colX[c], y: 14, class: "colhead", "text-anchor": "middle" }); t.textContent = String(c + 1); } }
+    halos.forEach(function (h) {
+      el("circle", { cx: h.x, cy: h.y, r: h.r, class: "halo" + (h.g && critSet[h.g.id] ? " crit" : "") });
+      if (!h.g) { var t = el("text", { x: h.x, y: h.y + h.r + 16, "text-anchor": "middle", class: "halolabel" }); t.textContent = "Feeds no gate yet"; }
+    });
+    function webEdge(a, b) {
+      var dx = b.x - a.x, dy = b.y - a.y, len = Math.sqrt(dx * dx + dy * dy) || 1, ux = dx / len, uy = dy / len;
+      var mx = (a.x + b.x) / 2 - dy * .16, my = (a.y + b.y) / 2 + dx * .16;
+      return "M" + (a.x + ux * 10) + "," + (a.y + uy * 10) + " Q" + mx + "," + my + " " + (b.x - ux * 14) + "," + (b.y - uy * 14);
+    }
     d.edges.forEach(function (e) {
+      if (window.praxisLinkAt && !window.praxisLinkAt(e[1], e[0])) return;
       if (!pos[e[0]] || !pos[e[1]]) return;
       var a = pos[e[0]], b = pos[e[1]], mx = (a.x + b.x) / 2, crit = critSet[e[0]] && critSet[e[1]];
-      var p = el("path", { d: "M" + (a.x + 9) + "," + a.y + " C" + mx + "," + a.y + " " + mx + "," + b.y + " " + (b.x - 11) + "," + b.y,
+      var p = el("path", { d: state.layout === "web" ? webEdge(a, b) : (state.layout === "gates" ? (a.gx ? "M" + (a.x + 12) + "," + a.y + " L" + a.gx + "," + a.y + " L" + a.gx + "," + a.yb + " C" + a.gx + "," + ((a.yb + b.y) / 2) + " " + b.x + "," + ((a.yb + b.y) / 2) + " " + b.x + "," + (b.y - 13) : "M" + a.x + "," + (a.y + 10) + " C" + a.x + "," + ((a.y + b.y) / 2) + " " + b.x + "," + ((a.y + b.y) / 2) + " " + b.x + "," + (b.y - 13)) : "M" + (a.x + 9) + "," + a.y + " C" + mx + "," + a.y + " " + mx + "," + b.y + " " + (b.x - 11) + "," + b.y),
         class: "lk" + (crit ? " crit" : "") + (byId[e[0]].kind === "ask" ? " dot" : ""), "marker-end": "url(#" + (crit ? "arc" : "ar") + ")" });
       p.dataset.a = e[0]; p.dataset.b = e[1]; links.push(p);
     });
@@ -423,3 +516,519 @@ document.addEventListener("click", function (e) { document.querySelectorAll("det
     toolbar(table.parentNode, rows, table.tBodies[0], null);
   });
 })();
+
+// The view picker: a tab drawing more than one eligible visual offers each, the visual-library's first shown first.
+// It shows only once this script runs, so a page read without scripts never offers a dead control.
+document.documentElement.classList.add("js");
+// A deep link (#view=<name>) wins over the reader's last choice on this device, which wins over the default.
+(function () {
+  document.querySelectorAll(".views").forEach(function (box) {
+    var key = "praxis-view:" + location.pathname + ":" + box.dataset.tab, btns = box.querySelectorAll(".picker button");
+    function pick(v, keep) {
+      var btn = box.querySelector('.picker button[data-v="' + v + '"]');
+      if (!btn) return;
+      btns.forEach(function (x) { x.setAttribute("aria-pressed", x === btn ? "true" : "false"); });
+      var why = box.querySelector(".why");
+      if (why) why.hidden = v !== why.dataset.first;
+      box.dataset.shown = v; box.dataset.layout = btn.dataset.layout || "";
+      box.querySelectorAll(".viewbody").forEach(function (b) { b.hidden = b.dataset.body !== btn.dataset.body; });
+      box.dispatchEvent(new CustomEvent("praxis:view", { detail: { view: v, layout: btn.dataset.layout } }));
+      if (keep) { try { localStorage.setItem(key, v); } catch (e) {} }
+    }
+    btns.forEach(function (x) { x.addEventListener("click", function () { pick(x.dataset.v, true); }); });
+    function offered(v) { return v && box.querySelector('.picker button[data-v="' + v + '"]') ? v : null; }
+    function linked() { var m = /(?:^|[#&])view=([\w-]+)/.exec(location.hash); return offered(m && m[1]); }
+    var saved = null;
+    try { saved = offered(localStorage.getItem(key)); } catch (e) {}
+    var want = linked() || saved;
+    if (want && want !== box.dataset.default) pick(want, false);
+    window.addEventListener("hashchange", function () { var v = linked(); if (v) pick(v, false); });
+  });
+})();
+
+// --- visuals: ws1 ---
+// Since you last looked: count from the reader's previous visit on this device, kept per site; a visit today keeps the
+// one before it, so reloading doesn't empty the list. Without a recorded visit the page keeps the renderer's default week.
+(function () {
+  document.querySelectorAll(".since-visit").forEach(function (box) {
+    var key = "praxis-visit:" + location.pathname.replace(/[^/]*$/, ""), now = new Date(), today = new Date(now - now.getTimezoneOffset() * 60000).toISOString().slice(0, 10), seen = null;
+    try { seen = JSON.parse(localStorage.getItem(key) || "null"); } catch (e) {}
+    var prev = seen && (seen.last === today ? seen.prev : seen.last);
+    try { localStorage.setItem(key, JSON.stringify({ prev: prev || null, last: today })); } catch (e) {}
+    if (!prev) return;
+    var words = JSON.parse(box.dataset.words), counts = {}, order = [], shown = 0;
+    box.querySelectorAll(".sv-list li").forEach(function (li) {
+      var on = li.dataset.when > prev, w = li.querySelector(".chip").textContent;
+      li.hidden = !on;
+      if (on) { shown++; if (!counts[w]) { counts[w] = 0; order.push(w); } counts[w]++; }
+    });
+    var day = new Date(prev + "T00:00:00").toLocaleDateString("en-GB", { day: "numeric", month: "short" });
+    box.querySelector(".sv-head").textContent = shown ? "Since your last visit, " + day + ": " + order.map(function (w) { return counts[w] + " " + words[w]; }).join(", ") + "." : "Nothing has changed since your last visit, " + day + ".";
+    box.querySelector(".sv-note").hidden = true;
+  });
+})();
+
+// --- reading: ws1 ---
+// Hover previews and search, both read from the page's praxis-cards: one card per item, and the tabs it can live on.
+// The cards follow this script on the page, so everything here waits for the document to be parsed.
+function praxisReady(fn) { if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", fn); else fn(); }
+praxisReady(function () {
+  var src = document.getElementById("praxis-cards");
+  if (!src) return;
+  var D; try { D = JSON.parse(src.textContent); } catch (e) { return; }
+  var C = {}; D.cards.forEach(function (c) { C[c[0]] = c; });
+  var ID = /^([A-Z][A-Z0-9]*-\d+)$/;
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  function tone(st) { return /agreed|recorded|holds|met|done|merged|closed|mitigated/.test(st) ? "c-holds" : /open|fails|blocked|late/.test(st) ? "c-open" : /lean|proposed|draft|planned/.test(st) ? "c-unsettled" : "c-unchecked"; }
+  function where(c) { return c[9] >= 0 ? D.tabs[c[9]] : null; }
+  window.PRAXIS_CARDS = { byId: C, tabs: D.tabs, where: where, esc: esc, tone: tone };
+
+  // The id an element stands for: a data-go or data-show button, an abbr whose title starts with the id, or an id span.
+  function idOf(el) {
+    if (!el || !el.closest) return null;
+    var t = el.closest("abbr[data-pid], abbr[title], .id, button.ref[data-go], [data-show], .tchip, .nd[data-id], .gbtn[data-gate]");
+    if (!t || t.closest(".pv")) return null;
+    var v = t.dataset.pid || t.dataset.go || t.dataset.show || t.dataset.id || t.dataset.gate || (t.getAttribute("title") || "").split(" · ")[0] || t.textContent.trim();
+    if (!ID.test(v)) v = t.textContent.trim();
+    return ID.test(v) && C[v] ? { id: v, el: t } : null;
+  }
+  // An abbr's native tooltip would double the card, so its title moves to data-pid once the page has cards; it stays focusable.
+  document.querySelectorAll("abbr[title]").forEach(function (a) {
+    var v = a.getAttribute("title").split(" · ")[0];
+    if (C[v]) { a.dataset.pid = v; a.setAttribute("aria-label", a.textContent + ", " + a.getAttribute("title")); a.removeAttribute("title"); a.tabIndex = 0; }
+  });
+
+  var pv = document.createElement("div"), cur = null, hideT = null;
+  pv.className = "pv"; pv.id = "praxis-preview"; pv.setAttribute("role", "tooltip"); pv.hidden = true;
+  document.body.appendChild(pv);
+  function show(hit) {
+    clearTimeout(hideT);
+    if (cur === hit.el && !pv.hidden) return;
+    cur = hit.el;
+    var c = C[hit.id], w = where(c), due = c[5] ? " · due " + esc(ID.test(c[5]) ? NAME(c[5]) : c[5]) : "";
+    pv.innerHTML = '<div class="pvhead"><span class="id">' + esc(c[0]) + '</span><span class="chip ' + tone(c[3]) + '">' + esc(c[3] || "—") + "</span>" +
+      '<span class="muted">' + esc(c[1]) + (c[4] ? " · " + esc(c[4]) : "") + due + "</span></div>" +
+      "<b>" + esc(c[2]) + "</b>" + (c[6] && c[6] !== c[2] ? "<p>" + esc(c[6]) + "</p>" : "") +
+      '<div class="pvfoot">' + (w ? '<a href="' + esc(w[1]) + "#sel=" + esc(c[0]) + '">Open on ' + esc(w[0]) + " →</a>" : "") +
+      '<span class="muted">' + c[7] + " waits · " + c[8] + " unlocks</span></div>";
+    pv.hidden = false;
+    hit.el.setAttribute("aria-describedby", "praxis-preview");
+    place();
+  }
+  // The card sits under its id, or above it when there is no room below, and follows it while the page scrolls.
+  function place() {
+    var r = cur.getBoundingClientRect(), W = Math.min(pv.offsetWidth, innerWidth - 16), H = pv.offsetHeight;
+    if (r.bottom < 0 || r.top > innerHeight) { hide(true); return; }
+    var x = Math.max(8, Math.min(r.left, innerWidth - W - 8)), y = r.bottom + 8 + H > innerHeight && r.top - 8 - H > 0 ? r.top - 8 - H : r.bottom + 8;
+    pv.style.left = x + "px"; pv.style.top = y + "px";
+  }
+  function hide(now) {
+    clearTimeout(hideT);
+    hideT = setTimeout(function () { pv.hidden = true; if (cur) cur.removeAttribute("aria-describedby"); cur = null; }, now ? 0 : 180);
+  }
+  document.addEventListener("mouseover", function (e) { var h = idOf(e.target); if (h) show(h); else if (!e.target.closest(".pv")) hide(); });
+  document.addEventListener("focusin", function (e) { var h = idOf(e.target); if (h) show(h); else if (!e.target.closest(".pv")) hide(true); });
+  // A tap on an id that does nothing else opens its card; an id that is a control keeps its own action.
+  document.addEventListener("click", function (e) {
+    var h = idOf(e.target);
+    if (h && !h.el.matches("button, a, [role=button]")) { show(h); } else if (!e.target.closest(".pv")) hide(true);
+  });
+  pv.addEventListener("mouseover", function () { clearTimeout(hideT); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !pv.hidden) { e.stopPropagation(); hide(true); } }, true);
+  addEventListener("scroll", function () { if (!pv.hidden && cur) place(); }, { passive: true, capture: true });
+
+  // Search: items, terms and decisions across every tab, opened by the bar's button or Cmd/Ctrl+K.
+  var bar = document.querySelector(".bar");
+  var dlg = document.createElement("div"), last = null;
+  dlg.className = "srch"; dlg.hidden = true; dlg.setAttribute("role", "dialog"); dlg.setAttribute("aria-modal", "true"); dlg.setAttribute("aria-label", "Search the set");
+  dlg.innerHTML = '<div class="srbox"><label class="vh" for="praxis-q">Search items, terms and decisions</label>' +
+    '<input id="praxis-q" type="search" autocomplete="off" placeholder="Search items, terms and decisions" role="combobox" aria-expanded="true" aria-controls="praxis-hits" aria-autocomplete="list">' +
+    '<ul id="praxis-hits" role="listbox" aria-label="Results"></ul><p class="srnote muted"></p></div>';
+  document.body.appendChild(dlg);
+  var q = dlg.querySelector("input"), list = dlg.querySelector("ul"), note = dlg.querySelector(".srnote"), hits = [], at = 0;
+  // Every word must appear in the card's id, title, kind or excerpt. Then: the exact id, a title holding every word with the
+  // first word at its start, a title holding every word, anything else; within a tier, the store's order.
+  function rank(c, words) {
+    var hay = (c[0] + " " + c[2] + " " + c[1] + " " + c[6]).toLowerCase(), t = c[2].toLowerCase();
+    for (var i = 0; i < words.length; i++) { if (hay.indexOf(words[i]) < 0) return -1; }
+    if (c[0].toLowerCase() === words.join(" ")) return 3;
+    if (words.every(function (w) { return t.indexOf(w) >= 0; })) return t.indexOf(words[0]) === 0 ? 2 : 1;
+    return 0;
+  }
+  function paint() {
+    list.innerHTML = hits.map(function (c, i) {
+      var w = where(c);
+      return '<li role="option" id="praxis-hit-' + i + '" aria-selected="' + (i === at) + '"><a href="' + (w ? esc(w[1]) + "#sel=" + esc(c[0]) : "#") + '">' +
+        '<span class="id">' + esc(c[0]) + "</span><span>" + esc(c[2]) + '</span><span class="muted">' + esc(w ? w[0] : c[1]) + "</span></a></li>";
+    }).join("");
+    q.setAttribute("aria-activedescendant", hits.length ? "praxis-hit-" + at : "");
+    var sel = list.children[at]; if (sel) sel.scrollIntoView({ block: "nearest" });
+  }
+  function find() {
+    var words = q.value.toLowerCase().split(/\s+/).filter(Boolean);
+    hits = !words.length ? [] : D.cards.map(function (c, n) { return [rank(c, words), c, n]; }).filter(function (x) { return x[0] >= 0; })
+      .sort(function (a, b) { return b[0] - a[0] || a[2] - b[2]; }).slice(0, 8).map(function (x) { return x[1]; });
+    at = 0; paint();
+    var held = D.restricted ? " " + D.restricted + " restricted item" + (D.restricted === 1 ? " is" : "s are") + " held apart and not searched." : "";
+    note.textContent = (!words.length ? "Type an id, a word from a title, or a term. Keys: 1–9 open a tab, V the next view, arrows walk the map." : hits.length ? "↑ ↓ to move, Enter to open, Esc to close." : "Nothing matches.") + held;
+  }
+  function open() { last = document.activeElement; dlg.hidden = false; q.value = ""; find(); q.focus(); }
+  function close() { dlg.hidden = true; if (last && last.focus) last.focus(); }
+  q.addEventListener("input", find);
+  q.addEventListener("keydown", function (e) {
+    if (e.key === "ArrowDown" || e.key === "ArrowUp") { e.preventDefault(); if (hits.length) { at = (at + (e.key === "ArrowDown" ? 1 : hits.length - 1)) % hits.length; paint(); } }
+    else if (e.key === "Enter" && hits[at]) { e.preventDefault(); list.children[at].querySelector("a").click(); }
+    else if (e.key === "Escape") { e.preventDefault(); e.stopPropagation(); close(); }
+  });
+  dlg.addEventListener("click", function (e) { if (e.target === dlg) close(); else if (e.target.closest("#praxis-hits a")) dlg.hidden = true; });
+  document.addEventListener("keydown", function (e) { if ((e.metaKey || e.ctrlKey) && (e.key === "k" || e.key === "K")) { e.preventDefault(); dlg.hidden ? open() : close(); } });
+  var tools = praxisTools(), b = document.createElement("button");
+  b.type = "button"; b.className = "sbtn";
+  b.innerHTML = 'Search <kbd>' + (/Mac|iP/.test(navigator.platform) ? "⌘" : "Ctrl ") + "K</kbd>";
+  b.addEventListener("click", open);
+  if (tools) tools.insertBefore(b, tools.firstChild);
+});
+
+// The reader's tools in the top row, before the Sources and Codes keys: search, the link to this view, the theme.
+function praxisTools() {
+  var t = document.querySelector(".rtools"), row = document.querySelector(".bar .toprow");
+  if (t || !row) return t;
+  t = document.createElement("div"); t.className = "rtools";
+  row.insertBefore(t, row.querySelector("details"));
+  return t;
+}
+
+// Theme: the reader's system until they choose, then their choice, kept on this device. Set before anything draws. The
+// control is a small menu button at the end of the top row, beside Sources and Codes; cobalt stays for content choices.
+(function () {
+  var KEY = "praxis-theme", root = document.documentElement, pick = "system";
+  try { pick = localStorage.getItem(KEY) || "system"; } catch (e) {}
+  function set(v) { if (v === "system") root.removeAttribute("data-theme"); else root.setAttribute("data-theme", v); pick = v; }
+  set(pick);
+  var SVG = '<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">';
+  var ICON = {
+    system: SVG + '<circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" stroke="none"/></svg>',
+    dark: SVG + '<path d="M13.2 9.6A5.6 5.6 0 1 1 6.4 2.8a4.4 4.4 0 0 0 6.8 6.8z"/></svg>',
+    light: SVG + '<circle cx="8" cy="8" r="2.8"/><path d="M8 1.2v1.6M8 13.2v1.6M1.2 8h1.6M13.2 8h1.6M3.2 3.2l1.1 1.1M11.7 11.7l1.1 1.1M3.2 12.8l1.1-1.1M11.7 4.3l1.1-1.1"/></svg>'
+  };
+  var NAMES = [["system", "System"], ["dark", "Dark"], ["light", "Light"]];
+  praxisReady(function () {
+    var row = document.querySelector(".bar .toprow");
+    if (!row) return;
+    var wrap = document.createElement("div");
+    wrap.className = "tmenu";
+    wrap.innerHTML = '<button type="button" class="tbtn" aria-haspopup="menu" aria-expanded="false" aria-controls="praxis-theme-menu"></button>' +
+      '<div class="tlist" id="praxis-theme-menu" role="menu" aria-label="Theme" hidden>' +
+      NAMES.map(function (n) { return '<button type="button" role="menuitemradio" data-theme="' + n[0] + '">' + ICON[n[0]] + "<span>" + n[1] + '</span><i class="tchk" aria-hidden="true">✓</i></button>'; }).join("") + "</div>";
+    row.appendChild(wrap);
+    var btn = wrap.querySelector(".tbtn"), menu = wrap.querySelector(".tlist"), items = Array.prototype.slice.call(menu.querySelectorAll("[role=menuitemradio]"));
+    function paint() {
+      var label = NAMES.filter(function (n) { return n[0] === pick; })[0][1];
+      btn.innerHTML = ICON[pick]; btn.setAttribute("aria-label", "Theme: " + label); btn.title = "Theme: " + label;
+      items.forEach(function (x) { x.setAttribute("aria-checked", x.dataset.theme === pick ? "true" : "false"); });
+    }
+    function open(focusAt) {
+      menu.hidden = false; btn.setAttribute("aria-expanded", "true");
+      var k = items.findIndex(function (x) { return x.dataset.theme === pick; });
+      items[focusAt === "last" ? items.length - 1 : focusAt === "first" ? 0 : Math.max(0, k)].focus();
+    }
+    function close(back) { menu.hidden = true; btn.setAttribute("aria-expanded", "false"); if (back) btn.focus(); }
+    function choose(x) { set(x.dataset.theme); try { localStorage.setItem(KEY, pick); } catch (e) {} paint(); close(true); }
+    btn.addEventListener("click", function () { menu.hidden ? open() : close(false); });
+    btn.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowDown" || e.key === "ArrowUp") { e.preventDefault(); open(e.key === "ArrowDown" ? "first" : "last"); }
+    });
+    menu.addEventListener("click", function (e) { var x = e.target.closest("[role=menuitemradio]"); if (x) choose(x); });
+    menu.addEventListener("keydown", function (e) {
+      var k = items.indexOf(document.activeElement);
+      if (e.key === "ArrowDown" || e.key === "ArrowUp") { e.preventDefault(); items[(k + (e.key === "ArrowDown" ? 1 : items.length - 1)) % items.length].focus(); }
+      else if (e.key === "Home" || e.key === "End") { e.preventDefault(); items[e.key === "Home" ? 0 : items.length - 1].focus(); }
+      else if (e.key === "Escape") { e.preventDefault(); e.stopPropagation(); close(true); }
+      else if (e.key === "Tab") close(false);
+    });
+    document.addEventListener("click", function (e) { if (!menu.hidden && !wrap.contains(e.target)) close(false); });
+    paint();
+  });
+})();
+
+// Deep links: the address holds what the reader sees (view, map mode and owner, a tab's filters, the selection and the
+// lens) and follows it as they change it, so a pasted link opens the same. A bare #<id>, the older form, is a selection.
+praxisReady(function () {
+  var main = document.querySelector("main");
+  if (!main) return;
+  function parse() {
+    var h = location.hash.slice(1), o = {};
+    if (/^[A-Z][A-Z0-9]*-\d+$/.test(h)) return { sel: h };
+    h.split("&").forEach(function (kv) { var i = kv.indexOf("="); if (i > 0) o[decodeURIComponent(kv.slice(0, i))] = decodeURIComponent(kv.slice(i + 1)); });
+    return o;
+  }
+  function q(sel) { return document.querySelector(sel); }
+  var keepView = false;  // a link that names its view keeps it: a selection hidden there stays unshown
+  function seen(sel) {
+    var all = Array.prototype.slice.call(document.querySelectorAll(sel)), vis = all.filter(function (x) { return x.getClientRects().length; });
+    if (vis.length || !all.length || keepView) return vis[0] || null;
+    var body = all[0].closest(".viewbody[hidden]"), box = body && body.closest(".views");
+    var btn = box && box.querySelector('.picker button[data-body="' + body.dataset.body + '"]');
+    if (btn) { btn.click(); return all[0].getClientRects().length ? all[0] : null; }
+    return null;
+  }
+  function select(id) {
+    var esc = window.CSS && CSS.escape ? CSS.escape(id) : id, t = seen('.nd[data-id="' + esc + '"]') || seen('.gbtn[data-gate="' + esc + '"]');
+    if (t) { t.dispatchEvent(new MouseEvent("click", { bubbles: true })); if (t.scrollIntoView) t.scrollIntoView({ block: "nearest", inline: "center" }); return; }
+    t = seen("#" + esc) || seen('[data-item="' + esc + '"]') || seen('abbr[data-pid="' + esc + '"]');
+    if (t) { t.scrollIntoView({ block: "center" }); t.classList.add("hit"); setTimeout(function () { t.classList.remove("hit"); }, 2400); }
+  }
+  function apply(o) {
+    if (o.mode) { var m = q('.modes button[data-mode="' + o.mode + '"]'); if (m) m.click(); }
+    if (o.owner) { var ow = q("#map-owner"); if (ow) { ow.value = o.owner; ow.dispatchEvent(new Event("change")); } }
+    Object.keys(o).forEach(function (k) {
+      if (k.indexOf("f-") === 0) { var f = q('[data-filter="' + k.slice(2) + '"] [data-v="' + o[k] + '"]'); if (f) f.click(); }
+    });
+    if (window.praxisTravel) window.praxisTravel(o.at || "");
+    if (window.praxisLens) window.praxisLens(o.lens || "");  // set before selecting, so a selection lands on what the lens shows
+    keepView = !!o.view;
+    if (o.sel) select(o.sel);
+  }
+  function state() {
+    var o = [], box = q(".views[data-shown]"), m = q('.modes button[aria-pressed="true"]'), ow = q("#map-owner"), s = q(".nd.sel") || q('.gbtn[aria-pressed="true"]');
+    if (box && box.dataset.shown !== box.dataset.default) o.push(["view", box.dataset.shown]);
+    if (m && m.dataset.mode !== "all") o.push(["mode", m.dataset.mode]);
+    if (ow && ow.value) o.push(["owner", ow.value]);
+    document.querySelectorAll("[data-filter]").forEach(function (g) {
+      var b = g.querySelector('[data-v][aria-pressed="true"]'); if (b && b.dataset.v) o.push(["f-" + g.dataset.filter, b.dataset.v]);
+    });
+    if (s) o.push(["sel", s.dataset.id || s.dataset.gate]);
+    if (document.documentElement.dataset.lens) o.push(["lens", document.documentElement.dataset.lens]);
+    if (document.documentElement.dataset.at) o.push(["at", document.documentElement.dataset.at]);
+    return o.map(function (kv) { return encodeURIComponent(kv[0]) + "=" + encodeURIComponent(kv[1]); }).join("&");
+  }
+  var t = null;
+  function follow() { clearTimeout(t); t = setTimeout(function () { var h = state(); try { history.replaceState(null, "", h ? "#" + h : location.pathname + location.search); } catch (e) {} }, 60); }
+  window.praxisFollow = follow;
+  window.praxisSelect = select;
+  ["click", "change", "keyup", "praxis:view"].forEach(function (ev) { document.addEventListener(ev, follow, true); });
+  if (location.hash) { apply(parse()); follow(); }
+  window.addEventListener("hashchange", function () { apply(parse()); });
+
+  var tools = praxisTools();
+  if (tools) {
+    var c = document.createElement("button");
+    c.type = "button"; c.className = "sbtn copy"; c.textContent = "Copy link to this view";
+    c.addEventListener("click", function () {
+      var url = location.href, done = function () { c.textContent = "Link copied"; c.classList.add("ok"); setTimeout(function () { c.textContent = "Copy link to this view"; c.classList.remove("ok"); }, 2000); };
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(done, function () { prompt("Copy this link", url); });
+      else prompt("Copy this link", url);
+    });
+    tools.appendChild(c);
+  }
+});
+
+// Keyboard: 1–9 open the tabs in the bar's order, V the next view, arrows walk the map from a node to those it links.
+praxisReady(function () {
+  var tabs = Array.prototype.slice.call(document.querySelectorAll(".bar nav a"));
+  var md = document.getElementById("map-data"), preds = {}, succs = {};
+  if (md) { try { JSON.parse(md.textContent).edges.forEach(function (e) { (preds[e[1]] = preds[e[1]] || []).push(e[0]); (succs[e[0]] = succs[e[0]] || []).push(e[1]); }); } catch (e) {} }
+  var walk = { from: null, k: 0 };
+  document.addEventListener("keydown", function (e) {
+    if (e.metaKey || e.ctrlKey || e.altKey || e.target.closest("input, textarea, select, [contenteditable]")) return;
+    var nd = e.target.closest && e.target.closest("#map-graph .nd");
+    if (nd && /^Arrow/.test(e.key)) {
+      var id = nd.dataset.id, base = walk.from && walk.from !== id && (preds[walk.from] || []).concat(succs[walk.from] || []).indexOf(id) >= 0 ? walk.from : id;
+      var list = e.key === "ArrowRight" ? succs[id] : e.key === "ArrowLeft" ? preds[id] : (preds[base] || []).concat(succs[base] || []);
+      if (!list || !list.length) return;
+      e.preventDefault();
+      var at = list.indexOf(id), next = e.key === "ArrowRight" || e.key === "ArrowLeft" ? list[0]
+        : at < 0 ? list[e.key === "ArrowDown" ? 0 : list.length - 1] : list[(at + (e.key === "ArrowDown" ? 1 : list.length - 1)) % list.length];
+      if (e.key === "ArrowRight" || e.key === "ArrowLeft") walk.from = id; else walk.from = base;
+      var g = document.querySelector('#map-graph .nd[data-id="' + next + '"]');
+      if (g) { g.focus(); g.dispatchEvent(new MouseEvent("click", { bubbles: true })); }
+      return;
+    }
+    if (/^[1-9]$/.test(e.key) && tabs[+e.key - 1]) { e.preventDefault(); tabs[+e.key - 1].click(); return; }
+    if (e.key === "v" || e.key === "V") {
+      var btns = Array.prototype.slice.call(document.querySelectorAll(".views .picker button"));
+      if (!btns.length) return;
+      e.preventDefault();
+      var on = btns.findIndex(function (b) { return b.getAttribute("aria-pressed") === "true"; });
+      btns[(on + 1) % btns.length].click(); btns[(on + 1) % btns.length].focus();
+    }
+  });
+});
+
+// Motion: a view the picker shows comes in with a short fade; the reader's reduced-motion setting turns it off (in the CSS).
+praxisReady(function () {
+  document.querySelectorAll(".views").forEach(function (box) {
+    box.addEventListener("praxis:view", function () {
+      box.querySelectorAll(".viewbody:not([hidden])").forEach(function (b) { b.classList.remove("enter"); void b.offsetWidth; b.classList.add("enter"); });
+    });
+  });
+});
+
+// The one-page brief: the status tab offers it, and the print stylesheet shows it alone, in the light palette.
+praxisReady(function () {
+  var brief = document.querySelector(".brief"), hero = document.querySelector(".hero");
+  if (!brief || !hero) return;
+  var b = document.createElement("button");
+  b.type = "button"; b.className = "sbtn"; b.textContent = "Print the one-page brief";
+  b.addEventListener("click", function () { window.print(); });
+  hero.appendChild(b);
+});
+
+// Explain this: ask Claude, on the viewer's own account and only for them, to explain the instrument in view. It shows only
+// where the artifact runtime offers sampling; the first ask in a view asks the viewer's consent.
+praxisReady(function () {
+  var hosts = document.querySelectorAll(".xhost");
+  if (!hosts.length || !window.claude || !claude.use) return;
+  var HIDE = ["not_granted", "sampling_disabled", "not_declared", "capability_disabled", "capability_removed"];
+  var ID = /\b[A-Z][A-Z0-9]*-\d+\b/g;
+  function hideAll() { hosts.forEach(function (h) { h.querySelector(".xbtn").hidden = true; }); }
+  function idsInto(el, text) {  // ids in the answer become previewable, the text itself set as text
+    el.textContent = "";
+    var at = 0, m, C = (window.PRAXIS_CARDS || {}).byId || {};
+    ID.lastIndex = 0;
+    while ((m = ID.exec(text))) {
+      el.appendChild(document.createTextNode(text.slice(at, m.index)));
+      if (C[m[0]]) { var a = document.createElement("abbr"); a.dataset.pid = m[0]; a.tabIndex = 0; a.textContent = m[0]; el.appendChild(a); }
+      else el.appendChild(document.createTextNode(m[0]));
+      at = m.index + m[0].length;
+    }
+    el.appendChild(document.createTextNode(text.slice(at)));
+  }
+  // The instrument's own text (the view shown, never the button or an answer), its named items' cards, and the tab's
+  // context, trimmed to stay under the 64 KiB a sample may carry; the prompt says when it was cut.
+  function data(host) {
+    var shown = host.querySelector(".viewbody:not([hidden])"), box = host.querySelector(".views"), pick = box && box.querySelector('.picker button[aria-pressed="true"]');
+    var text = shown ? shown.innerText : Array.prototype.filter.call(host.children, function (c) { return !c.matches(".xbar, .xout"); }).map(function (c) { return c.innerText; }).join("\n");
+    text = (text || "").replace(/\n{3,}/g, "\n\n");
+    var C = (window.PRAXIS_CARDS || {}).byId || {}, ids = {}, cards = [];
+    (text.match(ID) || []).forEach(function (i) { if (C[i] && !ids[i]) { ids[i] = 1; var c = C[i]; cards.push([c[0], c[1], c[2], c[3], c[4], c[10] || ""].join(" | ")); } });
+    var h1 = document.querySelector(".hero h1"), tab = document.querySelector('.bar nav a[aria-current="page"]');
+    var head = "Explain one chart on a project's documentation page to the reader looking at it.\n" +
+      "Write plain prose, at most 150 words: what the chart shows, what it concludes, and what the reader might do next. " +
+      "Cite every item you mention by its id exactly as written (such as Q-4). Use only the data below; where it doesn't say, say that it doesn't. No headings, no lists.\n\n" +
+      "Tab: " + (tab ? tab.textContent : document.title) + "\nPage headline: " + (h1 ? h1.innerText : "") + "\nView: " + (pick ? pick.textContent : host.dataset.instrument);
+    var size = function (x) { return new TextEncoder().encode(x).length; }, nText = text.length, nCards = cards.length, out;
+    for (;;) {
+      var cut = (nText < text.length ? "\n(The chart's text was cut short here.)" : "") + (nCards < cards.length ? "\n(" + (cards.length - nCards) + " more items it names were not sent.)" : "");
+      out = head + "\n\nWhat the chart shows, as text:\n" + text.slice(0, nText) + "\n\nThe items it names (id | kind | title | state | who decides or owns it | due date):\n" + cards.slice(0, nCards).join("\n") + cut;
+      if (size(out) < 60000) return out;
+      if (nCards > 20) nCards = Math.floor(nCards / 2); else nText = Math.floor(nText * 0.8);
+    }
+  }
+  claude.use("sample").then(function (sample) {
+    if (!sample) return;
+    hosts.forEach(function (host) {
+      var btn = host.querySelector(".xbtn"), out = host.querySelector(".xout"), ctl = null;
+      btn.hidden = false;
+      function reset() { ctl = null; btn.textContent = "Explain this"; }
+      btn.addEventListener("click", function () {
+        if (ctl) { ctl.abort(); return; }
+        ctl = new AbortController();
+        btn.textContent = "Stop"; out.hidden = false;
+        out.innerHTML = '<p class="xtext">Thinking…</p><p class="xnote muted">Only you see this answer; it runs on your own Claude account.</p>';
+        var p = out.querySelector(".xtext");
+        var call;
+        try { call = sample(data(host), { signal: ctl.signal, modelTier: "quick", onText: function (u) { p.textContent = u.text; } }); }
+        catch (err) { p.textContent = "The answer was interrupted; try again."; reset(); return; }
+        call
+          .then(function (r) { idsInto(p, r.text + (r.truncated ? " …(cut short)" : "")); })
+          .catch(function (e) {
+            e = e && typeof e === "object" ? e : { code: "upstream_error" };
+            if (e.code === "cancelled") { if (e.text) idsInto(p, e.text); else out.hidden = true; return; }
+            if (HIDE.indexOf(e.code) >= 0) { out.hidden = true; hideAll(); return; }
+            if (e.code === "refused") { p.textContent = "Claude didn't answer this one."; return; }
+            p.textContent = (e.text ? e.text + "\n\n" : "") + (e.code === "rate_limited" ? "Too many questions just now; try again in a minute."
+              : e.code === "session_expired" ? "Sign in to Claude again to ask." : e.code === "prompt_too_large" ? "This view holds too much to send; narrow it with a filter."
+              : "The answer was interrupted; try again.");
+          })
+          .then(reset, reset);
+      });
+    });
+  }, function () {});
+});
+
+// Reader lenses: on the status tab, "Reading as" re-ranks the tab for one kind of reader; Everyone is the whole tab.
+praxisReady(function () {
+  var panels = document.querySelectorAll(".lens[data-lens]"), hero = document.querySelector(".hero"), main = document.querySelector("main");
+  if (!panels.length || !hero) return;
+  var g = document.createElement("div"), names = [["", "Everyone"]];
+  panels.forEach(function (p) { names.push([p.dataset.lens, p.dataset.lens.charAt(0).toUpperCase() + p.dataset.lens.slice(1)]); });
+  g.className = "lensrow";
+  g.innerHTML = '<span class="muted">Reading as</span><div class="picker" role="group" aria-label="Reader lens">' +
+    names.map(function (n) { return '<button type="button" data-l="' + n[0] + '" aria-pressed="' + (n[0] === "") + '">' + n[1] + "</button>"; }).join("") + "</div>";
+  hero.appendChild(g);
+  function set(name) {
+    var on = null;
+    panels.forEach(function (p) { p.hidden = p.dataset.lens !== name; if (!p.hidden) on = p; });
+    if (!on) name = "";
+    main.classList.toggle("lensing", !!on);
+    if (name) document.documentElement.dataset.lens = name; else delete document.documentElement.dataset.lens;
+    g.querySelectorAll("button").forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.l === name ? "true" : "false"); });
+    if (window.praxisFollow) window.praxisFollow();
+  }
+  window.praxisLens = set;
+  g.addEventListener("click", function (e) { var b = e.target.closest("button"); if (b) set(b.dataset.l); });
+  document.querySelectorAll(".lall").forEach(function (b) { b.addEventListener("click", function () { set(""); }); });
+  var m = /(?:^|[#&])lens=(\w+)/.exec(location.hash);
+  if (m) set(m[1]);
+});
+
+// Time travel on the map: a date control redraws the map as it stood on a day the store dates something. An item
+// appears on the day it was filed, and turns done on the day its kind's own event dates it; links, wording and positions
+// stay as they are today. The map asks praxisFiledAt and praxisDoneAt on each draw.
+praxisReady(function () {
+  var host = document.getElementById("map-graph"), C = (window.PRAXIS_CARDS || {}).byId, md = document.getElementById("map-data");
+  if (!host || !C || !md) return;
+  var onMap = {}; try { JSON.parse(md.textContent).nodes.forEach(function (n) { onMap[n.id] = 1; }); } catch (e) { return; }
+  var today = new Date(), iso = new Date(today - today.getTimezoneOffset() * 60000).toISOString().slice(0, 10), days = {};
+  var undatedLinks = false;
+  Object.keys(C).forEach(function (k) {
+    C[k].slice(11, 15).forEach(function (d) { if (d && d <= iso) days[d] = 1; });
+    Object.keys(C[k][15] || {}).forEach(function (e) { if (C[k][15][e] <= iso) days[C[k][15][e]] = 1; });
+  });
+  try { JSON.parse(md.textContent).edges.forEach(function (e) { var c = C[e[1]]; if (!(c && c[15] && c[15][e[1] + ">" + e[0]])) undatedLinks = true; }); } catch (e) {}
+  var dates = Object.keys(days).sort();
+  if (dates.length < 2) return;  // one dated day gives nothing to travel between
+  if (dates[dates.length - 1] !== iso) dates.push(iso);
+  var row = document.createElement("div"), at = "";
+  row.className = "tt";
+  var NOTE = undatedLinks
+    ? "Only when items were filed and when they were agreed, merged or run go back, and links that carry the day they were filed. Other links, wording and places on the map are today's, so an item filed later leaves a gap, and an item done with no date stays done."
+    : "Items and links go back as the store dates them, and today's done items turn done on their dated day. Wording and places on the map are today's, so an item filed later leaves a gap.";
+  row.innerHTML = '<label for="praxis-at">As it stood on</label><input id="praxis-at" type="range" min="0" max="' + (dates.length - 1) + '" step="1" value="' + (dates.length - 1) + '">' +
+    '<output for="praxis-at"></output><button type="button" class="sbtn ttnow" hidden>Back to today</button>' +
+    '<span class="muted small ttnote"></span><details class="ttwhy"><summary aria-label="What goes back in time">?</summary><p></p></details>';
+  var slot = document.querySelector(".mapctl .ttslot"), anchor = host.closest(".trace") || host;
+  if (slot) slot.appendChild(row); else anchor.parentNode.insertBefore(row, anchor);
+  row.querySelector(".ttwhy p").textContent = NOTE;
+  var input = row.querySelector("input"), out = row.querySelector("output"), now = row.querySelector(".ttnow"), note = row.querySelector(".ttnote");
+  function fmt(d) { return new Date(d + "T00:00:00").toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }); }
+  // An item with no card (restricted) or no filed date is taken as always there.
+  window.praxisFiledAt = function (id) { var c = C[id]; return !at || !c || !c[11] || c[11] <= at; };
+  // A blocked-by link is stored on the waiting item; one with a since after the day isn't drawn.
+  window.praxisLinkAt = function (from, to) { var c = C[from], d = c && c[15] && c[15][from + ">" + to]; return !at || !d || d <= at; };
+  window.praxisDoneAt = function (id, doneToday) {
+    var c = C[id], on = c && [c[12], c[13], c[14]].filter(Boolean).sort()[0];
+    return !doneToday ? false : !at || !on || on <= at;
+  };
+  var firstOnMap = Object.keys(onMap).map(function (k) { return C[k] && C[k][11]; }).filter(Boolean).sort()[0];
+  function set(d) {
+    var k = d ? dates.indexOf(d) : dates.length - 1;
+    if (k < 0) { k = 0; for (var j = 0; j < dates.length; j++) { if (dates[j] <= d) k = j; } }
+    at = k === dates.length - 1 ? "" : dates[k];
+    input.value = k; out.textContent = at ? fmt(at) : "today";
+    now.hidden = !at; row.classList.toggle("past", !!at);
+    if (at) document.documentElement.dataset.at = at; else delete document.documentElement.dataset.at;
+    document.dispatchEvent(new CustomEvent("praxis:travel"));
+    var empty = at && !host.querySelector(".nd");
+    note.textContent = empty ? "Nothing on the map was filed yet; the first was filed on " + (firstOnMap ? fmt(firstOnMap) : "a later day") + "."
+      : at ? (undatedLinks ? "Links and wording are today's." : "Wording and places are today's.") : "";
+    if (window.praxisFollow) window.praxisFollow();
+  }
+  window.praxisTravel = set;
+  input.addEventListener("input", function () { set(dates[+input.value]); });
+  now.addEventListener("click", function () { set(""); });
+  var m = /(?:^|[#&])at=(\d{4}-\d\d-\d\d)/.exec(location.hash), s = /(?:^|[#&])sel=([\w-]+)/.exec(location.hash);
+  set(m ? m[1] : "");
+  if (m && s && window.praxisSelect) window.praxisSelect(s[1]);  // the link's selection, once its day is drawn
+});

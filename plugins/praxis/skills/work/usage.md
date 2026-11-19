@@ -30,6 +30,8 @@ Start or resume a piece of engineering work and carry it through its act: the ri
 - `work --act=shipping --dry-run` — shows the steps it would propose and what it would record, without running or writing anything.
 - `work --attach how does the host decide when to call a connector's tools?` — during an open review, researches the question as part of the review's current round instead of asking whether to.
 - `work --tidy` — lists the worktrees, environments and shared images and caches that finished or idle tasks left, and clears the ones you pick; session start suggests it when it sees some.
+- `work --coordinate` — runs the round's independent pieces in parallel: this session coordinates, and hands you one prompt per worker session; see the [coordinate](modules/coordinate.md) module. Without the flag, a round that splits is offered it once, defaulting to no.
+- `work --task=<key> --worker-of=<address>` — the line a coordinator's prompt carries: this session builds the units it is briefed with and reports to the coordinator; see the [worker](modules/worker.md) module.
 
 ## Gotchas
 - work never does a step's work itself: each step runs as its own skill, and document files the results.

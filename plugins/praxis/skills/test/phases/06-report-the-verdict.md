@@ -39,7 +39,7 @@ State the [coverage-adequacy](../rules/coverage-adequacy.md) grade and name ever
 
 ## The verdict shape
 
-Two cold runs must produce a report of the same character. The verdict carries: the framed claim and its pass condition; the result against it (`holds` / `fails` / `unsettled` / `not checked`, the last with its reason); each in-claim genuine failure with its reproduction; out-of-claim genuine failures (pre-existing / attribution-undetermined) listed separately; flakes and environment noise listed separately; the coverage-adequacy grade with its named gaps and residual risk; and — under `--from-spec` — each criterion's result. `(basis: derived from review's and prototype's pinned verdict shapes)`
+Two cold runs must produce a report of the same character. The verdict carries: the framed claim and its pass condition; the result against it (`holds` / `fails` / `unsettled` / `not checked`, the last with its reason); each in-claim genuine failure with its reproduction; out-of-claim genuine failures (pre-existing / attribution-undetermined) listed separately; flakes and environment noise listed separately; the coverage-adequacy grade with its named gaps and residual risk; the new lines' coverage by area, as [run-and-observe](05-run-and-observe.md) read it, a reading from part of the suite given as "at least N%", or not measured with the reason, beside the grade and never in it; and — under `--from-spec` — each criterion's result. `(basis: derived from review's and prototype's pinned verdict shapes)`
 
 ## Before it goes out, read it as its reader
 

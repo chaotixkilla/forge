@@ -17,7 +17,8 @@
     "workspace":     { "files": "worktree | in-place", "commands": "container | host", "provider": "docker | …", "transport": "cli",
                        "setup": { "kind": "dev-stack | dev-environment | container-build", "definition": [], "context": "", "lockfiles": [],
                                   "target": "", "project": "", "network": "" },
-                       "env_files": [], "services": {}, "recipes": {} }
+                       "env_files": [], "services": {}, "recipes": {} },
+    "sessions":      { "provider": "claude-code | folder" }
   },
   "output": {
     "brief":     true,

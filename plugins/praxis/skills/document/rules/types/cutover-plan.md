@@ -74,7 +74,7 @@ Shows `RISK` (home: [raid-log](raid-log.md)).
 - Each criterion names a `MET` id, a threshold, an observation window and what it is relative to. (basis: prototype sweep, 2026-11-11, thresholds existed in the metrics but no gate linked them)
 - A gate whose `users see it` is `yes`, with a run verification or the earliest such gate without one, has its rollback tested on and in, and a one-way gate with no run verification has a tested restore, whether users see it or not. A gate filed already run owes neither, since a rehearsal can't now come before it. (basis: AWS OPS06-BP01; benchmark, 2026-11-13)
 - When any gate is `expand`, a `contract` gate exists with an opens-on date, and every `migrate` gate opens after an `expand` gate. (basis: Sato, an unexecuted contract phase can leave things worse than before)
-- Every metric has its definition, source, baseline and its window, target, direction and cadence; every goal and guardrail has an owner after close.
+- Every metric has its definition, source, baseline and its window, target, direction and cadence, its baseline and window waiting while a baseline unit that `serves` it hasn't run; every goal and guardrail has an owner after close.
 - Every `hold` metric has a tolerance.
 - Every goal metric has a guardrail serving it, and, when any goal metric exists, at least one metric is `data-quality`. An `indicator` needs no guardrail. (basis: Microsoft ExP; Grove's counter-indicator)
 

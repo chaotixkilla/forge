@@ -73,8 +73,10 @@ The spec's result carries that content as the pieces its documentation type decl
   - It `serves` the clause or the outside need it traces to, and `rests-on` each assumption it holds.
 - **Acceptance criteria `AC`.** Each criterion, its examples and counter-examples in its body. Each is a pass/fail check of its own, so the result says it is verified separately and it is its own item.
 - **Slices `SLC`.** Each slice, with the rung it inherits as `priority` and its spike when one is flagged, linked as the type says.
-- **Assumptions `ASM`.** Each surfaced assumption, with what breaks if it is false and how it will be checked, `status` `open`.
+- **Assumptions `ASM`.** Each surfaced assumption, with what breaks if it is false, its `confidence` and `cost if wrong` as plan's [surface-assumptions](../../plan/rules/surface-assumptions.md) grades them, and how it will be checked, `status` `open`.
 - **Questions `Q`.** Each open question, its `reversibility`, `reach` and `tier` set by the [decision register](../../document/rules/types/decision-register.md)'s tests from what its answer would settle. A requirement's `TBR` names the question by its handle. On the base path, a requirement still below the testability bar is `blocked-by` a question naming what it lacks.
+
+Before handing them over, check each piece against its type file's Checks ([spec](../../document/rules/types/spec.md), [decision-register](../../document/rules/types/decision-register.md)), since document refuses a filing that fails one. (basis: field findings, 2026-11-19 — two filings refused after the step had ended)
 
 Every piece is `proposed`, with two exceptions: a question is `open`, or `lean` when the run leans, and a Won't requirement is `deferred`. A piece the run carries an agreement on takes that agreement. Criteria and requirements the intent states, such as a ticket's acceptance criteria, stay `proposed`: the spec restates them, and only an agreement on the spec settles them.
 

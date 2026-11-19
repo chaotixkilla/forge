@@ -1,11 +1,20 @@
 # Tab design
 
-Which of a tab's hosted sections show where, by the heading its type file's Sections list gives it ([reader-tabs](reader-tabs.md) says what each placement means). A heading a tab doesn't list here has no place on that tab, and the site's checks flag it as unplaced. A backend that renders reader tabs draws each tab from this design; it holds no copy of its own. (routed to maintainer: the per-tab design, 2026-11-13)
+Which visuals a tab may draw its instrument with, under **Visuals**, as the [visual library](../../artifacts/rules/visual-library.md) picks among them, and which of a tab's hosted sections show where, by the heading its type file's Sections list gives it ([reader-tabs](reader-tabs.md) says what each placement means). A heading a tab doesn't list here has no place on that tab, and the site's checks flag it as unplaced. A backend that renders reader tabs draws each tab from this design; it holds no copy of its own. (routed to maintainer: the per-tab design, 2026-11-13)
 
 ## Tabs
 
 ### Status
 
+- **Visuals:**
+  - incident-timeline
+  - cause-chain
+  - review-rounds
+  - reach-rings
+  - status-briefing
+  - forecast
+  - rollout-stages
+  - since-you-last-looked
 - **Under the head:**
   - Status
   - Verdict
@@ -37,8 +46,19 @@ Which of a tab's hosted sections show where, by the heading its type file's Sect
   - Timeline
   - Where do I read next?
 
+### Map
+
+- **Visuals:**
+  - map-web
+  - map-gates
+  - gate-board
+  - map-lanes
+
 ### Questions & decisions
 
+- **Visuals:**
+  - question-ageing
+  - decision-cards
 - **In the instrument:**
   - What is paused?
 - **Only as filed:**
@@ -56,6 +76,9 @@ Which of a tab's hosted sections show where, by the heading its type file's Sect
 
 ### RAID
 
+- **Visuals:**
+  - assumption-grid
+  - raid-board
 - **Only as filed:**
   - What is going wrong now?
   - What could stop us?
@@ -66,6 +89,9 @@ Which of a tab's hosted sections show where, by the heading its type file's Sect
 
 ### Trace
 
+- **Visuals:**
+  - change-footprint
+  - trace-graph
 - **In the instrument:**
   - Do old and new versions work together?
   - Have we rehearsed undoing it?
@@ -90,6 +116,11 @@ Which of a tab's hosted sections show where, by the heading its type file's Sect
 
 ### Design
 
+- **Visuals:**
+  - design-sequence
+  - design-states
+  - option-scoring
+  - design-slices
 - **Only as filed:**
   - Why this, and what is out of scope?
   - What must the design be good at?
@@ -125,6 +156,9 @@ Which of a tab's hosted sections show where, by the heading its type file's Sect
 
 ### ADRs
 
+- **Visuals:**
+  - option-scoring
+  - adr-records
 - **In the instrument:**
   - any heading that starts `DEC-`
 - **Only as filed:**
@@ -154,6 +188,9 @@ Which of a tab's hosted sections show where, by the heading its type file's Sect
 
 ### Data
 
+- **Visuals:**
+  - design-states
+  - data-chips
 - **In the instrument:**
   - Must the regulator be consulted first?
   - Which libraries does it add?
@@ -176,6 +213,10 @@ Which of a tab's hosted sections show where, by the heading its type file's Sect
 
 ### Cutover
 
+- **Visuals:**
+  - before-after
+  - rollout-stages
+  - cutover-rail
 - **In the instrument:**
   - What do I change?
   - What does support say when asked?

@@ -13,8 +13,8 @@ An artifact lives in its owner's gallery, not under a parent, so this adapter ta
 2. **Render the site with the shipped renderer, never by hand.** Write the tree as `site.json` in the working folder, in the shape below, and the store's resolved views by running [resolve_views.py](../scripts/resolve_views.py) on the store, then run [render_site.py](../scripts/render_site.py) on `site.json`, the resolved views and the store; it draws each reader tab from the document skill's [tab design](../../document/rules/tab-design.md), holding no copy of its own. A page it refuses is the caller's defect, fixed in the tree. Then run [check_site.py](../scripts/check_site.py) on the written site and the store, which holds it to what [design-reader-instruments](../../../craft/writing/design-reader-instruments.md) can compute. Then run [check_render.py](../scripts/check_render.py) on the written site, with `--shots` into a folder beside it, which loads every page in a headless browser and reports how it draws; with no browser it says the rendering went unchecked, and the publish says so too. A `link` or `read-back` finding is fixed in the tree before publishing, and so is an `unplaced` one, by heading the section as its type file's Sections list heads it, verbatim, and an `unlinked` one, by adding the id to `refs` or `ref_patterns`, by marking it `(no link)` right after the id when it has no address, or, when it names no source, as a standard such as `SHA-256` does, by writing it as code; and an `untitled` one by giving its `refs` entry a title. A `code reused`, `dangling code` or `same fact twice` finding is fixed in the store before publishing: a reused code renamed; a dangling code's step filed when the result carries it, else the citation removed and the step shown as missing; the two items linked, the one that settles them naming the other, such as a decision that `answers` the question, and made one only when both are the same kind on the same subject. A `leak`, `empty` or `anchor` finding, and every finding of check_render, is the renderer's, reported to the developer with the publish, which goes ahead with them listed. The check sees ids only, and not a source's ids that share this store's prefixes, which stay named with their source ([mine-the-sources](../../../craft/evidence/mine-the-sources.md)); a document or thread named in words is linked in the prose itself. An `unshown items` finding and a `headlines` finding only the renderer can fix: each is reported to the developer with the publish, which goes ahead with them listed.
 
    `site.json` holds `title`; `home`, the short name the navigation shows; `foot`, one line under every page; `refs`, each source the pages name by an id, as written, mapped to `{"url", "title"}`: its address and what it is ([shape-the-document](../../document/phases/02-shape-the-document.md)), `url` left out when a pattern gives it or there is none, `title` `null` when it isn't recorded, shown on hover and in each page's Sources key so the prose doesn't repeat it, and an id naming two sources keyed on the phrase that tells them apart; `ref_patterns`, `{"match", "url"}` pairs giving the address of a family of ids, such as a review request's number, the URL taking the match's groups as `{1}`…; and `pages`, in tree order, each holding its `path` (step 1's), `label`, `part`, `kicker`, `headline`, `badge`, `meta` (the as-of line), `lead` (or `{"auto": "status"}` to have the main page's lead computed), `sections` and `checks`. A section is a `heading` and `blocks`, each one of `{"p"}`, `{"ul"}`, `{"callout"}`, `{"tiles"}`, `{"table"}`, `{"code"}`, `{"quote"}`, `{"figure"}` (a drawn diagram: caption, SVG, its lines), `{"image"}` (src as published, from the artifact's root; alt; caption; provenance), `{"h"}` (a sub-heading inside a section), `{"view": {"page", "position"}}`, the key the port writes for that view on this page (the page's title, `null` for the main page, and its position among the views kept on it), or `{"instrument": <the tab's instrument>}`. A check is `{"state", "text"}`.
-3. **Draw diagrams** as the content support surface below says, and hand each to the renderer as a `figure` block.
-4. **Publish in one call.** `index.html` is the page and every other file the renderer wrote goes through `files`: the pages, images, and `items.json` last. Every publish sets the artifact's title to the tree's title, with its version suffix under `--version`. A first publish also sets `icon` to `document`. Under `--idempotent`, publish to the artifact's link and pass `null` for each file the tree no longer has. A `--to` link without `--idempotent` or `--version` is `conflict`, as for any existing target.
+3. **Draw diagrams** as the content support surface below says, and hand each to the renderer as a `figure` block; a sequence or a state diagram goes to it undrawn, as its elements.
+4. **Publish in one call.** `index.html` is the page and every other file the renderer wrote goes through `files`: the pages, images, and `items.json` last. Every publish sets the artifact's title to the tree's title, with its version suffix under `--version`. Every publish also declares `capabilities: {"sample": {}}`, which each tab's "Explain this" uses ([reading-features](../rules/reading-features.md)); a view that can't sample, or a viewer who declines, sees no button. A first publish also sets `icon` to `document`. Under `--idempotent`, publish to the artifact's link and pass `null` for each file the tree no longer has. A `--to` link without `--idempotent` or `--version` is `conflict`, as for any existing target.
 5. **Return the artifact's link**, and each page's path in tree order, with the written site's folder and the screenshots folder, the pages and screenshots a reader sweep reads.
 
 **Content support surface.** The renderer writes headings, prose, lists, tables, code, quotes and links, an in-tree reference as a relative link to its page's file with `#<id>` for a section. This adapter supplies two block kinds itself:
@@ -23,13 +23,25 @@ An artifact lives in its owner's gallery, not under a parent, so this adapter ta
   - nodes shaped by kind: decision a diamond, store a cylinder, start and end rounded, external a double border;
   - edges as one-way arrows labelled with their verb;
   - a key naming each shape and mark the drawing uses;
-  - a sequence as lifelines with messages, replies dashed;
   - a data model as entity boxes with their fields, relations labelled with each end's cardinality in words;
   - a timeline on a date axis, spans as bars, milestones as diamonds.
 
+  A sequence or a state diagram isn't drawn by hand. Its `figure` block carries the caption, which states the finding; the finding again as `finding`, which becomes the drawing's description; its `Marks:`, `Elided:` and `Source:` lines, in that order, as `lines`, the provenance being the `Source:` line; `form`, `sequence` or `state`; and the diagram block's elements as the portable tree gives them, each with its id and any `mark`:
+  - for a sequence, `participants`, each `{id, label, mark}`, and `messages`;
+  - for a state diagram, `nodes`, the start and end with their `kind`, and `edges`.
+
+  The renderer draws it: lifelines with messages, replies dashed, or states as pills with each terminal state ringed. A terminal state is one no move leaves, a move into the end not counting. A drawing it makes replaces any `svg` the block also carries, so a stale hand drawing never shows. A reader tab that hosts one may offer it as a view of its own ([visual library](../rules/visual-library.md)).
+
+  Some diagrams are drawn by hand as the forms above, with the `svg` in the block:
+  - a state diagram with groups, since the renderer draws no composite state;
+  - a diagram too small to draw: fewer than two participants or no message, or fewer than two states or no move;
+  - a diagram with an element naming one that isn't there.
+
+  Without an `svg`, the renderer lists such a diagram's elements rather than leave an empty frame.
+
   Never mermaid, which renders reliably only on an artifact's main page. Marks take the accent for added, a warning tone for changed, and dashed and quiet for removed, each also written as a word on the element.
 
-  After drawing, check the geometry from the coordinates written, counting a label as 0.6 times its font size per character wide and 1.2 times it high:
+  After drawing a diagram by hand, check the geometry from the coordinates written, counting a label as 0.6 times its font size per character wide and 1.2 times it high:
   - no edge crosses a node it doesn't join;
   - no two labels overlap;
   - nothing runs outside the canvas.
@@ -41,6 +53,9 @@ A chart is not on it: it degrades to its figures table, by [degrade-unsupported-
 
 **Reach.** Every artifact starts private, so every publish is `private-until-shared`. The share line: the owner opens the artifact and shares it from its share control, with the people named.
 
+
+**Explain this** ([reading-features](../rules/reading-features.md)) asks Claude through the artifact runtime's `sample` capability, on the reader's own Claude account. Every publish declares `capabilities: {"sample": {}}`. The request is kept under 60,000 bytes, short of the 64 KiB the runtime carries, and asks the `quick` model tier. The runtime's five-minute answer cache stands, so asking again within five minutes doesn't bill twice. The button shows only where `claude.use("sample")` resolves.
+
 ## Item store
 
 The store is `items.json` beside `index.html`, formatted as the local adapter formats it.
@@ -51,6 +66,8 @@ The store is `items.json` beside `index.html`, formatted as the local adapter fo
 |---|---|
 | `table`, `list`, `cards`, `matrix`, `timeline` | `interactive`, as the renderer draws it: rows filterable and sortable where there are many, the static table form readable with scripts off, and kept under a native drawing as `Table form, for reading or printing` |
 | `graph`, `chain` | `native`: the port's diagram block, drawn as a diagram is above |
+
+A tab's instrument is drawn with the [visual library](../rules/visual-library.md)'s visuals, with a picker where two or more fit. Every page carries the [reading features](../rules/reading-features.md): hover previews, search, deep links, theme, keyboard and motion.
 
 Each view's region is a `<section data-view="<page> <position>">`, and each row a `data-item` with its item's id, which Feedback reads.
 

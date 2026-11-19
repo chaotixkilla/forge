@@ -28,6 +28,15 @@ Each round's review is a record of its own, about the change and commit the roun
 - Change regime: `baseline`.
 - Agreement: `none`.
 
+**Verdict `VRD`.** One per page: where this round's review stands, so the rounds of a task can be read against each other, a clean round included. (basis: maintainer, 2026-11-19, whether a review is converging)
+- Fields:
+  - `round`: number. The task's round the review ran in, as its round record and task history number it, a revision `n.m` counting as round `n`. When a round holds more than one review record, the verdict of the one filed last stands for the round.
+  - `reviewed at`: text. The page subject, as its findings carry it.
+  - `stance`: enum `request changes`, `approve`, `comment only`, the stance posted or proposed.
+  - `critical`, `high`, `medium`, `low`, `info`: number each. The standing `FND` of that severity whose `reviewed at` is the page subject, counted when the page is filed, so a finding withdrawn in its own round never counts, and one the round finds again, filed again at its subject, does.
+- Change regime: `baseline`.
+- Agreement: `none`.
+
 A scope finding carries no severity, so it is a line of prose, not an item.
 
 ## Sections
@@ -45,7 +54,8 @@ A scope finding carries no severity, so it is a line of prose, not an item.
   - every `FND` whose `reviewed at` is the page subject has a `location` and a `scenario` (basis: anchor-every-claim, review's fixed finding record);
   - every `FND` and `ASK` whose `reviewed at` is the page subject has `posted` filled;
   - every `FND` whose state is `withdrawn` has `withdrawn in` filled;
-  - the verdict line's counts equal the standing `FND` whose `reviewed at` is the page subject, by severity.
+  - the verdict line's counts equal the standing `FND` whose `reviewed at` is the page subject, by severity;
+  - exactly one `VRD`, whose counts equal the verdict line's.
 - *Judgment:*
   - a finding graded on taste, not on consequence;
   - a high or critical finding at `unverified`, stated as fact;
@@ -60,4 +70,4 @@ A scope finding carries no severity, so it is a line of prose, not an item.
 
 ## Minimum form
 
-The stance "proposed, not posted", the brief "not formed", the fitness section naming the acceptances not judged, and "no findings".
+The `VRD` with its round and its counts, the stance "proposed, not posted", the brief "not formed", the fitness section naming the acceptances not judged, and "no findings".

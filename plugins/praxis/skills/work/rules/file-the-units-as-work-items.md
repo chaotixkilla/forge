@@ -4,7 +4,7 @@ When an act plans work in units, the units go where the team tracks work, one tr
 
 ## Render each unit as a work-item
 
-Hand the covered, ordered unit set to the **project_mgmt capability's `create work-items` operation** (served by the [project-mgmt](../../project-mgmt/SKILL.md) skill, which dispatches to whichever provider is configured). Per unit, supply:
+Fields a recorded preference leaves to another owner are left unset. (basis: field findings, 2026-11-19) Hand the covered, ordered unit set to the **project_mgmt capability's `create work-items` operation** (served by the [project-mgmt](../../project-mgmt/SKILL.md) skill, which dispatches to whichever provider is configured). Per unit, supply:
 
 - **Title** — the unit's single outcome, stated as its done-condition names it ([one-unit-one-outcome](../../decompose/rules/one-unit-one-outcome.md)).
 - **Body** — the unit's scope, its one-sentence done-condition/acceptance criteria, and its just-enough context with the link back to the source ([carry-just-enough-context](../../decompose/rules/carry-just-enough-context.md)).

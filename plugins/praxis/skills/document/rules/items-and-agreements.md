@@ -34,6 +34,7 @@ Every item carries the following. A property the result doesn't hold is shown as
   - **Matching a piece to an existing item.**
     - A piece the result ties to an id is that item. A piece that carries only part of it, such as one added link, changes only what it carries.
     - A result names a piece it means as new by a handle: its prefix, `new-` and a number of the result's own, `REQ-new-1`, and its links to that piece use the handle. Numbering the piece rewrites each use of the handle, in links and in text such as a `TBR`. A handle that matches an existing item by subject takes that item's id instead.
+    - A piece of a type its type file files a page per round for, such as a verification, a test or a review result, matches only an item filed for that round: a later round's on the same subject is a new item of its own round, even when it repeats the earlier check, and the earlier round's item stays as filed. (basis: field findings, 2026-11-19 — a later round's verification replaced an earlier round's it never rechecked)
     - A piece with no id is the existing item that is about the same subject, even when its content changed: the same obligation tightened, the same question rephrased, the same risk re-rated. It is a new item only when no existing item is about its subject. When the existing item is a `freeze` item and the content changed, the piece is a new item that `supersedes` it.
     - A piece that splits one item into several, or merges several into one, is a new item for each piece. Each `supersedes` what it replaces.
     - An item the result doesn't mention is carried forward as it stands, unless its type files a page per round and says its items aren't carried, as a review record's findings belong to the round that found them. Only a result that says to drop an item starts its withdrawal, or a condition its type file names, such as a decision brief whose question leaves tier 1.
@@ -41,7 +42,7 @@ Every item carries the following. A property the result doesn't hold is shown as
   - A type that numbers its pages, such as decision records, numbers them by their item's id.
 - **`kind`, `title`, `body`.** The body is neutral blocks ([portable-tree-shape](portable-tree-shape.md)).
 - **`fields`.** The fields the type declares for the kind.
-- **`links`.** Each link is a statement "this item *link* that id", stored on this item:
+- **`links`.** Each link is a statement "this item *link* that id", stored on this item, with `since`: the date of the filing that first carried it, set then and kept while the link stays. A link is its kind and its target, so a link whose kind changes, or that is removed and added again, is a new link dated by the filing that carries it; a removed link leaves no record. A link filed before `since` existed has none, and stays undated. (basis: maintainer, 2026-11-19)
 
   | Link | Meaning | Reverse |
   |---|---|---|
@@ -100,6 +101,13 @@ Every item carries the following. A property the result doesn't hold is shown as
   - **A decide-by.** An `open`, `lean` or `proposed` item carries one: a date, or the gate it must be settled before. A gate counts as a date because the work is anchored to gates. A type may name one of a kind's own `when` fields as its decide-by, such as a risk's proximity; the item's decide-by is then that field. An item that has neither takes its type's due point in the documentation plan, written into its decide-by when it is shaped: before the build, `build start`; during the build, `end of round <n>` for the round that files it; at the gate that needs it, that gate; from its trigger, `end of round <n>` for the round that files it; after, `close-out`. An anchor a result gives in another form, for a decide-by or any `when` field, is mapped: a round to `end of round <n>`; a milestone, a slice or anything else stays in the item's body, and the value takes this fallback. (basis: maintainer, 2026-11-11)
   - **Where state shows.** A changed state is not a content edit. An item's current state shows on the current round's pages and in views. A closed round's page keeps the state the item had when that page was filed ([pages-belong-to-their-task](pages-belong-to-their-task.md)). A type filed again in a new round carries all its items that aren't `superseded` or `withdrawn`, mentioned by the result or not, so the current page is complete. When an item's state changes and the current round hasn't filed its type, the type is filed again.
 - **`first_state` and `first_filed`.** The state and date of the item's first filing, set then and carried unchanged when it is filed again.
+- **`state_changes`.** Each change of the item's state after its first filing, appended as `{"state": "<new state>", "date": "<the day it changed>"}` and never edited.
+  - The day is the agreement's event date for a state an agreement sets, else the date of the filing that records the change.
+  - A filing records only the state each item ends it in. An item's first filing sets `first_state` and adds no entry, and an existing item gets at most one entry per filing.
+  - A correction of a recorded state is appended like any change, dated by the filing that corrects it; earlier entries stay.
+  - An item without the list starts it at its next change. Its earlier changes are never backfilled, even from agreements, so they stay undated rather than guessed.
+
+  (basis: maintainer, 2026-11-19, so a reader can see the set as it stood on a day)
 - **`review`.** Every item still open to change carries one: an item that isn't frozen (a `freeze` item once agreed, or a `living` item once its task closes out), `superseded` or `withdrawn`. After close-out, only an operational type's items keep one.
   - **Last reviewed.** Set only when a result says the whole item was checked: a review or verification step, or the developer saying so. Never set by a rebuild, or because a round touched the item.
   - **Next review.**
@@ -179,7 +187,7 @@ Every type's store gets these checks, which [check_store.py](../scripts/check_st
 - each declared field type one the store allows, `enum` written `{"enum": [values]}`;
 - every agreement with exactly one decider;
 - every evidence entry with a link, or who took part and when;
-- every recorded agreement date, `first_filed` and evidence `when` written as a date;
+- every recorded agreement date, `first_filed`, evidence `when`, link `since` and `state_changes` date written as a date, each state change with a known state;
 - every change note with a date and what changed.
 
 A finding on an agreement stops every copy that holds it.

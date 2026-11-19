@@ -162,6 +162,8 @@ def main(argv):
                 add("to_verify", iid, "link", f"{kind} outside target {target!r}")
             elif target not in known:
                 find(iid, "link", f"{kind} target {target!r} resolves to nothing")
+            if link.get("since") is not None and not DATE_RE.match(str(link.get("since"))):
+                find(iid, "date", f"{kind} link since {link.get('since')!r} isn't a date")
         for ev in item.get("evidence", []):
             link = ev.get("link") if isinstance(ev, dict) else None
             if not link:
@@ -173,6 +175,11 @@ def main(argv):
                 find(iid, "date", f"evidence when {ev.get('when')!r} isn't a date")
         if item.get("first_filed") is not None and not DATE_RE.match(str(item.get("first_filed"))):
             find(iid, "date", f"first_filed {item.get('first_filed')!r} isn't a date")
+        for ch in item.get("state_changes") or []:
+            if not (isinstance(ch, dict) and DATE_RE.match(str(ch.get("date")))):
+                find(iid, "date", f"state change {ch!r} without a date")
+            elif ch.get("state") not in STATES:
+                find(iid, "state", f"state change to unknown state {ch.get('state')!r}")
         for note in (item.get("review") or {}).get("notes", []):
             if not (isinstance(note, dict) and DATE_RE.match(str(note.get("date"))) and note.get("what")):
                 find(iid, "change-note", "change note without a date and what changed")

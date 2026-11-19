@@ -41,6 +41,7 @@ The `owner` every item carries is the person who watches the entry and chooses i
 **Assumption `ASM`.** One thing the work holds true without proof.
 - Fields:
   - `if false`: text. What breaks if it fails.
+  - `confidence`: enum `high`, `medium`, `low`, and `cost if wrong`: enum `high`, `medium`, `low`, graded as plan's [surface-assumptions](../../../plan/rules/surface-assumptions.md) sets them.
   - `validation`: text. How it will be checked.
   - `validate by`: when. When it must be checked by.
   - `status`: enum `open`, `verified`, `false`, `closed`. `verified` when a check finds it holds; `false` when it failed, which opens an issue; `closed` when the work no longer rests on it.
@@ -83,7 +84,7 @@ Every kind takes `baseline`. Each kind's decide-by is its `when` field: a risk's
 - A risk whose response is neither `accept` nor `escalate` names an actionee.
 - An escalated risk names who it was escalated to, and has opened a question in the register. (basis: PMI, escalate when outside the team's authority)
 - An occurred risk has opened an issue. A closed entry of any kind has its closure reason.
-- Every issue has its impact and target date. Every dependency has both parties and its need-by. Every assumption has its if-false, validation and validate-by.
+- Every issue has its impact and target date. Every dependency has both parties and its need-by. Every assumption has its if-false, confidence, cost if wrong, validation and validate-by.
 - An assumption whose status is `false` has opened an issue.
 - One person owns more than half of the task's open items, at least five open items are filed, at least two people own one, and no open risk names that person as its `key person`. Open items are the [decision-register](decision-register.md)'s items whose state is `open`, `lean`, `proposed` or `deferred`, and this log's risks, assumptions, issues and dependencies whose status is `open`. The finding drafts the risk with only its if, then and key person filled: if that person becomes unavailable, then the items they own stall; its key person is that person. Its other fields show as missing, for the developer to supply. (basis: maintainer, 2026-11-11)
 

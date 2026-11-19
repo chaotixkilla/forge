@@ -12,7 +12,7 @@ A reviewer of the change: "How will we know each requirement holds, where is it 
 
 ## Membership
 
-The tests the work plans and runs, and the criteria a stage is entered on. Whether a requirement is carried at all is the [traceability](traceability.md)'s; what a gate's go/no-go card reads is the [cutover-plan](cutover-plan.md)'s. Its subject is the task's verification, so a task has one. It is filed again when a test or a criterion changes. A test's runs are verifications on it, never edits to it.
+The tests the work plans and runs, the criteria a stage is entered on, and how much of the change's new code the latest run executed. Whether a requirement is carried at all is the [traceability](traceability.md)'s; what a gate's go/no-go card reads is the [cutover-plan](cutover-plan.md)'s. Its subject is the task's verification, so a task has one. It is filed again when a test or a criterion changes. A test's runs are verifications on it, never edits to it.
 
 ## Items
 
@@ -35,7 +35,19 @@ The tests the work plans and runs, and the criteria a stage is entered on. Wheth
 - Links: it `serves` the gate that opens the stage, and `rests-on` the tests and metrics whose results it reads.
 - Change regime: `baseline`.
 
-Both kinds take Agreement `needed`, and each one's `before` is its decide-by. When a test's `before` names a gate, file a `serves` link to that gate.
+**Coverage reading `COV`.** How much of the change's new lines one area's tests ran, as [run-and-observe](../../../test/phases/05-run-and-observe.md) reads them. (basis: test's coverage-adequacy, a line percentage diff-scoped to changed lines)
+- Fields:
+  - `area`: text. The part of the codebase, as run-and-observe cuts it, or `(all)` for a reading not measured.
+  - `new lines`: number. The change's executable new lines there.
+  - `run`: number. How many of them the run executed.
+  - `scope`: enum `whole suite`, `part of the suite`. A part's `run` is a floor, a new line outside it perhaps run by a test it left out.
+  - `at`: text. The commit the run ran at.
+  - `not measured`: text. Why no reading was taken, empty when one was.
+- Granularity: one area at one commit. A run's readings supersede every earlier reading.
+- Change regime: `baseline`.
+- Agreement: `none`.
+
+`TEST` and `GRAD` take Agreement `needed`, and each one's `before` is its decide-by. When a test's `before` names a gate, file a `serves` link to that gate.
 
 Shows `REQ` and `AC` (home: [spec](spec.md)), `GATE` (home: [cutover-plan](cutover-plan.md)) and `RST` (home: [backup-restore-plan](backup-restore-plan.md)).
 
@@ -46,6 +58,7 @@ Shows `REQ` and `AC` (home: [spec](spec.md)), `GATE` (home: [cutover-plan](cutov
 3. **What must hold before each stage?** When a graduation criterion exists. The graduation table.
 4. **Do old and new versions work together?** When parts of the change deploy separately, a shared contract changes, or clients or data hold the old form across a switch. Which pairs of versions can meet, in prose, then the skew table. (basis: Kubernetes KEP, upgrade and downgrade, version skew)
 5. **Have we rehearsed undoing it?** When a gate exists. The rehearsal table.
+6. **How much of the new code do the tests run?** When a coverage reading exists. The footprint table.
 
 ## Checks
 
@@ -55,6 +68,7 @@ Shows `REQ` and `AC` (home: [spec](spec.md)), `GATE` (home: [cutover-plan](cutov
 - Every test has its method, environments and pass-when.
 - When a gate exists, every gate not filed already run ([cutover-plan](cutover-plan.md)) is served by a rehearsal test: a two-way gate users see by a `rollback rehearsal`; a one-way gate by a `restore rehearsal`, which `rests-on` its `RST` when one is filed. A two-way preparatory gate needs none. (basis: prototype sweep, 2026-11-11, rollback tested with a date and environment per gate)
 - Every graduation criterion serves a gate and rests on at least one test or metric.
+- Every coverage reading has `new lines`, `run` and `scope`, with `run` no more than `new lines`, or has `not measured` filled.
 
 *Judgment:*
 - A test whose pass-when couldn't fail while its requirement is broken.
@@ -69,6 +83,7 @@ Shows `REQ` and `AC` (home: [spec](spec.md)), `GATE` (home: [cutover-plan](cutov
 - **Test table:** `table` of every `TEST` grouped by purpose: method, environments, pass when, what it `verifies` or `serves`, latest run.
 - **Graduation table:** `table` of every `GRAD`: stage, the `GATE` it `serves`, what it `rests-on`.
 - **Skew table:** `table` of the `TEST`s whose purpose is `upgrade`, `downgrade` or `version skew`: environments, pass when, latest run.
+- **Footprint table:** `table` of every `COV`, sorted by `run` over `new lines` ascending, not measured last: area, new lines, run, scope, at, not measured.
 - **Rehearsal table:** `table` of the `TEST`s whose purpose is `rollback rehearsal` or `restore rehearsal`: the `GATE` it `serves`, purpose, the `RST` it `rests-on`, environments, pass when, and the latest verification's date and environment, each with the empty marker "not rehearsed yet".
 
 ## Minimum form

@@ -35,8 +35,8 @@ A caller that holds its content as items ([items-and-agreements](../../document/
   ```json
   {"restricted": false, "kinds": {"REQ": {"kind": "requirement", "fields": {"keyword": "text", "priority": "number"}, "live": {"coverage": "number"}}},
    "items": [{"id": "REQ-1", "kind": "requirement", "title": "…", "body": [], "fields": {"keyword": "MUST"},
-              "links": [{"link": "serves", "to": "GOAL-1"}], "evidence": [{"link": "…", "what": "…"}, {"who": ["…"], "when": "2026-11-12", "what": "…"}], "owner": "…",
-              "state": "proposed", "first_state": "proposed", "first_filed": "2026-11-12", "decide_by": "GATE-2", "sensitivity": "team",
+              "links": [{"link": "serves", "to": "GOAL-1", "since": "2026-11-12"}], "evidence": [{"link": "…", "what": "…"}, {"who": ["…"], "when": "2026-11-12", "what": "…"}], "owner": "…",
+              "state": "proposed", "first_state": "proposed", "first_filed": "2026-11-12", "state_changes": [], "decide_by": "GATE-2", "sensitivity": "team",
               "review": {"last": null, "next": "GATE-2", "notes": [{"date": "2026-11-12", "what": "…"}]}}],
    "agreements": [{"id": "AGR-1", "settled": [{"id": "REQ-1", "content": {}}, {"id": "REQ-2", "content": {"withdrawn": "…"}}], "decider": "…",
                    "consulted": [], "informed": [], "date": "2026-11-12", "link": "…"}],

@@ -39,7 +39,7 @@ A doc carries no hidden mark for a `table`-level view, so its region is found by
 
 ## Restricted
 
-A doc's sharing is invisible to the connector (Reach), so `--restricted` is honored only when this publish births the doc. A publish into an existing doc answers `unsupported-content`, and a restricted document is renewed with `--version`, which births a new doc.
+A doc's sharing is invisible to the connector (Reach), so `--restricted` is honored when this publish births the doc, and when `--to` names an existing doc with it, which a caller does only for a restricted copy this port birthed: the port shares a restricted doc only with named people, so updating it in place keeps its reach. (basis: field findings, 2026-11-19 — each restricted update birthed a new doc, and the user deleted the strays by hand)
 
 ## Feedback
 
@@ -52,7 +52,7 @@ Read the doc by its id or link: the first tab is the main page and each further 
 
 ## Share
 
-The connector has no operation that shares a doc: answer `unsupported-content`, with the share line above, naming the people to add. When the connector's guide lists a sharing operation (`topic.sharing`), share through it instead: each person with view access, or the organization when the operation offers it.
+The connector has no operation that shares a doc. When the session can drive the user's own signed-in browser (the Claude in Chrome extension), share through the doc's share dialog there: open the doc's link, add each person with view access, untick the notification e-mail, and confirm. A sign-in wall or a bot check ends that path. Otherwise, or when it ends, answer `unsupported-content`, with the share line above, naming the people to add. (basis: field findings, 2026-11-19 — a local automated browser met a sign-in wall and a bot check; the user's own browser shared in four clicks) When the connector's guide lists a sharing operation (`topic.sharing`), share through it instead: each person with view access, or the organization when the operation offers it.
 
 ## Capability matrix
 
