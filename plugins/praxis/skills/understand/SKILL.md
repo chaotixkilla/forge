@@ -1,6 +1,6 @@
 ---
 name: understand
-description: Build an accurate, anchored mental model of an unfamiliar system, feature, or area — trace how it actually behaves, where things live, and why — and produce a certainty-graded map, not a change. The read-only orientation pass to run before touching unfamiliar code; distinct from gather (the delegated evidence engine it consumes) and deep-research (open-world cited reports).
+description: Build an anchored mental model of an unfamiliar system, feature or area (how it behaves, where things live, and why) as a certainty-graded map, not a change. The read-only orientation pass before touching unfamiliar code; not gather (the evidence engine it consumes) or deep-research (open-world cited reports).
 metadata:
   flags:
     --deep: maximum-rigor mode — widen the blast radius, follow secondary paths and edge cases, and corroborate harder across history and ground truth (activates the deep-dive module) (asks before starting)

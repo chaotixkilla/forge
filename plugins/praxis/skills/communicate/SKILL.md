@@ -1,6 +1,6 @@
 ---
 name: communicate
-description: Produce and route a human-facing artifact of the work — a doc, status update, decision record, onboarding note, or review/handoff message — pitched to a named audience at the right altitude, in the right form, with the channel it's meant for. Reach for it when the substance exists and the job is to land it on people; distinct from the incident act, which owns live-incident status at its own severity-keyed cadence, and from the communication and artifacts ports, which the act delivering the artifact sends it through.
+description: Produce a human-facing artifact of the work (a doc, status update, decision record, onboarding note, review or handoff message) pitched to a named audience, in the right form and channel. For substance that must land on people; not live-incident status (the incident act) or the communication and artifacts ports that send it.
 metadata:
   flags:
     --audience=<tier>: name the target reader tier (peer|newcomer|exec|external), overriding the tier model-the-audience would infer — a phase input, not a module

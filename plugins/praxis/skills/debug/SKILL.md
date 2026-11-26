@@ -1,6 +1,6 @@
 ---
 name: debug
-description: Find the true root cause of a defect that has already bitten — reproduce it, localize the fault, form and test falsifiable hypotheses, prove the mechanism rather than a coincidental trigger or downstream symptom, and recommend the fix at the cause with the regression test that would guard it. Reach for it when a specific failure needs root-causing; distinct from review (hunts latent defects in a change), test (confirms intended behavior), and verify (drives the running app to observe it).
+description: Root-cause a defect that has already bitten: reproduce, localize, test falsifiable hypotheses, prove the mechanism, and recommend the fix at the cause with its regression test. Not review (latent defects), test (intended behavior) or verify (driving the app).
 metadata:
   flags:
     --from-incident=<ref>: seed the investigation from an incident/postmortem record — its symptoms, timeline, affected scope, and responder notes — read via the project-management or communication capability, or a postmortem document via the knowledge capability

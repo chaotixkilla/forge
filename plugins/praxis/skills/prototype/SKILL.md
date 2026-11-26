@@ -1,6 +1,6 @@
 ---
 name: prototype
-description: Reduce uncertainty about a risky assumption or unproven approach by building the smallest throwaway thing that answers one framed question empirically — scout prior art, run the cheapest probe (or race candidate approaches), read the observed result against the question as holds/fails/unsettled/not checked, then extract the learnings and discard the code. The de-risking spike to run before committing a design; distinct from understand (reads existing code, builds nothing) and plan/spec (produce durable design, not throwaway experiments).
+description: De-risk an assumption or unproven approach with a throwaway spike that answers one framed question before a design is committed: scout prior art, run the cheapest probe or race candidates, read the result, keep the learnings and discard the code. Not understand (builds nothing) or plan and spec (durable design).
 metadata:
   flags:
     --sandbox: run the spike in an isolated throwaway environment (a scratch workspace, or a discardable local branch) so it can't touch real state and is trivial to discard wholesale — activates the sandbox-isolation module

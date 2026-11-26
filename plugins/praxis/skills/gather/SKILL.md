@@ -1,6 +1,6 @@
 ---
 name: gather
-description: Gather evidence across chosen source lanes — recruit the explorer fleet, collect their anchored findings, and synthesize one weighted picture (authority over anecdote, corroboration across independent origins, conflicts and gaps surfaced, the transfer-to-this-project call left to the caller). The delegated engine other skills call for their gather-and-weigh step; not user-facing — reach for understand to map a system, or deep-research for an open-world cited report.
+description: Gather evidence across chosen source lanes with the explorer fleet and synthesize one weighted picture: authority over anecdote, corroboration across independent origins, conflicts and gaps surfaced. The engine other skills call for their gather-and-weigh step; not user-facing (use understand to map a system, deep-research for a cited report).
 metadata:
   flags:
     --explorers=<list>: restrict the gather to specific source lanes (code, repository, knowledge-base, official-documentation, authoritative-literature, community-practices)

@@ -1,6 +1,6 @@
 ---
 name: project-mgmt
-description: Carry out a work-tracking operation — fetch a tracked work-item by reference, update one, or create tracked work-items from an ordered set of units — via the configured provider's adapter; returns the result. A tool-layer interface skill, called by other skills.
+description: Run a work-tracking operation (fetch a tracked work-item by reference, update one, or create work-items from an ordered set of units) via the configured provider's adapter. A tool-layer port, called by other skills.
 metadata:
   flags:
     --dry-run: show the operation that would be performed, without performing it

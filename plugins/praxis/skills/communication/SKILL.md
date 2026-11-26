@@ -1,6 +1,6 @@
 ---
 name: communication
-description: Carry out a messaging operation — read a discussion thread, post a message or status update — against the configured conversation backend via its provider's adapter; returns the result. A tool-layer interface skill, called by other skills.
+description: Run a messaging operation (read a discussion thread, post a message or status update) against the configured conversation backend's adapter. A tool-layer port, called by other skills.
 metadata:
   flags:
     --dry-run: show the operation that would be performed, without performing it

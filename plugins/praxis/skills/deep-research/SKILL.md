@@ -1,6 +1,6 @@
 ---
 name: deep-research
-description: Fan out multi-source web research, fetch and adversarially verify the load-bearing claims, then synthesize a cited report that states each claim's support and the gaps — for a genuinely open question that in-context and repository knowledge can't settle.
+description: Fan out multi-source web research, fetch and adversarially verify the load-bearing claims, then synthesize a cited report that states each claim's support and the gaps — for an open question the repository and context can't settle.
 metadata:
   flags:
     --deep: escalate depth — wider fan-out, more rounds of lead-chasing, and the authoritative-literature lane engaged on every sub-question rather than only where it fits, instead of a single pass (activates deep-mode) (asks before starting)

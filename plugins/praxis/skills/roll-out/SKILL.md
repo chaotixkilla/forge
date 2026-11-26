@@ -1,6 +1,6 @@
 ---
 name: roll-out
-description: Take a merged change from the shared line out to an environment — check the environment deploys from that line, size a reversible rollout strategy to the change's risk, promote it through the pipeline, confirm it arrived, and judge from its post-ship signals whether its health holds there. Returns the rollout outcome and the health verdict; reporting them is the caller's job.
+description: Take a merged change from the shared line out to an environment: check the environment deploys from that line, size a reversible rollout to the change's risk, promote it, confirm it arrived, and judge from post-ship signals whether its health holds. Returns the outcome and health verdict; reporting them is the caller's.
 metadata:
   flags:
     --target=<env>: the environment to roll out to; without one nothing rolls out, since no default deploy environment exists (a phase input read by assess-the-rollout)

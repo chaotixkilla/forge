@@ -1,6 +1,6 @@
 ---
 name: upgrade
-description: Move a dependency to a new version — read its changelogs and migration guides for the version span, capture the current green state, grade the upgrade's reach, bump it to the posture the project keeps, fix what breaks at its cause, and prove the checks green again. Returns the committed upgrade and its outcome; delivering it is the caller's job.
+description: Move a dependency to a new version: read the span's changelogs and migration guides, capture the current green state, grade the upgrade's reach, bump it to the project's posture, fix what breaks at its cause, and prove the checks green again. Returns the committed upgrade; delivering it is the caller's.
 metadata:
   flags:
     --scope=<pattern>: constrain every read, edit and check to paths matching the glob, and surface needed changes outside it as follow-ups rather than making them silently

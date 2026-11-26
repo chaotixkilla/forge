@@ -21,4 +21,6 @@ Order the sized units so each rests only on what comes before it. Two passes, in
 
 Sequencing reveals the cross-unit prerequisites; capture each as a **named link** on the unit, not as an implicit "it's earlier in the list" ([make-dependencies-explicit](../rules/make-dependencies-explicit.md)).
 
+Then check the order, unit by unit: list what each unit uses from the others, and confirm each comes before it; and for each acceptance test a unit carries, the units it needs to pass, none after its own. A unit that uses a later one, or a test that can't pass until a later unit lands, is reordered when no hard dependency forbids it, else its test moves to the unit that completes it. (basis: field findings, 2026-11-25 — "each depends only on earlier units" was stated and never checked)
+
 The output is the set of right-sized units, each carrying its size verdict and its explicit dependency links, in a dependency-then-risk order — handed to [make-units-actionable](04-make-units-actionable.md).

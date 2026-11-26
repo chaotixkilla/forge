@@ -31,13 +31,13 @@ FONTS = ("https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,50
          "&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap")
 
 
-KIND_WORDS = {"REQ": "Requirement", "AC": "Acceptance criterion", "Q": "Question", "DEC": "Decision", "BRF": "Brief", "RISK": "Risk",
+KIND_WORDS = {"SRC": "Source element", "REQ": "Requirement", "AC": "Acceptance criterion", "Q": "Question", "DEC": "Decision", "BRF": "Brief", "RISK": "Risk",
               "ASM": "Assumption", "ISS": "Issue", "DEP": "Dependency", "UNIT": "Unit of work", "SLC": "Slice", "GATE": "Gate", "MET": "Metric",
               "TEST": "Test", "GRAD": "Graduation criterion", "THR": "Threat", "PTH": "Privacy threat", "MIT": "Mitigation", "ELM": "Element of the system",
               "SCR": "Screening criterion", "VEN": "Vendor", "RST": "Restore path", "RDY": "Readiness check", "BRK": "Breaking change", "MSG": "Notice",
               "A11Y": "Accessibility finding", "TERM": "Term", "FAQ": "FAQ answer", "DES": "Design section", "QG": "Quality goal", "IFC": "Interface",
               "NS": "North-star goal", "SLO": "Objective", "ALR": "Alert", "PROC": "Procedure", "AGR": "Agreement", "OVW": "Overview"}
-ID_PAT = re.compile(r"\b(" + "|".join(sorted(KIND_WORDS, key=len, reverse=True)) + r")-(\d+)\b")
+ID_PAT = re.compile(r"(?<![:\w-])(" + "|".join(sorted(KIND_WORDS, key=len, reverse=True)) + r")-(\d+)\b")
 
 
 def nice(iid):
@@ -116,8 +116,34 @@ def link_refs(markup):
     return "".join(parts)
 
 
+OWN_CODES = [None]  # site.json's own_codes: prefixes of codes the set carries from its sources, shown as written
+
+
+def own_codes(markup):
+    """Wrap the set's own established codes (site.json's own_codes) as code, so they are never read as an item kind
+    nor reported as an unlinked source (field findings, 2026-11-25)."""
+    if not OWN_CODES[0]:
+        return markup
+    rx = re.compile(r"(?<![\w:-])(?:" + "|".join(re.escape(p) for p in OWN_CODES[0]) + r")-\d+(?![\w-])")
+    parts = re.split(r"(<[^>]+>)", markup)
+    skip = 0
+    for k, part in enumerate(parts):
+        if part.startswith("<"):
+            low = part.lower()
+            if re.match(r"<(a|script|style|code|pre|title|svg|abbr)\b", low):
+                skip += 1
+            elif re.match(r"</(a|script|style|code|pre|title|svg|abbr)>", low):
+                skip = max(0, skip - 1)
+            continue
+        if not skip:
+            parts[k] = rx.sub(lambda mm: f'<code class="own">{mm.group(0)}</code>', part)
+    return "".join(parts)
+
+
 def name_ids(markup):
     """Replace item codes in text (never inside tags or attributes) with their reader names, the code kept as a tooltip."""
+    markup = own_codes(markup)
+
     def one(mm):
         iid = mm.group(0)
         item = (MODEL[0].by.get(iid) if MODEL[0] else None) or {}
@@ -309,6 +335,9 @@ def body_text(item):
 class Model:
     def __init__(self, store):
         self.items = store.get("items", []) if store else []
+        for i in self.items:  # a missing field is written null in the store; read it as absent (benchmark finding, 2026-11-25)
+            if isinstance(i.get("fields"), dict):
+                i["fields"] = {k: v for k, v in i["fields"].items() if v is not None}
         self.agreements = store.get("agreements", []) if store else []
         self.by = {i["id"]: i for i in self.items}
         self.rev = {}
@@ -936,7 +965,7 @@ def map_data(m):
         c = max(merges, key=lambda o: (o["down"] > 0, o["down"], len(open_preds(o["id"]))))
         lines = [p for p in open_preds(c["id"]) if nodes[p].get("kind") == "unit"]
         insights.append({"id": c["id"], "kind": "bottleneck", "text": f'{c["id"]} is where the work converges.', "title": c["title"],
-                         "more": f'It waits on {" and ".join(lines)}, and {c["down"]} thing{"s" if c["down"] != 1 else ""} follow{"" if c["down"] != 1 else "s"} it.'})
+                         "more": (f'It waits on {" and ".join(lines)}, and ' if lines else "It waits on nothing, and ") + (f'{c["down"]} thing{"s" if c["down"] != 1 else ""} follow{"" if c["down"] != 1 else "s"} it.' if c["down"] else "nothing follows it.")})
     asks = [o for o in live if o["kind"] == "ask"]
     if asks:
         q = max(asks, key=lambda o: (o["down"], o["gates"]))
@@ -963,7 +992,7 @@ def map_html(m):
     first = next((n for n in d["crit"] if n in d["can"]), d["crit"][0] if d["crit"] else "")
     kinds_can = [x["kind"] for x in d["nodes"] if x["id"] in d["can"]]
     lead = (f'<span><b>{len(d["can"])}</b> things can start now.</span><span class="muted small">'  # the claim, then quiet detail
-            f'{kinds_can.count("step")} pieces of work and {len(kinds_can) - kinds_can.count("step")} questions, decisions or dependencies. The critical path runs through '
+            + " and ".join(x for x in (f'{kinds_can.count("step")} pieces of work' if kinds_can.count("step") else "", f'{len(kinds_can) - kinds_can.count("step")} questions, decisions or dependencies' if len(kinds_can) > kinds_can.count("step") else "") if x) + ('. ' if kinds_can else '') + 'The critical path runs through '
             f'{sum(1 for n in d["crit"] if any(x["id"] == n and not x["done"] for x in d["nodes"]))} unfinished steps'
             + (f', starting with <span class="id">{first}</span>' if first else "") + '.</span>')
     modes = ('<div class="chipset modes" role="group" aria-label="Show"><span>Show</span>'
@@ -1343,10 +1372,13 @@ def status_lead(m):
     waiting = [i for i in m.items if i.get("kind") in ("question", "decision") and i.get("state") in ("open", "lean", "proposed")]
     t1 = [i for i in waiting if (i.get("fields") or {}).get("tier") == "1"]
     nodec = [i for i in t1 if not (i.get("fields") or {}).get("decider")]
-    s = f"{len(merged)} of {len(units)} pieces of work are merged."
+    # A set with no units yet, such as one whose round hasn't decomposed, says so rather than "0 of 0" (field findings, 2026-11-25).
+    s = f"{len(merged)} of {len(units)} pieces of work are merged." if units else "No work is planned in pieces yet."
     if nxt:
         blk = [t for t in m.out(nxt, "blocked-by") if not ((m.by.get(t, {}).get("fields") or {}).get("ships in") or m.by.get(t, {}).get("state") in ("agreed", "recorded"))]
-        s += f" The next gate is {nxt.get('title', '').split(' · ')[0] or nxt['id']}, {nxt.get('title', '').split(' · ', 1)[-1]}, and it waits on {len(blk)} thing{'s' if len(blk) != 1 else ''}."
+        t = nxt.get("title", "")
+        name = f"{t.split(' · ')[0]}, {t.split(' · ', 1)[1]}" if " · " in t else (f"{nxt['id']}, {t}" if t and t != nxt["id"] else nxt["id"])
+        s += f" The next gate is {name}, and it waits on " + (f"{len(blk)} thing{'s' if len(blk) != 1 else ''}." if blk else "nothing.")
     if t1:
         s += f" {len(t1)} tier-1 question{'s' if len(t1) != 1 else ''} need{'s' if len(t1) == 1 else ''} a decider's answer" + (f", {len(nodec)} with nobody named to give it." if nodec else ".")
     return s
@@ -2257,7 +2289,7 @@ def _shallow(m):
 
 VISUALS = {
     "map-web": {"body": "map", "layout": "web", "label": "Web",
-                "needs": lambda m: len(_gates(m)) >= 1 and bool(_map(m)["edges"]), "wins": lambda m: len(_gates(m)) >= 2,
+                "needs": lambda m: len(_gates(m)) >= 1 and bool(_map(m)["edges"]) and any(n["kind"] != "gate" for n in _map(m)["nodes"]), "wins": lambda m: len(_gates(m)) >= 2,
                 "why": "the set has several gates, and the web shows what clusters around each and the threads between them"},
     "map-gates": {"body": "map", "layout": "gates", "label": "Gates in a row",
                   "needs": lambda m: len(_gates(m)) >= 2, "wins": lambda m: len(_gates(m)) >= 2 and _shallow(m),
@@ -2339,7 +2371,8 @@ def sources_key(srcs):
 def bar(site, page, pages, rel):
     def link(p):
         cur = ' aria-current="page"' if p is page else ""
-        return f'<a href="{rel(p["path"])}"{cur}>{html.escape(p["label"])}</a>'
+        full = f' title="{html.escape(p["title"])}"' if p.get("title") and p.get("title") != p.get("label") else ""
+        return f'<a href="{rel(p["path"])}"{cur}{full}>{html.escape(p["label"])}</a>'
     home = pages[0]
     groups = []
     if page.get("part") == "records":
@@ -2448,9 +2481,15 @@ def sec_table(h):
 HERE = [""]
 
 
+PRESENT_TABS = [None]  # the page paths the site holds, so a link never leads to a tab the set lacks
+
+
 def tab(name):
-    """Relative link from the page being rendered to a reader tab, named by its instrument."""
+    """Relative link from the page being rendered to a reader tab, named by its instrument; None when the site has no
+    such tab, so a caller links nowhere rather than to a missing page (benchmark finding, 2026-11-25)."""
     target = "index.html" if name == "status" else f"pages/{name}.html"
+    if PRESENT_TABS[0] is not None and target not in PRESENT_TABS[0]:
+        return None
     return os.path.relpath(target, HERE[0] or ".").replace(os.sep, "/")
 
 
@@ -2937,7 +2976,7 @@ def _instrument_html(name, m, opts=None):
 # diagram blocks that carry their form and elements in the portable tree's shape. Each tests only the set it is given.
 WS2_BODIES = {}
 KIND_WORDS.update({"OUT": "Outcome", "TL": "Timeline event", "CF": "Contributing factor", "ACT": "Action"})
-ID_PAT = re.compile(r"\b(" + "|".join(sorted(KIND_WORDS, key=len, reverse=True)) + r")-(\d+)\b")
+ID_PAT = re.compile(r"(?<![:\w-])(" + "|".join(sorted(KIND_WORDS, key=len, reverse=True)) + r")-(\d+)\b")
 
 
 def _when(v):
@@ -3319,7 +3358,7 @@ VISUALS["data-chips"] = {"body": "data", "label": "Data", "needs": lambda m: Tru
 # Review rounds: each round's verdict, one per review record, with its standing findings by grade as counted when it was
 # filed, so a clean round counts as zero and a finding withdrawn in its own round never counts.
 KIND_WORDS.update({"FND": "Finding", "ASK": "Question for the author", "VRD": "Verdict", "COV": "Coverage reading"})
-ID_PAT = re.compile(r"\b(" + "|".join(sorted(KIND_WORDS, key=len, reverse=True)) + r")-(\d+)\b")
+ID_PAT = re.compile(r"(?<![:\w-])(" + "|".join(sorted(KIND_WORDS, key=len, reverse=True)) + r")-(\d+)\b")
 GRADES = ("critical", "high", "medium", "low", "info")
 GRADE_TONE = {"critical": "open", "high": "open", "medium": "unsettled", "low": "quiet", "info": "quiet"}
 
@@ -3643,7 +3682,7 @@ VISUALS["adr-records"] = {"body": "adrs", "label": "Records", "needs": lambda m:
 # Reach rings: how far a fixed bug's cause reaches, from the task record's reach items: its callers on the inner ring,
 # the entry points and stores beyond them on the outer; an entry point anyone may call, or none tests, is red.
 KIND_WORDS.update({"RCH": "Reach"})
-ID_PAT = re.compile(r"\b(" + "|".join(sorted(KIND_WORDS, key=len, reverse=True)) + r")-(\d+)\b")
+ID_PAT = re.compile(r"(?<![:\w-])(" + "|".join(sorted(KIND_WORDS, key=len, reverse=True)) + r")-(\d+)\b")
 
 
 def reach_items(m):
@@ -3910,7 +3949,7 @@ def lens_panels(m):
         blocks.append(("Merged, newest first", [lens_card(str(f_(u)["ships in"]), "c-holds", u["id"], " · ".join(x for x in (fmt_day(merged_on(u)) if merged_on(u) else "", "serves " + " ".join(m.out(u, "serves")[:4]) if m.out(u, "serves") else "") if x), u.get("title", "")) for u in merged[:6]]))
     if partly:
         blocks.append(("Built, not yet verified", [lens_card("partly met", "c-unsettled", r["id"], "", r.get("title", "")) for r in partly[:4]]))
-    panels["reviewer"] = (f'{len(merged)} of {len(units)} pieces are merged' + (f'; {len(partly)} requirement{"s are" if len(partly) != 1 else " is"} built but not yet verified' if partly else ""),
+    panels["reviewer"] = ((f'{len(merged)} of {len(units)} pieces are merged' if units else "No work is planned in pieces yet") + (f'; {len(partly)} requirement{"s are" if len(partly) != 1 else " is"} built but not yet verified' if partly else ""),
                           "Each merged piece names what it serves, so a review can start from the requirement.", blocks,
                           "gates, deciders and forecasts")
 
@@ -4171,6 +4210,12 @@ def main(argv):
             ASSET[name] = fh.read()
     REFS[0].update(site.get("refs") or {})
     REFS[1].extend(site.get("ref_patterns") or [])
+    OWN_CODES[0] = list(site.get("own_codes") or [])
+    PRESENT_TABS[0] = {p.get("path") for p in site.get("pages", []) if p.get("path")} | {"index.html"}
+    clash = sorted(set(OWN_CODES[0]) & set(KIND_WORDS))
+    if clash:
+        print(f"site.json own_codes {clash} are item kinds' prefixes: name such codes with their source instead", file=sys.stderr)
+        return 1
     rx_ = ref_rx()
     if rx_:
         for mm in rx_.finditer(json.dumps(site.get("pages", []), ensure_ascii=False)):

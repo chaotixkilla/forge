@@ -1,6 +1,6 @@
 ---
 name: test
-description: Establish whether a change does what it should by designing meaningful test coverage and observing real behavior — frame the claim under test, map the existing suite, design the cases that actually discriminate (prioritized by risk), run the project's own suite, separate genuine failures from flakes and environment noise, and report a result with coverage gaps and residual risk. Authors and runs tests and reports the verdict; its deliverable never includes a production-code change (fixing a failure is develop/debug) and it does not drive the running app to observe it (that is verify).
+description: Establish whether a change does what it should by writing and running tests: frame the claim, map the suite, design risk-ranked discriminating cases, run the suite, tell failures from flakes, and report the verdict with coverage gaps. Never changes production code (develop, debug) or drives the running app (verify).
 metadata:
   flags:
     --changed: scope the run to what the change touched — its window from the merge base with the integration line to the working tree, the branch's commits included — the changed files plus their reverse-dependents, rather than the whole surface; a phase input to framing/mapping, not a separate mode

@@ -1,6 +1,6 @@
 ---
 name: telemetry
-description: Carry out a telemetry read — fetch an observability signal (a metric, trace, error-aggregate, or dashboard) or a log stream, by reference — from the configured provider's adapter; returns the anchored evidence. A tool-layer interface skill, called by other skills.
+description: Fetch an observability signal (a metric, trace, error aggregate or dashboard) or a log stream by reference, from the configured provider's adapter; returns the anchored evidence. A tool-layer port, called by other skills.
 metadata:
   flags:
     --dry-run: show the read that would be performed, without performing it

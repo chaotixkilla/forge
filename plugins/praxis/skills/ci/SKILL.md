@@ -1,6 +1,6 @@
 ---
 name: ci
-description: Carry out a continuous-integration operation — trigger or read the checks for a ref, wait for a run to settle, promote a build to an environment, or fetch a run's logs — against the configured CI/CD provider via its adapter; returns the result. A tool-layer interface skill, called by other skills.
+description: Run a continuous-integration operation (trigger or read the checks for a ref, wait for a run to settle, promote a build to an environment, fetch a run's logs) against the configured CI/CD provider's adapter. A tool-layer port, called by other skills.
 metadata:
   flags:
     --dry-run: show the operation that would be performed, without performing it

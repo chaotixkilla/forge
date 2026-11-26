@@ -320,6 +320,7 @@ table.gantt .stagebreak { border-left: 1px dashed var(--muted); }
 table.gantt td.gc.s-built.on::before, table.gantt td.gc.s-built.end::after { background: var(--holds); }
 table.gantt td.gc.s-part.on::before, table.gantt td.gc.s-part.end::after { background: var(--unsettled); }
 table.gantt td.gc.s-todo.on::before { background: transparent; border: 1.5px solid var(--accent); border-left: 0; border-right: 0; opacity: .8; }
+@media (max-width: 600px) { table.gantt th[scope="row"] { min-width: 8.5rem; font-size: var(--s-2); } table.gantt td.gc { min-width: 1.9rem; } }
 .key .kb { display: inline-block; width: 1.2rem; height: .5rem; vertical-align: middle; }
 .kb.built { background: var(--holds); } .kb.part { background: var(--unsettled); } .kb.todo { border: 1.5px solid var(--accent); }
 .banner { border-radius: var(--r); padding: .7rem 1rem; margin: 0 0 .8rem; font-size: var(--s-1); }
@@ -562,7 +563,7 @@ svg.pieces .pfn circle { fill: var(--accent); } svg.pieces .pfn text { fill: var
 ol.flows { margin: .6rem 0 .2rem; padding-left: 1.4rem; display: grid; gap: .2rem; font-size: var(--s-1); }
 ol.flows li::marker { color: var(--accent); font-weight: 700; }
 a.ext { text-decoration-style: solid; } a.ext::after { content: "↗"; font-size: .75em; margin-left: .1em; }
-.toprow details.sources { margin-left: auto; } .toprow details.codes + details.codes, .toprow details.sources + details.codes { margin-left: .5rem; }
+.toprow details.sources { margin-left: auto; } .toprow .rtools { margin-left: auto; } .toprow .rtools ~ details.sources { margin-left: .5rem; } /* the tools sit with the controls, never mid-bar */ .toprow details.codes + details.codes, .toprow details.sources + details.codes { margin-left: .5rem; }
 details.sources dl { width: 30rem; } .src { text-decoration: underline dotted var(--muted); text-underline-offset: 2px; cursor: help; }
 .riskm { max-width: 100%; overflow-x: auto; }
 .kcard, .vcard { background: var(--surface); border: 0; border-radius: var(--r); padding: .7rem .9rem; }

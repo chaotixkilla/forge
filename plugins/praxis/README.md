@@ -140,7 +140,8 @@ can't:
 
 - **At session start**, it points engineering work at `work`, applies the project's comment posture,
   states this session's id, reports each act marker another session left idle, whether or not it can
-  be read as a marker, and a marker file an older praxis left, and trims closed or idle tasks from
+  be read as a marker, the acts parked to let another task start, and a marker file an older praxis
+  left, and trims closed or idle tasks from
   Claude's memory index.
 - **Before a code change**, it blocks file edits and commits inside the project while this session
   runs no act, or while its act's proposal is unsettled, and says how to start one: a
@@ -150,12 +151,15 @@ can't:
   marker exists but can't be read, a notice says so in place of that offer. When a step skill of this
   session's act runs before the act's proposal is answered, a note says no step runs before it's settled.
 - **At the end of a turn**, three checks block once: in a running act, a step left without an honest
-  outcome (skipped without a reason, passed over, still pending though its result waits unfiled, or
+  outcome (skipped without a reason, passed over while not waiting on its agents, still pending though
+  its result waits queued or unfiled, a result word such as "passed" written as its outcome, or
   given an outcome before the proposal was settled); a step whose skill ran while it's still
   recorded pending; and what an ended step hands the record, or the record of where a delivery went,
-  neither filed in the task's documentation nor, after a failed filing, written as its own file in
-  `.claude/praxis/unfiled/<task>/` with the failure recorded, a step still waiting on its own
-  agents or on a filing in flight excepted; and, in or out of an act, a praxis
+  neither filed in the task's documentation, nor queued in `.claude/praxis/queued/<task>/` for the
+  round's next filing, nor, after a failed filing, written as its own file in
+  `.claude/praxis/unfiled/<task>/` with the failure recorded, a skip (which the round's next
+  filing carries) and a step still waiting on its own agents or on a filing in flight excepted. Each
+  message names the marker write that fixes it; and, in or out of an act, a praxis
   skill run this turn without its procedure read through to its final phase.
 
 ## Quick start

@@ -3,14 +3,16 @@
 
 While this session runs an act (its marker in the repository's main checkout,
 .claude/praxis/acts/<session-id>.json, is a JSON object naming its task), blocks the end of a turn when work isn't in the
-task's documentation: a step ended (ran or skipped) but what it hands the record was
-neither filed nor written to the task's unfiled directory; a step's skill was
+task's documentation: a step that ran handed the record nothing that was filed, queued in
+the task's queued directory for the round's next filing, or written to its unfiled directory
+after a failed filing (a skip owes no filing of its own: the round's next filing carries it); a step's skill was
 invoked after the act's proposal was answered (the marker's answered, against the
 transcript's timestamps) while the marker still holds that step pending, so its
 result reached only the conversation; or close-out delivered something but the
 record of where it went was neither filed nor written there. A step or delivery whose
 marker entry's waiting is "agents" (its recruited explorers or critics are still out) or
-"filing" (its filing is in flight) is still working, and none of these checks it. An unfiled entry counts
+"filing" (its filing is in flight) is still working, and none of these checks it. A queued entry counts
+when it names its own file in .claude/praxis/queued/<task>/ and that file exists. An unfiled entry counts
 only when it names its own file, as work's keep-the-act-marker rule names it, that
 file exists, and the entry records the failure that put it there: <row>-<skill>.md
 in the main checkout's .claude/praxis/unfiled/<task>/ for a step keyed "<row>:<skill>", and delivery.md
@@ -18,7 +20,8 @@ there for the delivery. Other sessions' markers are never read. Work that isn't 
 the documentation is work the next session can't see. It blocks once per turn: when
 the harness is already continuing because of a stop hook, the turn ends. On any
 error, an unreadable marker or an event with no usable session id included, the turn
-ends too; an unreadable transcript skips only the transcript check.
+ends too; an unreadable transcript skips only the transcript check. It checks that each result is
+recorded, never the round's cadence: a queued result counts whatever the marker's filing says.
 """
 import json
 import os
@@ -67,28 +70,28 @@ def read_marker(path):
     return None
 
 
-def own_file(project, task, name):
-    """The real path of the unfiled file named name in this task's unfiled directory, else ''.
+def own_file(project, task, name, kind="unfiled"):
+    """The real path of the file named name in this task's unfiled (or queued) directory, else ''.
     A step keyed "1:understand" files as 1-understand.md, and the delivery as delivery.md."""
     name = str(name or "").replace(":", "-")
-    root = os.path.realpath(os.path.join(project, ".claude", "praxis", "unfiled"))
+    root = os.path.realpath(os.path.join(project, ".claude", "praxis", kind))
     folder = os.path.realpath(os.path.join(root, task))
     if not name or os.sep in name or not folder.startswith(root + os.sep):
         return ""
     return os.path.join(folder, name + ".md")
 
 
-def unfiled_own(project, task, name, value):
-    """True when value names this entry's own unfiled file and that file exists."""
+def unfiled_own(project, task, name, value, kind="unfiled"):
+    """True when value names this entry's own unfiled (or queued) file and that file exists."""
     value = str(value or "").strip()
-    expected = own_file(project, task, name)
+    expected = own_file(project, task, name, kind)
     if not value or not expected:
         return False
     return os.path.isfile(expected) and os.path.realpath(os.path.join(project, value)) == os.path.realpath(expected)
 
 
 def recorded(project, task, name, entry):
-    if entry.get("filed") is True:
+    if entry.get("filed") is True or unfiled_own(project, task, name, entry.get("queued"), "queued"):
         return True
     return unfiled_own(project, task, name, entry.get("unfiled")) and bool(str(entry.get("failure") or "").strip())
 
@@ -163,8 +166,9 @@ def unrecorded_runs(steps, counts, revision_from=""):
         # A pending step waits only on its agents: a filing follows its recorded outcome.
         if pending and invoked > ended and str(pending[0].get("waiting") or "").strip() != "agents":
             found.append(f"{pending[0].get('step')}: its skill ran in this act, but the marker still holds it "
-                         "pending, so its result reached only the conversation: record how it ended and hand "
-                         "it to document now")
+                         "pending, so its result reached only the conversation: record how it ended and, in "
+                         "the same write, queue its result for the round's next filing, or, filing per step, "
+                         "hand it to document and set waiting to filing")
     return found
 
 
@@ -173,22 +177,31 @@ def unsynced(project, marker):
         return []  # a coordinated round's worker files nothing: its coordinator files each result it reports
     task = str(marker["task"]).strip()
     folder = os.path.join(project, ".claude", "praxis", "unfiled", task) + os.sep
+    queue = os.path.join(project, ".claude", "praxis", "queued", task) + os.sep
     found = []
     steps = marker.get("steps")
     for i, step in enumerate(steps if isinstance(steps, list) else []):
-        if (step.get("outcome", "pending") == "pending" or waiting(step)
-                or recorded(project, task, step.get("step"), step)):
-            continue
+        outcome = step.get("outcome", "pending")
+        unfiled = str(step.get("unfiled") or "").strip()
+        if (outcome not in ("ran", "skipped-by-act", "skipped-by-user") or waiting(step) or recorded(project, task, step.get("step"), step)
+                or (str(outcome).startswith("skipped") and not unfiled and not str(step.get("queued") or "").strip())):
+            continue  # a skip owes no filing of its own: the round's next filing carries it
         name = step.get("step") or f"step {i + 1}"
-        if str(step.get("unfiled") or "").strip() and not str(step.get("failure") or "").strip():
-            found.append(f"{name}: its result was written to {folder} without a failed filing recorded; "
-                         "the unfiled directory holds failed filings only, so attempt the filing")
-        elif str(step.get("unfiled") or "").strip():
-            own = str(step.get("step") or "").replace(":", "-")
-            found.append(f"{name}: its unfiled entry names no existing {folder}{own or '<row>-<skill>'}.md, "
-                         "the step's own file")
+        own = str(step.get("step") or "").replace(":", "-") or "<row>-<skill>"
+        if unfiled and not str(step.get("failure") or "").strip():
+            found.append(f"{name}: its unfiled names a file but no failed filing; the unfiled directory holds "
+                         f"failed filings only. A result waiting for the round's next filing is queued: move "
+                         f"the file to {queue}{own}.md, set its queued to that path and empty its unfiled")
+        elif unfiled:
+            found.append(f"{name}: its unfiled names no existing {folder}{own}.md, the step's own file; "
+                         "point unfiled at that file, or file the result")
+        elif str(step.get("queued") or "").strip():
+            found.append(f"{name}: its queued names no existing {queue}{own}.md, the step's own file; write "
+                         "the result there and point queued at it, or file the result")
         else:
-            found.append(f"{name}: what it hands the record is neither filed nor written to {folder}")
+            found.append(f"{name}: its result is neither filed nor queued. Per round, write it to "
+                         f"{queue}{own}.md and set queued to that path in the write recording its outcome; "
+                         "per step, hand it to document and set waiting to filing in that same write")
     delivery = marker.get("delivery") or {}
     if delivery.get("channels") and not waiting(delivery) and not recorded(project, task, "delivery", delivery):
         if str(delivery.get("unfiled") or "").strip() and not str(delivery.get("failure") or "").strip():
@@ -196,10 +209,11 @@ def unsynced(project, marker):
                          "recorded; attempt the filing")
         elif str(delivery.get("unfiled") or "").strip():
             found.append(f"the delivery: its unfiled entry names no existing {folder}delivery.md, "
-                         "the delivery's own file")
+                         "the delivery's own file; point delivery.unfiled at that file, or file the record update")
         else:
             found.append("the delivery: close-out delivered, but where each part went is neither filed in the "
-                         f"task's record nor written to {folder}")
+                         "task's record nor waiting on a filing: hand the record update to document and set "
+                         "delivery.waiting to filing in the write that records the channels")
     return found
 
 
@@ -229,11 +243,8 @@ def main():
             pass
     if found:
         reason = ("This act's work isn't all in the task's documentation:\n- " + "\n- ".join(found)
-                  + "\nHand each to document. One whose outcome is recorded and whose filing is already "
-                  "handed to an agent or queued behind another is recorded by setting its waiting to "
-                  "filing in the marker. Only when "
-                  "its filing fails, write what document hands back to the task's unfiled directory and "
-                  "record that path, with the failure, in the marker, so the next session can file it.")
+                  + "\nMake the marker write each line names. A filing handed to an agent, or waiting "
+                  "behind another, sets waiting to filing.")
         json.dump({"decision": "block", "reason": reason}, sys.stdout)
 
 

@@ -1,6 +1,6 @@
 ---
 name: plan
-description: Convert a spec into a buildable design — anchor it to the real system, deliberately close the solution space, specify concrete interfaces down to the field, pre-solve the flows most likely to bite, and plan a rollout that reaches production safely; optionally run at maximum rigor, seeded from a written spec or prior art, stress-tested by extra critics, or resumed one phase at a time.
+description: Convert a spec into a buildable design: anchor it to the real system, close the solution space deliberately, specify interfaces down to the field, pre-solve the flows most likely to bite, and plan a safe rollout; optionally at maximum rigor, seeded from a spec or prior art, stress-tested by extra critics, or resumed one phase at a time.
 metadata:
   flags:
     --deep: maximum-rigor mode — widen the approach search, dig into hard-part mechanics, and demand explicit trade-off scoring before committing — activates the deep-mode module (asks before starting)

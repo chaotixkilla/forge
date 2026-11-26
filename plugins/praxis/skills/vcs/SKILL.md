@@ -1,6 +1,6 @@
 ---
 name: vcs
-description: Carry out a version-control-host operation — fetch a change or its head, push a branch, open a review request, update its description or base, read its state, feedback and what it builds on, reply and comment on it, request review again, compare two commits, read a target's landing constraint, merge, post review feedback, set a status — via the configured provider's adapter; returns the result. A tool-layer interface skill, called by other skills.
+description: Carry out a version-control-host operation (fetch, push, open or update a review request, read its state and feedback, comment, request review, compare, merge, post review feedback, set a status) via the configured adapter. A tool-layer port, called by other skills.
 metadata:
   flags:
     --dry-run: show the operation that would be performed, without performing it

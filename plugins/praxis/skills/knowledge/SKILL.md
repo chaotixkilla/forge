@@ -1,6 +1,6 @@
 ---
 name: knowledge
-description: Carry out a knowledge read — search the configured knowledge sources, fetch a document by reference, or list a document's children for walking a tree — through each source's provider adapter; returns the material with its provenance, per source. A tool-layer interface skill, called by other skills.
+description: Read the configured knowledge sources (search them, fetch a document by reference, list a document's children) through each source's adapter, returning the material with its provenance per source. A tool-layer port, called by other skills.
 metadata:
   flags:
     --dry-run: show the read that would be performed, and against which sources, without performing it

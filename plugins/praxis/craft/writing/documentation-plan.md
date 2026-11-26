@@ -13,7 +13,7 @@ Without a plan, a piece of work gets whatever documentation someone thinks to as
 
 (basis: maintainer, 2026-11-11, a house rule; precedents: NASA's software classes, privacy-impact screening)
 
-Scale is read again every round. A task that becomes an epic owes the epic's backbone from that round on. An epic that becomes a task proposes dropping the epic-only documents, as a re-screen does.
+Scale is read again every round. A task that becomes an epic owes the epic's backbone from that round on. An epic that becomes a task drops the epic-only documents, as a re-screen does.
 
 | Scale | Backbone |
 |---|---|
@@ -69,18 +69,29 @@ The questions are the ratified questionnaire. Shared contract, production step, 
 ## Changing the plan
 
 - **Adding** a document needs no reason.
-- **Dropping** one the plan owes needs a reason and the acceptance of whoever owns the work, both recorded. A drop carries into later rounds until the answer or scale that owed the document changes.
+- **Dropping** one the plan owes needs a reason, recorded, and no one's acceptance: a document no reader needs costs every reader who meets it. A drop carries into later rounds until the answer or scale that owed the document changes. (basis: field findings, 2026-11-25 — adding was free and dropping needed acceptance, so sets only grew)
 - **Every round re-screens** the scale and every concern.
   - A question that turns "yes" adds its documents.
-  - One that turns "no" proposes dropping them, which needs the same acceptance. Without it they stay owed.
+  - One that turns "no" drops them, with that as the reason.
   - Code from a probe or prototype that moves into production is screened again as new work. (basis: NASA NPR 7150.2D, a prototype adopted for operations is reclassified)
+
+## Documents for an outside decider
+
+An outside decider is a person outside the work whose approval a gate or the intent needs, and who reads the set to give it. Documents going to one follow these, in addition to the rest. (basis: field findings, 2026-11-25 — an outside approver stopped reviewing sets that were too big, carried scope beyond the approved source, and asked dozens of untriaged questions)
+
+- **Sibling tasks.** A budget or a criterion stated for several sibling tasks together is counted and tested over this task's own set, and the message that sends it names the siblings it didn't cover; reading across siblings waits on a cross-task coordination mode not yet built.
+- **What reaches them.** A document the plan writes for the decider, such as a decision brief or a summary page made for them, carries every open ask whose decider is them, whatever its tier, and of the rest only tier-1 decisions and those a reader would challenge — one that reverses something the decider said, or departs from the scope source — each cited by id. Every other decision stays in the decision register as filed, linked once. The set's reader tabs keep their own tests ([reader-tabs](../../skills/document/rules/reader-tabs.md)).
+- **Their budget, when they set one.** When the decider, or the user for them, states a size budget, it is recorded among the brief's obligations in a unit that can be counted: words or questions. A budget stated otherwise, in pages, minutes or as "short", is turned into one of those with the user once. Before the set goes to them, its size is counted over the pages the share links, not what those link onward, and a set over it goes only with the user's go. Refused, the user says what to cut; the run never cuts by a number on its own. With none stated, there is no budget.
+- **Their questions.** Each question going to them is `lean`, with its lean, or carries in its body the reason none can be given. A question the scope source answers is decided as [scope-source](../../skills/spec/modules/scope-source.md) enters the source's decisions. One the proposal's own defaults answer ([run-the-act](../../skills/work/phases/03-run-the-act.md)'s Propose, then run) is filed as a decision taken by default, `proposed` under the decider and listed for them, not asked. A question this task shares with a sibling task the user names is asked once, in the register of the first to file it, the other citing it as `<task key>:<id>` ([items-and-agreements](../../skills/document/rules/items-and-agreements.md)). Before sending, the run reports how many questions go, against the budget when it counts questions.
+- **Their criteria.** When the decider has said what they will check, those criteria are recorded among the brief's obligations. Before the set is called ready for them, one pass tests each, pass or fail, with the item or page that shows it, run by the [reader-sweep](../../agents/critics/reader-sweep.md) critic handed the criteria, or, without fan-out, by the run in a pass of its own. A fail is fixed, or named in the message that sends the set; it is never sent as ready.
+- **The version they read.** The share names the version sent: the version the artifacts port returned for it, else the time of the filing it shows. The task's memory entry records the share, with that version and date, until the decider answers ([keep-the-task-memory-entry](../../skills/work/rules/keep-the-task-memory-entry.md)). While it stands, each later filing that changes an item's content on a page the share linked lists those items in the task history's current round under *Changed after sharing* ([task-history](../../skills/document/rules/types/task-history.md)); the filing that records the share isn't one. The next message to the decider leads with that list, and pins the version it sends in place of the earlier one, the list starting again. Their answer, an agreement whose decider is them or the user's word that they answered, a question back being none, approves at the version pinned unless it names another, and the filing that carries it removes the record. Nothing is held back. (basis: maintainer, 2026-11-25 — pin and record, since a hold had to outlive the act and the session)
 
 ## What the plan records
 
 - the scale, with the condition that set it;
 - each owed document, with when it is due, and late when it is;
 - each concern's answer, with its reason;
-- each drop, with its reason and who accepted it.
+- each drop, with its reason.
 
 > **Scale:** epic, as its tracked item has four child items.
 >

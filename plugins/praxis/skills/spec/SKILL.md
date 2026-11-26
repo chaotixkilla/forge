@@ -1,10 +1,11 @@
 ---
 name: spec
-description: Turn a fuzzy request into hard, testable, sequenced requirements — attack assumptions, quantify every vague adjective, structure the requirements, and carve scope into prioritized, independently shippable slices, each requirement pass/fail checkable; optionally seeded from a tracker issue or a discussion thread, and hardened under a strict gate.
+description: Turn a fuzzy request into hard, testable, sequenced requirements: attack assumptions, quantify every vague adjective, structure the requirements, and carve scope into prioritized, independently shippable slices; optionally seeded from a tracker issue, a discussion or an approved scope source, and hardened under a strict gate.
 metadata:
   flags:
     --from-issue=<ref>: seed the spec from a tracker issue (title, description, acceptance criteria), then interrogate and harden it — activates the ingest-from-issue module
     --from-discussion=<ref>: seed from a discussion thread's decisions, constraints, and open points — activates the ingest-from-discussion module
+    --from-scope=<ref>: hold every requirement to an outside source someone approved (a plan, a board, a brief) — activates the scope-source module
     --strict: escalate the always-on testability check from warn to hard block — no requirement ships non-verifiable, no ambiguity unresolved, no assumption unconfirmed, no open question unanswered — activates the strict-gate module
     --first-pass: return the structural skeleton after structuring and pause for steering, gaps marked open — activates the first-pass-draft module
 ---

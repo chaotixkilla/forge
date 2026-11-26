@@ -44,6 +44,7 @@ Both also carry:
   - `confirmation`: text. How anyone can check that the work follows it: a test, a fitness function or a review, naming the `TEST` id when it is one. (basis: MADR 4.0, Confirmation)
   - `revisit when`: text. What would reopen it.
   - `architectural`: enum `yes`, `no`. `yes` when the choice adds, removes or replaces a part, a contract between parts, which part holds a kind of data, or an outside service the system depends on, a part being what is deployed or owned on its own: a service, a job, a data store, an outside service, a module with its own owner. `no` for a choice inside one part. A new claim two services read from a token is `yes`; which library one service parses it with is `no`. Whoever files a decision, any step or act, sets it by this test.
+  - `applies-to`: list of text. The units, slices or sibling tasks the decision covers, by their ids or task keys; the unit or task it was made for when the result names none. Carrying it to another is a new decision that `rests-on` this one, by its location when it lives in another task's documentation, its decider the receiving task's outside decider, else the user. With a scope source, a carried decision the source contradicts goes to the source's decider; one it neither makes nor rules out stands. (basis: field findings, 2026-11-25 — a ruling made for one unit was applied to every sibling)
   - `confidence`: enum `high`, `medium`, `low`. `low` when the forces or the options are unclear, even when the choice has been verified; otherwise `high` when a spike, a test or prior use in this project has verified the choice; `medium` otherwise. (basis: Zimmermann, disclose your confidence)
 - Links: it `answers` the question it settles, `serves` the requirements or needs it was taken for, and `supersedes` the decision it replaces.
 - Change regime: `freeze`.
@@ -71,7 +72,9 @@ The fields an agreement records, the decider who actually settled it, consulted,
 - A question or decision not yet `agreed` with no decider: the result named several people, or none, so who decides is itself unsettled.
 - A question past its decide-by with no new date and no `deferred` reason. A decide-by that names a gate falls due on that gate's `opens on`.
 - A tier-1 decision whose choice the sources the work starts from show already running in production while it isn't `agreed`: the work went through a one-way door ahead of its agreement. A tier-2 decision may run first, as Bezos's rule wants. (basis: benchmark, 2026-11-12, production ran under proposed decisions with no approval trail)
-- One question asked twice under two ids.
+- One question asked twice under two ids, or asked again in a sibling task's register rather than cited there.
+- A decision applied to a unit its `applies-to` doesn't name: an item of that unit `rests-on` it, other than a decision carrying it, or the unit's result names it.
+- An open question going to an outside decider with neither a lean nor the reason none can be given.
 - An agreed decision whose agreement names a decider other than its own.
 - A decision taken while the question it settles stayed open, with no `answers` link.
 - A decision agreed with no record of where it was settled. (basis: PEP 1, Resolution)

@@ -1,6 +1,6 @@
 ---
 name: land
-description: Get a finished change into the shared line safely — shape it into coherent commits, reconcile it with the current target and resolve conflicts, pass the pre-merge gate, and merge it, stopping where the target needs an approved review the change doesn't have. Returns the landing outcome; reporting it is the caller's job.
+description: Get a finished change into the shared line safely: shape coherent commits, reconcile with the target and resolve conflicts, pass the pre-merge gate, and merge, stopping where the target needs an approval the change lacks. Reporting the outcome is the caller's.
 metadata:
   flags:
     --commit: stop after recording coherent local commits; nothing is pushed, gated or merged (activates commit-only)

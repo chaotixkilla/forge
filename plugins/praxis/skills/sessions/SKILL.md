@@ -1,6 +1,6 @@
 ---
 name: sessions
-description: Carry out a session-messaging operation — learn this session's own address, send a message to another working session by its address, read the messages sent to this one, or clear a task's messages — via the configured transport's adapter; returns the result. A tool-layer interface skill, called by other skills.
+description: Carry out a session-messaging operation (learn this session's address, message another session, read this one's messages, clear a task's messages) via the configured transport's adapter. A tool-layer port, called by other skills.
 metadata:
   flags:
     --dry-run: show the operation that would be performed, without performing it

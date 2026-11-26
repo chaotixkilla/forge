@@ -6,7 +6,7 @@ settled. When this session runs no act (no readable marker at
 .claude/praxis/acts/<session-id>.json in the repository's main checkout), this denies a file edit inside any checkout of the repository, the main one or a
 worktree wherever it lives, and a git commit, with a message that says how to start one:
 a change with no behavior change and no new interface runs the developing act's
-small-change path (develop, then verify). When the marker records no answer to the act's
+small-change path (develop, then verify; a one-setting change adds review). When the marker records no answer to the act's
 proposal yet, it denies them with a message that the proposal isn't settled yet. This
 session's answered act unlocks edits in every checkout of the repository; another
 session's marker never unlocks this one. Edits outside every checkout, inside a
@@ -29,7 +29,7 @@ COMMIT = re.compile(r"(^|[;&|]\s*|\s)git(\s+-\S+(\s+\S+)?)*\s+commit\b")
 REASON = (
     "No praxis act is running in this session, so this code change is blocked. Start the work through "
     "the praxis work skill: it routes the change to its act. A change with no behavior change and no new "
-    "interface runs the developing act's small-change path, develop then verify. Work on a task whose "
+    "interface runs the developing act's small-change path, develop then verify, with review for a one-setting change. Work on a task whose "
     "act has just ended, such as a follow-up fix or a hotfix, opens through the work skill too, which "
     "routes it to that task's next round or a revision of it: open it before the change, and before recruiting an agent to "
     "make it."

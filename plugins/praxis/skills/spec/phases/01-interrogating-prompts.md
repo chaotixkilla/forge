@@ -1,6 +1,6 @@
 A request arrives compressed — "add sharing," "make it faster," "let users export their data" — and the compression hides the scope: the actors it implies, the states it never mentions, the defaults the author assumed you already share. Attack the request *before* a single requirement is written, expanding the compressed ask into the full space of what it actually entails.
 
-When `--from-issue` or `--from-discussion` is set, the request is seeded from an external source rather than typed inline ([ingest-from-issue](../modules/ingest-from-issue.md), [ingest-from-discussion](../modules/ingest-from-discussion.md)) — but a seeded request is interrogated exactly as hard as a hand-entered one.
+When `--from-issue` or `--from-discussion` is set, the request is seeded from an external source rather than typed inline ([ingest-from-issue](../modules/ingest-from-issue.md), [ingest-from-discussion](../modules/ingest-from-discussion.md)) — but a seeded request is interrogated exactly as hard as a hand-entered one. When `--from-scope` is set, the scope is bounded by an approved outside source, read first, and everything below works inside it ([scope-source](../modules/scope-source.md)).
 
 ## Decompose the nouns and verbs
 

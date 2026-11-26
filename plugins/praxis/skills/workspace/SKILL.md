@@ -1,6 +1,6 @@
 ---
 name: workspace
-description: Carry out an operation on where a task's work happens — make, enter, list or remove its worktree; run a command in its environment; start, stop or list its services; give it its own namespace on a shared server or its own instance; stop or tear its environment down — via the configured container runtime's adapter, or on the host; returns the result. A tool-layer interface skill, called by other skills.
+description: Carry out an operation on where a task's work happens (its worktree, commands in its environment, its services, its own namespace or instance, tearing it down) via the configured container runtime's adapter, or on the host. A tool-layer port, called by other skills.
 metadata:
   flags:
     --dry-run: show the operation that would be performed, without performing it

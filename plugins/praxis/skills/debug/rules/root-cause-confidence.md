@@ -8,7 +8,7 @@ The words are the shared certainty scale, defined with its discriminators in [re
 
 The claim graded is *this cause produces this failure*. For that claim, "seen happening" is the **controlled toggle**: change only the claimed cause and the failure goes; revert it and the failure returns. A reproduction watched failing shows the failure, not its cause. `(basis: maintainer, 2026-07-10; after Zeller, Why Programs Fail)`
 
-- **observed** — you can make the failure appear and disappear on demand by toggling **only** the claimed cause, **and** you can name every link in the chain from that cause to the symptom.
+- **observed** — you can make the failure appear and disappear on demand by toggling **only** the claimed cause, **and** you can name every link in the chain from that cause to the symptom. The toggle may run on the real code path with only its data source and caller identity stubbed when production telemetry shows the same failure at the same point: the same error at the same code site, by exception type and frame or by log line. (basis: field findings, 2026-11-25 — a cause shown on the real path and in production telemetry stopped short of its fix)
   - *Anchor (top):* re-introducing the off-by-one makes the reproduction fail; reverting exactly that line makes it pass, repeatably; and you can trace the dropped index → the truncated slice → the missing last record in the observed output.
 - **traced** — every link from cause to symptom was read or watched, but the toggle wasn't run: the failure is intermittent, environment-bound, or the toggle is impractical.
 - **inferred** — at least one link is reasoned rather than read or watched: an interleaving assumed, a caller left unopened.

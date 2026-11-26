@@ -1,6 +1,6 @@
 ---
 name: artifacts
-description: Publish a finished page tree — one main page with ordered subpages, which may group subpages of their own, of backend-neutral sections — to the configured home, or to a named audience space, via the matching adapter and return where it landed — with the item store and live state its views read, when the caller holds its content as items — read a published tree back by that location, read back its comments and approvals, share it with people or the organization, or retire a superseded one. A tool-layer interface skill, called by other skills.
+description: Publish a page tree, with its item store and live state, to the configured home or an audience space and return where it landed; read a tree, its comments and approvals back; share it; or retire it. A tool-layer port, called by other skills.
 metadata:
   flags:
     --space=<name>: publish to, fetch from, read feedback from, or retire in the named audience space instead of the home

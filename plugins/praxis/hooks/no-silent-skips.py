@@ -3,9 +3,10 @@
 
 While this session runs an act (its marker in the repository's main checkout,
 .claude/praxis/acts/<session-id>.json, is a JSON object naming its task), blocks the end of a turn when a step was passed
-over without an honest outcome: a step still pending while a later step has run, a
-step still pending whose result waits in the task's unfiled directory (it has ended,
-so it must not run again), an outcome that isn't one of the three, a skip with no
+over without an honest outcome: a step still pending while a later step has run (unless its waiting is "agents"), a
+step still pending whose result waits in the task's queued or unfiled directory (it has
+ended, so it must not run again), an outcome that isn't one of the three (a word for how the
+step went is named as a result word), a skip with no
 reason recorded, or a step given an outcome while the marker records no answer to
 the act's proposal (steps run only once it is settled). Other sessions'
 markers are never read. It blocks once per turn: when the harness is already
@@ -20,6 +21,9 @@ import sys
 
 # The outcomes of the skip-only-with-a-reason rule, plus the state before a step runs.
 OUTCOMES = {"pending", "ran", "skipped-by-act", "skipped-by-user"}
+# Words for how a step went, which belong in its result (keep-the-act-marker).
+RESULT_WORDS = {"passed", "pass", "green", "done", "ok", "complete", "completed", "success", "succeeded",
+                "failed", "fail", "red", "blocked", "filed"}
 SESSION = re.compile(r"^[A-Za-z0-9_-]+$")
 
 
@@ -59,10 +63,10 @@ def read_marker(path):
     return None
 
 
-def waiting(project, task, name):
-    """The project-relative path of a step's unfiled result when that file exists, else ''.
-    A step keyed "1:understand" files as .claude/praxis/unfiled/<task>/1-understand.md."""
-    root = os.path.realpath(os.path.join(project, ".claude", "praxis", "unfiled"))
+def waiting(project, task, name, kind="unfiled"):
+    """The project-relative path of a step's unfiled (or queued) result when that file exists, else ''.
+    A step keyed "1:understand" files as .claude/praxis/<kind>/<task>/1-understand.md."""
+    root = os.path.realpath(os.path.join(project, ".claude", "praxis", kind))
     folder = os.path.realpath(os.path.join(root, task))
     path = os.path.join(folder, str(name).replace(":", "-") + ".md")
     if name and folder.startswith(root + os.sep) and os.sep not in str(name) and os.path.isfile(path):
@@ -88,15 +92,23 @@ def problems(project, task, steps, answered, revision_from=""):
         name = step.get("step") or f"step {i + 1}"
         outcome = step.get("outcome", "pending")
         if outcome not in OUTCOMES:
-            found.append(f"{name}: '{outcome}' isn't an outcome (ran, skipped-by-act or skipped-by-user)")
+            hint = (f"'{outcome}' says how the step went, which belongs in its result: record outcome ran"
+                    if str(outcome).strip().lower() in RESULT_WORDS else f"'{outcome}' isn't an outcome")
+            found.append(f"{name}: {hint} (the outcomes are ran, skipped-by-act and skipped-by-user)")
+        elif outcome == "pending" and (copy := waiting(project, task, step.get("step") or "", "queued")):
+            found.append(f"{name} has its result queued at {os.path.join(project, copy)}, so it has ended: "
+                         f"record the outcome its opening line gives, ran unless it names a skip, with queued {copy}, "
+                         "rather than running it again")
         elif outcome == "pending" and (copy := waiting(project, task, step.get("step") or "")):
             found.append(f"{name} has its result waiting at {os.path.join(project, copy)}, so it has ended: record "
                          f"it as ran, or as the skip that file records, with {copy} as its unfiled and its failure that "
                          "it waits from an earlier session, rather than running it again")
-        elif outcome == "pending" and i < last_done:
-            found.append(f"{name} has no outcome, but a later step has run")
+        elif outcome == "pending" and i < last_done and str(step.get("waiting") or "").strip() != "agents":
+            found.append(f"{name} has no outcome, but a later step has run: record how it ended, or, while "
+                         "its agents or background work are still out, set its waiting to agents")
         elif outcome.startswith("skipped") and not str(step.get("reason") or "").strip():
-            found.append(f"{name} was skipped with no reason recorded")
+            found.append(f"{name} was skipped with no reason recorded: write the act's condition or the "
+                         "user's words in its reason")
     return found
 
 

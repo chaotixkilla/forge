@@ -22,6 +22,11 @@ A requirement states *what* must hold, never how it is built; the how belongs to
 - Granularity: one clause a requirement can serve on its own: the goal splits only where one outcome could hold while another fails.
 - Links: it `serves` the need outside the documentation it comes from, such as the ticket, when there is one.
 
+**Source element `SRC`.** One element of an approved outside source of scope, filed only when the spec ran with one ([scope-source](../../../spec/modules/scope-source.md)): its text verbatim as the body, its own label, when it has one, as the title.
+- Owner: the source's decider. Agreement: `none`, since it records what the source says; its items are `recorded`.
+- An element the source's decider adds by bringing back a requirement left out of scope is a new `SRC` item, their answer verbatim as its body.
+- Change regime: `freeze`.
+
 **Requirement `REQ`.** One obligation the change must meet.
 - Fields:
   - `priority`: enum `must`, `should`, `could`, the release-scoped rung, missing on a `deferred` requirement;
@@ -35,7 +40,7 @@ A requirement states *what* must hold, never how it is built; the how belongs to
   - `stream`: text, optional, the stream of an epic the requirement belongs to, as the intent names its streams;
   - `rationale`: text.
 - Granularity: one obligation, so one keyword. Two joined by "and" are two requirements. (basis: 29148's *singular*; EARS)
-- Links: it `serves` an `NS`, or a need outside the documentation such as the ticket. A value not yet settled is written `TBR Q-<n>`, and the requirement is `blocked-by` that question, which carries the owner and decide-by a bare "TBD" lacks. A question is filed in the [decision register](decision-register.md), which it makes owed when the plan doesn't owe it yet ([documentation-plan](../../../../craft/writing/documentation-plan.md)). (basis: maintainer, 2026-11-11; NASA SE Handbook App. C, TBR with owner and date)
+- Links: it `serves` an `NS`, an `SRC`, or a need outside the documentation such as the ticket; a requirement derived from another `rests-on` it. A value not yet settled is written `TBR Q-<n>`, and the requirement is `blocked-by` that question, which carries the owner and decide-by a bare "TBD" lacks. A question is filed in the [decision register](decision-register.md), which it makes owed when the plan doesn't owe it yet ([documentation-plan](../../../../craft/writing/documentation-plan.md)). (basis: maintainer, 2026-11-11; NASA SE Handbook App. C, TBR with owner and date)
 
 **Slice `SLC`.** One increment that ships on its own and delivers user-observable value. Once the plan has gates, its title opens with the code of the earliest gate that exposes its units, `<code> · <name>`, which the plan hands back.
 - Fields:
@@ -55,7 +60,7 @@ A requirement states *what* must hold, never how it is built; the how belongs to
 2. **How binding is each requirement?** — always. The keyword convention, declared once: "The key words MUST, SHOULD and MAY are to be read as in BCP 14 (RFC 2119, RFC 8174) when, and only when, they appear in capitals." A spec that adopts another convention, such as *shall* for a requirement and *should* for an unverified goal, declares that one instead. (basis: RFC 7322 §4; maintainer, 2026-11-11, declare the convention)
 3. **What must be true?** — always. The requirements view.
 4. **How will we know each holds?** — present when any acceptance criterion is its own item. The criteria view, each criterion's title being its given, when and then: a known state, a trigger, an observable output, three to five steps. (basis: Cucumber reference)
-5. **What is out of scope?** — always. The non-goals as prose, each a goal someone could plausibly want; the constraints are requirements of type `constraint`, shown in section 3.
+5. **What is out of scope?** — always. The non-goals as prose, each a goal someone could plausibly want, and, in a spec with `SRC` items, the *Left out of scope* and *Kept beyond the source* lists, each line with why it was drafted or kept; the constraints are requirements of type `constraint`, shown in section 3.
 6. **In what slices does it ship?** — present when the spec carries slices. The slices view, then each slice's spike, when it has one, in prose.
 7. **What is still unsettled?** — always. The unsettled view: each question in `open`, `lean` or `proposed` that a requirement is `blocked-by`, with its owner and decide-by; then the assumptions view.
 8. **Which decisions shape these requirements?** — present when decision records join this page, at task scale. The decision records fill it.
@@ -65,7 +70,8 @@ A requirement states *what* must hold, never how it is built; the how belongs to
 *Computed:*
 - The page declares its keyword convention. (basis: RFC 7322 §4)
 - Each requirement's body holds exactly one keyword of the declared convention, spelled as the convention spells it, and that keyword is the requirement's `obligation`. (basis: RFC 2119; NASA App. C, one thought per requirement)
-- Each requirement `serves` an `NS` or a need outside the documentation. (basis: NASA SWE-052; maintainer, 2026-11-11)
+- Each requirement `serves` an `NS`, an `SRC` or a need outside the documentation, or `rests-on` a requirement that does. (basis: NASA SWE-052; maintainer, 2026-11-11)
+- In a spec filed with `SRC` items, each requirement `serves` one, directly or by `rests-on` a requirement that does, unless it `serves` a need outside the documentation that imposes it — a law, a compliance rule, or a computed check that would fail without it — which is what puts it on the *Kept beyond the source* list; and each `SRC` is served by a requirement. (basis: field findings, 2026-11-25)
 - No requirement or criterion holds "TBD", and each `TBR` names a question the requirement is `blocked-by`. (basis: NASA App. C)
 - A `quality` requirement states a number with a unit, a percentile or a percentage, or a `TBR` whose question isn't `agreed`; once it is, the number is written in. (basis: 29148; arc42 §10)
 - Each acceptance criterion `serves` exactly one requirement.

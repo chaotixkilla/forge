@@ -4,6 +4,9 @@
 Usage: check_site.py <out-dir> <items.json>
 
 Reads every page render_site.py wrote and reports:
+- a site with no item store beside it (`items.json`): a working set written by hand, which the publish refuses;
+- a `now` page whose label isn't one of reader-tabs.md's table, or the table's tabs out of its order: one set structure for
+  every set (a type with a page of its own may add a `plan` tab after Glossary, as reader-tabs allows);
 - a page without its embedded tree entry (`praxis-page`), which a fetch could not read back;
 - raw data or a placeholder in a reader's text, a section that renders nothing, and a link to an anchor its page lacks;
 - a step code heading two gates, or cited with no gate or slice carrying it, and a question and a decision stating one thing unlinked;
@@ -20,6 +23,7 @@ Reads every page render_site.py wrote and reports:
 Prints {"findings": [...], "advice": [...]} with {"page", "check", "detail"} each, and exits 1 when there is any finding;
 advice never fails the check.
 """
+import html as html_mod
 import json
 import os
 import re
@@ -76,11 +80,27 @@ def words_findings(html):
 # --- end reader words: ws3 ---
 
 
+READER_TABS = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "document", "rules", "reader-tabs.md")
+
+
+def tab_table():
+    """The reader tabs' labels in order, read from reader-tabs.md's table, so the order has one home."""
+    try:
+        text = open(READER_TABS, encoding="utf-8").read()
+    except OSError:
+        return []
+    return [mm.group(1).strip() for mm in re.finditer(r"^\| ([^|]+?) \| (?:now|plan) \|", text, re.M)]
+
+
 def main(argv):
     if len(argv) != 3:
         print(__doc__, file=sys.stderr)
         return 2
-    out, store = argv[1], json.load(open(argv[2], encoding="utf-8"))
+    out = argv[1]
+    try:
+        store = json.load(open(argv[2], encoding="utf-8"))
+    except (OSError, ValueError):
+        store = {}
     pages = {}
     for root, _, files in os.walk(out):
         for f in files:
@@ -92,6 +112,26 @@ def main(argv):
 
     def find(page, check, detail):
         findings.append({"page": page, "check": check, "detail": detail})
+
+    # A set published without its store is the hand-written, off-pattern set (field findings, 2026-11-25).
+    if not os.path.isfile(os.path.join(out, "items.json")):
+        find("items.json", "store", "no item store beside the site: render it with the store, never by hand")
+
+    # One set structure (field findings, 2026-11-25): every now and plan page is a reader tab, in the table's order.
+    table, tabs = tab_table(), []
+    for path, html in pages.items():
+        m = re.search(r'<script type="application/json" id="praxis-page">(.*?)</script>', html, re.S)
+        if m and path != "index.html":
+            e = json.loads(m.group(1).replace("<\\/", "</"))
+            if e.get("part") == "now":
+                tabs.append(e.get("label", ""))
+    if table:
+        for label in sorted(set(t for t in tabs if t not in table)):
+            find("(site)", "tabs", f"'{label}' isn't a reader tab: its content goes on the tab of the type it belongs to")
+        nav = re.search(r'<header class="bar">(.*?)</header>', pages.get("index.html", ""), re.S)
+        order = [t for t in (html_mod.unescape(x) for x in re.findall(r">([^<>]+)</a>", nav.group(1) if nav else "")) if t in table]
+        if order != sorted(order, key=table.index):
+            find("(site)", "tabs", "the tabs are out of reader-tabs' order: " + ", ".join(order))
 
     for path, html in sorted(pages.items()):
         m = re.search(r'<script type="application/json" id="praxis-page">(.*?)</script>', html, re.S)

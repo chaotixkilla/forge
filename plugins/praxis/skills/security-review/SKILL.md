@@ -1,6 +1,6 @@
 ---
 name: security-review
-description: Audit a change or subject through a threat lens — authn/authz, injection, secret handling, data exposure, supply chain — scoped to a named adversary, and emit substantiated, severity-ranked findings, optionally a machine-readable findings document or a CI gate. The dedicated threat audit, distinct from review's code-review-depth security lens.
+description: Audit a change or subject through a threat lens (authn/authz, injection, secrets, data exposure, supply chain) scoped to a named adversary, emitting substantiated, severity-ranked findings, optionally as a machine-readable document or a CI gate. The dedicated threat audit, distinct from review's security lens.
 metadata:
   flags:
     --changed: narrow the surface to the working-tree diff and its blast radius (touched code plus what newly reaches it), instead of the whole subject

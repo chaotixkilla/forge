@@ -1,6 +1,6 @@
 ---
 name: develop
-description: Implement work to a finished, integrated standard — ground it in the code, stand up the tightest per-slice verify loop, build in verified slices while applying the engineering craft, wire it into the running system, check its own diff against the task, and land to a clean, committable local state. Drives from a plan or spec; hands off to review / land, not to production.
+description: Implement work to a finished, integrated standard: ground it in the code, stand up the tightest per-slice verify loop, build in verified slices with the engineering craft, wire it into the running system, check its own diff, and land to a clean, committable local state. Drives from a plan or spec; hands off to review and land, not production.
 metadata:
   flags:
     --from-plan=<path>: consume an existing plan's buildable units and ordering as the build backbone (orient's preferred driving artifact)

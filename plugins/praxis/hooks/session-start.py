@@ -113,7 +113,7 @@ def developer(cwd):
         return ""
     root = os.environ.get("CLAUDE_PLUGIN_ROOT") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     rule = os.path.join(root, "skills", "work", "rules", "feedback-on-praxis.md")
-    return f" Developer mode is on: when an act's run ends, write feedback on praxis as {rule} says."
+    return f" Developer mode is on: when an act's run ends, or after coordinating or research work done outside an act, write feedback on praxis as {rule} says."
 
 
 def left_markers(cwd, session, now):
@@ -253,6 +253,38 @@ def task_entries(memory):
             continue
         entries[key_name(name[len("task-"):-len(".md")])] = fields
     return entries
+
+
+def parked(project):
+    """Report lines for the acts parked in the main checkout's .claude/praxis/parked/, and the worktrees
+    they record. A parked act belongs to no session, so it is never reported as idle. A file there that
+    can't be read as a marker is reported with what to do, as an unreadable act marker is."""
+    lines, trees = [], set()
+    folder = os.path.join(project, ".claude", "praxis", "parked")
+    try:
+        names = sorted(os.listdir(folder))
+    except OSError:
+        names = []
+    for name in names:
+        if not name.endswith(".json"):
+            continue
+        path = os.path.join(folder, name)
+        try:
+            with open(path, encoding="utf-8") as f:
+                marker = json.load(f)
+        except (OSError, ValueError):
+            marker = None
+        if not isinstance(marker, dict):
+            lines.append(f"{path} can't be read as a parked marker: remove it if no act is parked in it")
+            continue
+        task = str(marker.get("task") or "").strip() or name[:-len(".json")]
+        tree = str(marker.get("worktree") or "").strip()
+        if tree:
+            trees.add(os.path.realpath(tree))
+        act = str(marker.get("act") or "").strip()
+        why = str(marker.get("parked") or "").strip()
+        lines.append(f"{task}{' (' + act + ')' if act else ''}{', parked ' + why if why else ''}")
+    return lines, trees
 
 
 def open_tasks(project, session, now):
@@ -431,7 +463,7 @@ def main():
     except Exception:
         pass
     context = GUIDANCE + " " + postures(project) + (f" praxis keeps this project's config and state in {project}: read .claude/praxis.json, "
-                                                    "act markers, briefs and unfiled results there, whichever worktree this session runs in.")
+                                                    "act markers, parked acts, briefs and queued and unfiled results there, whichever worktree this session runs in.")
     try:
         context += developer(project)
     except Exception:
@@ -459,9 +491,13 @@ def main():
                     + "; ".join([f"moved {m}" for m in moved] + [f"left {k}" for k in kept]) + ".")
     try:
         worktrees, keys, live = open_tasks(project, session, now)
-        trees, gone, idle = leftovers(project, task_entries(memory), keys, worktrees, now)
+        resting, kept_trees = parked(project)
+        trees, gone, idle = leftovers(project, task_entries(memory), keys, worktrees | kept_trees, now)
     except Exception:
-        live, trees, gone, idle = [], [], [], []
+        live, resting, trees, gone, idle = [], [], [], [], []
+    if resting:
+        context += (" These acts are parked, each resumed when its task is worked on again (work "
+                    "--task=<key>); mention them when the user asks what's open: " + "; ".join(resting) + ".")
     if live:
         context += (" Other sessions are working on these open tasks; don't open a task in their worktrees: "
                     + "; ".join(live) + ".")

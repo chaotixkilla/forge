@@ -1,6 +1,6 @@
 ---
 name: refactor
-description: Restructure existing code with its behavior unchanged — locate the code and capture how it behaves now, map its blast radius and grade the change, make the smallest reversible edit, prove the behavior unchanged against the baseline, and commit an attributable diff. Covers refactors, cleanups and retiring a switch; returns the outcome, and delivering the change is the caller's job.
+description: Restructure existing code with its behavior unchanged: capture how it behaves now, map and grade its blast radius, make the smallest reversible edit, prove the behavior unchanged against the baseline, and commit an attributable diff. Covers refactors, cleanups and retiring a switch; delivering the change is the caller's.
 metadata:
   flags:
     --scope=<pattern>: constrain every read, edit and check to paths matching the glob, and surface needed changes outside it as follow-ups rather than making them silently

@@ -1,6 +1,6 @@
 ---
 name: learn-adapter
-description: Map a tool praxis has no adapter for onto one of its ports — read the connected tool's surface without writing anything, match each of the port's operations to its calls, judge each guarantee the port states, and write a per-user learned map the port then dispatches through; or show, relearn or forget a map. A tool-layer skill, called by a port at first contact with a provider it has no adapter for, and runnable by the user.
+description: Map a tool praxis has no adapter for onto one of its ports: read its surface without writing, match each operation, judge each guarantee, and write a per-user learned map; or show, relearn or forget one. Called by a port at first contact, and runnable by the user.
 metadata:
   flags:
     --port=<name>: the port to map (required, but for --forget given only --provider)
